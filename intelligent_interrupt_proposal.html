@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智能打断技术方案 | 呼叫中心AI升级</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #f9f7f4;
+    --surface:   #ffffff;
+    --surface2:  #f4f1ec;
+    --border:    #e8e2d9;
+    --border2:   #d9d2c8;
+
+    --ink:       #1a1714;
+    --ink-mid:   #3d3530;
+    --ink-soft:  #6b6560;
+    --ink-muted: #9c958e;
+
+    --orange:    #d4622a;
+    --orange-lt: #e8855a;
+    --orange-bg: #fdf0e8;
+    --orange-bd: #f0caad;
+
+    --teal:      #2a7d6e;
+    --teal-lt:   #3da08e;
+    --teal-bg:   #eaf5f3;
+    --teal-bd:   #b0ddd7;
+
+    --warm-red:  #c0392b;
+    --warm-red-bg: #fdf0ee;
+    --green:     #2d7a4a;
+    --green-bg:  #eef6f1;
+
+    --radius:    8px;
+    --radius-lg: 14px;
+    --shadow:    0 1px 4px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.05);
+    --shadow-lg: 0 2px 8px rgba(0,0,0,0.07), 0 12px 40px rgba(0,0,0,0.08);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(249,247,244,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 56px;
+  }
+  .nav-brand {
+    font-family: 'Noto Serif SC', serif;
+    color: var(--orange);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .nav-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--orange);
+    opacity: 0.7;
+  }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none; font-size: 13px;
+    transition: color 0.15s;
+  }
+  .nav-links a:hover { color: var(--orange); }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    background: var(--surface);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    padding: 100px 48px 80px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cover-noise {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+  .cover-blob1 {
+    position: absolute; pointer-events: none;
+    width: 700px; height: 500px;
+    border-radius: 60% 40% 50% 50% / 40% 50% 60% 50%;
+    background: radial-gradient(ellipse at 40% 50%, rgba(212,98,42,0.07) 0%, transparent 70%);
+    top: -100px; right: -150px;
+  }
+  .cover-blob2 {
+    position: absolute; pointer-events: none;
+    width: 500px; height: 400px;
+    border-radius: 50% 60% 40% 50% / 50% 40% 60% 50%;
+    background: radial-gradient(ellipse at 60% 50%, rgba(42,125,110,0.06) 0%, transparent 70%);
+    bottom: -80px; left: -80px;
+  }
+  .cover-content { position: relative; text-align: center; max-width: 720px; }
+  .cover-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--orange-bg);
+    border: 1px solid var(--orange-bd);
+    color: var(--orange);
+    font-size: 12px; padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 32px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+  .cover-chip-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--orange);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+  .cover-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 54px; font-weight: 700;
+    color: var(--ink); line-height: 1.2;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+  }
+  .cover-title .accent { color: var(--orange); }
+  .cover-sub {
+    font-size: 17px; color: var(--ink-soft);
+    letter-spacing: 0.3px; margin-bottom: 56px;
+    font-weight: 300;
+  }
+  .cover-meta {
+    display: flex; gap: 0; justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+  .cover-meta-item {
+    padding: 16px 28px;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+  .cover-meta-item:last-child { border-right: none; }
+  .cover-meta-label {
+    font-size: 11px; color: var(--ink-muted);
+    letter-spacing: 0.8px; text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .cover-meta-value { font-size: 15px; color: var(--ink); font-weight: 600; }
+
+  /* ── LAYOUT ── */
+  .section { padding: 80px 0; }
+  .section-alt { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .inner { max-width: 880px; margin: 0 auto; padding: 0 48px; }
+
+  /* ── SECTION HEADER ── */
+  .sec-header { margin-bottom: 44px; }
+  .sec-num {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 600;
+    color: var(--orange); letter-spacing: 1.5px;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .sec-num::before {
+    content: '';
+    display: block; width: 20px; height: 1.5px;
+    background: var(--orange); flex-shrink: 0;
+  }
+  .sec-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 30px; font-weight: 700;
+    color: var(--ink); line-height: 1.3;
+  }
+  .sec-title .accent { color: var(--teal); }
+  .sec-desc { margin-top: 10px; color: var(--ink-soft); font-size: 14px; max-width: 540px; }
+
+  /* ── CARDS ── */
+  .card-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .card-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .card:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+  .card-icon { font-size: 22px; margin-bottom: 10px; }
+  .card-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 6px; letter-spacing: 0.2px; }
+  .card-text { font-size: 13px; color: var(--ink-soft); line-height: 1.7; }
+
+  .callout {
+    background: var(--teal-bg);
+    border: 1px solid var(--teal-bd);
+    border-radius: var(--radius);
+    border-left: 3px solid var(--teal);
+    padding: 18px 22px;
+    font-size: 13.5px; color: var(--ink-mid);
+    line-height: 1.75;
+  }
+  .callout strong { color: var(--teal); }
+  .callout.orange {
+    background: var(--orange-bg);
+    border-color: var(--orange-bd);
+    border-left-color: var(--orange);
+  }
+  .callout.orange strong { color: var(--orange); }
+
+  /* ── TABLE ── */
+  .table-wrap { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); }
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { background: var(--surface2); }
+  th {
+    padding: 12px 16px; text-align: left;
+    font-size: 11px; font-weight: 600;
+    color: var(--ink-soft); letter-spacing: 1px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+  td { padding: 14px 16px; font-size: 13px; color: var(--ink-mid); border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(212,98,42,0.02); }
+
+  .badge {
+    display: inline-block; font-size: 11px; font-weight: 600;
+    padding: 3px 10px; border-radius: 100px;
+    white-space: nowrap;
+  }
+  .badge-yes   { background: var(--green-bg);     color: var(--green);    border: 1px solid #b3ddc5; }
+  .badge-no    { background: var(--warm-red-bg);  color: var(--warm-red); border: 1px solid #f0c0bb; }
+  .badge-maybe { background: var(--orange-bg);    color: var(--orange);   border: 1px solid var(--orange-bd); }
+
+  /* ── ARCHITECTURE ── */
+  .arch {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  .arch-header {
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .arch-header-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .arch-header-title { font-size: 12px; color: var(--ink-muted); margin-left: 4px; letter-spacing: 0.5px; }
+  .arch-body { padding: 32px; }
+
+  .arch-layer { margin-bottom: 8px; }
+  .arch-layer-label {
+    font-size: 10px; font-weight: 600;
+    color: var(--ink-muted); letter-spacing: 1.5px;
+    text-transform: uppercase; margin-bottom: 8px;
+    padding-left: 2px;
+  }
+  .arch-boxes { display: flex; gap: 10px; }
+  .arch-box {
+    flex: 1; border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    background: var(--surface);
+  }
+  .arch-box.highlight {
+    border-color: var(--orange-bd);
+    background: var(--orange-bg);
+  }
+  .arch-box.teal-box {
+    border-color: var(--teal-bd);
+    background: var(--teal-bg);
+  }
+  .arch-box-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+  .arch-box.highlight .arch-box-title { color: var(--orange); }
+  .arch-box.teal-box .arch-box-title { color: var(--teal); }
+  .arch-box-sub { font-size: 11px; color: var(--ink-muted); line-height: 1.5; }
+
+  .arch-arrow {
+    display: flex; justify-content: center; align-items: center;
+    padding: 6px 0; gap: 12px;
+  }
+  .arch-arrow-line {
+    width: 1px; height: 24px;
+    background: linear-gradient(180deg, var(--border2), var(--orange-bd));
+    margin: 0 auto;
+    position: relative;
+  }
+  .arch-arrow-line::after {
+    content: '↓'; position: absolute; bottom: -14px;
+    left: -5px; color: var(--orange); font-size: 12px;
+  }
+  .arch-arrow-desc {
+    font-size: 11px; color: var(--ink-muted); letter-spacing: 0.3px;
+  }
+
+  .arch-core {
+    border: 1.5px solid var(--orange-bd);
+    border-radius: var(--radius-lg);
+    background: var(--orange-bg);
+    padding: 20px;
+    margin-bottom: 8px;
+  }
+  .arch-core-label {
+    font-size: 11px; font-weight: 700;
+    color: var(--orange); letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 14px;
+  }
+  .arch-modules { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 14px; }
+  .arch-mod {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px; text-align: center;
+  }
+  .arch-mod-icon { font-size: 18px; margin-bottom: 4px; }
+  .arch-mod-name { font-size: 12px; font-weight: 600; color: var(--ink); }
+  .arch-mod-desc { font-size: 10px; color: var(--ink-muted); margin-top: 2px; line-height: 1.4; }
+
+  .arch-events {
+    background: var(--surface);
+    border: 1px solid var(--teal-bd);
+    border-radius: var(--radius);
+    padding: 10px 16px;
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .arch-events-label { font-size: 11px; font-weight: 600; color: var(--teal); flex-shrink: 0; }
+  .event-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--teal);
+    background: var(--teal-bg);
+    border: 1px solid var(--teal-bd);
+    padding: 2px 9px; border-radius: 100px;
+  }
+
+  /* ── SCORE CARDS ── */
+  .score-formula {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    text-align: center;
+    color: var(--ink-mid);
+    margin-bottom: 24px;
+    line-height: 2;
+  }
+  .f-key { color: var(--teal); font-weight: 500; }
+  .f-val { color: var(--orange); font-weight: 600; }
+
+  .score-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .score-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .score-card::before {
+    content: attr(data-weight);
+    position: absolute; top: 18px; right: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px; font-weight: 600;
+    color: var(--orange); opacity: 0.25;
+  }
+  .score-dim { font-size: 10px; color: var(--ink-muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
+  .score-name { font-family: 'Noto Serif SC', serif; font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 12px; }
+  .score-bar-bg { height: 3px; background: var(--border); border-radius: 99px; margin-bottom: 16px; overflow: hidden; }
+  .score-bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--teal), var(--orange)); transition: width 1.4s cubic-bezier(0.4,0,0.2,1); }
+  .score-item {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 12px; color: var(--ink-soft);
+    margin-bottom: 7px; line-height: 1.55;
+  }
+  .score-item::before { content: '→'; color: var(--teal); flex-shrink: 0; font-size: 11px; margin-top: 1px; }
+
+  /* ── STATE MACHINE ── */
+  .state-flow {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    box-shadow: var(--shadow);
+    display: flex; flex-direction: column;
+    align-items: center;
+  }
+  .state-node {
+    text-align: center; padding: 16px 28px;
+    min-width: 180px;
+    border-radius: var(--radius);
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+  .state-node.active {
+    border-color: var(--orange-bd);
+    background: var(--orange-bg);
+  }
+  .state-node.success {
+    border-color: var(--teal-bd);
+    background: var(--teal-bg);
+  }
+  .state-node.neutral {
+    border-color: var(--border);
+    background: var(--surface2);
+  }
+  .state-node-name { font-weight: 700; font-size: 14px; color: var(--ink); display: block; letter-spacing: 0.5px; }
+  .state-node.active .state-node-name { color: var(--orange); }
+  .state-node.success .state-node-name { color: var(--teal); }
+  .state-node-desc { font-size: 11px; color: var(--ink-muted); margin-top: 4px; line-height: 1.4; }
+
+  .flow-arrow {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    padding: 4px 0;
+  }
+  .flow-arrow-line { width: 1.5px; height: 28px; background: linear-gradient(180deg, var(--border2), var(--orange-bd)); }
+  .flow-arrow-label { font-size: 10px; color: var(--ink-muted); letter-spacing: 0.3px; }
+  .flow-arrow-tip { color: var(--orange); font-size: 12px; margin-top: -2px; }
+
+  .flow-branch { display: flex; align-items: flex-start; gap: 60px; }
+  .flow-branch-item { display: flex; flex-direction: column; align-items: center; }
+  .flow-branch-label { font-size: 10px; color: var(--ink-muted); margin-bottom: 6px; }
+
+  .state-footer {
+    margin-top: 24px; padding: 12px 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 11px; color: var(--ink-muted);
+    text-align: center; letter-spacing: 0.3px;
+  }
+
+  /* ── BOUNDARY ── */
+  .boundary {
+    display: grid; grid-template-columns: 1fr 1.15fr 1fr;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .boundary-col { padding: 28px 24px; border-right: 1px solid var(--border); }
+  .boundary-col:last-child { border-right: none; }
+  .boundary-col.center-col { background: var(--orange-bg); border-color: var(--orange-bd); }
+  .boundary-col-title {
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 16px;
+    padding-bottom: 12px; border-bottom: 1px solid var(--border);
+    color: var(--ink-soft);
+  }
+  .center-col .boundary-col-title { color: var(--orange); border-color: var(--orange-bd); }
+  .bi {
+    display: flex; align-items: flex-start; gap: 8px;
+    margin-bottom: 10px; font-size: 12px; color: var(--ink-mid); line-height: 1.5;
+  }
+  .bi-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+  .bi-in { background: var(--teal); }
+  .bi-out { background: var(--warm-red); opacity: 0.6; }
+
+  /* ── TECH STACK ── */
+  .tech-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+  }
+  .tech-category {
+    font-size: 10px; font-weight: 700;
+    color: var(--ink-muted); letter-spacing: 1.5px;
+    text-transform: uppercase; margin-bottom: 14px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border);
+  }
+  .tech-item {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12.5px; padding: 7px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .tech-item:last-child { border-bottom: none; }
+  .tech-name { font-weight: 600; color: var(--ink); }
+  .tech-role { color: var(--ink-muted); font-size: 11px; }
+
+  /* ── LATENCY ── */
+  .latency-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 20px; }
+  .lat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px 16px; text-align: center;
+    box-shadow: var(--shadow);
+    position: relative; overflow: hidden;
+  }
+  .lat-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 2.5px;
+  }
+  .lat-card:nth-child(1)::after { background: var(--teal); }
+  .lat-card:nth-child(2)::after { background: #9b59b6; }
+  .lat-card:nth-child(3)::after { background: var(--orange); }
+  .lat-card:nth-child(4)::after { background: #2980b9; }
+  .lat-label { font-size: 10px; color: var(--ink-muted); letter-spacing: 0.8px; margin-bottom: 8px; }
+  .lat-value { font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 600; color: var(--ink); }
+  .lat-unit { font-size: 11px; color: var(--ink-muted); margin-top: 4px; }
+
+  .lat-total {
+    background: var(--teal-bg);
+    border: 1px solid var(--teal-bd);
+    border-radius: var(--radius-lg);
+    padding: 20px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .lat-total-value { font-family: 'JetBrains Mono', monospace; font-size: 32px; font-weight: 700; color: var(--teal); }
+  .lat-total-note { font-size: 12px; color: var(--ink-soft); max-width: 260px; }
+
+  /* ── CONFIG ── */
+  .config-block {
+    background: #1e1b18;
+    border-radius: var(--radius-lg);
+    padding: 28px 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; line-height: 2;
+    overflow-x: auto;
+    box-shadow: var(--shadow-lg);
+  }
+  .c-comment { color: #6b6560; }
+  .c-key { color: #7ec8d0; }
+  .c-val { color: #e8a06a; }
+  .c-num { color: #79c0ff; }
+  .c-section { color: #d4d0ca; font-weight: 600; }
+
+  /* ── ROADMAP ── */
+  .roadmap { position: relative; padding-left: 44px; }
+  .roadmap::before {
+    content: ''; position: absolute;
+    left: 14px; top: 10px; bottom: 10px; width: 1.5px;
+    background: linear-gradient(180deg, var(--teal), var(--orange), var(--border));
+  }
+  .phase { position: relative; margin-bottom: 36px; }
+  .phase::before {
+    content: ''; position: absolute;
+    left: -33px; top: 10px; width: 14px; height: 14px;
+    border-radius: 50%; background: var(--surface);
+    border: 2px solid var(--teal);
+    box-shadow: 0 0 0 4px var(--teal-bg);
+  }
+  .phase-head { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; flex-wrap: wrap; }
+  .phase-num { font-size: 10px; color: var(--ink-muted); letter-spacing: 1px; font-weight: 600; text-transform: uppercase; }
+  .phase-title { font-family: 'Noto Serif SC', serif; font-size: 17px; font-weight: 700; color: var(--ink); }
+  .phase-duration {
+    font-size: 11px; color: var(--teal); font-weight: 600;
+    background: var(--teal-bg); border: 1px solid var(--teal-bd);
+    padding: 2px 10px; border-radius: 100px;
+  }
+  .phase-body { font-size: 13px; color: var(--ink-soft); line-height: 1.75; margin-bottom: 12px; }
+  .phase-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 10px; }
+  .phase-tag {
+    font-size: 11px; color: var(--ink-soft);
+    background: var(--surface2); border: 1px solid var(--border);
+    padding: 3px 10px; border-radius: 100px;
+  }
+  .phase-kpi { display: flex; gap: 20px; flex-wrap: wrap; }
+  .phase-kpi-item { font-size: 12px; color: var(--ink-muted); display: flex; align-items: center; gap: 5px; }
+  .phase-kpi-item::before { content: '◆'; color: var(--orange); font-size: 8px; }
+
+  /* ── RISK ── */
+  .risk-level {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    padding: 3px 9px; border-radius: 100px; letter-spacing: 0.5px;
+  }
+  .risk-h { background: var(--warm-red-bg); color: var(--warm-red); border: 1px solid #f0c0bb; }
+  .risk-m { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange-bd); }
+  .risk-l { background: var(--green-bg); color: var(--green); border: 1px solid #b3ddc5; }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 48px; text-align: center;
+  }
+  .footer-brand { font-family: 'Noto Serif SC', serif; font-size: 18px; color: var(--orange); margin-bottom: 10px; font-weight: 600; }
+  .footer-text { font-size: 12px; color: var(--ink-muted); line-height: 1.8; }
+  .footer-rule { width: 32px; height: 1.5px; background: var(--border); margin: 16px auto; }
+
+  /* ── REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media print {
+    nav { display: none; }
+    body { padding-top: 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <div class="nav-dot"></div>
+    智能打断技术方案
+  </div>
+  <div class="nav-links">
+    <a href="#exec">概述</a>
+    <a href="#arch">架构</a>
+    <a href="#scoring">评分模型</a>
+    <a href="#module">模块边界</a>
+    <a href="#tech">技术栈</a>
+    <a href="#roadmap">路线图</a>
+  </div>
+</nav>
+
+<!-- COVER -->
+<section class="cover" style="padding-top:120px">
+  <div class="cover-noise"></div>
+  <div class="cover-blob1"></div>
+  <div class="cover-blob2"></div>
+  <div class="cover-content">
+    <div class="cover-chip">
+      <div class="cover-chip-dot"></div>
+      Technical Proposal · V1.0
+    </div>
+    <h1 class="cover-title">呼叫中心<br><span class="accent">智能打断</span>技术方案</h1>
+    <p class="cover-sub">基于 FreeSWITCH · ASR · TTS 的全链路交互升级</p>
+    <div class="cover-meta">
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">方案版本</div>
+        <div class="cover-meta-value">V 1.0</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">文档日期</div>
+        <div class="cover-meta-value">2025 年</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">目标延迟</div>
+        <div class="cover-meta-value">&lt; 150ms</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">实施周期</div>
+        <div class="cover-meta-value">约 12 周</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">准确率目标</div>
+        <div class="cover-meta-value">≥ 90%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXEC SUMMARY -->
+<section class="section" id="exec">
+  <div class="inner">
+    <div class="sec-header reveal">
+      <div class="sec-num">01 · Executive Summary</div>
+      <h2 class="sec-title">方案 <span class="accent">概述</span></h2>
+      <p class="sec-desc">在不重构核心架构的前提下，为现有 FreeSWITCH 呼叫中心系统增加自然、低延迟的智能打断能力。</p>
+    </div>
+    <div class="card-grid-2 reveal" style="margin-bottom:20px">
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <div class="card-title">核心目标</div>
+        <div class="card-text">在 TTS 播报过程中实时判断用户是否具备"有效发言意图"，在 150ms 内完成打断决策并切换至 ASR 识别流程，显著提升交互自然度与用户满意度。</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏗️</div>
+        <div class="card-title">方案核心</div>
+        <div class="card-text">在 ASR 模块内集成打断决策引擎（IDE），融合 VAD、声学特征、语义意图、对话上下文四维信号加权评分，统一对外发布打断事件。</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📐</div>
+        <div class="card-title">架构原则</div>
+        <div class="card-text">ASR 模块为打断信号的唯一权威来源，TTS 模块与业务层保持被动执行者角色，各模块职责清晰、可独立迭代升级，避免跨模块状态耦合。</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📈</div>
+        <div class="card-title">预期收益</div>
+        <div class="card-text">打断准确率目标 ≥ 90%，误触发率 ≤ 5%，通话自然度评分提升 30%+，支持投诉、支付等差异化业务场景动态配置。</div>
+      </div>
+    </div>
+    <div class="callout reveal">
+      <strong>关键设计决策：</strong>打断的本质是"用户输入信号"与"系统输出行为"的仲裁。<strong>ASR 模块</strong>负责裁决"用户想说话了吗"，<strong>业务层</strong>负责策略决定"现在该不该让他说"，<strong>TTS 模块</strong>负责执行停播。三层职责清晰分离，是本方案最核心的架构决策。
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM MATRIX -->
+<section class="section section-alt">
+  <div class="inner">
+    <div class="sec-header reveal">
+      <div class="sec-num">02 · Problem Definition</div>
+      <h2 class="sec-title">核心挑战：<span class="accent">声音类型</span>识别矩阵</h2>
+      <p class="sec-desc">智能打断的难点在于多维度信号融合，准确区分以下几类输入。</p>
+    </div>
+    <div class="table-wrap reveal">
+      <table>
+        <thead>
+          <tr>
+            <th>声音类型</th>
+            <th>典型示例</th>
+            <th>是否打断</th>
+            <th>判断难度</th>
+            <th>主要判断依据</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>明确指令语句</strong></td><td>"等一下" / "我知道了" / "停"</td><td><span class="badge badge-yes">✓ 打断</span></td><td>低</td><td>关键词匹配 + 语义意图</td></tr>
+          <tr><td><strong>对话应答音</strong></td><td>"嗯嗯" / "好的" / "明白"</td><td><span class="badge badge-yes">✓ 打断</span></td><td>中</td><td>语义意图 + 上下文轮次</td></tr>
+          <tr><td><strong>犹豫 / 思考音</strong></td><td>"嗯…" / "啊…"（拖长音）</td><td><span class="badge badge-maybe">? 视情况</span></td><td>高</td><td>时长特征 + 上下文 + 音调变化</td></tr>
+          <tr><td><strong>短暂生理声</strong></td><td>咳嗽 / 清嗓 / 呼吸声</td><td><span class="badge badge-no">✗ 不打断</span></td><td>中</td><td>HNR 声学特征 + 持续时长</td></tr>
+          <tr><td><strong>持续背景噪音</strong></td><td>马路声 / 电视声 / 空调声</td><td><span class="badge badge-no">✗ 不打断</span></td><td>低</td><td>SNR 信噪比 + 频谱特征</td></tr>
+          <tr><td><strong>偶发环境噪音</strong></td><td>键盘声 / 门铃 / 杂音</td><td><span class="badge badge-no">✗ 不打断</span></td><td>中</td><td>过零率 + 能量斜率</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="section" id="arch">
+  <div class="inner">
+    <div class="sec-header reveal">
+      <div class="sec-num">03 · System Architecture</div>
+      <h2 class="sec-title">系统<span class="accent">整体架构</span></h2>
+      <p class="sec-desc">全链路信号流转设计，打断决策引擎内置于 ASR 模块，对外统一发布标准事件接口。</p>
+    </div>
+    <div class="arch reveal">
+      <div class="arch-header">
+        <div class="arch-header-dot" style="background:#ef4444"></div>
+        <div class="arch-header-dot" style="background:#f59e0b;margin-left:5px"></div>
+        <div class="arch-header-dot" style="background:#22c55e;margin-left:5px"></div>
+        <span class="arch-header-title" style="margin-left:12px">intelligent-interrupt-system · architecture.diagram</span>
+      </div>
+      <div class="arch-body">
+
+        <!-- Layer 1 -->
+        <div class="arch-layer">
+          <div class="arch-layer-label">媒体层 · FreeSWITCH</div>
+          <div class="arch-boxes">
+            <div class="arch-box"><div class="arch-box-title">RTP 媒体流</div><div class="arch-box-sub">持续传输原始音频<br>双向并行采集</div></div>
+            <div class="arch-box"><div class="arch-box-title">ESL 事件层</div><div class="arch-box-sub">接收打断指令<br>执行 uuid_break</div></div>
+            <div class="arch-box"><div class="arch-box-title">媒体控制</div><div class="arch-box-sub">被动执行角色<br>停播 / 切流</div></div>
+          </div>
+        </div>
+
+        <div class="arch-arrow">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+            <div class="arch-arrow-line"></div>
+            <span style="font-size:10px;color:var(--ink-muted);margin-top:14px">原始音频流</span>
+          </div>
+        </div>
+
+        <!-- Core ASR -->
+        <div class="arch-core">
+          <div class="arch-core-label">核心层 · ASR 模块（打断信号权威裁决者）</div>
+          <div class="arch-modules">
+            <div class="arch-mod"><div class="arch-mod-icon">🔊</div><div class="arch-mod-name">VAD 检测</div><div class="arch-mod-desc">WebRTC + Silero 双层验证</div></div>
+            <div class="arch-mod"><div class="arch-mod-icon">📊</div><div class="arch-mod-name">声学分析</div><div class="arch-mod-desc">HNR / F0 / MFCC</div></div>
+            <div class="arch-mod"><div class="arch-mod-icon">🧠</div><div class="arch-mod-name">语义意图</div><div class="arch-mod-desc">流式 ASR + 意图分类</div></div>
+            <div class="arch-mod"><div class="arch-mod-icon">⚖️</div><div class="arch-mod-name">IDE 决策引擎</div><div class="arch-mod-desc">加权评分 · 打断裁决</div></div>
+          </div>
+          <div class="arch-events">
+            <span class="arch-events-label">统一事件接口 →</span>
+            <span class="event-tag">OnSpeechStart</span>
+            <span class="event-tag">OnInterruptDetected</span>
+            <span class="event-tag">OnSpeechResult</span>
+            <span class="event-tag">OnSilence</span>
+          </div>
+        </div>
+
+        <div class="arch-arrow">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+            <div class="arch-arrow-line"></div>
+            <span style="font-size:10px;color:var(--ink-muted);margin-top:14px">事件订阅</span>
+          </div>
+        </div>
+
+        <!-- Layer 3 -->
+        <div class="arch-layer">
+          <div class="arch-layer-label">应用层</div>
+          <div class="arch-boxes">
+            <div class="arch-box teal-box"><div class="arch-box-title">TTS 模块</div><div class="arch-box-sub">订阅 OnInterruptDetected<br>立即停播 · 被动执行</div></div>
+            <div class="arch-box teal-box"><div class="arch-box-title">业务逻辑层</div><div class="arch-box-sub">决定是否响应打断<br>场景策略配置中心</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCORING MODEL -->
+<section class="section section-alt" id="scoring">
+  <div class="inner">
+    <div class="sec-header reveal">
+      <div class="sec-num">04 · Scoring Model</div>
+      <h2 class="sec-title">四维<span class="accent">加权评分</span>模型</h2>
+      <p class="sec-desc">多维信号融合输出 0–1 打断置信度，超过阈值则触发打断。</p>
+    </div>
+
+    <div class="score-formula reveal">
+      <span class="f-key">打断分数</span>
+      <span> = </span>
+      <span class="f-val">0.30</span><span> × VAD分 + </span>
+      <span class="f-val">0.25</span><span> × 声学特征分 + </span>
+      <span class="f-val">0.30</span><span> × 语义意图分 + </span>
+      <span class="f-val">0.15</span><span> × 上下文分</span>
+      <br>
+      <span style="font-size:12px;color:var(--ink-muted)">综合得分 ≥ </span>
+      <span class="f-val">0.65</span>
+      <span style="font-size:12px;color:var(--ink-muted)"> 触发打断 · 精确关键词命中则直接进入快速通道</span>
+    </div>
+
+    <div class="score-grid reveal">
+      <div class="score-card" data-weight="30%">
+        <div class="score-dim">Dimension 01</div>
+        <div class="score-name">VAD 语音活动检测</div>
+        <div class="score-bar-bg"><div class="score-bar-fill" style="width:30%"></div></div>
+        <div class="score-item">WebRTC VAD 一级过滤，延迟 &lt;1ms，作为信号门控层</div>
+        <div class="score-item">Silero VAD 二级确认，精度更高，缓存 100ms 后判断</div>
+        <div class="score-item">最低有效语音持续时长 120ms，过滤短暂噪音</div>
+        <div class="score-item">双层架构兼顾速度与精度，置信度要求 ≥ 0.75</div>
+      </div>
+      <div class="score-card" data-weight="25%">
+        <div class="score-dim">Dimension 02</div>
+        <div class="score-name">声学特征分析</div>
+        <div class="score-bar-bg"><div class="score-bar-fill" style="width:25%"></div></div>
+        <div class="score-item">HNR（谐波噪声比）：人声 &gt;10dB，噪音 &lt;5dB，最强判据</div>
+        <div class="score-item">基频 F0：人声集中 80–800Hz，超范围则降分</div>
+        <div class="score-item">频谱质心：语音集中在 300–3000Hz 带内</div>
+        <div class="score-item">能量斜率：人声有明显上升沿，区别于稳态噪音</div>
+      </div>
+      <div class="score-card" data-weight="30%">
+        <div class="score-dim">Dimension 03</div>
+        <div class="score-name">语义意图识别</div>
+        <div class="score-bar-bg"><div class="score-bar-fill" style="width:30%"></div></div>
+        <div class="score-item">流式 ASR 实时转写，不等完整句子即获取部分结果</div>
+        <div class="score-item">关键词规则库优先匹配（&lt;1ms）：停止 / 确认 / 异议类</div>
+        <div class="score-item">本地轻量意图分类模型兜底，约 10MB，延迟 &lt;50ms</div>
+        <div class="score-item">精确匹配打断词时直接触发快速通道，跳过加权评分</div>
+      </div>
+      <div class="score-card" data-weight="15%">
+        <div class="score-dim">Dimension 04</div>
+        <div class="score-name">对话上下文评分</div>
+        <div class="score-bar-bg"><div class="score-bar-fill" style="width:15%"></div></div>
+        <div class="score-item">TTS 播报超 3 秒：用户更可能想打断，动态加分</div>
+        <div class="score-item">当前句为长句（&gt;15s）：适当降低打断阈值</div>
+        <div class="score-item">用户历史打断率高：倾向于认为是有效打断</div>
+        <div class="score-item">近期发生误打断：触发冷却，提升本次阈值</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATE MACHINE -->
+<section class="section">
+  <div class="inner">
+    <div class="sec-header reveal">
+      <div class="sec-num">05 · State Machine</div>
+      <h2 class="sec-title">打断<span class="accent">决策状态机</span></h2>
+      <p class="sec-desc">从 TTS 播报到打断执行的完整状态流转路径。</p>
+    </div>
+    <div class="state-flow reveal">
+      <div class="state-node active">
+        <span class="state-node-name">PLAYING</span>
+        <div class="state-node-desc">TTS 播报中 · 静默监听用户输入</div>
+      </div>
+      <div class="flow-arrow">
+        <div class="flow-arrow-line"></div>
+        <div class="flow-arrow-label">VAD 触发 · 检测到 &gt;120ms 有效语音</div>
+        <div class="flow-arrow-tip">↓</div>
+      </div>
+      <div class="state-node active">
+        <span class="state-node-name">ANALYZING</span>
+        <div class="state-node-desc">多维特征提取 50–200ms · TTS 并行继续播报</div>
+      </div>
+      <div class="flow-arrow" style="padding:8px 0">
+        <div style="width:1px;height:20px;background:var(--border2)"></div>
+        <div class="flow-arrow-label">评分计算完毕</div>
+      </div>
+      <div class="flow-branch">
+        <div class="flow-branch-item">
+          <div class="flow-branch-label">分数 &lt; 阈值</div>
+          <div style="font-size:18px;color:var(--ink-muted)">↓</div>
+          <div class="state-node neutral" style="min-width:140px">
+            <span class="state-node-name" style="color:var(--ink-soft)">CONTINUE</span>
+            <div class="state-node-desc">继续播报 · 重置分析窗口</div>
+          </div>
+        </div>
+        <div class="flow-branch-item">
+          <div class="flow-branch-label" style="color:var(--teal)">分数 ≥ 0.65 或快速通道</div>
+          <div style="font-size:18px;color:var(--teal)">↓</div>
+          <div class="state-node success" style="min-width:140px">
+            <span class="state-node-name">INTERRUPT !</span>
+            <div class="state-node-desc">停止 TTS · 激活 ASR<br>恢复预缓冲音频</div>
+          </div>
+        </div>
+      </div>
+      <div class="state-footer">
+        冷却机制：打断后 800ms 内不再触发 · 误触发后冷却 2000ms · 预缓冲 300ms 音频防止截头丢失
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULE BOUNDARY -->
+<section class="section section-alt" id="module">
+  <div class="inner">
+    <div class="sec-header reveal">
+      <div class="sec-num">06 · Module Boundary</div>
+      <h2 class="sec-title">ASR 模块<span class="accent">职责边界</span></h2>
+      <p class="sec-desc">ASR 收口的核心原则：负责裁决，不负责策略；发布事件，不执行动作。</p>
+    </div>
+    <div class="boundary reveal">
+      <div class="boundary-col">
+        <div class="boundary-col-title">FreeSWITCH 媒体层</div>
+        <div class="bi"><div class="bi-dot bi-in"></div><div>持续提供原始 RTP 音频流</div></div>
+        <div class="bi"><div class="bi-dot bi-in"></div><div>接收并执行 ESL 控制命令</div></div>
+        <div class="bi"><div class="bi-dot bi-in"></div><div>uuid_break 停止播报</div></div>
+        <div class="bi"><div class="bi-dot bi-out"></div><div>不参与任何打断判断逻辑</div></div>
+        <div class="bi"><div class="bi-dot bi-out"></div><div>不持有任何 AI 推理状态</div></div>
+      </div>
+      <div class="boundary-col center-col">
+        <div class="boundary-col-title">✅ ASR 模块（统一收口）</div>
+        <div class="bi"><div class="bi-dot bi-in"></div><div>VAD 检测（原有能力扩展）</div></div>
+        <div class="bi"><div class="bi-dot bi-in"></div><div>声学特征分析（区分人声/噪音）</div></div>
+        <div class="bi"><div class="bi-dot bi-in"></div><div>打断置信度加权评分</div></div>
+        <div class="bi"><div class="bi-dot bi-in"></div><div>预缓冲音频管理（防截头）</div></div>
+        <div class="bi"><div class="bi-dot bi-in"></div><div>统一对外发布打断事件</div></div>
+        <div class="bi"><div class="bi-dot bi-out"></div><div>❌ 不持有 TTS 播报状态</div></div>
+        <div class="bi"><div class="bi-dot bi-out"></div><div>❌ 不感知业务场景差异</div></div>
+        <div class="bi"><div class="bi-dot bi-out"></div><div>❌ 不直接执行停播操作</div></div>
+      </div>
+      <div class="boundary-col">
+        <div class="boundary-col-title">业务层 & TTS</div>
+        <div class="bi"><div class="bi-dot bi-in"></div><div>订阅 ASR 发布的打断事件</div></div>
+        <div class="bi"><div class="bi-dot bi-in"></div><div>根据业务场景决定是否响应</div></div>
+        <div class="bi"><div class="bi-dot bi-in"></div><div>投诉场景降低响应阈值</div></div>
+        <div class="bi"><div class="bi-dot bi-in"></div><div>支付场景提高响应阈值</div></div>
+        <div class="bi"><div class="bi-dot bi-in"></div><div>TTS 收到指令后执行停播</div></div>
+        <div class="bi"><div class="bi-dot bi-out"></div><div>不参与任何语音分析判断</div></div>
+      </div>
+    </div>
+    <div style="height:20px"></div>
+    <div class="callout orange reveal">
+      <strong>关键陷阱预警：</strong>ASR 模块不应感知"当前 TTS 是否在播报"。ASR 持续运行，打断信号随时产出；是否<strong>响应</strong>该信号是业务层的策略权。若 ASR 依赖 TTS 状态，TTS 故障将导致 ASR 打断能力同步失效，形成难以排查的跨模块 bug。
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="section" id="tech">
+  <div class="inner">
+    <div class="sec-header reveal">
+      <div class="sec-num">07 · Technology Stack</div>
+      <h2 class="sec-title">推荐<span class="accent">技术选型</span></h2>
+      <p class="sec-desc">以低延迟、本地部署、中文优先为选型原则。</p>
+    </div>
+    <div class="card-grid-3 reveal">
+      <div class="tech-card">
+        <div class="tech-category">VAD · 语音活动检测</div>
+        <div class="tech-item"><span class="tech-name">WebRTC VAD</span><span class="tech-role">一级过滤 · &lt;1ms</span></div>
+        <div class="tech-item"><span class="tech-name">Silero VAD</span><span class="tech-role">二级确认 · 高精度</span></div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-category">声学特征提取</div>
+        <div class="tech-item"><span class="tech-name">librosa</span><span class="tech-role">HNR / F0 / MFCC</span></div>
+        <div class="tech-item"><span class="tech-name">numpy</span><span class="tech-role">实时流式处理</span></div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-category">流式语音识别</div>
+        <div class="tech-item"><span class="tech-name">Paraformer-streaming</span><span class="tech-role">中文最优</span></div>
+        <div class="tech-item"><span class="tech-name">FunASR</span><span class="tech-role">工程化部署框架</span></div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-category">意图分类模型</div>
+        <div class="tech-item"><span class="tech-name">FastText</span><span class="tech-role">极速推理 · &lt;5ms</span></div>
+        <div class="tech-item"><span class="tech-name">BERT-tiny</span><span class="tech-role">精度更高 · &lt;50ms</span></div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-category">音频降噪</div>
+        <div class="tech-item"><span class="tech-name">RNNoise</span><span class="tech-role">低延迟实时降噪</span></div>
+        <div class="tech-item"><span class="tech-name">NVIDIA NsNet2</span><span class="tech-role">GPU 加速</span></div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-category">FreeSWITCH 集成</div>
+        <div class="tech-item"><span class="tech-name">ESL Python</span><span class="tech-role">事件 / 指令通道</span></div>
+        <div class="tech-item"><span class="tech-name">mod_event_socket</span><span class="tech-role">媒体流接入</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LATENCY -->
+<section class="section section-alt">
+  <div class="inner">
+    <div class="sec-header reveal">
+      <div class="sec-num">08 · Latency Budget</div>
+      <h2 class="sec-title">端到端<span class="accent">延迟分配</span></h2>
+      <p class="sec-desc">目标端到端延迟 &lt;150ms，低于人耳感知"响应流畅"的心理阈值。</p>
+    </div>
+    <div class="latency-row reveal">
+      <div class="lat-card">
+        <div class="lat-label">VAD 检测</div>
+        <div class="lat-value">&lt;20</div>
+        <div class="lat-unit">ms · WebRTC VAD · CPU 实时</div>
+      </div>
+      <div class="lat-card">
+        <div class="lat-label">声学特征提取</div>
+        <div class="lat-value">&lt;30</div>
+        <div class="lat-unit">ms · 预计算 + 流式</div>
+      </div>
+      <div class="lat-card">
+        <div class="lat-label">语义意图识别</div>
+        <div class="lat-value">&lt;80</div>
+        <div class="lat-unit">ms · 本地小模型</div>
+      </div>
+      <div class="lat-card">
+        <div class="lat-label">ESL 打断指令</div>
+        <div class="lat-value">&lt;10</div>
+        <div class="lat-unit">ms · 本地 Socket</div>
+      </div>
+    </div>
+    <div class="lat-total reveal">
+      <div>
+        <div style="font-size:12px;color:var(--ink-muted);margin-bottom:4px;letter-spacing:0.5px;text-transform:uppercase">端到端总延迟目标</div>
+        <div style="font-size:13px;color:var(--ink-soft)">并行流水线处理，各阶段同步运行</div>
+      </div>
+      <div class="lat-total-value">&lt; 150ms</div>
+      <div class="lat-total-note">150ms 是人耳感知响应流畅的心理阈值，低于此值用户感觉系统"反应灵敏"</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONFIG -->
+<section class="section">
+  <div class="inner">
+    <div class="sec-header reveal">
+      <div class="sec-num">09 · Configuration</div>
+      <h2 class="sec-title">推荐<span class="accent">阈值配置</span></h2>
+      <p class="sec-desc">可按业务场景动态调整，以下为推荐基准配置。</p>
+    </div>
+    <div class="config-block reveal">
+<span class="c-comment"># 智能打断策略配置 · interrupt_policy.yaml</span>
+<br><br>
+<span class="c-section">trigger:</span>
+<br>  <span class="c-key">vad_duration_min</span><span class="c-comment">:</span>  <span class="c-num">120</span><span class="c-comment">ms    # 最小有效语音持续时长</span>
+<br>  <span class="c-key">vad_confidence</span><span class="c-comment">:</span>    <span class="c-num">0.75</span><span class="c-comment">       # VAD 置信度要求</span>
+<br><br>
+<span class="c-section">scoring:</span>
+<br>  <span class="c-key">weights</span><span class="c-comment">:</span>
+<br>    <span class="c-key">vad</span><span class="c-comment">:</span>       <span class="c-num">0.30</span>
+<br>    <span class="c-key">acoustic</span><span class="c-comment">:</span>  <span class="c-num">0.25</span>
+<br>    <span class="c-key">semantic</span><span class="c-comment">:</span>  <span class="c-num">0.30</span>
+<br>    <span class="c-key">context</span><span class="c-comment">:</span>   <span class="c-num">0.15</span>
+<br>  <span class="c-key">threshold</span><span class="c-comment">:</span>     <span class="c-num">0.65</span><span class="c-comment">       # 基准打断阈值</span>
+<br><br>
+<span class="c-section">fast_track:</span><span class="c-comment">                      # 直接打断，跳过加权评分</span>
+<br>  <span class="c-key">keyword_exact_match</span><span class="c-comment">:</span> <span class="c-val">true</span>
+<br>  <span class="c-key">semantic_score_min</span><span class="c-comment">:</span>  <span class="c-num">0.90</span>
+<br><br>
+<span class="c-section">scene_overrides:</span><span class="c-comment">                 # 业务场景阈值偏移</span>
+<br>  <span class="c-key">complaint</span><span class="c-comment">:</span>  <span class="c-num">-0.10</span><span class="c-comment">          # 投诉场景：更易打断</span>
+<br>  <span class="c-key">payment</span><span class="c-comment">:</span>    <span class="c-num">+0.10</span><span class="c-comment">          # 支付确认：更难打断</span>
+<br>  <span class="c-key">greeting</span><span class="c-comment">:</span>   <span class="c-num">+0.05</span><span class="c-comment">          # 开场白：略微保守</span>
+<br><br>
+<span class="c-section">noise_suppression:</span>
+<br>  <span class="c-key">snr_threshold</span><span class="c-comment">:</span>  <span class="c-num">8</span><span class="c-comment">dB          # 信噪比低于此值时提高阈值</span>
+<br>  <span class="c-key">use_ns_model</span><span class="c-comment">:</span>   <span class="c-val">true</span>
+<br><br>
+<span class="c-section">cooldown:</span>
+<br>  <span class="c-key">after_interrupt</span><span class="c-comment">:</span>      <span class="c-num">800</span><span class="c-comment">ms</span>
+<br>  <span class="c-key">after_false_positive</span><span class="c-comment">:</span> <span class="c-num">2000</span><span class="c-comment">ms</span>
+<br>  <span class="c-key">pre_buffer</span><span class="c-comment">:</span>           <span class="c-num">300</span><span class="c-comment">ms   # 预缓冲防截头</span>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="section section-alt" id="roadmap">
+  <div class="inner">
+    <div class="sec-header reveal">
+      <div class="sec-num">10 · Implementation Roadmap</div>
+      <h2 class="sec-title">分阶段<span class="accent">实施路线图</span></h2>
+      <p class="sec-desc">快速上线收集真实数据，比追求完美方案更重要。真实通话数据是优化打断标准的唯一可靠来源。</p>
+    </div>
+    <div class="roadmap reveal">
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-num">Phase 01</span>
+          <span class="phase-title">VAD + 关键词打断（基础版）</span>
+          <span class="phase-duration">第 1–2 周</span>
+        </div>
+        <div class="phase-body">集成 WebRTC VAD + Silero VAD 双层检测，建立关键词词库（停止类、确认类），完成 FreeSWITCH ESL 控制通道与预缓冲机制。先上线，快速获得真实用户数据。</div>
+        <div class="phase-tags">
+          <span class="phase-tag">WebRTC VAD</span><span class="phase-tag">Silero VAD</span><span class="phase-tag">关键词词库</span><span class="phase-tag">ESL 集成</span><span class="phase-tag">预缓冲</span>
+        </div>
+        <div class="phase-kpi">
+          <span class="phase-kpi-item">关键词打断准确率 ≥ 95%</span>
+          <span class="phase-kpi-item">误触发率 ≤ 15%（可接受）</span>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-num">Phase 02</span>
+          <span class="phase-title">声学特征加入（降低误触发）</span>
+          <span class="phase-duration">第 3–6 周</span>
+        </div>
+        <div class="phase-body">集成 HNR、F0、频谱质心等声学特征，解决高噪音环境下误触发问题。引入 RNNoise 降噪预处理，完成场景自适应阈值调整。</div>
+        <div class="phase-tags">
+          <span class="phase-tag">HNR 特征</span><span class="phase-tag">F0 基频</span><span class="phase-tag">RNNoise 降噪</span><span class="phase-tag">SNR 自适应</span>
+        </div>
+        <div class="phase-kpi">
+          <span class="phase-kpi-item">误触发率降至 ≤ 8%</span>
+          <span class="phase-kpi-item">噪音场景准确率提升 20%</span>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-num">Phase 03</span>
+          <span class="phase-title">语义意图模型上线（智能化）</span>
+          <span class="phase-duration">第 7–10 周</span>
+        </div>
+        <div class="phase-body">部署 Paraformer-streaming 流式 ASR，训练本地意图分类模型（基于前两阶段标注数据），完成四维加权评分体系，实现对犹豫音、模糊表达的准确判断。</div>
+        <div class="phase-tags">
+          <span class="phase-tag">Paraformer-streaming</span><span class="phase-tag">意图分类模型</span><span class="phase-tag">四维评分</span><span class="phase-tag">数据标注</span>
+        </div>
+        <div class="phase-kpi">
+          <span class="phase-kpi-item">综合打断准确率 ≥ 90%</span>
+          <span class="phase-kpi-item">误触发率 ≤ 5%</span>
+        </div>
+      </div>
+      <div class="phase" style="margin-bottom:0">
+        <div class="phase-head">
+          <span class="phase-num">Phase 04</span>
+          <span class="phase-title">数据飞轮与持续优化</span>
+          <span class="phase-duration">第 11 周起 · 持续迭代</span>
+        </div>
+        <div class="phase-body">建立误打断/漏打断 case 自动收集与标注流程，定期微调意图分类模型，精细化调整各场景权重与阈值，构建打断质量自动化评测流水线。</div>
+        <div class="phase-tags">
+          <span class="phase-tag">自动数据收集</span><span class="phase-tag">模型微调</span><span class="phase-tag">A/B 测试</span><span class="phase-tag">质量评估体系</span>
+        </div>
+        <div class="phase-kpi">
+          <span class="phase-kpi-item">用户满意度提升 30%+</span>
+          <span class="phase-kpi-item">模型季度更新迭代</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RISK -->
+<section class="section">
+  <div class="inner">
+    <div class="sec-header reveal">
+      <div class="sec-num">11 · Risk Assessment</div>
+      <h2 class="sec-title">风险评估与<span class="accent">应对策略</span></h2>
+    </div>
+    <div class="table-wrap reveal">
+      <table>
+        <thead>
+          <tr><th>风险项</th><th>等级</th><th>影响描述</th><th>应对措施</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>高噪音环境误触发</strong></td><td><span class="risk-level risk-h">高</span></td><td>背景噪音被误识为用户发言，频繁中断 TTS</td><td>RNNoise 预降噪 + SNR 自适应阈值 + HNR 声学过滤</td></tr>
+          <tr><td><strong>语义模型延迟超标</strong></td><td><span class="risk-level risk-m">中</span></td><td>推理延迟超 80ms 导致端到端超 150ms</td><td>本地 GPU 部署 + 关键词快速通道绕过模型推理</td></tr>
+          <tr><td><strong>预缓冲音频截头</strong></td><td><span class="risk-level risk-m">中</span></td><td>打断决策时用户已说 200ms，首部语音丢失</td><td>300ms 滚动预缓冲，打断时将缓冲音频回传 ASR</td></tr>
+          <tr><td><strong>跨模块状态耦合</strong></td><td><span class="risk-level risk-m">中</span></td><td>ASR 感知 TTS 状态，TTS 故障导致打断失效</td><td>严格遵守模块边界，ASR 独立持续运行，事件驱动解耦</td></tr>
+          <tr><td><strong>犹豫音误判</strong></td><td><span class="risk-level risk-l">低</span></td><td>"嗯……" 等犹豫音被误判为有效打断</td><td>上下文评分 + 时长特征 + 数据驱动优化</td></tr>
+          <tr><td><strong>冷启动数据不足</strong></td><td><span class="risk-level risk-l">低</span></td><td>Phase 1 关键词覆盖不足，漏打断率较高</td><td>充分调研业务词库 + 开放反馈通道收集漏召回 case</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-brand">智能打断技术方案</div>
+  <div class="footer-rule"></div>
+  <div class="footer-text">
+    基于 FreeSWITCH · ASR · TTS 呼叫中心系统 · 智能交互升级<br>
+    本文档为技术方案讨论用途，具体实现细节以最终研发评审为准
+  </div>
+</div>
+
+<script>
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// animate bars
+const barIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const w = e.target.style.width;
+      e.target.style.width = '0%';
+      setTimeout(() => e.target.style.width = w, 120);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.score-bar-fill').forEach(b => barIO.observe(b));
+</script>
+</body>
+</html>

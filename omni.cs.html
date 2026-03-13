@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全渠道 AI 智能客服系统 — 技术解决方案</title>
+<style>
+/* ========== CSS Variables — Claude Light Theme ========== */
+:root {
+  --bg-page: #FFFCF9;
+  --bg-warm: #FFF8F2;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #FFFAF5;
+  --bg-elevated: #F9F5F0;
+  --bg-code: #F5F0EB;
+  --bg-hero: linear-gradient(180deg, #FFF8F2 0%, #FFFCF9 60%, #FFFFFF 100%);
+
+  --accent: #C96442;
+  --accent-light: #E07A54;
+  --accent-bg: rgba(201,100,66,0.06);
+  --accent-bg-hover: rgba(201,100,66,0.10);
+  --accent-border: rgba(201,100,66,0.18);
+  --accent-glow: rgba(201,100,66,0.08);
+
+  --text-primary: #1A1612;
+  --text-secondary: #6B5E54;
+  --text-muted: #9C8E82;
+  --text-on-accent: #FFFFFF;
+
+  --border: #EDE8E3;
+  --border-hover: #D9D0C7;
+  --border-accent: rgba(201,100,66,0.25);
+
+  --blue: #3B7DD8;
+  --blue-bg: rgba(59,125,216,0.07);
+  --green: #2D8659;
+  --green-bg: rgba(45,134,89,0.07);
+  --purple: #7C5CC4;
+  --purple-bg: rgba(124,92,196,0.07);
+  --amber: #B8860B;
+  --amber-bg: rgba(184,134,11,0.07);
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", Helvetica, Arial, sans-serif;
+  --font-serif: Georgia, "Noto Serif SC", "Songti SC", serif;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 999px;
+
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 64px;
+  --space-2xl: 96px;
+
+  --max-width: 1120px;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-sm: 0 1px 3px rgba(26,22,18,0.04);
+  --shadow-md: 0 4px 16px rgba(26,22,18,0.06);
+  --shadow-lg: 0 8px 32px rgba(26,22,18,0.08);
+  --shadow-card: 0 1px 3px rgba(26,22,18,0.04), 0 0 0 1px rgba(26,22,18,0.03);
+}
+
+/* ========== Reset & Base ========== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-page);
+  color: var(--text-primary);
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+a { color: var(--accent); text-decoration: none; transition: var(--transition); }
+a:hover { color: var(--accent-light); }
+
+::selection {
+  background: rgba(201,100,66,0.15);
+  color: var(--text-primary);
+}
+
+img { max-width: 100%; }
+
+/* ========== Utilities ========== */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.section {
+  padding: var(--space-2xl) 0;
+  position: relative;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  margin-bottom: var(--space-sm);
+  padding: 5px 14px;
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-full);
+  background: var(--accent-bg);
+}
+
+.section-title {
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.section-desc {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 640px;
+  line-height: 1.85;
+}
+
+.gradient-text {
+  color: var(--accent);
+}
+
+/* ========== Animations ========== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+.fade-in-d1 { transition-delay: 0.08s; }
+.fade-in-d2 { transition-delay: 0.16s; }
+.fade-in-d3 { transition-delay: 0.24s; }
+.fade-in-d4 { transition-delay: 0.32s; }
+
+/* ========== Nav ========== */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 14px 0;
+  transition: var(--transition);
+  background: transparent;
+}
+
+.nav.scrolled {
+  background: rgba(255,252,249,0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.nav-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.nav-logo-icon {
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: var(--space-md);
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.nav-links a:hover { color: var(--text-primary); }
+
+/* ========== Hero ========== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px var(--space-md) var(--space-2xl);
+  background: var(--bg-hero);
+  position: relative;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, transparent, var(--bg-page));
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 18px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.hero-badge-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(45,134,89,0.35); }
+  50% { opacity: 0.8; box-shadow: 0 0 0 6px rgba(45,134,89,0); }
+}
+
+.hero-title {
+  font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.18;
+  margin-bottom: var(--space-md);
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+}
+
+.hero-subtitle {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-lg);
+  line-height: 1.85;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: var(--radius-md);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition);
+  font-family: var(--font-sans);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--text-on-accent);
+  box-shadow: 0 2px 12px rgba(201,100,66,0.2);
+}
+
+.btn-primary:hover {
+  background: var(--accent-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(201,100,66,0.25);
+  color: var(--text-on-accent);
+}
+
+.btn-secondary {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-elevated);
+  transform: translateY(-1px);
+  color: var(--text-primary);
+}
+
+/* ========== Stats Bar ========== */
+.stats-bar {
+  padding: var(--space-xl) 0;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+}
+
+.stat-item { text-align: center; padding: var(--space-sm); }
+
+.stat-number {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ========== Advantages ========== */
+.advantages-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+
+.advantage-card {
+  padding: var(--space-md) var(--space-md) var(--space-md);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  transition: var(--transition);
+  box-shadow: var(--shadow-card);
+}
+
+.advantage-card:hover {
+  border-color: var(--border-accent);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.advantage-icon {
+  width: 46px; height: 46px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  font-size: 1.35rem;
+}
+
+.advantage-icon.ic-orange { background: var(--accent-bg); }
+.advantage-icon.ic-blue { background: var(--blue-bg); }
+.advantage-icon.ic-green { background: var(--green-bg); }
+.advantage-icon.ic-purple { background: var(--purple-bg); }
+
+.advantage-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.advantage-desc {
+  font-size: 0.87rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* ========== Divider ========== */
+.divider {
+  height: 1px;
+  max-width: 480px;
+  margin: 0 auto;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+}
+
+/* ========== Architecture ========== */
+.arch-wrapper {
+  margin-top: var(--space-lg);
+  padding: var(--space-lg);
+  border-radius: var(--radius-xl);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+}
+
+.arch-layer { padding: var(--space-sm) 0; }
+
+.arch-layer-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  color: var(--text-muted);
+}
+
+.arch-layer-label .line { flex: 1; height: 1px; background: var(--border); }
+
+.arch-nodes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.arch-node {
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
+  font-size: 0.84rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  transition: var(--transition);
+  text-align: center;
+  min-width: 110px;
+  box-shadow: var(--shadow-sm);
+}
+
+.arch-node:hover {
+  border-color: var(--accent-border);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.arch-node .node-sub {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  display: block;
+  margin-top: 3px;
+}
+
+.arch-node.hl-orange { border-color: var(--accent-border); background: var(--accent-bg); }
+.arch-node.hl-blue { border-color: rgba(59,125,216,0.2); background: var(--blue-bg); }
+.arch-node.hl-green { border-color: rgba(45,134,89,0.2); background: var(--green-bg); }
+.arch-node.hl-purple { border-color: rgba(124,92,196,0.2); background: var(--purple-bg); }
+
+.arch-connector {
+  display: flex;
+  justify-content: center;
+  padding: 6px 0;
+}
+
+/* ========== Components ========== */
+.components-group { margin-bottom: var(--space-xl); }
+
+.components-group-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  margin-top: var(--space-lg);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.components-group-title .dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.components-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-sm);
+}
+
+.component-card {
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-card);
+}
+
+.component-card:hover {
+  border-color: var(--accent-border);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.component-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.component-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.component-repo {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  display: block;
+  margin-top: 1px;
+}
+
+.component-stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+  padding: 3px 11px;
+  border-radius: var(--radius-full);
+  background: var(--accent-bg);
+}
+
+.component-desc {
+  font-size: 0.87rem;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  flex: 1;
+  line-height: 1.7;
+}
+
+.component-features {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.component-features li {
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+.component-role {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
+.role-platform { background: var(--accent-bg); color: var(--accent); }
+.role-ai { background: var(--blue-bg); color: var(--blue); }
+.role-voice { background: var(--purple-bg); color: var(--purple); }
+.role-infra { background: var(--green-bg); color: var(--green); }
+
+/* ========== Plans ========== */
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.plan-card {
+  padding: var(--space-lg) var(--space-md);
+  border-radius: var(--radius-xl);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  position: relative;
+  transition: var(--transition);
+  box-shadow: var(--shadow-card);
+}
+
+.plan-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow-md); }
+
+.plan-card.featured {
+  border-color: var(--accent-border);
+  box-shadow: 0 0 0 1px var(--accent-border), var(--shadow-md);
+}
+
+.plan-card.featured::before {
+  content: '✦ 推荐';
+  position: absolute;
+  top: -1px; right: 28px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 0 0 8px 8px;
+  letter-spacing: 0.5px;
+}
+
+.plan-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.plan-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.plan-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-md);
+  line-height: 1.7;
+}
+
+.plan-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: var(--space-md);
+  padding: 14px;
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+}
+
+.plan-meta-item { text-align: center; }
+
+.plan-meta-value {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.plan-meta-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.plan-stack { list-style: none; }
+
+.plan-stack li {
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.plan-stack li:last-child { border-bottom: none; }
+
+.plan-check {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--green-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ========== Flow ========== */
+.flow-wrapper {
+  margin-top: var(--space-lg);
+  padding: var(--space-lg) var(--space-md);
+  border-radius: var(--radius-xl);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+}
+
+.flow-steps {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.flow-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 130px;
+}
+
+.flow-step-icon {
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  border: 2px solid var(--border);
+  background: var(--bg-card);
+  transition: var(--transition);
+}
+
+.flow-step:hover .flow-step-icon {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-bg);
+}
+
+.flow-step-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.flow-step-desc {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.flow-arrow {
+  display: flex;
+  align-items: center;
+  padding-top: 16px;
+  flex-shrink: 0;
+}
+
+/* ========== Timeline ========== */
+.timeline {
+  margin-top: var(--space-lg);
+  position: relative;
+  padding-left: 36px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 13px;
+  top: 8px; bottom: 8px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent), var(--blue), var(--purple));
+  border-radius: 2px;
+  opacity: 0.5;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: var(--space-md);
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  transition: var(--transition);
+  box-shadow: var(--shadow-card);
+}
+
+.timeline-item:hover {
+  border-color: var(--accent-border);
+  transform: translateX(3px);
+  box-shadow: var(--shadow-md);
+}
+
+.timeline-item:last-child { margin-bottom: 0; }
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -31px; top: 24px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--bg-page);
+  border: 2.5px solid var(--accent);
+  z-index: 2;
+}
+
+.timeline-phase {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  margin-bottom: 3px;
+}
+
+.timeline-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.timeline-time {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.timeline-desc {
+  font-size: 0.87rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.timeline-tags {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.timeline-tag {
+  font-size: 0.7rem;
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+/* ========== Footer ========== */
+.footer {
+  padding: var(--space-xl) 0 var(--space-lg);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  background: var(--bg-warm);
+}
+
+.footer-logo {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.footer-info {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 2;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 1024px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .advantages-grid { grid-template-columns: repeat(2, 1fr); }
+  .plans-grid { grid-template-columns: 1fr; max-width: 520px; margin-left: auto; margin-right: auto; }
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .advantages-grid { grid-template-columns: 1fr; }
+  .components-grid { grid-template-columns: 1fr; }
+  .flow-steps { flex-direction: column; align-items: center; }
+  .flow-arrow { transform: rotate(90deg); padding: 6px 0; }
+  .arch-nodes { flex-direction: column; align-items: stretch; }
+  .arch-node { min-width: unset; }
+  .section { padding: var(--space-xl) 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Nav ===== -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      OmniCS · AI
+    </div>
+    <ul class="nav-links">
+      <li><a href="#advantages">核心优势</a></li>
+      <li><a href="#architecture">系统架构</a></li>
+      <li><a href="#components">技术组件</a></li>
+      <li><a href="#plans">方案对比</a></li>
+      <li><a href="#roadmap">实施路线</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===== Hero ===== -->
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <div class="hero-badge fade-in">
+      <span class="hero-badge-dot"></span>
+      开源技术驱动 · 100% 自主可控
+    </div>
+    <h1 class="hero-title fade-in fade-in-d1">
+      全渠道 <span class="gradient-text">AI 智能</span><br>客服系统
+    </h1>
+    <p class="hero-subtitle fade-in fade-in-d2">
+      基于全球顶级开源项目组合的企业级解决方案，<br>覆盖 Web · 社交 · 邮件 · 电话全触点，AI 赋能每一次客户对话
+    </p>
+    <div class="hero-cta fade-in fade-in-d3">
+      <a href="#architecture" class="btn btn-primary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        查看技术架构
+      </a>
+      <a href="#roadmap" class="btn btn-secondary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        实施路线图
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Stats ===== -->
+<section class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item fade-in">
+        <div class="stat-number" data-count="420" data-suffix="K+">0</div>
+        <div class="stat-label">GitHub Stars 总计</div>
+      </div>
+      <div class="stat-item fade-in fade-in-d1">
+        <div class="stat-number" data-count="8" data-suffix="+">0</div>
+        <div class="stat-label">支持接入渠道</div>
+      </div>
+      <div class="stat-item fade-in fade-in-d2">
+        <div class="stat-number" data-count="400" data-suffix="+">0</div>
+        <div class="stat-label">可集成应用 (n8n)</div>
+      </div>
+      <div class="stat-item fade-in fade-in-d3">
+        <div class="stat-number" data-count="12" data-suffix=" 周">0</div>
+        <div class="stat-label">全量部署周期</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Advantages ===== -->
+<section class="section" id="advantages">
+  <div class="container">
+    <div class="fade-in">
+      <span class="section-label">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        核心优势
+      </span>
+      <h2 class="section-title">为什么选择这套方案？</h2>
+      <p class="section-desc">结合全球最活跃的开源社区力量，打造安全、智能、可控的客户服务体系。</p>
+    </div>
+    <div class="advantages-grid">
+      <div class="advantage-card fade-in">
+        <div class="advantage-icon ic-orange">🌐</div>
+        <h3 class="advantage-title">全渠道覆盖</h3>
+        <p class="advantage-desc">Web Chat、WhatsApp、微信、邮件、Telegram、电话——一个平台统一管理所有客户触点。</p>
+      </div>
+      <div class="advantage-card fade-in fade-in-d1">
+        <div class="advantage-icon ic-blue">🤖</div>
+        <h3 class="advantage-title">AI 智能驱动</h3>
+        <p class="advantage-desc">RAG 知识库 + AI Agent 自动问答，支持意图识别、智能路由、自动回复。</p>
+      </div>
+      <div class="advantage-card fade-in fade-in-d2">
+        <div class="advantage-icon ic-green">🔒</div>
+        <h3 class="advantage-title">开源自主可控</h3>
+        <p class="advantage-desc">100% 私有化部署，数据完全掌握在自己手中，满足等保与 GDPR 合规。</p>
+      </div>
+      <div class="advantage-card fade-in fade-in-d3">
+        <div class="advantage-icon ic-purple">🚀</div>
+        <h3 class="advantage-title">快速落地</h3>
+        <p class="advantage-desc">成熟方案组合 + Docker 容器化，8–12 周即可完成全渠道上线运营。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== Architecture ===== -->
+<section class="section" id="architecture">
+  <div class="container">
+    <div class="fade-in">
+      <span class="section-label">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        系统架构
+      </span>
+      <h2 class="section-title">四层分布式架构设计</h2>
+      <p class="section-desc">从客户接入到 AI 处理再到数据存储，每一层都有成熟开源组件支撑。</p>
+    </div>
+
+    <div class="arch-wrapper fade-in">
+      <!-- Layer 1 -->
+      <div class="arch-layer">
+        <div class="arch-layer-label"><span>Layer 1 · 客户接入层</span><span class="line"></span></div>
+        <div class="arch-nodes">
+          <div class="arch-node hl-orange">💬<span class="node-sub">Web Chat</span></div>
+          <div class="arch-node hl-orange">📱<span class="node-sub">WhatsApp</span></div>
+          <div class="arch-node hl-orange">💚<span class="node-sub">微信</span></div>
+          <div class="arch-node hl-orange">📧<span class="node-sub">Email</span></div>
+          <div class="arch-node hl-orange">✈️<span class="node-sub">Telegram</span></div>
+          <div class="arch-node hl-orange">📞<span class="node-sub">电话 / IVR</span></div>
+        </div>
+      </div>
+      <div class="arch-connector">
+        <svg width="20" height="28" viewBox="0 0 20 28"><path d="M10 0 L10 20 M5 15 L10 20 L15 15" stroke="var(--accent)" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.45"/></svg>
+      </div>
+      <!-- Layer 2 -->
+      <div class="arch-layer">
+        <div class="arch-layer-label"><span>Layer 2 · 全渠道客服平台</span><span class="line"></span></div>
+        <div class="arch-nodes">
+          <div class="arch-node hl-blue" style="min-width:260px;"><strong>Chatwoot</strong><span class="node-sub">⭐ 27.6K · 工单 · 坐席台 · SLA · CSAT</span></div>
+          <div class="arch-node hl-purple" style="min-width:260px;"><strong>Fonoster / FreeSWITCH</strong><span class="node-sub">⭐ 7.7K / 4.7K · 语音 · IVR · WebRTC</span></div>
+        </div>
+      </div>
+      <div class="arch-connector">
+        <svg width="20" height="28" viewBox="0 0 20 28"><path d="M10 0 L10 20 M5 15 L10 20 L15 15" stroke="var(--blue)" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.45"/></svg>
+      </div>
+      <!-- Layer 3 -->
+      <div class="arch-layer">
+        <div class="arch-layer-label"><span>Layer 3 · AI 智能层</span><span class="line"></span></div>
+        <div class="arch-nodes">
+          <div class="arch-node hl-blue" style="min-width:180px;"><strong>Dify</strong><span class="node-sub">⭐ 132K · AI 编排 · RAG</span></div>
+          <div class="arch-node hl-blue" style="min-width:180px;"><strong>n8n</strong><span class="node-sub">⭐ 179K · 自动化 · 400+</span></div>
+          <div class="arch-node hl-blue" style="min-width:180px;"><strong>Flowise</strong><span class="node-sub">⭐ 50.6K · 可视化 Agent</span></div>
+        </div>
+      </div>
+      <div class="arch-connector">
+        <svg width="20" height="28" viewBox="0 0 20 28"><path d="M10 0 L10 20 M5 15 L10 20 L15 15" stroke="var(--green)" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.45"/></svg>
+      </div>
+      <!-- Layer 4 -->
+      <div class="arch-layer">
+        <div class="arch-layer-label"><span>Layer 4 · 基础设施层</span><span class="line"></span></div>
+        <div class="arch-nodes">
+          <div class="arch-node hl-green">🐘<span class="node-sub">PostgreSQL</span></div>
+          <div class="arch-node hl-green">⚡<span class="node-sub">Redis</span></div>
+          <div class="arch-node hl-green">🔍<span class="node-sub">Chroma</span></div>
+          <div class="arch-node hl-green">📦<span class="node-sub">MinIO</span></div>
+          <div class="arch-node hl-green">🧠<span class="node-sub">Ollama / OpenAI</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== Components ===== -->
+<section class="section" id="components">
+  <div class="container">
+    <div class="fade-in">
+      <span class="section-label">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        技术组件
+      </span>
+      <h2 class="section-title">精选开源组件矩阵</h2>
+      <p class="section-desc">每一个组件都经过严格筛选，确保社区活跃、文档完善、生产可用。</p>
+    </div>
+
+    <!-- 客服 -->
+    <div class="components-group fade-in">
+      <h3 class="components-group-title"><span class="dot" style="background:var(--accent);"></span>全渠道客服平台</h3>
+      <div class="components-grid">
+        <div class="component-card">
+          <span class="component-role role-platform">核心平台</span>
+          <div class="component-header">
+            <div><div class="component-name">Chatwoot</div><span class="component-repo">chatwoot/chatwoot</span></div>
+            <span class="component-stars">⭐ 27.6K</span>
+          </div>
+          <p class="component-desc">开源全渠道客服平台，Intercom / Zendesk 的完美替代品。内置工单系统、SLA 管理、CSAT 评分、丰富的 Webhook API。</p>
+          <ul class="component-features">
+            <li>Ruby / Rails</li><li>Vue.js</li><li>全渠道</li><li>工单管理</li><li>SLA</li><li>Docker</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI -->
+    <div class="components-group fade-in">
+      <h3 class="components-group-title"><span class="dot" style="background:var(--blue);"></span>AI 工作流引擎</h3>
+      <div class="components-grid">
+        <div class="component-card">
+          <span class="component-role role-ai">AI 编排</span>
+          <div class="component-header">
+            <div><div class="component-name">Dify</div><span class="component-repo">langgenius/dify</span></div>
+            <span class="component-stars">⭐ 132K</span>
+          </div>
+          <p class="component-desc">生产级 AI 工作流编排平台，内置 RAG 引擎、多模型支持，一键发布 API。</p>
+          <ul class="component-features">
+            <li>TypeScript</li><li>Python</li><li>RAG</li><li>Agent</li><li>MCP</li><li>多模型</li>
+          </ul>
+        </div>
+        <div class="component-card">
+          <span class="component-role role-ai">自动化</span>
+          <div class="component-header">
+            <div><div class="component-name">n8n</div><span class="component-repo">n8n-io/n8n</span></div>
+            <span class="component-stars">⭐ 179K</span>
+          </div>
+          <p class="component-desc">工作流自动化平台，400+ 原生集成，作为系统间「胶水层」编排复杂业务。</p>
+          <ul class="component-features">
+            <li>TypeScript</li><li>400+ 集成</li><li>Webhook</li><li>AI 原生</li><li>可视化</li>
+          </ul>
+        </div>
+        <div class="component-card">
+          <span class="component-role role-ai">AI Agent</span>
+          <div class="component-header">
+            <div><div class="component-name">Flowise</div><span class="component-repo">FlowiseAI/Flowise</span></div>
+            <span class="component-stars">⭐ 50.6K</span>
+          </div>
+          <p class="component-desc">拖拽式构建 AI Agent，基于 LangChain 生态，适合快速原型与多 Agent 场景。</p>
+          <ul class="component-features">
+            <li>TypeScript</li><li>LangChain</li><li>拖拽构建</li><li>多 Agent</li><li>低代码</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 语音 -->
+    <div class="components-group fade-in">
+      <h3 class="components-group-title"><span class="dot" style="background:var(--purple);"></span>语音呼叫中心</h3>
+      <div class="components-grid">
+        <div class="component-card">
+          <span class="component-role role-voice">推荐</span>
+          <div class="component-header">
+            <div><div class="component-name">Fonoster</div><span class="component-repo">fonoster/fonoster</span></div>
+            <span class="component-stars">⭐ 7.7K</span>
+          </div>
+          <p class="component-desc">开源 Twilio 替代方案，提供可编程语音 API，Node.js 友好，SIP / WebRTC / K8s。</p>
+          <ul class="component-features">
+            <li>TypeScript</li><li>MIT</li><li>SIP</li><li>WebRTC</li><li>K8s</li>
+          </ul>
+        </div>
+        <div class="component-card">
+          <span class="component-role role-voice">企业级</span>
+          <div class="component-header">
+            <div><div class="component-name">FreeSWITCH</div><span class="component-repo">signalwire/freeswitch</span></div>
+            <span class="component-stars">⭐ 4.7K</span>
+          </div>
+          <p class="component-desc">电信级软交换平台，数千并发，IVR / ACD / 录音 / 会议一应俱全。</p>
+          <ul class="component-features">
+            <li>C</li><li>电信级</li><li>IVR</li><li>ACD</li><li>录音</li><li>高并发</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 基础设施 -->
+    <div class="components-group fade-in">
+      <h3 class="components-group-title"><span class="dot" style="background:var(--green);"></span>基础设施 & 数据层</h3>
+      <div class="components-grid">
+        <div class="component-card">
+          <span class="component-role role-infra">向量数据库</span>
+          <div class="component-header">
+            <div><div class="component-name">Chroma</div><span class="component-repo">chroma-core/chroma</span></div>
+            <span class="component-stars">⭐ 26.5K</span>
+          </div>
+          <p class="component-desc">开源 AI 检索数据库，为 RAG / Embedding 场景设计，与 Dify / LangChain 无缝集成。</p>
+          <ul class="component-features">
+            <li>Rust / Python</li><li>Apache 2.0</li><li>RAG</li><li>Embedding</li><li>语义搜索</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== Plans ===== -->
+<section class="section" id="plans">
+  <div class="container">
+    <div class="fade-in">
+      <span class="section-label">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+        方案对比
+      </span>
+      <h2 class="section-title">两套落地方案，按需选择</h2>
+      <p class="section-desc">根据业务规模和预算选择最适合的部署路径。</p>
+    </div>
+
+    <div class="plans-grid">
+      <!-- MVP -->
+      <div class="plan-card fade-in">
+        <div class="plan-name">方案一</div>
+        <h3 class="plan-title">最小可行方案 <span class="gradient-text">MVP</span></h3>
+        <p class="plan-desc">快速验证 AI 客服价值，适合初创企业和中小团队，最低成本起步。</p>
+        <div class="plan-meta">
+          <div class="plan-meta-item"><div class="plan-meta-value">8核16G</div><div class="plan-meta-label">最低硬件</div></div>
+          <div class="plan-meta-item"><div class="plan-meta-value">4–6 周</div><div class="plan-meta-label">部署周期</div></div>
+          <div class="plan-meta-item"><div class="plan-meta-value">3 渠道</div><div class="plan-meta-label">初始接入</div></div>
+          <div class="plan-meta-item"><div class="plan-meta-value">≤20 坐席</div><div class="plan-meta-label">支持规模</div></div>
+        </div>
+        <ul class="plan-stack">
+          <li><span class="plan-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Chatwoot — 全渠道客服工作台</li>
+          <li><span class="plan-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Dify — AI 工作流 + RAG 知识库</li>
+          <li><span class="plan-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Chroma — 向量数据库</li>
+          <li><span class="plan-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>PostgreSQL — 主数据库</li>
+          <li><span class="plan-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Redis — 缓存 & 消息队列</li>
+        </ul>
+      </div>
+      <!-- Full -->
+      <div class="plan-card featured fade-in fade-in-d1">
+        <div class="plan-name">方案二</div>
+        <h3 class="plan-title">完整 <span class="gradient-text">企业方案</span></h3>
+        <p class="plan-desc">全渠道覆盖 + 电话呼叫中心 + 深度自动化，适合中大型企业规模化运营。</p>
+        <div class="plan-meta">
+          <div class="plan-meta-item"><div class="plan-meta-value">32核64G+</div><div class="plan-meta-label">推荐配置</div></div>
+          <div class="plan-meta-item"><div class="plan-meta-value">8–12 周</div><div class="plan-meta-label">部署周期</div></div>
+          <div class="plan-meta-item"><div class="plan-meta-value">8+ 渠道</div><div class="plan-meta-label">全渠道接入</div></div>
+          <div class="plan-meta-item"><div class="plan-meta-value">100+ 坐席</div><div class="plan-meta-label">支持规模</div></div>
+        </div>
+        <ul class="plan-stack">
+          <li><span class="plan-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Chatwoot — 全渠道客服工作台</li>
+          <li><span class="plan-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Dify — AI 工作流 + RAG 知识库</li>
+          <li><span class="plan-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>n8n — 业务流程自动化引擎</li>
+          <li><span class="plan-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Flowise — 可视化 AI Agent</li>
+          <li><span class="plan-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Fonoster / FreeSWITCH — 语音呼叫</li>
+          <li><span class="plan-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>Chroma — 向量数据库</li>
+          <li><span class="plan-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>MinIO — 文件 / 录音存储</li>
+          <li><span class="plan-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>PostgreSQL + Redis — 数据 & 缓存</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== Flow ===== -->
+<section class="section" id="flow">
+  <div class="container">
+    <div class="fade-in">
+      <span class="section-label">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        集成流程
+      </span>
+      <h2 class="section-title">核心消息处理流程</h2>
+      <p class="section-desc">从客户发起咨询到 AI 生成回复，全链路自动化。</p>
+    </div>
+    <div class="flow-wrapper fade-in">
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step-icon" style="border-color:var(--accent-border);">👤</div>
+          <div class="flow-step-label">客户消息</div>
+          <div class="flow-step-desc">多渠道发起咨询</div>
+        </div>
+        <div class="flow-arrow"><svg width="36" height="18" viewBox="0 0 36 18"><path d="M0 9 L26 9 M21 4 L26 9 L21 14" stroke="var(--accent)" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step-icon" style="border-color:rgba(59,125,216,0.3);">💬</div>
+          <div class="flow-step-label">Chatwoot</div>
+          <div class="flow-step-desc">消息汇聚 &amp; Webhook</div>
+        </div>
+        <div class="flow-arrow"><svg width="36" height="18" viewBox="0 0 36 18"><path d="M0 9 L26 9 M21 4 L26 9 L21 14" stroke="var(--accent)" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step-icon" style="border-color:rgba(124,92,196,0.3);">⚡</div>
+          <div class="flow-step-label">n8n</div>
+          <div class="flow-step-desc">路由 &amp; 业务编排</div>
+        </div>
+        <div class="flow-arrow"><svg width="36" height="18" viewBox="0 0 36 18"><path d="M0 9 L26 9 M21 4 L26 9 L21 14" stroke="var(--accent)" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step-icon" style="border-color:rgba(59,125,216,0.3);">🧠</div>
+          <div class="flow-step-label">Dify AI</div>
+          <div class="flow-step-desc">意图识别 &amp; RAG</div>
+        </div>
+        <div class="flow-arrow"><svg width="36" height="18" viewBox="0 0 36 18"><path d="M0 9 L26 9 M21 4 L26 9 L21 14" stroke="var(--accent)" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/></svg></div>
+        <div class="flow-step">
+          <div class="flow-step-icon" style="border-color:rgba(45,134,89,0.3);">✅</div>
+          <div class="flow-step-label">智能回复</div>
+          <div class="flow-step-desc">自动回复或转人工</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== Roadmap ===== -->
+<section class="section" id="roadmap">
+  <div class="container">
+    <div class="fade-in">
+      <span class="section-label">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        实施路线
+      </span>
+      <h2 class="section-title">五阶段交付路线图</h2>
+      <p class="section-desc">渐进式交付，每个阶段都有可验收的里程碑成果。</p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item fade-in">
+        <div class="timeline-phase">Phase 1</div>
+        <h3 class="timeline-title">基础搭建 — AI 对话能力上线</h3>
+        <div class="timeline-time">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          第 1–2 周
+        </div>
+        <p class="timeline-desc">部署 Chatwoot + Dify 核心系统，打通 Web Chat + AI 自动回复，完成基础 MVP 验证。</p>
+        <div class="timeline-tags"><span class="timeline-tag">Chatwoot</span><span class="timeline-tag">Dify</span><span class="timeline-tag">Docker</span><span class="timeline-tag">Web Chat</span></div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-phase">Phase 2</div>
+        <h3 class="timeline-title">知识库构建 — RAG 智能问答</h3>
+        <div class="timeline-time">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          第 3–4 周
+        </div>
+        <p class="timeline-desc">导入产品文档、FAQ、历史工单到 Dify 知识库，配置向量检索与 RAG Pipeline，实现精准问答。</p>
+        <div class="timeline-tags"><span class="timeline-tag">RAG</span><span class="timeline-tag">Chroma</span><span class="timeline-tag">知识库</span><span class="timeline-tag">文档解析</span></div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-phase">Phase 3</div>
+        <h3 class="timeline-title">流程自动化 — n8n 工作流引擎</h3>
+        <div class="timeline-time">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          第 5–6 周
+        </div>
+        <p class="timeline-desc">部署 n8n，实现 AI↔人工智能转接、工单升级、SLA 超时告警、CSAT 闭环等自动化流程。</p>
+        <div class="timeline-tags"><span class="timeline-tag">n8n</span><span class="timeline-tag">Webhook</span><span class="timeline-tag">自动转接</span><span class="timeline-tag">SLA</span></div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-phase">Phase 4</div>
+        <h3 class="timeline-title">渠道扩展 — 全触点接入</h3>
+        <div class="timeline-time">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          第 7–8 周
+        </div>
+        <p class="timeline-desc">依次接入 WhatsApp、微信公众号/小程序、Email、Telegram 等渠道，实现全触点统一管理。</p>
+        <div class="timeline-tags"><span class="timeline-tag">WhatsApp</span><span class="timeline-tag">微信</span><span class="timeline-tag">Email</span><span class="timeline-tag">Telegram</span></div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-phase">Phase 5</div>
+        <h3 class="timeline-title">语音能力 — 智能呼叫中心</h3>
+        <div class="timeline-time">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          第 9–12 周
+        </div>
+        <p class="timeline-desc">部署 Fonoster / FreeSWITCH 语音系统，搭建 AI IVR 导航，实现电话与在线渠道统一管理。</p>
+        <div class="timeline-tags"><span class="timeline-tag">Fonoster</span><span class="timeline-tag">FreeSWITCH</span><span class="timeline-tag">IVR</span><span class="timeline-tag">SIP</span><span class="timeline-tag">WebRTC</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-logo"><span class="gradient-text">OmniCS · AI</span> — 全渠道智能客服系统</div>
+    <div class="footer-info">
+      方案版本：v1.0.0 &nbsp;·&nbsp; 编制日期：2026-03-11<br>
+      本方案基于开源技术栈设计，所有推荐组件均可自主部署<br>
+      © 2026 技术方案 · 保密文件 · 仅供评审使用
+    </div>
+  </div>
+</footer>
+
+<!-- ===== JS ===== -->
+<script>
+(function(){
+  'use strict';
+
+  /* Nav scroll */
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function(){
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  }, {passive:true});
+
+  /* Fade-in observer */
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, {rootMargin:'0px 0px -50px 0px', threshold:0.08});
+  document.querySelectorAll('.fade-in').forEach(function(el){ obs.observe(el); });
+
+  /* Counter */
+  function animateNum(el, target, suffix){
+    var cur=0, dur=1800, step=target/(dur/16);
+    (function tick(){
+      cur+=step;
+      if(cur>=target){ el.textContent=target+suffix; return; }
+      el.textContent=Math.floor(cur)+suffix;
+      requestAnimationFrame(tick);
+    })();
+  }
+  var cobs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var t=parseInt(e.target.getAttribute('data-count'),10);
+        var s=e.target.getAttribute('data-suffix')||'';
+        if(t) animateNum(e.target,t,s);
+        cobs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.5});
+  document.querySelectorAll('.stat-number[data-count]').forEach(function(el){ cobs.observe(el); });
+
+  /* Smooth scroll */
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      var tgt=document.querySelector(this.getAttribute('href'));
+      if(tgt) window.scrollTo({top:tgt.getBoundingClientRect().top+window.scrollY-72, behavior:'smooth'});
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartDisplay — 架构与使用指南</title>
+<style>
+  /* ========== Claude Light Theme Foundation ========== */
+  :root {
+    --bg:           #FAFAF7;
+    --bg-card:      #FFFFFF;
+    --bg-code:      #F5F5F0;
+    --bg-hero:      linear-gradient(135deg, #E8E4DD 0%, #F5F3EE 50%, #E8E4DD 100%);
+    --bg-accent:    #D4A574;
+    --text:         #3D3929;
+    --text-secondary:#6B6656;
+    --text-muted:   #9B9584;
+    --border:       #E5E2DB;
+    --border-light: #EDEAE3;
+    --accent:       #C4704B;
+    --accent-light: #E8956D;
+    --accent-bg:    #FEF4EE;
+    --green:        #4A8C6F;
+    --green-bg:     #EEF7F2;
+    --blue:         #4A7FB5;
+    --blue-bg:      #EDF4FB;
+    --purple:       #7B61A6;
+    --purple-bg:    #F3EFF9;
+    --yellow:       #B8860B;
+    --yellow-bg:    #FDF8EC;
+    --red:          #C0392B;
+    --red-bg:       #FDEEEC;
+    --shadow-sm:    0 1px 3px rgba(61,57,41,.06);
+    --shadow-md:    0 4px 12px rgba(61,57,41,.08);
+    --shadow-lg:    0 8px 30px rgba(61,57,41,.1);
+    --radius:       12px;
+    --radius-sm:    8px;
+    --radius-lg:    16px;
+    --font-sans:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --font-mono:    'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
+    --transition:   all .2s ease;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ========== Navigation ========== */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,250,247,.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+  nav .nav-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  nav .logo {
+    font-size: 1.05rem; font-weight: 700; color: var(--text);
+    text-decoration: none; letter-spacing: -.02em;
+    display: flex; align-items: center; gap: .5rem;
+  }
+  nav .logo .icon { font-size: 1.3rem; }
+  nav .nav-links { display: flex; gap: .25rem; }
+  nav .nav-links a {
+    padding: .4rem .75rem; border-radius: var(--radius-sm);
+    color: var(--text-secondary); text-decoration: none;
+    font-size: .85rem; font-weight: 500;
+    transition: var(--transition);
+  }
+  nav .nav-links a:hover { background: var(--border-light); color: var(--text); }
+
+  /* ========== Hero ========== */
+  .hero {
+    background: var(--bg-hero);
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(196,112,75,.06) 0%, transparent 70%);
+  }
+  .hero-inner { max-width: 800px; margin: 0 auto; position: relative; }
+  .hero h1 {
+    font-size: 3rem; font-weight: 800; letter-spacing: -.04em;
+    background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: .75rem;
+  }
+  .hero .subtitle {
+    font-size: 1.15rem; color: var(--text-secondary);
+    max-width: 580px; margin: 0 auto 1.5rem;
+  }
+  .badges { display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap; }
+  .badge {
+    display: inline-flex; align-items: center; gap: .35rem;
+    padding: .3rem .7rem; border-radius: 20px;
+    font-size: .75rem; font-weight: 600;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+  }
+  .badge.version { color: var(--accent); border-color: var(--accent); }
+  .badge.lang    { color: var(--blue);   border-color: var(--blue); }
+  .badge.sdk     { color: var(--green);  border-color: var(--green); }
+  .badge.arch    { color: var(--purple); border-color: var(--purple); }
+
+  /* ========== Sections ========== */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+  section { padding: 4rem 0; }
+  section + section { border-top: 1px solid var(--border-light); }
+
+  .section-header {
+    text-align: center; margin-bottom: 3rem;
+  }
+  .section-header h2 {
+    font-size: 1.8rem; font-weight: 700; letter-spacing: -.03em;
+    margin-bottom: .5rem;
+  }
+  .section-header p {
+    color: var(--text-secondary); font-size: 1rem;
+    max-width: 600px; margin: 0 auto;
+  }
+
+  /* ========== Architecture Diagram ========== */
+  .arch-diagram {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 2.5rem;
+    box-shadow: var(--shadow-md); overflow-x: auto;
+  }
+  .arch-layers { display: flex; flex-direction: column; gap: 1.5rem; }
+  .arch-layer {
+    border: 1.5px dashed var(--border); border-radius: var(--radius);
+    padding: 1.25rem; position: relative;
+  }
+  .arch-layer .layer-label {
+    position: absolute; top: -.65rem; left: 1rem;
+    background: var(--bg-card); padding: 0 .5rem;
+    font-size: .7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--text-muted);
+  }
+  .arch-modules { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; }
+  .arch-mod {
+    padding: .55rem 1rem; border-radius: var(--radius-sm);
+    font-size: .78rem; font-weight: 600;
+    border: 1px solid; cursor: default;
+    transition: var(--transition);
+  }
+  .arch-mod:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+  .arch-mod.ui      { background: var(--blue-bg);   color: var(--blue);   border-color: #C5D9EE; }
+  .arch-mod.logic   { background: var(--green-bg);  color: var(--green);  border-color: #B8DFC8; }
+  .arch-mod.service  { background: var(--purple-bg); color: var(--purple); border-color: #D4C9E8; }
+  .arch-mod.infra   { background: var(--yellow-bg); color: var(--yellow); border-color: #E8D9A8; }
+  .arch-mod.sys     { background: var(--red-bg);    color: var(--red);    border-color: #E8C4BF; }
+
+  /* Arrow connectors */
+  .arch-arrow {
+    text-align: center; color: var(--text-muted);
+    font-size: 1.3rem; line-height: 1; padding: .25rem 0;
+    user-select: none;
+  }
+
+  /* ========== Data Flow ========== */
+  .flow-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+  .flow-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.75rem;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+  }
+  .flow-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .flow-card h3 {
+    font-size: 1rem; font-weight: 700; margin-bottom: 1rem;
+    display: flex; align-items: center; gap: .5rem;
+  }
+  .flow-steps { list-style: none; position: relative; padding-left: 1.25rem; }
+  .flow-steps::before {
+    content: ''; position: absolute; left: .45rem; top: .4rem; bottom: .4rem;
+    width: 2px; background: var(--border);
+  }
+  .flow-steps li {
+    position: relative; padding: .35rem 0 .35rem .75rem;
+    font-size: .85rem; color: var(--text-secondary);
+  }
+  .flow-steps li::before {
+    content: ''; position: absolute; left: -1rem; top: .7rem;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--bg-card);
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+  .flow-steps li code {
+    background: var(--bg-code); padding: .1rem .35rem;
+    border-radius: 4px; font-family: var(--font-mono);
+    font-size: .78rem;
+  }
+
+  /* ========== Module Cards ========== */
+  .module-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+  .module-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+  }
+  .module-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .module-card .mc-icon {
+    width: 36px; height: 36px; border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; margin-bottom: .75rem;
+  }
+  .module-card .mc-icon.ui     { background: var(--blue-bg); }
+  .module-card .mc-icon.logic  { background: var(--green-bg); }
+  .module-card .mc-icon.service { background: var(--purple-bg); }
+  .module-card .mc-icon.infra  { background: var(--yellow-bg); }
+  .module-card .mc-icon.sys    { background: var(--red-bg); }
+  .module-card h4 { font-size: .9rem; font-weight: 700; margin-bottom: .35rem; }
+  .module-card .mc-pkg {
+    font-family: var(--font-mono); font-size: .72rem;
+    color: var(--text-muted); margin-bottom: .5rem;
+  }
+  .module-card p { font-size: .82rem; color: var(--text-secondary); line-height: 1.55; }
+
+  /* ========== Tech Stack ========== */
+  .tech-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+  .tech-group {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.25rem;
+  }
+  .tech-group h4 {
+    font-size: .8rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .06em; color: var(--text-muted);
+    margin-bottom: .75rem; padding-bottom: .5rem;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .tech-items { display: flex; flex-wrap: wrap; gap: .4rem; }
+  .tech-item {
+    padding: .25rem .6rem; border-radius: 6px;
+    font-size: .75rem; font-weight: 500;
+    background: var(--bg-code); color: var(--text-secondary);
+    border: 1px solid var(--border-light);
+  }
+
+  /* ========== Environment Table ========== */
+  .env-table-wrap {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .env-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+  .env-table th {
+    background: var(--bg-code); padding: .75rem 1rem;
+    text-align: left; font-weight: 700; font-size: .78rem;
+    text-transform: uppercase; letter-spacing: .04em;
+    color: var(--text-muted); border-bottom: 1px solid var(--border);
+  }
+  .env-table td {
+    padding: .65rem 1rem; border-bottom: 1px solid var(--border-light);
+    color: var(--text-secondary);
+  }
+  .env-table tr:last-child td { border-bottom: none; }
+  .env-table code {
+    background: var(--bg-code); padding: .1rem .4rem;
+    border-radius: 4px; font-family: var(--font-mono); font-size: .78rem;
+  }
+
+  /* ========== Quick Start ========== */
+  .steps { counter-reset: step; }
+  .step-item {
+    display: flex; gap: 1.25rem; margin-bottom: 1.75rem;
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--accent); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .85rem; font-weight: 700;
+    counter-increment: step;
+  }
+  .step-content { flex: 1; }
+  .step-content h4 { font-size: .95rem; font-weight: 700; margin-bottom: .35rem; }
+  .step-content p  { font-size: .85rem; color: var(--text-secondary); margin-bottom: .5rem; }
+
+  .code-block {
+    background: #1E1E1E; color: #D4D4D4;
+    border-radius: var(--radius-sm); padding: 1rem 1.25rem;
+    font-family: var(--font-mono); font-size: .8rem;
+    line-height: 1.6; overflow-x: auto;
+    border: 1px solid #333;
+  }
+  .code-block .comment { color: #6A9955; }
+  .code-block .cmd     { color: #DCDCAA; }
+  .code-block .flag    { color: #9CDCFE; }
+  .code-block .string  { color: #CE9178; }
+
+  /* ========== Permissions ========== */
+  .perm-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: .75rem;
+  }
+  .perm-group h4 {
+    font-size: .78rem; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: .05em;
+    margin-bottom: .5rem;
+  }
+  .perm-list { list-style: none; }
+  .perm-list li {
+    padding: .3rem 0; font-size: .8rem; color: var(--text-secondary);
+    display: flex; align-items: center; gap: .4rem;
+  }
+  .perm-list li::before { content: '🔑'; font-size: .7rem; }
+
+  /* ========== Footer ========== */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem; text-align: center;
+    color: var(--text-muted); font-size: .8rem;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ========== Responsive ========== */
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 2rem; }
+    .hero { padding: 3rem 1.5rem 2.5rem; }
+    nav .nav-links { display: none; }
+    .container { padding: 0 1rem; }
+    .module-grid, .tech-grid, .flow-grid { grid-template-columns: 1fr; }
+    .arch-modules { justify-content: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== Navigation ==================== -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo"><span class="icon">📺</span> SmartDisplay</a>
+    <div class="nav-links">
+      <a href="#architecture">架构</a>
+      <a href="#dataflow">数据流</a>
+      <a href="#modules">模块</a>
+      <a href="#techstack">技术栈</a>
+      <a href="#env">环境</a>
+      <a href="#quickstart">快速开始</a>
+      <a href="#permissions">权限</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== Hero ==================== -->
+<header class="hero">
+  <div class="hero-inner">
+    <h1>SmartDisplay</h1>
+    <p class="subtitle">面向智能显示设备的 AI 交互系统 —— 集成语音对话、会议纪要、BLE 配网、WebRTC 实时通信与 OTA 更新的全栈 Android TV 应用</p>
+    <div class="badges">
+      <span class="badge version">📦 v1.7.4 (build 74)</span>
+      <span class="badge lang">🟣 Kotlin + Jetpack Compose</span>
+      <span class="badge sdk">🤖 minSdk 29 · compileSdk 36</span>
+      <span class="badge arch">🏗️ armeabi-v7a · arm64-v8a</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ==================== Architecture ==================== -->
+<section id="architecture">
+  <div class="section-header">
+    <h2>🏗️ 系统架构总览</h2>
+    <p>SmartDisplay 采用分层架构设计，从 UI 表现层到硬件抽象层逐级解耦</p>
+  </div>
+
+  <div class="arch-diagram">
+    <div class="arch-layers">
+
+      <!-- Layer 1: UI -->
+      <div class="arch-layer">
+        <span class="layer-label">🖥️ UI 表现层 (Jetpack Compose + WebView)</span>
+        <div class="arch-modules">
+          <span class="arch-mod ui">MainActivity<br><small>待机主屏</small></span>
+          <span class="arch-mod ui">ChatActivity<br><small>AI 对话</small></span>
+          <span class="arch-mod ui">MeetingActivity<br><small>会议纪要</small></span>
+          <span class="arch-mod ui">TranslationActivity<br><small>翻译</small></span>
+          <span class="arch-mod ui">WelcomeActivity<br><small>引导配网</small></span>
+          <span class="arch-mod ui">CalendarWebScreen<br><small>WebView 日历</small></span>
+          <span class="arch-mod ui">AIScreen<br><small>AI 交互界面</small></span>
+          <span class="arch-mod ui">UpdateScreen<br><small>OTA 更新界面</small></span>
+        </div>
+      </div>
+
+      <div class="arch-arrow">▼</div>
+
+      <!-- Layer 2: ViewModel / Logic -->
+      <div class="arch-layer">
+        <span class="layer-label">🧠 业务逻辑层 (ViewModel + Manager)</span>
+        <div class="arch-modules">
+          <span class="arch-mod logic">ChatViewModel<br><small>对话状态管理</small></span>
+          <span class="arch-mod logic">UserManager<br><small>用户管理</small></span>
+          <span class="arch-mod logic">CustomizationManager<br><small>壁纸/布局</small></span>
+          <span class="arch-mod logic">UpdateManager<br><small>版本更新</small></span>
+          <span class="arch-mod logic">AppInitManager<br><small>初始化编排</small></span>
+          <span class="arch-mod logic">ExitCoordinator<br><small>退出协调</small></span>
+          <span class="arch-mod logic">InteractionSettings<br><small>交互设置</small></span>
+          <span class="arch-mod logic">ReminderManager<br><small>提醒管理</small></span>
+          <span class="arch-mod logic">TaskManager<br><small>深度研究任务</small></span>
+        </div>
+      </div>
+
+      <div class="arch-arrow">▼</div>
+
+      <!-- Layer 3: Service -->
+      <div class="arch-layer">
+        <span class="layer-label">⚙️ 服务层 (Chat / BLE / Network / Audio)</span>
+        <div class="arch-modules">
+          <span class="arch-mod service">ChainChatService<br><small>链式对话</small></span>
+          <span class="arch-mod service">RealtimeChat<br><small>WebRTC 实时对话</small></span>
+          <span class="arch-mod service">AppBleService<br><small>BLE GATT 服务</small></span>
+          <span class="arch-mod service">AppBleManager<br><small>BLE 全局管理</small></span>
+          <span class="arch-mod service">CryptoService<br><small>X25519 + AES-GCM</small></span>
+          <span class="arch-mod service">WakeWordDetector<br><small>讯飞唤醒词</small></span>
+          <span class="arch-mod service">TongYiTingWu<br><small>通义听悟会议</small></span>
+          <span class="arch-mod service">AuthService<br><small>认证鉴权</small></span>
+          <span class="arch-mod service">BackendServer<br><small>后端 API</small></span>
+        </div>
+      </div>
+
+      <div class="arch-arrow">▼</div>
+
+      <!-- Layer 4: Infra -->
+      <div class="arch-layer">
+        <span class="layer-label">🔌 基础设施层 (网络 / 存储 / 日志)</span>
+        <div class="arch-modules">
+          <span class="arch-mod infra">NetState<br><small>网络状态聚合</small></span>
+          <span class="arch-mod infra">WifiConnection<br><small>Wi-Fi 监控</small></span>
+          <span class="arch-mod infra">InternetProbe<br><small>公网探测</small></span>
+          <span class="arch-mod infra">KeepAliveManager<br><small>WebSocket 长连接</small></span>
+          <span class="arch-mod infra">AppLog + Sentry<br><small>日志 & 崩溃监控</small></span>
+          <span class="arch-mod infra">LocalLogManager<br><small>本地日志</small></span>
+          <span class="arch-mod infra">WeatherRepository<br><small>天气数据</small></span>
+          <span class="arch-mod infra">ConversationPrecreator<br><small>会话预创建</small></span>
+        </div>
+      </div>
+
+      <div class="arch-arrow">▼</div>
+
+      <!-- Layer 5: Hardware -->
+      <div class="arch-layer">
+        <span class="layer-label">🔧 硬件抽象层 (串口 / 蓝牙 / 音频)</span>
+        <div class="arch-modules">
+          <span class="arch-mod sys">MySerialPort<br><small>串口通信协议</small></span>
+          <span class="arch-mod sys">MonitorOp<br><small>亮度/音量控制</small></span>
+          <span class="arch-mod sys">BLE Advertiser<br><small>蓝牙广播</small></span>
+          <span class="arch-mod sys">AudioRecord<br><small>麦克风采集</small></span>
+          <span class="arch-mod sys">ExoPlayer<br><small>音视频播放</small></span>
+          <span class="arch-mod sys">DeviceInfo<br><small>设备信息</small></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Data Flow ==================== -->
+<section id="dataflow">
+  <div class="section-header">
+    <h2>🔄 关键数据流</h2>
+    <p>核心场景的启动与交互流程</p>
+  </div>
+
+  <div class="flow-grid">
+
+    <!-- Boot Flow -->
+    <div class="flow-card">
+      <h3>🚀 应用启动流程</h3>
+      <ol class="flow-steps">
+        <li><code>SmartDisplayApp.onCreate()</code> → 初始化 DeviceInfo, UserManager, Sentry</li>
+        <li>IdleHandler 触发 → UpdateManager 观察 + 全局串口输入注册</li>
+        <li><code>MainActivity</code> → 显示 HelloScreen → 进入 MainContent</li>
+        <li><code>AppInitManager.start()</code> 三阶段初始化<br>
+            <strong>A:</strong> BootstrapSync<br>
+            <strong>B:</strong> BLE, WiFi, KeepAlive, Auth<br>
+            <strong>C:</strong> Customization, Precreator</li>
+        <li>已登录 → CalendarWebScreen 待机主屏 | 未登录 → WelcomeActivity 引导</li>
+      </ol>
+    </div>
+
+    <!-- AI Chat Flow -->
+    <div class="flow-card">
+      <h3>🗣️ AI 语音对话流程</h3>
+      <ol class="flow-steps">
+        <li>唤醒词 <code>IFlytekKws</code> 检测到关键词 → 回调触发</li>
+        <li>启动 <code>ChatActivity</code> → <code>ChatViewModel</code> 初始化</li>
+        <li>创建会话 → 服务器返回 <code>ChatConfig</code> (chain / realtime)</li>
+        <li><strong>Chain 模式:</strong> WebSocket 通道 + STT → Agent → TTS</li>
+        <li><strong>Realtime 模式:</strong> WebRTC PeerConnection 双向音频</li>
+        <li>音频数据流: AudioRecord → Opus 编码 → 上行 | 下行 → AudioPlayer 播放</li>
+        <li>静音检测 30s 无交互 → 自动结束会话</li>
+      </ol>
+    </div>
+
+    <!-- BLE Provisioning -->
+    <div class="flow-card">
+      <h3>📱 BLE 配网流程</h3>
+      <ol class="flow-steps">
+        <li>TV 启动 BLE 广播 → 生成 QR 码 (含设备公钥)</li>
+        <li>手机扫码 → BLE GATT 连接 → <code>RX_CHAR</code> / <code>TX_CHAR</code> 双特征</li>
+        <li>X25519 ECDH 密钥交换 + Ed25519 签名认证</li>
+        <li>AES-256-GCM 加密通道建立 → <code>HandshakeCompleted</code></li>
+        <li>手机发送 <code>WifiCredentials</code> → TV 连接 Wi-Fi</li>
+        <li>手机发送 <code>LoginToken</code> → TV 登录认证</li>
+        <li>支持: 退出登录, 版本更新, 设备状态查询</li>
+      </ol>
+    </div>
+
+    <!-- Meeting Flow -->
+    <div class="flow-card">
+      <h3>📋 会议模式流程</h3>
+      <ol class="flow-steps">
+        <li>语音指令触发 → 启动 <code>MeetingActivity</code></li>
+        <li><code>TongYiTingWuService</code> 初始化通义听悟</li>
+        <li>实时录音 → 语音识别 → 逐句回调 <code>onSentence</code></li>
+        <li>多人说话分辨 (<code>speaker</code>) → UI 实时展示</li>
+        <li>关键词检测 → 自动结束 | 超时自动结束</li>
+        <li>会议纪要生成 → 结束对话弹窗</li>
+      </ol>
+    </div>
+
+    <!-- OTA Update -->
+    <div class="flow-card">
+      <h3>📦 OTA 更新流程</h3>
+      <ol class="flow-steps">
+        <li>KeepAlive 长连接 → 收到 <code>update</code> 推送</li>
+        <li><code>UpdateManager</code> 检查版本 → 下载 APK + SHA256 校验</li>
+        <li>PackageInstaller 静默安装 (v1 + v2 签名)</li>
+        <li><code>setDontKillApp(true)</code> → 不杀进程更新</li>
+        <li>安装成功 → <code>forceKillSelfForUpgrade()</code> 重启</li>
+        <li>安装失败 → 回退状态, 继续当前版本</li>
+      </ol>
+    </div>
+
+    <!-- Network State -->
+    <div class="flow-card">
+      <h3>🌐 网络状态管理</h3>
+      <ol class="flow-steps">
+        <li><code>WifiConnectionService</code> 监听 Wi-Fi 连接状态</li>
+        <li><code>InternetProbeManager</code> 多端点探测公网连通性
+            <br><small>Google 204 / Apple / MSFT / 自建 /health</small></li>
+        <li><code>NetState</code> 聚合: hasNetwork + hasInternet + hasBackend</li>
+        <li><code>isOnlineFlow</code> → UI 层响应式绑定</li>
+        <li>BLE 蓝牙查询接口 → <code>getCurrentNetworkStatusJson()</code></li>
+      </ol>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== Modules ==================== -->
+<section id="modules">
+  <div class="section-header">
+    <h2>📦 核心模块详解</h2>
+    <p>每个模块的职责和关键实现</p>
+  </div>
+
+  <div class="module-grid">
+
+    <div class="module-card">
+      <div class="mc-icon ui">📺</div>
+      <h4>MainActivity</h4>
+      <div class="mc-pkg">.MainActivity</div>
+      <p>应用主入口, 作为 Launcher + Home。包含 HelloScreen 开屏 → CalendarWebScreen 待机页 → 唤醒词监听与 AI 对话入口。管理引导流程与更新拦截。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon ui">🗣️</div>
+      <h4>ChatActivity</h4>
+      <div class="mc-pkg">.ChatActivity</div>
+      <p>AI 语音对话界面，基于 ChatViewModel 管理状态。支持初始化动画、语音音量可视化、AI 字幕、搜索图片展示、音量/亮度调节 HUD。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon ui">📋</div>
+      <h4>MeetingActivity</h4>
+      <div class="mc-pkg">.MeetingActivity</div>
+      <p>会议纪要模式。接入通义听悟 TongYiTingWuService, 实时语音转写, 多人话者分辨, 支持关键词自动结束与超时保护。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon ui">🌐</div>
+      <h4>WelcomeActivity</h4>
+      <div class="mc-pkg">.WelcomeActivity</div>
+      <p>新设备引导页面。显示 BLE QR 码、BLE 连接状态、Wi-Fi 配网进度、登录状态、OTA 更新状态。全流程可视化引导。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon logic">🧠</div>
+      <h4>ChatViewModel</h4>
+      <div class="mc-pkg">.chat.ChatViewModel</div>
+      <p>对话状态中心。管理 initializing、userSpeaking、aiThinking、aiSpeaking 等 StateFlow, 驱动 AIScreen Compose UI 响应式渲染。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon service">⛓️</div>
+      <h4>ChainChatService</h4>
+      <div class="mc-pkg">.chain.ChainChatService</div>
+      <p>链式对话引擎。WebSocket 通道, STT→Agent→TTS 流水线。支持 Opus 编码, 自由打断, 静音超时检测, AI 回复超时。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon service">🔴</div>
+      <h4>RealtimeChat</h4>
+      <div class="mc-pkg">.chat.RealtimeChat</div>
+      <p>基于 WebRTC 的实时对话。PeerConnectionFactory + JavaAudioDeviceModule, 支持 SDP 交换, ICE 候选, 双向音频流。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon service">📡</div>
+      <h4>AppBleService</h4>
+      <div class="mc-pkg">.ble.AppBleService</div>
+      <p>BLE GATT Server 实现。双特征通道 (RX 0xA111 / TX 0xA112), 分包重组, 认证加密, 支持 Wi-Fi 配网、登录、更新等指令。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon service">🔐</div>
+      <h4>CryptoService</h4>
+      <div class="mc-pkg">.ble.CryptoService</div>
+      <p>基于 BouncyCastle 的加密服务。X25519 ECDH 密钥交换 + Ed25519 身份签名 + AES-256-GCM 数据加密, 兼容 Android 12。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon service">🎤</div>
+      <h4>WakeWordDetector</h4>
+      <div class="mc-pkg">.utils.IFlytekKws</div>
+      <p>讯飞离线唤醒词检测。后台线程 AudioRecord 采集, 支持从后端动态获取唤醒词配置, SDK 初始化后驻留监听。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon infra">🌍</div>
+      <h4>NetState</h4>
+      <div class="mc-pkg">.network.NetState</div>
+      <p>网络状态聚合中心。组合 Wi-Fi IP 检测 + 公网探测 + 后端长连接状态, 提供 hasNetworkFlow / hasInternetFlow / isOnlineFlow。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon infra">🔄</div>
+      <h4>KeepAliveManager</h4>
+      <div class="mc-pkg">.network.KeepAliveManager</div>
+      <p>WebSocket 长连接管理。自动重连, 接收服务端推送 (壁纸更新、AI 配置变更、远程指令、OTA 触发、工厂测试)。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon logic">📦</div>
+      <h4>UpdateManager</h4>
+      <div class="mc-pkg">.update.UpdateManager</div>
+      <p>OTA 更新管理器。APK 下载 + SHA256 校验 + PackageInstaller 静默安装 + DontKillApp 无缝更新 + 失败回退。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon sys">🔌</div>
+      <h4>MySerialPort</h4>
+      <div class="mc-pkg">.serialport.MySerialPort</div>
+      <p>串口通信模块。8 字节帧协议 (0x55AA 帧头), 支持亮度/音量读写, 按键事件 (MENU/UP/DOWN), 请求-响应匹配。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon infra">📝</div>
+      <h4>AppLog + Sentry</h4>
+      <div class="mc-pkg">.log.AppLog</div>
+      <p>统一日志框架。i/d/w/e 级别, 同时写 Logcat + 本地文件 + Sentry 上报。错误级别自动 captureException, 支持节流日志。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon logic">👤</div>
+      <h4>UserManager</h4>
+      <div class="mc-pkg">.user.UserManager</div>
+      <p>用户状态管理。userFlow 响应式, 支持登录/登出、Token 刷新, 通过 BLE 或直接 API 完成认证。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon logic">🎨</div>
+      <h4>CustomizationManager</h4>
+      <div class="mc-pkg">.user.CustomizationManager</div>
+      <p>用户自定义管理。壁纸类型 (默认/自定义)、布局类型 (默认/相框)、壁纸下载与版本管理、服务端推送同步。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon logic">🚪</div>
+      <h4>ExitCoordinator</h4>
+      <div class="mc-pkg">.exit.ExitCoordinator</div>
+      <p>统一退出协调器。处理 MENU 键事件, AI 对话中首击打断语音/次击弹出退出确认, AutoCloseDialog 超时自动关闭。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon logic">⚡</div>
+      <h4>AppInitManager</h4>
+      <div class="mc-pkg">.init.AppInitManager</div>
+      <p>分阶段初始化编排器。Stage A: 核心同步 → Stage B: BLE/WiFi/Auth → Stage C: 延迟加载。支持 stop 优雅关闭。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon service">🔗</div>
+      <h4>BackendServer</h4>
+      <div class="mc-pkg">.backend.BackendServer</div>
+      <p>后端 API 客户端。对话创建、WebRTC 会话、Web 搜索、配额查询、设备上报, 基于 OkHttp + Fastjson2 异步调用。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon sys">🏭</div>
+      <h4>FactoryTestManager</h4>
+      <div class="mc-pkg">.factorytest.FactoryTestManager</div>
+      <p>工厂测试管理。远程指令: kill_self、ANR 阻塞测试、音频录制证明、亮度/音量读写测试, 结果回报后端。</p>
+    </div>
+
+    <div class="module-card">
+      <div class="mc-icon infra">🌤️</div>
+      <h4>WeatherRepository</h4>
+      <div class="mc-pkg">.web.weather.WeatherRepository</div>
+      <p>天气数据源。通过 JavaScript Bridge 与 WebView 中的日历页面交互, 提供天气 UI 数据模型。</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== Tech Stack ==================== -->
+<section id="techstack">
+  <div class="section-header">
+    <h2>🛠️ 技术栈</h2>
+    <p>项目使用的核心框架与依赖库</p>
+  </div>
+
+  <div class="tech-grid">
+    <div class="tech-group">
+      <h4>🎨 UI 框架</h4>
+      <div class="tech-items">
+        <span class="tech-item">Jetpack Compose</span>
+        <span class="tech-item">TV Foundation</span>
+        <span class="tech-item">TV Material3</span>
+        <span class="tech-item">Material3</span>
+        <span class="tech-item">Lottie Compose</span>
+        <span class="tech-item">Landscapist Glide</span>
+        <span class="tech-item">Compose Markdown</span>
+        <span class="tech-item">Material Icons Extended</span>
+      </div>
+    </div>
+
+    <div class="tech-group">
+      <h4>📡 网络与通信</h4>
+      <div class="tech-items">
+        <span class="tech-item">OkHttp 4.12</span>
+        <span class="tech-item">WebRTC (google-webrtc)</span>
+        <span class="tech-item">Centrifuge Java 0.5</span>
+        <span class="tech-item">Fastjson2</span>
+        <span class="tech-item">Kotlinx Serialization</span>
+      </div>
+    </div>
+
+    <div class="tech-group">
+      <h4>📶 蓝牙与加密</h4>
+      <div class="tech-items">
+        <span class="tech-item">Nordic BLE 2.6.1</span>
+        <span class="tech-item">BouncyCastle 1.77</span>
+        <span class="tech-item">ZXing QR 3.5.1</span>
+        <span class="tech-item">ZXing Android</span>
+      </div>
+    </div>
+
+    <div class="tech-group">
+      <h4>🎵 音视频</h4>
+      <div class="tech-items">
+        <span class="tech-item">Media3 ExoPlayer 1.9</span>
+        <span class="tech-item">Media3 UI 1.8</span>
+        <span class="tech-item">Opus AAR (本地)</span>
+        <span class="tech-item">AIKit AAR (讯飞)</span>
+        <span class="tech-item">NUI SDK AAR</span>
+      </div>
+    </div>
+
+    <div class="tech-group">
+      <h4>🏗️ 架构与生命周期</h4>
+      <div class="tech-items">
+        <span class="tech-item">Lifecycle ViewModel Compose</span>
+        <span class="tech-item">Lifecycle Process</span>
+        <span class="tech-item">Activity Compose</span>
+        <span class="tech-item">WorkManager</span>
+        <span class="tech-item">AppCompat</span>
+      </div>
+    </div>
+
+    <div class="tech-group">
+      <h4>📊 监控与工具</h4>
+      <div class="tech-items">
+        <span class="tech-item">Sentry Android 8.29</span>
+        <span class="tech-item">Sentry NDK</span>
+        <span class="tech-item">Sentry OkHttp</span>
+        <span class="tech-item">Android SerialPort 2.1.4</span>
+        <span class="tech-item">Kotlin Parcelize</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Environment ==================== -->
+<section id="env">
+  <div class="section-header">
+    <h2>⚙️ 环境与构建变体</h2>
+    <p>三套环境配置，通过 Product Flavors 切换</p>
+  </div>
+
+  <div class="env-table-wrap">
+    <table class="env-table">
+      <thead>
+        <tr>
+          <th>Flavor</th>
+          <th>ENV 标识</th>
+          <th>API Server</th>
+          <th>WebSocket Server</th>
+          <th>适用场景</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>prod</strong></td>
+          <td><code>"prod"</code></td>
+          <td><code>https://api.smartdisplay.vzngpt.com</code></td>
+          <td><code>wss://api.smartdisplay.vzngpt.com</code></td>
+          <td>🟢 生产环境</td>
+        </tr>
+        <tr>
+          <td><strong>staging</strong></td>
+          <td><code>"staging"</code></td>
+          <td><code>http://staging.smartdisplay.datouai.cn:8000</code></td>
+          <td><code>ws://staging.smartdisplay.datouai.cn:8000</code></td>
+          <td>🟡 预发布测试</td>
+        </tr>
+        <tr>
+          <td><strong>local</strong></td>
+          <td><code>"local"</code></td>
+          <td><code>http://192.168.0.17:8000</code></td>
+          <td><code>ws://192.168.0.17:8000</code></td>
+          <td>🔵 本地开发</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-top: 1.5rem;">
+    <div class="env-table-wrap">
+      <table class="env-table">
+        <thead>
+          <tr>
+            <th>构建参数</th>
+            <th>值</th>
+            <th>说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>applicationId</td><td><code>com.datou.smartdisplay</code></td><td>应用包名</td></tr>
+          <tr><td>compileSdk</td><td><code>36</code></td><td>编译 SDK 版本</td></tr>
+          <tr><td>minSdk</td><td><code>29</code> (Android 10)</td><td>最低支持版本</td></tr>
+          <tr><td>targetSdk</td><td><code>29</code></td><td>目标 SDK 版本</td></tr>
+          <tr><td>NDK ABIs</td><td><code>armeabi-v7a, arm64-v8a</code></td><td>ARM 32/64 位</td></tr>
+          <tr><td>JVM Target</td><td><code>11</code></td><td>Java 11 兼容</td></tr>
+          <tr><td>Signing</td><td><code>v1 + v2</code></td><td>双签名兼容</td></tr>
+          <tr><td>Compose</td><td><code>enabled</code></td><td>Jetpack Compose 启用</td></tr>
+          <tr><td>BuildConfig</td><td><code>enabled</code></td><td>运行时环境变量</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Quick Start ==================== -->
+<section id="quickstart">
+  <div class="section-header">
+    <h2>🚀 快速开始</h2>
+    <p>从克隆到运行的完整步骤</p>
+  </div>
+
+  <div class="steps">
+    <div class="step-item">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>克隆仓库</h4>
+        <div class="code-block">
+<span class="cmd">git clone</span> <span class="string">https://github.com/sihai-org/SmartDisplay.git</span>
+<span class="cmd">cd</span> SmartDisplay
+        </div>
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>配置 local.properties</h4>
+        <p>在项目根目录创建 <code>local.properties</code> 文件，填入签名和环境配置：</p>
+        <div class="code-block">
+<span class="comment"># Android SDK 路径</span>
+sdk.dir=<span class="string">/path/to/Android/sdk</span>
+
+<span class="comment"># 签名配置</span>
+RELEASE_STORE_FILE=<span class="string">../keys/release.keystore</span>
+RELEASE_STORE_PASSWORD=<span class="string">your_store_password</span>
+RELEASE_KEY_ALIAS=<span class="string">your_key_alias</span>
+RELEASE_KEY_PASSWORD=<span class="string">your_key_password</span>
+
+<span class="comment"># Sentry DSN (可选)</span>
+SENTRY_DSN=<span class="string">https://xxx@sentry.io/yyy</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>放置本地 AAR 库</h4>
+        <p>将以下 AAR 文件放入 <code>app/libs/</code> 目录：</p>
+        <div class="code-block">
+app/libs/
+├── opus.aar          <span class="comment"># Opus 音频编解码</span>
+├── AIKit.aar         <span class="comment"># 讯飞 AI 语音套件</span>
+└── nuisdk-release.aar <span class="comment"># NUI 语音 SDK</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>构建并运行</h4>
+        <p>选择目标 Flavor 和 Build Type 进行构建：</p>
+        <div class="code-block">
+<span class="comment"># 本地开发 Debug 版本</span>
+<span class="cmd">./gradlew</span> <span class="flag">assembleLocalDebug</span>
+
+<span class="comment"># Staging 测试版本</span>
+<span class="cmd">./gradlew</span> <span class="flag">assembleStagingDebug</span>
+
+<span class="comment"># 生产 Release 版本</span>
+<span class="cmd">./gradlew</span> <span class="flag">assembleProdRelease</span>
+
+<span class="comment"># 安装到设备</span>
+<span class="cmd">adb install</span> <span class="flag">-r</span> <span class="string">app/build/outputs/apk/local/debug/app-local-debug.apk</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>设备配网</h4>
+        <p>首次启动进入 WelcomeActivity → 使用手机 App 扫描屏幕上的 QR 码 → 通过 BLE 完成 Wi-Fi 配网和账号登录 → 进入主界面开始使用。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Permissions ==================== -->
+<section id="permissions">
+  <div class="section-header">
+    <h2>🔑 系统权限清单</h2>
+    <p>应用作为系统签名应用，需要以下权限</p>
+  </div>
+
+  <div class="perm-grid">
+    <div class="perm-group">
+      <h4>🎤 音频与媒体</h4>
+      <ul class="perm-list">
+        <li>RECORD_AUDIO</li>
+        <li>MODIFY_AUDIO_SETTINGS</li>
+      </ul>
+    </div>
+
+    <div class="perm-group">
+      <h4>📶 网络与 Wi-Fi</h4>
+      <ul class="perm-list">
+        <li>INTERNET</li>
+        <li>ACCESS_NETWORK_STATE</li>
+        <li>ACCESS_WIFI_STATE</li>
+        <li>CHANGE_WIFI_STATE</li>
+        <li>CHANGE_NETWORK_STATE</li>
+        <li>CHANGE_WIFI_MULTICAST_STATE</li>
+        <li>NEARBY_WIFI_DEVICES</li>
+      </ul>
+    </div>
+
+    <div class="perm-group">
+      <h4>📡 蓝牙</h4>
+      <ul class="perm-list">
+        <li>BLUETOOTH</li>
+        <li>BLUETOOTH_ADMIN</li>
+        <li>BLUETOOTH_ADVERTISE</li>
+        <li>BLUETOOTH_CONNECT</li>
+        <li>BLUETOOTH_PRIVILEGED</li>
+      </ul>
+    </div>
+
+    <div class="perm-group">
+      <h4>📍 位置</h4>
+      <ul class="perm-list">
+        <li>ACCESS_COARSE_LOCATION</li>
+        <li>ACCESS_FINE_LOCATION</li>
+      </ul>
+    </div>
+
+    <div class="perm-group">
+      <h4>📁 存储</h4>
+      <ul class="perm-list">
+        <li>READ_EXTERNAL_STORAGE</li>
+        <li>WRITE_EXTERNAL_STORAGE</li>
+      </ul>
+    </div>
+
+    <div class="perm-group">
+      <h4>🔧 系统级 (需签名)</h4>
+      <ul class="perm-list">
+        <li>INSTALL_PACKAGES</li>
+        <li>WRITE_SECURE_SETTINGS</li>
+        <li>INTERACT_ACROSS_USERS_FULL</li>
+        <li>INJECT_EVENTS</li>
+        <li>SET_TIME / SET_TIME_ZONE</li>
+        <li>REBOOT</li>
+        <li>READ_PRIVILEGED_PHONE_STATE</li>
+        <li>RECEIVE_BOOT_COMPLETED</li>
+        <li>WAKE_LOCK / DISABLE_KEYGUARD</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Protocol ==================== -->
+<section id="protocol" style="padding-bottom: 3rem;">
+  <div class="section-header">
+    <h2>📡 通信协议说明</h2>
+    <p>设备与外部系统之间的通信方式</p>
+  </div>
+
+  <div class="flow-grid">
+    <div class="flow-card">
+      <h3>🔵 BLE GATT Protocol</h3>
+      <ol class="flow-steps">
+        <li>Service UUID: <code>0000A100-...</code></li>
+        <li>RX Char (手机→TV): <code>0000A111-...</code></li>
+        <li>TX Char (TV→手机): <code>0000A112-...</code></li>
+        <li>认证: X25519 ECDH + Ed25519 + AES-256-GCM</li>
+        <li>指令: handshake / wifi.config / login / logout / update</li>
+      </ol>
+    </div>
+
+    <div class="flow-card">
+      <h3>🟢 串口帧协议</h3>
+      <ol class="flow-steps">
+        <li>帧头: <code>0x55 0xAA</code> (2 bytes)</li>
+        <li>功能码: 1 byte (亮度/音量/按键)</li>
+        <li>数据域: 4 bytes (data + requestId)</li>
+        <li>校验和: 1 byte (累加和 & 0xFF)</li>
+        <li>总帧长: 8 bytes 固定长度</li>
+      </ol>
+    </div>
+
+    <div class="flow-card">
+      <h3>🟡 WebSocket 长连接</h3>
+      <ol class="flow-steps">
+        <li>地址: <code>wss://api.smartdisplay.vzngpt.com</code></li>
+        <li>自动重连 + 心跳保活</li>
+        <li>推送类型: device_customization_updated</li>
+        <li>推送类型: ai_conversation_config_updated</li>
+        <li>推送类型: update / factory_test / reboot</li>
+      </ol>
+    </div>
+
+    <div class="flow-card">
+      <h3>🔴 WebRTC (Realtime 模式)</h3>
+      <ol class="flow-steps">
+        <li>PeerConnectionFactory + JavaAudioDeviceModule</li>
+        <li>SDP Offer/Answer 信令交换</li>
+        <li>ICE Candidate 收集与协商</li>
+        <li>双向音频: AudioTrack + AudioSource</li>
+        <li>DataChannel 用于 sideband 数据</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- ==================== Footer ==================== -->
+<footer>
+  <p>
+    SmartDisplay Architecture Guide · v1.7.4 · 
+    <a href="https://github.com/sihai-org/SmartDisplay" target="_blank">GitHub Repository</a> · 
+    Generated 2026-03-12
+  </p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI+传统产业创业方向研究报告</title>
+<style>
+  :root {
+    --bg: #FAFAF8;
+    --card: #FFFFFF;
+    --amber: #D97706;
+    --amber-light: #FEF3C7;
+    --blue: #1E3A5F;
+    --blue-light: #DBEAFE;
+    --text: #1a1a1a;
+    --text-secondary: #6b7280;
+    --green: #059669;
+    --green-light: #D1FAE5;
+    --red: #DC2626;
+    --red-light: #FEE2E2;
+    --yellow: #F59E0B;
+    --yellow-light: #FEF9C3;
+    --purple: #7C3AED;
+    --purple-light: #EDE9FE;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-lg: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .card:hover { box-shadow: var(--shadow-lg); }
+  h1 { font-size: 2.2em; font-weight: 700; color: var(--blue); }
+  h2 { font-size: 1.5em; font-weight: 700; color: var(--blue); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--amber); display: inline-block; }
+  h3 { font-size: 1.15em; font-weight: 600; color: var(--text); margin-bottom: 10px; }
+  .section { margin-bottom: 48px; }
+  .badge {
+    display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;
+  }
+  .badge-green { background: var(--green-light); color: var(--green); }
+  .badge-red { background: var(--red-light); color: var(--red); }
+  .badge-yellow { background: var(--yellow-light); color: #92400E; }
+  .badge-blue { background: var(--blue-light); color: var(--blue); }
+  .badge-purple { background: var(--purple-light); color: var(--purple); }
+
+  /* Cover */
+  .cover {
+    text-align: center; padding: 80px 20px 60px; position: relative;
+    background: linear-gradient(135deg, #1E3A5F 0%, #2D5A8E 100%);
+    color: #fff; margin-bottom: 48px; border-radius: 0 0 24px 24px;
+  }
+  .cover h1 { color: #fff; font-size: 2.6em; margin-bottom: 12px; letter-spacing: 2px; }
+  .cover .subtitle { font-size: 1.2em; opacity: 0.9; margin-bottom: 28px; }
+  .cover .meta { font-size: 0.9em; opacity: 0.7; }
+  .cover .confidential {
+    display: inline-block; margin-top: 20px; padding: 6px 20px;
+    border: 1px solid rgba(255,255,255,0.4); border-radius: 20px;
+    font-size: 0.85em; opacity: 0.8; letter-spacing: 1px;
+  }
+  .cover-decoration {
+    position: absolute; top: 20px; right: 30px; width: 80px; height: 80px;
+    border: 2px solid rgba(255,255,255,0.15); border-radius: 50%;
+  }
+  .cover-decoration::after {
+    content: ''; position: absolute; top: 15px; right: -30px; width: 50px; height: 50px;
+    border: 2px solid rgba(255,255,255,0.1); border-radius: 50%;
+  }
+
+  /* Summary Table */
+  .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .summary-item {
+    background: var(--card); border-radius: 12px; padding: 20px;
+    box-shadow: var(--shadow); border-left: 4px solid var(--amber);
+  }
+  .summary-item .label { font-size: 0.85em; color: var(--text-secondary); margin-bottom: 6px; font-weight: 600; }
+  .summary-item .value { font-size: 0.95em; color: var(--text); line-height: 1.6; }
+
+  /* PEST Grid */
+  .pest-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .pest-card { border-radius: 12px; overflow: hidden; background: var(--card); box-shadow: var(--shadow); }
+  .pest-card:hover { box-shadow: var(--shadow-lg); }
+  .pest-bar { height: 6px; }
+  .pest-content { padding: 20px; }
+  .pest-title { font-weight: 700; font-size: 1.05em; margin-bottom: 8px; }
+  .pest-rating { font-size: 0.85em; font-weight: 600; margin-bottom: 8px; }
+  .pest-text { font-size: 0.9em; color: var(--text-secondary); line-height: 1.7; }
+  .pest-warn { font-size: 0.85em; color: var(--amber); margin-top: 8px; padding: 8px; background: var(--amber-light); border-radius: 8px; }
+
+  /* Stars */
+  .stars { display: inline-flex; gap: 2px; }
+  .star { width: 18px; height: 18px; }
+  .star-filled { fill: var(--amber); }
+  .star-empty { fill: #E5E7EB; }
+
+  /* Tactic Cards */
+  .tactic-card {
+    background: var(--card); border-radius: 12px; box-shadow: var(--shadow);
+    padding: 20px; margin-bottom: 12px; display: flex; gap: 16px; align-items: flex-start;
+  }
+  .tactic-card:hover { box-shadow: var(--shadow-lg); }
+  .tactic-num {
+    min-width: 36px; height: 36px; border-radius: 50%;
+    background: var(--blue); color: #fff; display: flex; align-items: center;
+    justify-content: center; font-weight: 700; font-size: 0.9em; flex-shrink: 0;
+  }
+  .tactic-num.bonus { background: var(--amber); }
+  .tactic-body { flex: 1; }
+  .tactic-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+  .tactic-title { font-weight: 700; font-size: 1em; }
+  .tactic-opinion { font-size: 0.9em; color: var(--text-secondary); }
+
+  /* Direction Cards */
+  .direction-card {
+    background: var(--card); border-radius: 12px; box-shadow: var(--shadow);
+    padding: 24px; margin-bottom: 16px; position: relative; overflow: hidden;
+  }
+  .direction-card:hover { box-shadow: var(--shadow-lg); }
+  .direction-badge {
+    position: absolute; top: 0; right: 0; padding: 6px 16px;
+    font-size: 0.8em; font-weight: 700; color: #fff; border-radius: 0 12px 0 12px;
+  }
+  .rec-5 { background: var(--green); }
+  .rec-4 { background: var(--amber); }
+  .rec-3 { background: var(--text-secondary); }
+  .direction-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 12px 0; }
+  .direction-meta-item { padding: 10px; background: var(--bg); border-radius: 8px; }
+  .direction-meta-item .dm-label { font-size: 0.8em; color: var(--text-secondary); }
+  .direction-meta-item .dm-value { font-size: 0.95em; font-weight: 600; }
+
+  /* Priority Table */
+  .priority-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+  .priority-table th {
+    background: var(--blue); color: #fff; padding: 12px 16px;
+    text-align: left; font-size: 0.9em; font-weight: 600;
+  }
+  .priority-table th:first-child { border-radius: 12px 0 0 0; }
+  .priority-table th:last-child { border-radius: 0 12px 0 0; }
+  .priority-table td {
+    padding: 14px 16px; border-bottom: 1px solid #F3F4F6; font-size: 0.9em;
+  }
+  .priority-table tr:last-child td:first-child { border-radius: 0 0 0 12px; }
+  .priority-table tr:last-child td:last-child { border-radius: 0 0 12px 0; }
+  .priority-table tr:hover td { background: #FEFCE8; }
+
+  /* Timeline */
+  .timeline { display: flex; gap: 0; margin: 32px 0; position: relative; }
+  .timeline::before {
+    content: ''; position: absolute; top: 44px; left: 5%; right: 5%;
+    height: 4px; background: linear-gradient(90deg, var(--amber), var(--blue));
+    border-radius: 2px;
+  }
+  .timeline-phase { flex: 1; text-align: center; position: relative; padding: 0 8px; }
+  .timeline-dot {
+    width: 24px; height: 24px; border-radius: 50%; margin: 33px auto 16px;
+    position: relative; z-index: 1; border: 3px solid #fff; box-shadow: var(--shadow);
+  }
+  .timeline-label {
+    background: var(--card); border-radius: 10px; padding: 16px; box-shadow: var(--shadow);
+    font-size: 0.85em; line-height: 1.7; text-align: left;
+  }
+  .timeline-title { font-weight: 700; font-size: 1em; margin-bottom: 8px; text-align: center; }
+
+  /* Risk Cards */
+  .risk-card {
+    border-radius: 12px; padding: 18px 20px; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 14px;
+  }
+  .risk-high { background: var(--red-light); border-left: 4px solid var(--red); }
+  .risk-mid { background: var(--yellow-light); border-left: 4px solid var(--yellow); }
+  .risk-low { background: var(--green-light); border-left: 4px solid var(--green); }
+  .risk-prob { font-weight: 700; font-size: 1.3em; min-width: 50px; text-align: center; }
+  .risk-body { flex: 1; }
+  .risk-title { font-weight: 700; margin-bottom: 4px; }
+  .risk-mitigation { font-size: 0.9em; color: var(--text-secondary); }
+
+  /* Financial */
+  .fin-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+  .fin-table th { text-align: left; padding: 10px 12px; font-size: 0.85em; color: var(--text-secondary); border-bottom: 2px solid #E5E7EB; }
+  .fin-table td { padding: 12px; border-bottom: 1px solid #F3F4F6; }
+  .fin-table .metric-name { font-weight: 600; font-size: 0.9em; width: 140px; }
+  .progress-bar { height: 22px; border-radius: 11px; background: #F3F4F6; position: relative; overflow: hidden; min-width: 60px; }
+  .progress-fill { height: 100%; border-radius: 11px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; font-size: 0.75em; font-weight: 700; color: #fff; min-width: fit-content; }
+  .fill-y1 { background: linear-gradient(90deg, #93C5FD, #3B82F6); }
+  .fill-y2 { background: linear-gradient(90deg, #FCD34D, var(--amber)); }
+  .fill-y3 { background: linear-gradient(90deg, #6EE7B7, var(--green)); }
+  .fill-neg { background: linear-gradient(90deg, #FCA5A5, var(--red)); }
+
+  /* Architecture */
+  .arch-layer {
+    border-radius: 12px; padding: 16px 20px; margin-bottom: 8px; text-align: center;
+  }
+  .arch-layer h4 { font-size: 0.9em; margin-bottom: 10px; font-weight: 700; }
+  .arch-items { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .arch-item {
+    padding: 8px 14px; border-radius: 8px; font-size: 0.82em; font-weight: 500;
+    white-space: nowrap;
+  }
+  .arch-arrow { text-align: center; font-size: 1.2em; color: var(--text-secondary); margin: 4px 0; }
+  .layer-client { background: #DBEAFE; }
+  .layer-client .arch-item { background: #BFDBFE; color: var(--blue); }
+  .layer-cloud { background: #FEF3C7; }
+  .layer-cloud .arch-item { background: #FDE68A; color: #92400E; }
+  .layer-edge { background: #D1FAE5; }
+  .layer-edge .arch-item { background: #A7F3D0; color: #065F46; }
+  .layer-device { background: #EDE9FE; }
+  .layer-device .arch-item { background: #DDD6FE; color: #5B21B6; }
+
+  /* Radar label */
+  .chart-title { text-align: center; font-weight: 700; color: var(--blue); margin-bottom: 16px; font-size: 1.05em; }
+
+  /* Action Table */
+  .action-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+  .action-table th {
+    background: var(--amber); color: #fff; padding: 12px 16px;
+    text-align: left; font-size: 0.9em;
+  }
+  .action-table th:first-child { border-radius: 12px 0 0 0; }
+  .action-table th:last-child { border-radius: 0 12px 0 0; }
+  .action-table td { padding: 12px 16px; border-bottom: 1px solid #F3F4F6; font-size: 0.9em; }
+  .action-table tr:last-child td:first-child { border-radius: 0 0 0 12px; }
+  .action-table tr:last-child td:last-child { border-radius: 0 0 12px 0; }
+  .action-table tr:hover td { background: #FEF9C3; }
+
+  /* Footer */
+  .footer {
+    text-align: center; padding: 32px 20px; font-size: 0.82em; color: var(--text-secondary);
+    border-top: 1px solid #E5E7EB; margin-top: 48px;
+  }
+
+  /* Eval Grid */
+  .eval-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .eval-item { text-align: center; padding: 16px; background: var(--bg); border-radius: 10px; }
+  .eval-score { font-size: 2em; font-weight: 700; color: var(--blue); }
+  .eval-label { font-size: 0.85em; color: var(--text-secondary); margin-top: 4px; }
+
+  /* SVG charts */
+  .chart-container { display: flex; justify-content: center; margin: 20px 0; overflow-x: auto; }
+  .charts-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px; margin: 20px 0; }
+
+  /* Print */
+  @media print {
+    body { background: #fff; font-size: 12px; }
+    .cover { padding: 40px 20px 30px; }
+    .card, .pest-card, .tactic-card, .direction-card, .risk-card { box-shadow: none; border: 1px solid #E5E7EB; break-inside: avoid; }
+    .section { break-inside: avoid; }
+    .timeline { flex-direction: column; gap: 12px; }
+    .timeline::before { display: none; }
+  }
+  @media (max-width: 768px) {
+    .pest-grid { grid-template-columns: 1fr; }
+    .charts-row { grid-template-columns: 1fr; }
+    .timeline { flex-direction: column; gap: 16px; }
+    .timeline::before { display: none; }
+    .eval-grid { grid-template-columns: repeat(2, 1fr); }
+    h1 { font-size: 1.6em; }
+    .cover h1 { font-size: 1.8em; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== COVER ==================== -->
+<div class="cover">
+  <div class="cover-decoration"></div>
+  <h1>AI+传统产业创业方向研究报告</h1>
+  <div class="subtitle">2026-2028 黄金窗口 · B2B效率工具路线</div>
+  <div class="meta">2026年3月16日 · v1.0</div>
+  <div class="confidential">机密 · 仅供内部沟通</div>
+</div>
+
+<div class="container">
+
+<!-- ==================== EXECUTIVE SUMMARY ==================== -->
+<div class="section">
+  <h2>📋 Executive Summary</h2>
+  <div class="summary-grid">
+    <div class="summary-item">
+      <div class="label">🎯 战略方向</div>
+      <div class="value">B2B效率工具路线正确，避开C端灰产合规风险，聚焦降本增效</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">⏰ 时间窗口</div>
+      <div class="value">2026-2028黄金期，开源模型成熟+政策补贴+企业意愿三重共振</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">💰 启动门槛</div>
+      <div class="value">10-50万可启动，符合精益创业逻辑</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">⚠️ 关键风险</div>
+      <div class="value">技术差异化不足、政策依赖度过高、数据冷启动</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 1: PEST ==================== -->
+<div class="section">
+  <h2>第一章 · 宏观环境评估（PEST分析）</h2>
+  <div class="pest-grid">
+    <div class="pest-card">
+      <div class="pest-bar" style="background:var(--green);"></div>
+      <div class="pest-content">
+        <div class="pest-title">🏛️ 政策 (P)</div>
+        <div class="pest-rating"><span class="badge badge-green">极度利好</span></div>
+        <div class="pest-text">
+          国务院《AI+行动意见》明确到2027年推广500个典型场景；工信部AI+制造专项行动；乡村振兴补贴持续加码；算力券/专项资金覆盖多数省份。
+        </div>
+        <div class="pest-warn">⚠️ 政策落地存在地方差异，长三角/珠三角优于内陆</div>
+      </div>
+    </div>
+    <div class="pest-card">
+      <div class="pest-bar" style="background:var(--blue);"></div>
+      <div class="pest-content">
+        <div class="pest-title">💹 经济 (E)</div>
+        <div class="pest-rating"><span class="badge badge-blue">有利</span></div>
+        <div class="pest-text">
+          制造业降本压力增大，AI采购意愿上升；中小企业IT预算有限但对ROI极度敏感，3个月回本是硬指标。
+        </div>
+        <div class="pest-warn">⚠️ 2026经济下行压力下，需警惕客户付费意愿波动</div>
+      </div>
+    </div>
+    <div class="pest-card">
+      <div class="pest-bar" style="background:var(--purple);"></div>
+      <div class="pest-content">
+        <div class="pest-title">👥 社会 (S)</div>
+        <div class="pest-rating"><span class="badge badge-purple">有利</span></div>
+        <div class="pest-text">
+          劳动力短缺（制造/农业/基层医疗）持续加剧，用工成本逐年攀升；315后AI合规意识增强，B2B白名单路线更受企业信任。
+        </div>
+      </div>
+    </div>
+    <div class="pest-card">
+      <div class="pest-bar" style="background:var(--amber);"></div>
+      <div class="pest-content">
+        <div class="pest-title">🔬 技术 (T)</div>
+        <div class="pest-rating"><span class="badge badge-yellow">极度成熟</span></div>
+        <div class="pest-text">
+          开源模型（Qwen/DeepSeek/GLM）可直接行业微调；边缘计算芯片成本大幅下降（瑞芯微/地平线J6等）；MLOps工具链成熟（ModelScope/PAI）。
+        </div>
+        <div class="pest-warn">⚠️ 2026年多模态模型能力跃升，影像/视觉类场景更具可行性</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 2: TACTICS ==================== -->
+<div class="section">
+  <h2>第二章 · 七条实战打法评审</h2>
+
+  <div class="tactic-card">
+    <div class="tactic-num">1</div>
+    <div class="tactic-body">
+      <div class="tactic-header">
+        <span class="tactic-title">政策+试点切入</span>
+        <span class="stars">
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+        </span>
+      </div>
+      <div class="tactic-opinion"><strong>高度认同。</strong>政府示范项目是最佳冷启动渠道，但需注意：试点→付费的转化率通常&lt;30%，需在试点阶段就设计好付费触发点。</div>
+    </div>
+  </div>
+
+  <div class="tactic-card">
+    <div class="tactic-num">2</div>
+    <div class="tactic-body">
+      <div class="tactic-header">
+        <span class="tactic-title">SaaS+边缘计算</span>
+        <span class="stars">
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+        </span>
+      </div>
+      <div class="tactic-opinion"><strong>核心正确。</strong>2026年应优先考虑「云边协同」而非纯边缘，中小企业运维能力弱，需远程OTA升级能力。</div>
+    </div>
+  </div>
+
+  <div class="tactic-card">
+    <div class="tactic-num">3</div>
+    <div class="tactic-body">
+      <div class="tactic-header">
+        <span class="tactic-title">与现有系统集成</span>
+        <span class="stars">
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-empty" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+        </span>
+      </div>
+      <div class="tactic-opinion"><strong>方向正确但执行难度被低估。</strong>中小企业ERP/MES碎片化严重（用友/金蝶/自研/Excel混杂），建议投入30%研发在「连接器」层。</div>
+    </div>
+  </div>
+
+  <div class="tactic-card">
+    <div class="tactic-num">4</div>
+    <div class="tactic-body">
+      <div class="tactic-header">
+        <span class="tactic-title">数据闭环产品</span>
+        <span class="stars">
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+        </span>
+      </div>
+      <div class="tactic-opinion"><strong>最关键的壁垒逻辑。</strong>但需补充：数据飞轮的前提是数据量级足够，初期客户&lt;50家时模型提升有限，需设计好「冷启动期」的产品价值。</div>
+    </div>
+  </div>
+
+  <div class="tactic-card">
+    <div class="tactic-num">5</div>
+    <div class="tactic-body">
+      <div class="tactic-header">
+        <span class="tactic-title">行业协会/龙头合作</span>
+        <span class="stars">
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-empty" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-empty" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+        </span>
+      </div>
+      <div class="tactic-opinion"><strong>理想丰满现实骨感。</strong>龙头合作谈判周期长（6-12个月），建议作为中期策略；起步阶段优先工业互联网平台ISV入驻。</div>
+    </div>
+  </div>
+
+  <div class="tactic-card">
+    <div class="tactic-num">6</div>
+    <div class="tactic-body">
+      <div class="tactic-header">
+        <span class="tactic-title">合规优先</span>
+        <span class="stars">
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+        </span>
+      </div>
+      <div class="tactic-opinion"><strong>绝对正确。</strong>尤其医疗方向，二类器械认证是硬门槛，建议在产品规划阶段就引入注册专员。</div>
+    </div>
+  </div>
+
+  <div class="tactic-card">
+    <div class="tactic-num">7</div>
+    <div class="tactic-body">
+      <div class="tactic-header">
+        <span class="tactic-title">从小场景起步</span>
+        <span class="stars">
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+          <svg class="star" viewBox="0 0 20 20"><polygon class="star-filled" points="10,1 12.5,7.5 19,7.5 14,12 16,19 10,15 4,19 6,12 1,7.5 7.5,7.5"/></svg>
+        </span>
+      </div>
+      <div class="tactic-opinion"><strong>精益创业的正确姿势。</strong>选择场景时优先「高频+可量化」，如设备故障预警（每天触发）> 能耗优化（月度报表）。</div>
+    </div>
+  </div>
+
+  <div class="tactic-card" style="border-left:3px solid var(--amber);">
+    <div class="tactic-num bonus">+</div>
+    <div class="tactic-body">
+      <div class="tactic-header">
+        <span class="tactic-title">补充 · 构建行业Benchmark数据集</span>
+        <span class="badge badge-yellow">专家建议新增</span>
+      </div>
+      <div class="tactic-opinion">在合规前提下，将脱敏后的行业数据集开源或半开源，快速建立行业标准制定者地位。这在2026年AI开源生态中是极低成本的品牌护城河。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 3: DIRECTIONS ==================== -->
+<div class="section">
+  <h2>第三章 · 五大产品方向深度评估</h2>
+
+  <!-- Bar Chart: Success Probability -->
+  <div class="card">
+    <div class="chart-title">成功概率对比：原始评估 vs 专家修正</div>
+    <div class="chart-container">
+      <svg viewBox="0 0 700 320" width="100%" style="max-width:700px;">
+        <!-- Y Axis -->
+        <line x1="140" y1="30" x2="140" y2="270" stroke="#E5E7EB" stroke-width="1"/>
+        <text x="130" y="52" text-anchor="end" font-size="11" fill="#6b7280">100%</text>
+        <line x1="140" y1="50" x2="680" y2="50" stroke="#F3F4F6" stroke-width="0.5"/>
+        <text x="130" y="102" text-anchor="end" font-size="11" fill="#6b7280">75%</text>
+        <line x1="140" y1="100" x2="680" y2="100" stroke="#F3F4F6" stroke-width="0.5"/>
+        <text x="130" y="152" text-anchor="end" font-size="11" fill="#6b7280">50%</text>
+        <line x1="140" y1="150" x2="680" y2="150" stroke="#F3F4F6" stroke-width="0.5"/>
+        <text x="130" y="202" text-anchor="end" font-size="11" fill="#6b7280">25%</text>
+        <line x1="140" y1="200" x2="680" y2="200" stroke="#F3F4F6" stroke-width="0.5"/>
+        <text x="130" y="270" text-anchor="end" font-size="11" fill="#6b7280">0%</text>
+        <line x1="140" y1="270" x2="680" y2="270" stroke="#E5E7EB" stroke-width="1"/>
+
+        <!-- Direction 1 -->
+        <rect x="158" y="83" width="36" height="187" rx="4" fill="#93C5FD" opacity="0.7"/>
+        <rect x="198" y="98.6" width="36" height="171.4" rx="4" fill="#1E3A5F"/>
+        <text x="196" y="78" text-anchor="middle" font-size="10" fill="#3B82F6" font-weight="600">85%</text>
+        <text x="216" y="93" text-anchor="middle" font-size="10" fill="#1E3A5F" font-weight="600">78%</text>
+        <text x="196" y="295" text-anchor="middle" font-size="10" fill="#1a1a1a">预测维护</text>
+
+        <!-- Direction 2 -->
+        <rect x="268" y="94" width="36" height="176" rx="4" fill="#93C5FD" opacity="0.7"/>
+        <rect x="308" y="120.4" width="36" height="149.6" rx="4" fill="#1E3A5F"/>
+        <text x="286" y="89" text-anchor="middle" font-size="10" fill="#3B82F6" font-weight="600">80%</text>
+        <text x="326" y="115" text-anchor="middle" font-size="10" fill="#1E3A5F" font-weight="600">68%</text>
+        <text x="306" y="295" text-anchor="middle" font-size="10" fill="#1a1a1a">智慧农业</text>
+
+        <!-- Direction 3 -->
+        <rect x="378" y="105" width="36" height="165" rx="4" fill="#93C5FD" opacity="0.7"/>
+        <rect x="418" y="153.4" width="36" height="116.6" rx="4" fill="#1E3A5F"/>
+        <text x="396" y="100" text-anchor="middle" font-size="10" fill="#3B82F6" font-weight="600">75%</text>
+        <text x="436" y="148" text-anchor="middle" font-size="10" fill="#1E3A5F" font-weight="600">53%</text>
+        <text x="416" y="295" text-anchor="middle" font-size="10" fill="#1a1a1a">医疗影像</text>
+
+        <!-- Direction 4 -->
+        <rect x="488" y="116" width="36" height="154" rx="4" fill="#93C5FD" opacity="0.7"/>
+        <rect x="528" y="142.4" width="36" height="127.6" rx="4" fill="#1E3A5F"/>
+        <text x="506" y="111" text-anchor="middle" font-size="10" fill="#3B82F6" font-weight="600">70%</text>
+        <text x="546" y="137" text-anchor="middle" font-size="10" fill="#1E3A5F" font-weight="600">58%</text>
+        <text x="526" y="295" text-anchor="middle" font-size="10" fill="#1a1a1a">物流路由</text>
+
+        <!-- Direction 5 -->
+        <rect x="598" y="94" width="36" height="176" rx="4" fill="#93C5FD" opacity="0.7"/>
+        <rect x="638" y="94" width="36" height="176" rx="4" fill="#1E3A5F"/>
+        <text x="616" y="89" text-anchor="middle" font-size="10" fill="#3B82F6" font-weight="600">80%</text>
+        <text x="656" y="89" text-anchor="middle" font-size="10" fill="#1E3A5F" font-weight="600">80%</text>
+        <text x="636" y="295" text-anchor="middle" font-size="10" fill="#1a1a1a">质检视觉</text>
+
+        <!-- Legend -->
+        <rect x="260" y="308" width="14" height="10" rx="2" fill="#93C5FD" opacity="0.7"/>
+        <text x="278" y="317" font-size="11" fill="#6b7280">原始评估</text>
+        <rect x="360" y="308" width="14" height="10" rx="2" fill="#1E3A5F"/>
+        <text x="378" y="317" font-size="11" fill="#6b7280">专家修正</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Radar Chart -->
+  <div class="card">
+    <div class="chart-title">五维度综合评估雷达图</div>
+    <div class="chart-container">
+      <svg viewBox="0 0 500 460" width="100%" style="max-width:500px;">
+        <g transform="translate(250,210)">
+          <!-- Grid pentagons -->
+          <polygon points="0,-160 152.2,-49.4 94.1,129.4 -94.1,129.4 -152.2,-49.4" fill="none" stroke="#E5E7EB" stroke-width="0.8"/>
+          <polygon points="0,-120 114.1,-37.1 70.5,97.1 -70.5,97.1 -114.1,-37.1" fill="none" stroke="#E5E7EB" stroke-width="0.8"/>
+          <polygon points="0,-80 76.1,-24.7 47,-64.7 -47,-64.7 -76.1,-24.7" fill="none" stroke="#F3F4F6" stroke-width="0.5" transform="scale(1) translate(0,0)"/>
+          <polygon points="0,-80 76.1,-24.7 47,64.7 -47,64.7 -76.1,-24.7" fill="none" stroke="#E5E7EB" stroke-width="0.8"/>
+          <polygon points="0,-40 38,-12.4 23.5,32.4 -23.5,32.4 -38,-12.4" fill="none" stroke="#F3F4F6" stroke-width="0.5"/>
+          <!-- Axes -->
+          <line x1="0" y1="0" x2="0" y2="-160" stroke="#E5E7EB" stroke-width="0.5"/>
+          <line x1="0" y1="0" x2="152.2" y2="-49.4" stroke="#E5E7EB" stroke-width="0.5"/>
+          <line x1="0" y1="0" x2="94.1" y2="129.4" stroke="#E5E7EB" stroke-width="0.5"/>
+          <line x1="0" y1="0" x2="-94.1" y2="129.4" stroke="#E5E7EB" stroke-width="0.5"/>
+          <line x1="0" y1="0" x2="-152.2" y2="-49.4" stroke="#E5E7EB" stroke-width="0.5"/>
+          <!-- Labels -->
+          <text x="0" y="-172" text-anchor="middle" font-size="11" fill="#1a1a1a" font-weight="600">市场规模</text>
+          <text x="168" y="-52" text-anchor="start" font-size="11" fill="#1a1a1a" font-weight="600">启动门槛</text>
+          <text x="105" y="148" text-anchor="start" font-size="11" fill="#1a1a1a" font-weight="600">政策红利</text>
+          <text x="-105" y="148" text-anchor="end" font-size="11" fill="#1a1a1a" font-weight="600">竞争优势</text>
+          <text x="-168" y="-52" text-anchor="end" font-size="11" fill="#1a1a1a" font-weight="600">技术可行性</text>
+          <!-- D1: 8,9,10,8,9 -->
+          <polygon points="0,-128 136.9,-44.5 94.1,129.4 -75.3,103.5 -136.9,-44.5" fill="rgba(30,58,95,0.15)" stroke="#1E3A5F" stroke-width="2"/>
+          <!-- D2: 7,8,9,6,7 -->
+          <polygon points="0,-112 121.7,-39.5 84.7,116.5 -56.5,77.6 -106.5,-34.6" fill="rgba(217,119,6,0.12)" stroke="#D97706" stroke-width="2"/>
+          <!-- D3: 8,4,7,4,6 -->
+          <polygon points="0,-128 60.9,-19.8 65.9,90.6 -37.6,51.8 -91.3,-29.6" fill="rgba(220,38,38,0.10)" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <!-- D5: 8,8,9,7,9 -->
+          <polygon points="0,-128 121.7,-39.5 84.7,116.5 -65.9,90.6 -136.9,-44.5" fill="rgba(5,150,105,0.12)" stroke="#059669" stroke-width="2"/>
+        </g>
+        <!-- Legend -->
+        <line x1="100" y1="430" x2="120" y2="430" stroke="#1E3A5F" stroke-width="2"/><text x="124" y="434" font-size="10" fill="#6b7280">预测维护</text>
+        <line x1="200" y1="430" x2="220" y2="430" stroke="#D97706" stroke-width="2"/><text x="224" y="434" font-size="10" fill="#6b7280">智慧农业</text>
+        <line x1="300" y1="430" x2="320" y2="430" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5,3"/><text x="324" y="434" font-size="10" fill="#6b7280">医疗影像</text>
+        <line x1="100" y1="448" x2="120" y2="448" stroke="#059669" stroke-width="2"/><text x="124" y="452" font-size="10" fill="#6b7280">质检视觉</text>
+        <text x="200" y="452" font-size="9" fill="#aaa">(物流路由省略以保持清晰)</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Direction Detail Cards -->
+  <div class="direction-card">
+    <div class="direction-badge rec-5">★★★★★ 最优先</div>
+    <h3>方向1 · AI预测性维护平台</h3>
+    <div class="direction-meta">
+      <div class="direction-meta-item"><div class="dm-label">成功概率修正</div><div class="dm-value">85% → 75-80%</div></div>
+      <div class="direction-meta-item"><div class="dm-label">聚焦SAM</div><div class="dm-value">长三角/珠三角 ~50万家工厂</div></div>
+      <div class="direction-meta-item"><div class="dm-label">定价分层</div><div class="dm-value">基础1999 / 专业4999 / 企业定制 元/月</div></div>
+      <div class="direction-meta-item"><div class="dm-label">技术栈</div><div class="dm-value">Qwen2.5 + PatchTST + RK3588 + MQTT</div></div>
+    </div>
+    <div style="font-size:0.9em;color:var(--text-secondary);">⚠️ 核心风险：数据冷启动（前10家需大量人力标注）；传感器兼容性碎片化</div>
+  </div>
+
+  <div class="direction-card">
+    <div class="direction-badge rec-4">★★★★☆</div>
+    <h3>方向2 · 智慧农业精准种植AI平台</h3>
+    <div class="direction-meta">
+      <div class="direction-meta-item"><div class="dm-label">成功概率修正</div><div class="dm-value">80% → 65-70%</div></div>
+      <div class="direction-meta-item"><div class="dm-label">变现风险</div><div class="dm-value">村集体回款需6-12个月</div></div>
+      <div class="direction-meta-item"><div class="dm-label">竞争格局</div><div class="dm-value">极飞/大疆/托普云农已下沉</div></div>
+      <div class="direction-meta-item"><div class="dm-label">产品建议</div><div class="dm-value">语音交互+微信小程序</div></div>
+    </div>
+    <div style="font-size:0.9em;color:var(--text-secondary);">⚠️ 农户付费意愿低、网络基础设施差、差异化窗口正在收窄</div>
+  </div>
+
+  <div class="direction-card">
+    <div class="direction-badge rec-3">★★★☆☆</div>
+    <h3>方向3 · 基层医疗AI影像诊断助手</h3>
+    <div class="direction-meta">
+      <div class="direction-meta-item"><div class="dm-label">成功概率修正</div><div class="dm-value">75% → 50-55%</div></div>
+      <div class="direction-meta-item"><div class="dm-label">认证周期</div><div class="dm-value">实际8-14个月（非3-6个月）</div></div>
+      <div class="direction-meta-item"><div class="dm-label">启动预算</div><div class="dm-value">100-300万（远超其他方向）</div></div>
+      <div class="direction-meta-item"><div class="dm-label">竞争者</div><div class="dm-value">联影/推想/数坤已下沉基层</div></div>
+    </div>
+    <div style="font-size:0.9em;color:var(--red);">💡 建议：如团队无医疗行业背景和注册专家，不建议作为首选方向</div>
+  </div>
+
+  <div class="direction-card">
+    <div class="direction-badge rec-3">★★★☆☆</div>
+    <h3>方向4 · AI物流路由与仓储优化平台</h3>
+    <div class="direction-meta">
+      <div class="direction-meta-item"><div class="dm-label">成功概率修正</div><div class="dm-value">70% → 55-60%</div></div>
+      <div class="direction-meta-item"><div class="dm-label">行业利润</div><div class="dm-value">净利率仅3-5%，议价能力弱</div></div>
+      <div class="direction-meta-item"><div class="dm-label">竞争格局</div><div class="dm-value">G7/满帮/路歌已覆盖中小车队</div></div>
+      <div class="direction-meta-item"><div class="dm-label">推荐切入点</div><div class="dm-value">冷链物流（监管严/付费意愿强）</div></div>
+    </div>
+  </div>
+
+  <div class="direction-card">
+    <div class="direction-badge rec-5">★★★★★ 最优先</div>
+    <h3>方向5 · AI质检视觉系统</h3>
+    <div class="direction-meta">
+      <div class="direction-meta-item"><div class="dm-label">成功概率</div><div class="dm-value">认同80%（与方向1并列最优）</div></div>
+      <div class="direction-meta-item"><div class="dm-label">技术红利</div><div class="dm-value">视觉大模型使少样本检测可行</div></div>
+      <div class="direction-meta-item"><div class="dm-label">硬件方案</div><div class="dm-value">海康/大华工业相机+算法盒子</div></div>
+      <div class="direction-meta-item"><div class="dm-label">毛利空间</div><div class="dm-value">模组方案毛利可达60%+</div></div>
+    </div>
+    <div style="font-size:0.9em;color:var(--green);font-weight:600;">🔥 强烈建议与方向1合并为「中小工厂AI智造平台」，同一客户两个场景，LTV翻倍</div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 4: PRIORITY ==================== -->
+<div class="section">
+  <h2>第四章 · 优先级重排与战略建议</h2>
+
+  <div class="card" style="overflow-x:auto;">
+    <table class="priority-table">
+      <thead><tr><th>排名</th><th>方向</th><th>推荐指数</th><th>启动资金</th><th>首单周期</th></tr></thead>
+      <tbody>
+        <tr><td>🥇</td><td><strong>AI预测维护+质检视觉（合并）</strong></td><td>★★★★★</td><td>20-40万</td><td>3-4个月</td></tr>
+        <tr><td>🥈</td><td>智慧农业精准种植</td><td>★★★★☆</td><td>15-30万</td><td>4-6个月</td></tr>
+        <tr><td>🥉</td><td>冷链物流AI优化（细分切入）</td><td>★★★☆☆</td><td>15-25万</td><td>3-5个月</td></tr>
+        <tr><td>4</td><td>基层医疗影像诊断</td><td>★★★☆☆</td><td>100-300万</td><td>12-18个月</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Timeline -->
+  <div class="card">
+    <div class="chart-title">推荐创业路径时间轴</div>
+    <div class="timeline">
+      <div class="timeline-phase">
+        <div class="timeline-title" style="color:var(--amber);">Phase 1</div>
+        <div class="timeline-dot" style="background:var(--amber);"></div>
+        <div class="timeline-label">
+          <strong>0-6个月 · 单厂验证</strong><br>
+          · 1家工厂试点<br>
+          · 预测维护MVP<br>
+          · 验证PMF<br>
+          · 首个政府项目<br>
+          <span class="badge badge-yellow" style="margin-top:6px;">预算：20万</span>
+        </div>
+      </div>
+      <div class="timeline-phase">
+        <div class="timeline-title" style="color:var(--blue);">Phase 2</div>
+        <div class="timeline-dot" style="background:var(--blue);"></div>
+        <div class="timeline-label">
+          <strong>6-18个月 · 区域扩张</strong><br>
+          · 30-50家付费客户<br>
+          · 加入质检模块<br>
+          · Pre-Seed融资<br>
+          · 工业互联网上架<br>
+          <span class="badge badge-blue" style="margin-top:6px;">预算：100-200万</span>
+        </div>
+      </div>
+      <div class="timeline-phase">
+        <div class="timeline-title" style="color:var(--green);">Phase 3</div>
+        <div class="timeline-dot" style="background:var(--green);"></div>
+        <div class="timeline-label">
+          <strong>18-36个月 · 全国复制</strong><br>
+          · 500+家客户<br>
+          · 行业平台化<br>
+          · A轮融资<br>
+          · 第二曲线启动<br>
+          <span class="badge badge-green" style="margin-top:6px;">预算：500万+</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 5: RISKS ==================== -->
+<div class="section">
+  <h2>第五章 · 关键风险与缓释策略</h2>
+
+  <div class="risk-card risk-high">
+    <div class="risk-prob" style="color:var(--red);">40%</div>
+    <div class="risk-body">
+      <div class="risk-title">🔴 数据冷启动期产品效果不达预期</div>
+      <div class="risk-mitigation">缓释：前10家客户采用「人工+AI协同」模式，设定合理预期，不承诺纯AI准确率</div>
+    </div>
+  </div>
+  <div class="risk-card risk-high">
+    <div class="risk-prob" style="color:var(--red);">30%</div>
+    <div class="risk-body">
+      <div class="risk-title">🔴 政策补贴退坡，客户付费意愿下降</div>
+      <div class="risk-mitigation">缓释：产品价值必须独立于补贴成立（ROI &gt; 3x），补贴只是加速器而非依赖</div>
+    </div>
+  </div>
+  <div class="risk-card risk-mid">
+    <div class="risk-prob" style="color:#92400E;">35%</div>
+    <div class="risk-body">
+      <div class="risk-title">🟡 技术同质化，开源模型人人可用</div>
+      <div class="risk-mitigation">缓释：壁垒在于行业know-how和数据飞轮，非模型本身；快速积累行业标注数据集</div>
+    </div>
+  </div>
+  <div class="risk-card risk-mid">
+    <div class="risk-prob" style="color:#92400E;">25%</div>
+    <div class="risk-body">
+      <div class="risk-title">🟡 大厂下沉（华为/阿里/腾讯）挤压空间</div>
+      <div class="risk-mitigation">缓释：专注大厂不愿做的中小企业长尾市场（&lt;500人工厂），做深做透</div>
+    </div>
+  </div>
+  <div class="risk-card risk-low">
+    <div class="risk-prob" style="color:var(--green);">10%</div>
+    <div class="risk-body">
+      <div class="risk-title">🟢 合规/监管风险</div>
+      <div class="risk-mitigation">缓释：B2B效率工具路线本身合规友好，持续关注数据安全法，不碰C端营销</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 6: FINANCIALS ==================== -->
+<div class="section">
+  <h2>第六章 · 财务模型预估（方向1+5合并方案）</h2>
+
+  <div class="card" style="overflow-x:auto;">
+    <table class="fin-table">
+      <thead>
+        <tr><th>指标</th><th>Year 1</th><th style="min-width:180px;">可视化</th><th>Year 2</th><th style="min-width:180px;">可视化</th><th>Year 3</th><th style="min-width:180px;">可视化</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="metric-name">付费客户数</td>
+          <td>10</td><td><div class="progress-bar"><div class="progress-fill fill-y1" style="width:3.3%;">10</div></div></td>
+          <td>80</td><td><div class="progress-bar"><div class="progress-fill fill-y2" style="width:26.7%;">80</div></div></td>
+          <td>300</td><td><div class="progress-bar"><div class="progress-fill fill-y3" style="width:100%;">300</div></div></td>
+        </tr>
+        <tr>
+          <td class="metric-name">年客单价(万)</td>
+          <td>8</td><td><div class="progress-bar"><div class="progress-fill fill-y1" style="width:53%;">8</div></div></td>
+          <td>12</td><td><div class="progress-bar"><div class="progress-fill fill-y2" style="width:80%;">12</div></div></td>
+          <td>15</td><td><div class="progress-bar"><div class="progress-fill fill-y3" style="width:100%;">15</div></div></td>
+        </tr>
+        <tr>
+          <td class="metric-name">年收入(万)</td>
+          <td>80</td><td><div class="progress-bar"><div class="progress-fill fill-y1" style="width:1.8%;">80</div></div></td>
+          <td>960</td><td><div class="progress-bar"><div class="progress-fill fill-y2" style="width:21.3%;">960</div></div></td>
+          <td>4,500</td><td><div class="progress-bar"><div class="progress-fill fill-y3" style="width:100%;">4500</div></div></td>
+        </tr>
+        <tr>
+          <td class="metric-name">毛利率</td>
+          <td>55%</td><td><div class="progress-bar"><div class="progress-fill fill-y1" style="width:55%;">55%</div></div></td>
+          <td>65%</td><td><div class="progress-bar"><div class="progress-fill fill-y2" style="width:65%;">65%</div></div></td>
+          <td>70%</td><td><div class="progress-bar"><div class="progress-fill fill-y3" style="width:70%;">70%</div></div></td>
+        </tr>
+        <tr>
+          <td class="metric-name">运营成本(万)</td>
+          <td>120</td><td><div class="progress-bar"><div class="progress-fill fill-y1" style="width:6.7%;">120</div></div></td>
+          <td>500</td><td><div class="progress-bar"><div class="progress-fill fill-y2" style="width:27.8%;">500</div></div></td>
+          <td>1,800</td><td><div class="progress-bar"><div class="progress-fill fill-y3" style="width:100%;">1800</div></div></td>
+        </tr>
+        <tr>
+          <td class="metric-name">净利润(万)</td>
+          <td style="color:var(--red);">-76</td><td><div class="progress-bar"><div class="progress-fill fill-neg" style="width:15%;">-76</div></div></td>
+          <td style="color:var(--green);">124</td><td><div class="progress-bar"><div class="progress-fill fill-y2" style="width:9.2%;">124</div></div></td>
+          <td style="color:var(--green);font-weight:700;">1,350</td><td><div class="progress-bar"><div class="progress-fill fill-y3" style="width:100%;">1350</div></div></td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="text-align:center;margin-top:16px;font-size:0.9em;color:var(--text-secondary);">
+      融资节点：<span class="badge badge-yellow">Pre-Seed 天使50-100万</span> →
+      <span class="badge badge-blue">Seed轮 300-500万</span> →
+      <span class="badge badge-green">A轮 2000-3000万</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 7: ARCHITECTURE ==================== -->
+<div class="section">
+  <h2>第七章 · 技术架构建议</h2>
+  <div class="card">
+    <div class="arch-layer layer-client">
+      <h4>📱 客户端层</h4>
+      <div class="arch-items">
+        <div class="arch-item">Web管理台</div>
+        <div class="arch-item">移动App</div>
+        <div class="arch-item">微信小程序</div>
+        <div class="arch-item">API接口</div>
+      </div>
+    </div>
+    <div class="arch-arrow">⬇</div>
+    <div class="arch-layer layer-cloud">
+      <h4>☁️ 云端服务层</h4>
+      <div class="arch-items">
+        <div class="arch-item">模型训练 (PAI/ModelScope)</div>
+        <div class="arch-item">数据湖 (OSS+MaxCompute)</div>
+        <div class="arch-item">告警引擎 (规则+ML融合)</div>
+        <div class="arch-item">报表分析 (BI+AI洞察)</div>
+      </div>
+    </div>
+    <div class="arch-arrow">⬇</div>
+    <div class="arch-layer layer-edge">
+      <h4>🔲 边缘计算层 · AI边缘盒子 (RK3588 / Jetson Orin Nano)</h4>
+      <div class="arch-items">
+        <div class="arch-item">时序异常检测 (PatchTST)</div>
+        <div class="arch-item">视觉质检 (YOLOv9+InternVL)</div>
+        <div class="arch-item">数据预处理+缓存 (MQTT Bridge)</div>
+      </div>
+    </div>
+    <div class="arch-arrow">⬇</div>
+    <div class="arch-layer layer-device">
+      <h4>📡 设备 / 传感器层</h4>
+      <div class="arch-items">
+        <div class="arch-item">振动传感器 (MEMS)</div>
+        <div class="arch-item">温度传感器 (热电偶)</div>
+        <div class="arch-item">电流互感器 (霍尔)</div>
+        <div class="arch-item">工业相机 (海康/大华)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 8: EVALUATION ==================== -->
+<div class="section">
+  <h2>第八章 · 原报告总体评价</h2>
+  <div class="card">
+    <div class="chart-container">
+      <svg viewBox="0 0 400 380" width="100%" style="max-width:400px;">
+        <g transform="translate(200,175)">
+          <!-- Hexagon grid -->
+          <polygon points="0,-130 112.6,-65 112.6,65 0,130 -112.6,65 -112.6,-65" fill="none" stroke="#E5E7EB" stroke-width="0.8"/>
+          <polygon points="0,-97.5 84.4,-48.8 84.4,48.8 0,97.5 -84.4,48.8 -84.4,-48.8" fill="none" stroke="#E5E7EB" stroke-width="0.8"/>
+          <polygon points="0,-65 56.3,-32.5 56.3,32.5 0,65 -56.3,32.5 -56.3,-32.5" fill="none" stroke="#F3F4F6" stroke-width="0.5"/>
+          <polygon points="0,-32.5 28.1,-16.3 28.1,16.3 0,32.5 -28.1,16.3 -28.1,-16.3" fill="none" stroke="#F3F4F6" stroke-width="0.5"/>
+          <!-- Axes -->
+          <line x1="0" y1="0" x2="0" y2="-130" stroke="#E5E7EB" stroke-width="0.5"/>
+          <line x1="0" y1="0" x2="112.6" y2="-65" stroke="#E5E7EB" stroke-width="0.5"/>
+          <line x1="0" y1="0" x2="112.6" y2="65" stroke="#E5E7EB" stroke-width="0.5"/>
+          <line x1="0" y1="0" x2="0" y2="130" stroke="#E5E7EB" stroke-width="0.5"/>
+          <line x1="0" y1="0" x2="-112.6" y2="65" stroke="#E5E7EB" stroke-width="0.5"/>
+          <line x1="0" y1="0" x2="-112.6" y2="-65" stroke="#E5E7EB" stroke-width="0.5"/>
+          <!-- Data: 9,7,8,6,5,6 → /10 * 130 -->
+          <polygon points="0,-117 78.8,-45.5 90.1,52 0,78 -56.3,32.5 -67.5,-39"
+            fill="rgba(30,58,95,0.15)" stroke="#1E3A5F" stroke-width="2.5"/>
+          <circle cx="0" cy="-117" r="4" fill="#1E3A5F"/>
+          <circle cx="78.8" cy="-45.5" r="4" fill="#1E3A5F"/>
+          <circle cx="90.1" cy="52" r="4" fill="#1E3A5F"/>
+          <circle cx="0" cy="78" r="4" fill="#1E3A5F"/>
+          <circle cx="-56.3" cy="32.5" r="4" fill="#1E3A5F"/>
+          <circle cx="-67.5" cy="-39" r="4" fill="#1E3A5F"/>
+          <!-- Labels -->
+          <text x="0" y="-140" text-anchor="middle" font-size="11" fill="#1a1a1a" font-weight="600">方向判断 9/10</text>
+          <text x="128" y="-65" text-anchor="start" font-size="11" fill="#1a1a1a" font-weight="600">市场分析 7/10</text>
+          <text x="128" y="70" text-anchor="start" font-size="11" fill="#1a1a1a" font-weight="600">打法设计 8/10</text>
+          <text x="0" y="155" text-anchor="middle" font-size="11" fill="#1a1a1a" font-weight="600">竞争分析 6/10</text>
+          <text x="-128" y="70" text-anchor="end" font-size="11" fill="#1a1a1a" font-weight="600">财务预估 5/10</text>
+          <text x="-128" y="-65" text-anchor="end" font-size="11" fill="#1a1a1a" font-weight="600">风险识别 6/10</text>
+        </g>
+      </svg>
+    </div>
+    <div class="eval-grid">
+      <div class="eval-item"><div class="eval-score" style="color:var(--green);">9<span style="font-size:0.5em;color:var(--text-secondary);">/10</span></div><div class="eval-label">方向判断</div></div>
+      <div class="eval-item"><div class="eval-score">7<span style="font-size:0.5em;color:var(--text-secondary);">/10</span></div><div class="eval-label">市场分析</div></div>
+      <div class="eval-item"><div class="eval-score">8<span style="font-size:0.5em;color:var(--text-secondary);">/10</span></div><div class="eval-label">打法设计</div></div>
+      <div class="eval-item"><div class="eval-score" style="color:var(--amber);">6<span style="font-size:0.5em;color:var(--text-secondary);">/10</span></div><div class="eval-label">竞争分析</div></div>
+      <div class="eval-item"><div class="eval-score" style="color:var(--red);">5<span style="font-size:0.5em;color:var(--text-secondary);">/10</span></div><div class="eval-label">财务预估</div></div>
+      <div class="eval-item"><div class="eval-score" style="color:var(--amber);">6<span style="font-size:0.5em;color:var(--text-secondary);">/10</span></div><div class="eval-label">风险识别</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 9: ACTIONS ==================== -->
+<div class="section">
+  <h2>第九章 · 立即行动清单</h2>
+  <div class="card" style="overflow-x:auto;">
+    <table class="action-table">
+      <thead><tr><th>#</th><th>行动项</th><th>负责人</th><th>时间</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1</strong></td><td>走访3-5家本地中小工厂，验证设备停机痛点和付费意愿</td><td>创始人</td><td><span class="badge badge-red">本周</span></td></tr>
+        <tr><td><strong>2</strong></td><td>调研当地「AI+制造」示范项目申报流程和补贴细则</td><td>创始人</td><td><span class="badge badge-yellow">2周内</span></td></tr>
+        <tr><td><strong>3</strong></td><td>基于开源模型（PatchTST + YOLOv9）搭建技术原型</td><td>技术合伙人</td><td><span class="badge badge-blue">1个月内</span></td></tr>
+        <tr><td><strong>4</strong></td><td>完成商业计划书(BP)初稿，对接Pre-Seed投资人</td><td>创始人</td><td><span class="badge badge-blue">6周内</span></td></tr>
+        <tr><td><strong>5</strong></td><td>采购边缘计算设备和传感器套件，部署首个试点</td><td>技术+创始人</td><td><span class="badge badge-purple">2个月内</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<div class="footer">
+  <p style="margin-bottom:8px;">📌 <strong>免责声明</strong>：本报告基于2026年3月公开政策信息和行业数据进行分析，市场预测具有不确定性，实际执行需根据具体情况调整。成功概率为主观评估，仅供决策参考。</p>
+  <p style="letter-spacing:2px;font-weight:600;color:var(--blue);">机密 · 仅供内部沟通</p>
+  <p style="margin-top:8px;">v1.0 · 2026年3月16日</p>
+</div>
+
+</div><!-- container -->
+</body>
+</html>

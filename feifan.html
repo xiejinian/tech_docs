@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>资源变现全景商业方案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS (Claude.ai aesthetic) ─────────────────────────────────────────── */
+:root {
+  --cream:       #f5f0e8;
+  --cream-dark:  #ede8df;
+  --cream-mid:   #e8e2d8;
+  --white:       #fdfcfa;
+  --ink:         #1a1612;
+  --ink-60:      rgba(26,22,18,0.60);
+  --ink-35:      rgba(26,22,18,0.35);
+  --ink-12:      rgba(26,22,18,0.12);
+  --ink-06:      rgba(26,22,18,0.06);
+  --coral:       #d4603a;
+  --coral-lt:    #f5e6df;
+  --coral-mid:   #e8a088;
+  --teal:        #2d6b6b;
+  --teal-lt:     #ddeaea;
+  --amber:       #b87a30;
+  --amber-lt:    #f5e8d0;
+  --plum:        #5a3d6b;
+  --plum-lt:     #ece3f2;
+  --sage:        #3d6b4a;
+  --sage-lt:     #dff0e4;
+  --r:           12px;
+  --r-sm:        8px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── LAYOUT ────────────────────────────────────────────────────────────────── */
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 40px 100px; }
+
+/* ── NAV BAR ───────────────────────────────────────────────────────────────── */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(245,240,232,0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--ink-12);
+  padding: 0 40px;
+}
+.topbar-inner {
+  max-width: 1080px; margin: 0 auto;
+  height: 56px; display: flex; align-items: center;
+  justify-content: space-between;
+}
+.topbar-brand {
+  font-family: 'Crimson Pro', serif; font-size: 17px;
+  font-weight: 600; letter-spacing: .01em; color: var(--ink);
+}
+.topbar-nav { display: flex; gap: 28px; }
+.topbar-nav a {
+  font-size: 12.5px; color: var(--ink-60); text-decoration: none;
+  letter-spacing: .04em; transition: color .2s;
+}
+.topbar-nav a:hover { color: var(--coral); }
+.topbar-pill {
+  background: var(--coral); color: #fff; border-radius: 20px;
+  padding: 5px 16px; font-size: 12px; font-weight: 500; letter-spacing: .03em;
+}
+
+/* ── HERO ──────────────────────────────────────────────────────────────────── */
+.hero {
+  padding: 72px 0 56px;
+  border-bottom: 1px solid var(--ink-12);
+  margin-bottom: 64px;
+}
+.hero-kicker {
+  font-size: 11.5px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--coral); font-weight: 500; margin-bottom: 20px;
+}
+.hero-title {
+  font-family: 'Crimson Pro', serif;
+  font-size: 52px; font-weight: 300; line-height: 1.12;
+  letter-spacing: -.02em; color: var(--ink);
+  max-width: 640px; margin-bottom: 24px;
+}
+.hero-title em { font-style: italic; color: var(--coral); }
+.hero-body {
+  max-width: 560px; color: var(--ink-60); font-size: 15px;
+  line-height: 1.75; margin-bottom: 36px;
+}
+.hero-meta {
+  display: flex; gap: 32px; flex-wrap: wrap;
+}
+.meta-item { display: flex; flex-direction: column; gap: 3px; }
+.meta-label {
+  font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--ink-35); font-weight: 500;
+}
+.meta-value { font-size: 14px; font-weight: 500; color: var(--ink); }
+
+/* ── SECTION HEADER ─────────────────────────────────────────────────────────── */
+.sec-header { margin-bottom: 32px; }
+.sec-num {
+  font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--coral); font-weight: 500; margin-bottom: 8px;
+}
+.sec-title {
+  font-family: 'Crimson Pro', serif; font-size: 30px;
+  font-weight: 400; line-height: 1.2; letter-spacing: -.01em;
+}
+.sec-sub { color: var(--ink-60); font-size: 14px; margin-top: 8px; max-width: 560px; }
+
+section { margin-bottom: 80px; }
+
+/* ── LOGIC STRIP ────────────────────────────────────────────────────────────── */
+.logic-strip {
+  background: var(--ink); border-radius: var(--r);
+  padding: 36px 40px;
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 0;
+}
+.logic-col {
+  padding: 0 28px;
+  border-right: 1px solid rgba(255,255,255,.10);
+}
+.logic-col:first-child { padding-left: 0; }
+.logic-col:last-child  { border-right: none; padding-right: 0; }
+.lc-label {
+  font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--coral-mid); font-weight: 500; margin-bottom: 10px;
+}
+.lc-value {
+  font-family: 'Crimson Pro', serif; font-size: 17px;
+  font-weight: 400; color: #fff; line-height: 1.5;
+}
+.lc-note { font-size: 12px; color: rgba(255,255,255,.40); margin-top: 6px; }
+
+/* ── ASSET GRID ─────────────────────────────────────────────────────────────── */
+.asset-grid {
+  display: grid; grid-template-columns: 1fr 64px 1fr; align-items: center; gap: 0;
+}
+.asset-panel {
+  background: var(--white); border: 1px solid var(--ink-12);
+  border-radius: var(--r); padding: 28px;
+}
+.asset-panel-head {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 20px; padding-bottom: 14px;
+  border-bottom: 1px solid var(--ink-06);
+}
+.asset-dot { width: 8px; height: 8px; border-radius: 50%; }
+.asset-panel-title { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.asset-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-bottom: 12px; font-size: 13px; color: var(--ink-60); line-height: 1.6;
+}
+.asset-row .ar-bullet {
+  width: 5px; height: 5px; border-radius: 50%;
+  margin-top: 7px; flex-shrink: 0;
+}
+.asset-row strong { color: var(--ink); font-weight: 500; }
+.you-dot  { background: var(--teal); }
+.peer-dot { background: var(--coral); }
+
+.asset-join {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 8px;
+}
+.join-line { width: 1px; flex: 1; background: var(--ink-12); min-height: 24px; }
+.join-circle {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--coral); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Crimson Pro', serif; font-size: 18px; font-weight: 600;
+}
+
+/* ── OPPORTUNITY CARDS ──────────────────────────────────────────────────────── */
+.opp-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 16px;
+}
+.opp-card {
+  background: var(--white); border: 1px solid var(--ink-12);
+  border-radius: var(--r); padding: 24px;
+  display: flex; flex-direction: column;
+  transition: box-shadow .25s, transform .25s;
+  cursor: default;
+}
+.opp-card:hover {
+  box-shadow: 0 8px 32px rgba(26,22,18,.08);
+  transform: translateY(-2px);
+}
+.opp-card-top {
+  display: flex; justify-content: space-between;
+  align-items: flex-start; margin-bottom: 16px;
+}
+.opp-num {
+  font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+  font-weight: 600;
+}
+.opp-badge {
+  font-size: 10px; padding: 3px 9px; border-radius: 20px;
+  font-weight: 500; letter-spacing: .04em; white-space: nowrap;
+}
+.badge-now   { background: var(--sage-lt);  color: var(--sage); }
+.badge-mid   { background: var(--amber-lt); color: var(--amber); }
+.badge-scale { background: var(--plum-lt);  color: var(--plum); }
+
+.opp-icon { font-size: 26px; margin-bottom: 10px; }
+.opp-title {
+  font-family: 'Crimson Pro', serif; font-size: 17px;
+  font-weight: 600; line-height: 1.3; margin-bottom: 8px;
+}
+.opp-desc {
+  font-size: 12.5px; color: var(--ink-60); line-height: 1.65;
+  flex: 1; margin-bottom: 16px;
+}
+.opp-footer {
+  border-top: 1px solid var(--ink-06); padding-top: 14px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.opp-model { font-size: 11.5px; color: var(--ink-60); }
+.opp-return {
+  font-family: 'Crimson Pro', serif; font-size: 15px;
+  font-weight: 600;
+}
+
+/* card accent colours */
+.opp-c1 .opp-num { color: var(--teal); }
+.opp-c1 .opp-return { color: var(--teal); }
+.opp-c2 .opp-num { color: var(--coral); }
+.opp-c2 .opp-return { color: var(--coral); }
+.opp-c3 .opp-num { color: var(--amber); }
+.opp-c3 .opp-return { color: var(--amber); }
+.opp-c4 .opp-num { color: var(--plum); }
+.opp-c4 .opp-return { color: var(--plum); }
+.opp-c5 .opp-num { color: var(--sage); }
+.opp-c5 .opp-return { color: var(--sage); }
+.opp-c6 .opp-num { color: var(--teal); }
+.opp-c6 .opp-return { color: var(--teal); }
+.opp-c7 .opp-num { color: var(--coral); }
+.opp-c7 .opp-return { color: var(--coral); }
+.opp-c8 .opp-num { color: var(--amber); }
+.opp-c8 .opp-return { color: var(--amber); }
+.opp-c9 .opp-num { color: var(--plum); }
+.opp-c9 .opp-return { color: var(--plum); }
+
+/* ── PRIORITY MATRIX ────────────────────────────────────────────────────────── */
+.matrix-wrap {
+  background: var(--white); border: 1px solid var(--ink-12);
+  border-radius: var(--r); overflow: hidden;
+}
+.matrix-table { width: 100%; border-collapse: collapse; }
+.matrix-table th {
+  padding: 12px 16px; background: var(--cream-dark);
+  font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase;
+  font-weight: 600; color: var(--ink-60); text-align: left;
+  border-bottom: 1px solid var(--ink-12);
+}
+.matrix-table td {
+  padding: 14px 16px; font-size: 13px;
+  border-bottom: 1px solid var(--ink-06); vertical-align: middle;
+}
+.matrix-table tr:last-child td { border-bottom: none; }
+.matrix-table tr:hover td { background: var(--cream-dark); }
+.opp-name-cell { font-weight: 500; }
+.tier-pill {
+  display: inline-block; padding: 3px 10px; border-radius: 20px;
+  font-size: 11px; font-weight: 500;
+}
+.tier-1 { background: var(--sage-lt);  color: var(--sage);  }
+.tier-2 { background: var(--amber-lt); color: var(--amber); }
+.tier-3 { background: var(--plum-lt);  color: var(--plum);  }
+.effort-bar {
+  display: flex; gap: 3px;
+}
+.effort-pip {
+  width: 8px; height: 8px; border-radius: 2px;
+  background: var(--ink-12);
+}
+.effort-pip.on { background: var(--coral); }
+.split-badge { font-weight: 600; color: var(--coral); }
+
+/* ── PRODUCT: SMART OUTREACH ────────────────────────────────────────────────── */
+.product-box {
+  background: var(--white); border: 1px solid var(--ink-12);
+  border-radius: var(--r); overflow: hidden;
+}
+.product-header {
+  background: var(--ink); padding: 28px 32px;
+  display: flex; justify-content: space-between; align-items: flex-start;
+}
+.product-header-left { }
+.ph-kicker {
+  font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--coral-mid); margin-bottom: 8px;
+}
+.ph-title {
+  font-family: 'Crimson Pro', serif; font-size: 24px;
+  color: #fff; font-weight: 400;
+}
+.ph-sub { font-size: 13px; color: rgba(255,255,255,.5); margin-top: 6px; }
+.ph-tag {
+  background: var(--coral); color: #fff; border-radius: var(--r-sm);
+  padding: 6px 16px; font-size: 12px; font-weight: 500; white-space: nowrap;
+}
+.product-body { padding: 28px 32px; }
+.product-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+.pc-head {
+  font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+  font-weight: 600; color: var(--ink-35); margin-bottom: 12px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--ink-06);
+}
+.pc-item {
+  display: flex; align-items: flex-start; gap: 8px;
+  margin-bottom: 8px; font-size: 13px; color: var(--ink-60);
+}
+.pc-item::before { content: '·'; color: var(--coral); font-size: 16px; line-height: 1.2; flex-shrink: 0; }
+
+/* ── REVENUE PROJECTION ─────────────────────────────────────────────────────── */
+.projection-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+.proj-card {
+  background: var(--white); border: 1px solid var(--ink-12);
+  border-radius: var(--r); padding: 22px 20px;
+}
+.proj-label {
+  font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+  font-weight: 600; color: var(--ink-35); margin-bottom: 10px;
+}
+.proj-range {
+  font-family: 'Crimson Pro', serif; font-size: 26px;
+  font-weight: 600; line-height: 1.1; margin-bottom: 4px;
+}
+.proj-unit { font-size: 12px; color: var(--ink-60); margin-bottom: 12px; }
+.proj-items { list-style: none; }
+.proj-items li {
+  font-size: 12px; color: var(--ink-60); padding-left: 12px;
+  position: relative; margin-bottom: 3px; line-height: 1.5;
+}
+.proj-items li::before {
+  content: '·'; position: absolute; left: 0;
+  color: var(--coral); font-size: 16px; line-height: 1.1;
+}
+.proj-c1 .proj-range { color: var(--teal); }
+.proj-c2 .proj-range { color: var(--coral); }
+.proj-c3 .proj-range { color: var(--amber); }
+.proj-c4 .proj-range { color: var(--plum); }
+
+/* ── ROADMAP ────────────────────────────────────────────────────────────────── */
+.roadmap { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
+.rm-phase {
+  background: var(--white); border: 1px solid var(--ink-12);
+  border-radius: var(--r); overflow: hidden;
+}
+.rm-header {
+  padding: 18px 20px; border-bottom: 1px solid var(--ink-06);
+}
+.rm-period { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; font-weight: 600; margin-bottom: 5px; }
+.rm-title {
+  font-family: 'Crimson Pro', serif; font-size: 18px;
+  font-weight: 600; line-height: 1.25;
+}
+.rm-body { padding: 18px 20px; }
+.rm-item {
+  display: flex; gap: 10px; margin-bottom: 12px;
+  font-size: 12.5px; color: var(--ink-60); line-height: 1.55;
+}
+.rm-item-num {
+  width: 18px; height: 18px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+}
+.rm-ph1 .rm-period { color: var(--teal); }
+.rm-ph1 .rm-item-num { background: var(--teal-lt); color: var(--teal); }
+.rm-ph2 .rm-period { color: var(--coral); }
+.rm-ph2 .rm-item-num { background: var(--coral-lt); color: var(--coral); }
+.rm-ph3 .rm-period { color: var(--plum); }
+.rm-ph3 .rm-item-num { background: var(--plum-lt); color: var(--plum); }
+
+/* ── SPLIT TABLE ────────────────────────────────────────────────────────────── */
+.split-wrap {
+  background: var(--white); border: 1px solid var(--ink-12);
+  border-radius: var(--r); overflow: hidden;
+}
+.split-wrap table { width: 100%; border-collapse: collapse; }
+.split-wrap th {
+  padding: 12px 18px; background: var(--cream-dark);
+  font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase;
+  font-weight: 600; color: var(--ink-60); text-align: left;
+  border-bottom: 1px solid var(--ink-12);
+}
+.split-wrap td {
+  padding: 13px 18px; font-size: 13px;
+  border-bottom: 1px solid var(--ink-06);
+}
+.split-wrap tr:last-child td { border-bottom: none; }
+.split-wrap tr:hover td { background: var(--cream); }
+.you-pct  { color: var(--teal);  font-weight: 600; }
+.peer-pct { color: var(--coral); font-weight: 600; }
+.bar-wrap { display: flex; height: 5px; border-radius: 3px; overflow: hidden; width: 100px; margin-top: 4px; }
+.bar-you  { background: var(--teal); }
+.bar-peer { background: var(--coral); }
+
+/* ── RISK CARDS ─────────────────────────────────────────────────────────────── */
+.risk-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; }
+.risk-card {
+  background: var(--white); border: 1px solid var(--ink-12);
+  border-radius: var(--r); padding: 22px 24px;
+}
+.risk-top { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
+.risk-icon { font-size: 18px; margin-top: 1px; }
+.risk-title { font-weight: 600; font-size: 13.5px; }
+.risk-desc { font-size: 12.5px; color: var(--ink-60); line-height: 1.7; }
+.risk-action {
+  margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid var(--ink-06);
+  font-size: 12.5px; color: var(--ink);
+  display: flex; gap: 8px; align-items: flex-start;
+}
+.risk-action::before { content: '→'; color: var(--coral); font-weight: 600; flex-shrink: 0; }
+
+/* ── DIVIDER ────────────────────────────────────────────────────────────────── */
+.divider {
+  border: none; border-top: 1px solid var(--ink-12);
+  margin: 0 0 80px;
+}
+
+/* ── FOOTER ─────────────────────────────────────────────────────────────────── */
+.foot {
+  border-top: 1px solid var(--ink-12); padding-top: 28px;
+  font-size: 12px; color: var(--ink-35); line-height: 1.8;
+  display: flex; justify-content: space-between; gap: 24px;
+}
+
+/* ── ANIMATIONS ─────────────────────────────────────────────────────────────── */
+@keyframes rise {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.hero, section { animation: rise .6s ease both; }
+section:nth-child(2)  { animation-delay:.05s; }
+section:nth-child(3)  { animation-delay:.10s; }
+section:nth-child(4)  { animation-delay:.15s; }
+section:nth-child(5)  { animation-delay:.20s; }
+section:nth-child(6)  { animation-delay:.25s; }
+section:nth-child(7)  { animation-delay:.30s; }
+section:nth-child(8)  { animation-delay:.35s; }
+section:nth-child(9)  { animation-delay:.40s; }
+section:nth-child(10) { animation-delay:.45s; }
+</style>
+</head>
+<body>
+
+<!-- ── TOP BAR ──────────────────────────────────────────────────────────────── -->
+<nav class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-brand">资源变现全景方案</div>
+    <div class="topbar-nav">
+      <a href="#resources">资源底牌</a>
+      <a href="#opps">九大机会</a>
+      <a href="#matrix">优先矩阵</a>
+      <a href="#product">核心产品</a>
+      <a href="#roadmap">推进节奏</a>
+      <a href="#split">分成结构</a>
+    </div>
+    <div class="topbar-pill">被动变现为主</div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ── HERO ─────────────────────────────────────────────────────────────────── -->
+<div class="hero">
+  <div class="hero-kicker">Business Strategy · Resource Monetization</div>
+  <h1 class="hero-title">
+    用<em>三类资产</em>构建<br>多层被动收入体系
+  </h1>
+  <p class="hero-body">
+    技术能力、渠道入口、资源供给——三者单独存在时价值有限，
+    组合并产品化后可形成持续复利。本方案围绕九个变现方向，
+    设计从零摩擦嵌入到规模化产品的完整路径。
+  </p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <span class="meta-label">合作定位</span>
+      <span class="meta-value">技术业务补充收入</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">核心模式</span>
+      <span class="meta-value">嵌入式 + 产品化</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">分成结构</span>
+      <span class="meta-value">五五基准 · 按贡献调整</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">合作阶段</span>
+      <span class="meta-value">条款洽谈中</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── S0: 核心逻辑 ──────────────────────────────────────────────────────────── -->
+<section>
+  <div class="sec-header">
+    <div class="sec-num">00 — 商业逻辑</div>
+    <h2 class="sec-title">三类资产 × 产品化 = 复利收入</h2>
+    <p class="sec-sub">多数人只想到"渠道 × 资源"的一次性差价。真正的高价值模型是将技术能力与资源包装成可重复销售的产品。</p>
+  </div>
+  <div class="logic-strip">
+    <div class="logic-col">
+      <div class="lc-label">设计原则</div>
+      <div class="lc-value">轻运营<br>高客单<br>产品化复用</div>
+      <div class="lc-note">不单独建团队，不重复投入</div>
+    </div>
+    <div class="logic-col">
+      <div class="lc-label">价值升维路径</div>
+      <div class="lc-value">差价变现<br>→ 方案集成<br>→ SaaS 年费</div>
+      <div class="lc-note">同样的资源，产品化后溢价 3–10×</div>
+    </div>
+    <div class="logic-col">
+      <div class="lc-label">护城河来源</div>
+      <div class="lc-value">技术交付信任<br>+ 资源价格优势<br>+ 合规背书</div>
+      <div class="lc-note">三者缺一难以复制</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── S1: 资源底牌 ──────────────────────────────────────────────────────────── -->
+<section id="resources">
+  <div class="sec-header">
+    <div class="sec-num">01 — 资源底牌</div>
+    <h2 class="sec-title">双方资源全景盘点</h2>
+  </div>
+  <div class="asset-grid">
+    <div class="asset-panel">
+      <div class="asset-panel-head">
+        <div class="asset-dot you-dot"></div>
+        <div class="asset-panel-title" style="color:var(--teal)">你方资产</div>
+      </div>
+      <div class="asset-row"><div class="ar-bullet you-dot"></div><div><strong>AI 技术交付能力</strong> — 核心壁垒，客户信任锚点；FreeSWITCH/ASR/TTS 实战经验</div></div>
+      <div class="asset-row"><div class="ar-bullet you-dot"></div><div><strong>老东家分包渠道</strong> — 已验证的企业客户入口，信任基础已建立</div></div>
+      <div class="asset-row"><div class="ar-bullet you-dot"></div><div><strong>技术圈人脉</strong> — 开发者 / 创业公司社群，对 AI 工具高敏感</div></div>
+      <div class="asset-row"><div class="ar-bullet you-dot"></div><div><strong>需求识别与方案设计能力</strong> — 在技术交付过程中发掘云、数据、通信需求</div></div>
+      <div class="asset-row"><div class="ar-bullet you-dot"></div><div><strong>已有法律合同体系</strong> — 框架协议 + SOW + NDA，快速启动合规合作</div></div>
+    </div>
+    <div class="asset-join">
+      <div class="join-line"></div>
+      <div class="join-circle">×</div>
+      <div class="join-line"></div>
+    </div>
+    <div class="asset-panel">
+      <div class="asset-panel-head">
+        <div class="asset-dot peer-dot"></div>
+        <div class="asset-panel-title" style="color:var(--coral)">同事资产</div>
+      </div>
+      <div class="asset-row"><div class="ar-bullet peer-dot"></div><div><strong>阿里云授权代理</strong> — 优惠价格，含 Qwen API / 百炼 / Qoder 企业版等 AI 产品线</div></div>
+      <div class="asset-row"><div class="ar-bullet peer-dot"></div><div><strong>通信资源授权（移动）</strong> — 企业级外呼资质，号码认证，合规有据可查</div></div>
+      <div class="asset-row"><div class="ar-bullet peer-dot"></div><div><strong>外呼黑名单服务</strong> — 移动授权，降低投诉率，监管合规刚需</div></div>
+      <div class="asset-row"><div class="ar-bullet peer-dot"></div><div><strong>移动全景数据服务</strong> — 用户行为画像，精准营销底座</div></div>
+      <div class="asset-row"><div class="ar-bullet peer-dot"></div><div><strong>蚂蚁 / 阿里高管人脉</strong> — 生态内大客户引荐，阿里合伙人圈层背书</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── S2: 九大机会 ──────────────────────────────────────────────────────────── -->
+<section id="opps">
+  <div class="sec-header">
+    <div class="sec-num">02 — 变现机会</div>
+    <h2 class="sec-title">九大变现方向</h2>
+    <p class="sec-sub">从零摩擦嵌入到规模化产品，按启动难度分为三个梯队。</p>
+  </div>
+  <div class="opp-grid">
+
+    <!-- 1 -->
+    <div class="opp-card opp-c1">
+      <div class="opp-card-top">
+        <span class="opp-num" >01</span>
+        <span class="opp-badge badge-now">立即可做</span>
+      </div>
+      <div class="opp-icon">☁️</div>
+      <div class="opp-title">云资源嵌入销售</div>
+      <div class="opp-desc">每个 AI 项目天然需要部署算力。将阿里云资源采购写入 SOW 标准流程，客户享折扣，你们赚差价。零额外销售动作，纯嵌入式变现。</div>
+      <div class="opp-footer">
+        <span class="opp-model">价差 / 返佣</span>
+        <span class="opp-return">5–15%</span>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="opp-card opp-c2">
+      <div class="opp-card-top">
+        <span class="opp-num">02</span>
+        <span class="opp-badge badge-now">立即可做</span>
+      </div>
+      <div class="opp-icon">🤖</div>
+      <div class="opp-title">Qoder / 通义企业包代理</div>
+      <div class="opp-desc">直接面向中小企业推广阿里云 AI 产品：Qoder 企业版（AI 编程助手）、通义千问 API、百炼平台。你的技术背景是最强的信任背书——不只卖 License，还能帮用起来。</div>
+      <div class="opp-footer">
+        <span class="opp-model">License + 实施服务</span>
+        <span class="opp-return">代理佣金 + 服务费</span>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="opp-card opp-c3">
+      <div class="opp-card-top">
+        <span class="opp-num">03</span>
+        <span class="opp-badge badge-now">立即可做</span>
+      </div>
+      <div class="opp-icon">📊</div>
+      <div class="opp-title">数据服务增值交叉销售</div>
+      <div class="opp-desc">AI 系统交付完成后，以"增值模块"推荐全景数据服务。核心话术：系统已建好，接入数据底座可使精准触达效率提升 30%+。交叉销售成交率远高于冷启动。</div>
+      <div class="opp-footer">
+        <span class="opp-model">佣金分成</span>
+        <span class="opp-return">20–30%</span>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="opp-card opp-c4">
+      <div class="opp-card-top">
+        <span class="opp-num">04</span>
+        <span class="opp-badge badge-mid">1–2 月内</span>
+      </div>
+      <div class="opp-icon">📞</div>
+      <div class="opp-title">合规外呼整体方案</div>
+      <div class="opp-desc">将外呼黑名单 + 移动通信资源 + 你的 AI 话务系统（FreeSWITCH + ASR/TTS）打包为"合规外呼解决方案"。金融 / 保险 / 零售有强监管压力，这是刚需，而非可选项。</div>
+      <div class="opp-footer">
+        <span class="opp-model">项目制 + 年费</span>
+        <span class="opp-return">五五分成</span>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="opp-card opp-c5">
+      <div class="opp-card-top">
+        <span class="opp-num">05</span>
+        <span class="opp-badge badge-mid">1–2 月内</span>
+      </div>
+      <div class="opp-icon">🎯</div>
+      <div class="opp-title">数据 + AI 分析增值产品</div>
+      <div class="opp-desc">将全景数据作为原材料，叠加你的 AI 分析能力，输出"行业洞察报告"或"智能选址 / 选品"服务。数据是成本，AI 是加工，输出有决策价值的产品，实现 3–5× 溢价。</div>
+      <div class="opp-footer">
+        <span class="opp-model">报告 / 订阅制</span>
+        <span class="opp-return">高溢价</span>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="opp-card opp-c6">
+      <div class="opp-card-top">
+        <span class="opp-num">06</span>
+        <span class="opp-badge badge-mid">1–2 月内</span>
+      </div>
+      <div class="opp-icon">🏫</div>
+      <div class="opp-title">企业 AI 工具落地培训</div>
+      <div class="opp-desc">面向中小企业管理层，销售"AI 工具落地培训"，内容围绕 Qoder、通义、百炼等阿里云 AI 产品的实际使用。培训收费，培训完成后顺带完成资源销售转化，形成双重变现。</div>
+      <div class="opp-footer">
+        <span class="opp-model">课程费 + 资源佣金</span>
+        <span class="opp-return">双重变现</span>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="opp-card opp-c7">
+      <div class="opp-card-top">
+        <span class="opp-num">07</span>
+        <span class="opp-badge badge-scale">规模化阶段</span>
+      </div>
+      <div class="opp-icon">🏗️</div>
+      <div class="opp-title">阿里云 ISV 上架变现</div>
+      <div class="opp-desc">正式申请阿里云 ISV 合作伙伴，在阿里云市场上架你的 AI 解决方案产品。借助阿里云的搜索流量和销售团队被动获客——不需要主动销售，等客户找上门。</div>
+      <div class="opp-footer">
+        <span class="opp-model">平台佣金 + 订阅</span>
+        <span class="opp-return">被动获客</span>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="opp-card opp-c8">
+      <div class="opp-card-top">
+        <span class="opp-num">08</span>
+        <span class="opp-badge badge-scale">规模化阶段</span>
+      </div>
+      <div class="opp-icon">🌐</div>
+      <div class="opp-title">技术社区 + 资源分发</div>
+      <div class="opp-desc">在掘金、GitHub、技术微信群以"阿里云 AI 资源合伙人"身份运营，定期发放折扣代金券，形成私域流量池。代金券分发是钩子，后续 AI 项目咨询和资源采购是转化。</div>
+      <div class="opp-footer">
+        <span class="opp-model">流量池 → 二次转化</span>
+        <span class="opp-return">长尾复利</span>
+      </div>
+    </div>
+
+    <!-- 9 -->
+    <div class="opp-card opp-c9">
+      <div class="opp-card-top">
+        <span class="opp-num">09</span>
+        <span class="opp-badge badge-scale">规模化阶段</span>
+      </div>
+      <div class="opp-icon">🔗</div>
+      <div class="opp-title">阿里生态大客户引流</div>
+      <div class="opp-desc">反向逻辑：不是你去卖资源给阿里客户，而是通过同事蚂蚁 / 阿里高管人脉，让生态内企业的 AI 定制需求流向你。阿里生态客户体量大、付费能力强，单项目 50 万+。</div>
+      <div class="opp-footer">
+        <span class="opp-model">技术交付 + 引荐费</span>
+        <span class="opp-return">50 万+ / 项目</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── S3: 优先矩阵 ──────────────────────────────────────────────────────────── -->
+<section id="matrix">
+  <div class="sec-header">
+    <div class="sec-num">03 — 优先矩阵</div>
+    <h2 class="sec-title">九大方向全景评估</h2>
+    <p class="sec-sub">按启动成本、你的时间投入、收入天花板和分成比例综合评估，辅助决策执行顺序。</p>
+  </div>
+  <div class="matrix-wrap">
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>变现方向</th>
+          <th>梯队</th>
+          <th>启动成本</th>
+          <th>你的时间投入</th>
+          <th>收入天花板</th>
+          <th>建议你/同事分成</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>01</td>
+          <td class="opp-name-cell">云资源嵌入销售</td>
+          <td><span class="tier-pill tier-1">立即</span></td>
+          <td><div class="effort-bar"><div class="effort-pip on"></div><div class="effort-pip"></div><div class="effort-pip"></div><div class="effort-pip"></div><div class="effort-pip"></div></div></td>
+          <td><div class="effort-bar"><div class="effort-pip on"></div><div class="effort-pip"></div><div class="effort-pip"></div><div class="effort-pip"></div><div class="effort-pip"></div></div></td>
+          <td>中等，与项目体量正相关</td>
+          <td><span class="split-badge">60 / 40</span><br><small style="color:var(--ink-60)">你带客户多则 60</small></td>
+        </tr>
+        <tr>
+          <td>02</td>
+          <td class="opp-name-cell">Qoder / 通义企业包</td>
+          <td><span class="tier-pill tier-1">立即</span></td>
+          <td><div class="effort-bar"><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip"></div><div class="effort-pip"></div><div class="effort-pip"></div></div></td>
+          <td><div class="effort-bar"><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip"></div><div class="effort-pip"></div><div class="effort-pip"></div></div></td>
+          <td>高，企业 AI 工具市场快速增长</td>
+          <td><span class="split-badge">55 / 45</span><br><small style="color:var(--ink-60)">你提供落地能力溢价</small></td>
+        </tr>
+        <tr>
+          <td>03</td>
+          <td class="opp-name-cell">数据服务交叉销售</td>
+          <td><span class="tier-pill tier-1">立即</span></td>
+          <td><div class="effort-bar"><div class="effort-pip on"></div><div class="effort-pip"></div><div class="effort-pip"></div><div class="effort-pip"></div><div class="effort-pip"></div></div></td>
+          <td><div class="effort-bar"><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip"></div><div class="effort-pip"></div><div class="effort-pip"></div></div></td>
+          <td>中等，受客户行业集中度影响</td>
+          <td><span class="split-badge">50 / 50</span></td>
+        </tr>
+        <tr>
+          <td>04</td>
+          <td class="opp-name-cell">合规外呼整体方案</td>
+          <td><span class="tier-pill tier-2">1–2月</span></td>
+          <td><div class="effort-bar"><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip"></div><div class="effort-pip"></div></div></td>
+          <td><div class="effort-bar"><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip"></div><div class="effort-pip"></div></div></td>
+          <td>高，年费 SaaS 可积累</td>
+          <td><span class="split-badge">40 / 60</span><br><small style="color:var(--ink-60)">同事销售渠道贡献更大</small></td>
+        </tr>
+        <tr>
+          <td>05</td>
+          <td class="opp-name-cell">数据 + AI 分析产品</td>
+          <td><span class="tier-pill tier-2">1–2月</span></td>
+          <td><div class="effort-bar"><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip"></div><div class="effort-pip"></div></div></td>
+          <td><div class="effort-bar"><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip"></div></div></td>
+          <td>极高，可包装为行业产品</td>
+          <td><span class="split-badge">60 / 40</span><br><small style="color:var(--ink-60)">你贡献 AI 加工溢价</small></td>
+        </tr>
+        <tr>
+          <td>06</td>
+          <td class="opp-name-cell">企业 AI 培训</td>
+          <td><span class="tier-pill tier-2">1–2月</span></td>
+          <td><div class="effort-bar"><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip"></div><div class="effort-pip"></div><div class="effort-pip"></div></div></td>
+          <td><div class="effort-bar"><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip"></div><div class="effort-pip"></div></div></td>
+          <td>中等，时间换钱为主</td>
+          <td><span class="split-badge">70 / 30</span><br><small style="color:var(--ink-60)">你是主要交付方</small></td>
+        </tr>
+        <tr>
+          <td>07</td>
+          <td class="opp-name-cell">阿里云 ISV 上架</td>
+          <td><span class="tier-pill tier-3">规模化</span></td>
+          <td><div class="effort-bar"><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip"></div></div></td>
+          <td><div class="effort-bar"><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip"></div><div class="effort-pip"></div><div class="effort-pip"></div></div></td>
+          <td>极高，平台流量被动获客</td>
+          <td><span class="split-badge">70 / 30</span><br><small style="color:var(--ink-60)">你是产品主体</small></td>
+        </tr>
+        <tr>
+          <td>08</td>
+          <td class="opp-name-cell">技术社区资源分发</td>
+          <td><span class="tier-pill tier-3">规模化</span></td>
+          <td><div class="effort-bar"><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip"></div><div class="effort-pip"></div><div class="effort-pip"></div></div></td>
+          <td><div class="effort-bar"><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip"></div><div class="effort-pip"></div></div></td>
+          <td>中等，复利效应明显</td>
+          <td><span class="split-badge">60 / 40</span></td>
+        </tr>
+        <tr>
+          <td>09</td>
+          <td class="opp-name-cell">阿里生态大客户引流</td>
+          <td><span class="tier-pill tier-3">规模化</span></td>
+          <td><div class="effort-bar"><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip"></div><div class="effort-pip"></div></div></td>
+          <td><div class="effort-bar"><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip on"></div><div class="effort-pip on"></div></div></td>
+          <td>极高，单项目 50 万+</td>
+          <td><span class="split-badge">70 / 30</span><br><small style="color:var(--ink-60)">引荐费单独核算</small></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── S4: 核心产品 ──────────────────────────────────────────────────────────── -->
+<section id="product">
+  <div class="sec-header">
+    <div class="sec-num">04 — 核心产品</div>
+    <h2 class="sec-title">最具产品化潜力：智能合规外呼平台</h2>
+    <p class="sec-sub">这是唯一能把你的 AI 技术 + 同事的通信资源 + 数据服务三者同时用满的产品，也是最难被单方面复制的组合。</p>
+  </div>
+  <div class="product-box">
+    <div class="product-header">
+      <div class="product-header-left">
+        <div class="ph-kicker">Star Product · 旗舰产品</div>
+        <div class="ph-title">智能合规外呼平台</div>
+        <div class="ph-sub">AI 话务 × 移动通信资源 × 外呼黑名单 × 全景数据画像</div>
+      </div>
+      <div class="ph-tag">年费 SaaS 模式</div>
+    </div>
+    <div class="product-body">
+      <div class="product-cols">
+        <div>
+          <div class="pc-head">产品能力层</div>
+          <div class="pc-item">FreeSWITCH + ASR/TTS 智能话务引擎</div>
+          <div class="pc-item">实时智能打断与情绪识别</div>
+          <div class="pc-item">移动外呼黑名单自动过滤</div>
+          <div class="pc-item">全景数据精准客群筛选</div>
+          <div class="pc-item">通话质检与合规留存</div>
+        </div>
+        <div>
+          <div class="pc-head">目标客户与场景</div>
+          <div class="pc-item">金融机构：贷后提醒、催收通知</div>
+          <div class="pc-item">保险公司：续保提醒、核保回访</div>
+          <div class="pc-item">零售企业：促销通知、会员召回</div>
+          <div class="pc-item">政务服务：通知告知、满意度回访</div>
+          <div class="pc-item">教育机构：学员跟进、续费提醒</div>
+        </div>
+        <div>
+          <div class="pc-head">变现结构</div>
+          <div class="pc-item">一次性实施费：8–20 万</div>
+          <div class="pc-item">年度 SaaS 订阅：5–15 万/年</div>
+          <div class="pc-item">通话资源按量计费（持续）</div>
+          <div class="pc-item">数据服务订阅（叠加收入）</div>
+          <div class="pc-item">目标：5 个标杆客户即可形成现金流</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── S5: 收入预测 ──────────────────────────────────────────────────────────── -->
+<section>
+  <div class="sec-header">
+    <div class="sec-num">05 — 收入预测</div>
+    <h2 class="sec-title">保守 / 乐观收入区间估算</h2>
+    <p class="sec-sub">以你实际分得的税前收入为口径，基于正常执行节奏的保守假设。</p>
+  </div>
+  <div class="projection-grid">
+    <div class="proj-card proj-c1">
+      <div class="proj-label">云资源 + Qoder</div>
+      <div class="proj-range">2–8万</div>
+      <div class="proj-unit">/ 年（你的分成部分）</div>
+      <ul class="proj-items">
+        <li>每个 AI 项目带动 5–30 万云资源采购</li>
+        <li>5–15% 差价或返佣</li>
+        <li>5–10 个项目 / 年即可实现</li>
+      </ul>
+    </div>
+    <div class="proj-card proj-c2">
+      <div class="proj-label">数据服务 + 培训</div>
+      <div class="proj-range">3–12万</div>
+      <div class="proj-unit">/ 年（你的分成部分）</div>
+      <ul class="proj-items">
+        <li>数据服务佣金 20–30%</li>
+        <li>培训单次 1–3 万，你得 70%</li>
+        <li>交叉销售转化率约 20–30%</li>
+      </ul>
+    </div>
+    <div class="proj-card proj-c3">
+      <div class="proj-label">合规外呼平台</div>
+      <div class="proj-range">10–40万</div>
+      <div class="proj-unit">/ 年（你的分成部分）</div>
+      <ul class="proj-items">
+        <li>3 个客户实施费即回本</li>
+        <li>年费部分逐年叠加</li>
+        <li>5 个客户后形成稳定现金流</li>
+      </ul>
+    </div>
+    <div class="proj-card proj-c4">
+      <div class="proj-label">阿里生态大客户</div>
+      <div class="proj-range">20–80万</div>
+      <div class="proj-unit">/ 年（你的分成部分）</div>
+      <ul class="proj-items">
+        <li>单项目 50–200 万，你得 70%</li>
+        <li>1–2 个项目 / 年即达目标</li>
+        <li>启动较慢，但天花板最高</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── S6: 推进节奏 ──────────────────────────────────────────────────────────── -->
+<section id="roadmap">
+  <div class="sec-header">
+    <div class="sec-num">06 — 推进节奏</div>
+    <h2 class="sec-title">三阶段执行路线图</h2>
+  </div>
+  <div class="roadmap">
+    <div class="rm-phase rm-ph1">
+      <div class="rm-header">
+        <div class="rm-period">第一阶段 · 0–4 周</div>
+        <div class="rm-title">夯实基础<br>零摩擦启动</div>
+      </div>
+      <div class="rm-body">
+        <div class="rm-item"><div class="rm-item-num">1</div><div>签署资源合作分成协议，明确九大方向各自分成比例和客户归属规则</div></div>
+        <div class="rm-item"><div class="rm-item-num">2</div><div>同事提供阿里云代理证书、移动授权文件，整理"资源产品手册"</div></div>
+        <div class="rm-item"><div class="rm-item-num">3</div><div>在下一个 AI 项目 SOW 中写入云资源采购推荐章节，启动方向 01</div></div>
+        <div class="rm-item"><div class="rm-item-num">4</div><div>梳理已有客户名单，标注有外呼或数据需求的客户，列入优先跟进</div></div>
+      </div>
+    </div>
+    <div class="rm-phase rm-ph2">
+      <div class="rm-header">
+        <div class="rm-period">第二阶段 · 1–3 月</div>
+        <div class="rm-title">产品成型<br>多线并行</div>
+      </div>
+      <div class="rm-body">
+        <div class="rm-item"><div class="rm-item-num">1</div><div>完成合规外呼平台 MVP 版本开发，面向 1–2 个种子客户试运营</div></div>
+        <div class="rm-item"><div class="rm-item-num">2</div><div>设计 Qoder / 通义企业落地培训课程框架，开展首期企业培训</div></div>
+        <div class="rm-item"><div class="rm-item-num">3</div><div>通过同事向阿里生态发起 1–2 个技术合作意向，评估方向 09 可行性</div></div>
+        <div class="rm-item"><div class="rm-item-num">4</div><div>记录每笔成交来源、转化路径、利润，建立收入追踪表</div></div>
+      </div>
+    </div>
+    <div class="rm-phase rm-ph3">
+      <div class="rm-header">
+        <div class="rm-period">第三阶段 · 3–6 月</div>
+        <div class="rm-title">规模复制<br>结构优化</div>
+      </div>
+      <div class="rm-body">
+        <div class="rm-item"><div class="rm-item-num">1</div><div>外呼平台标杆案例形成后，启动阿里云 ISV 合作伙伴申请</div></div>
+        <div class="rm-item"><div class="rm-item-num">2</div><div>在技术社区建立 AI 资源分发渠道，形成私域流量池</div></div>
+        <div class="rm-item"><div class="rm-item-num">3</div><div>根据实际 ROI 数据，聚焦收益最高的 2–3 个方向重点投入</div></div>
+        <div class="rm-item"><div class="rm-item-num">4</div><div>半年复盘：调整分成比例，按实际贡献重新协商合作条款</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── S7: 分成结构 ──────────────────────────────────────────────────────────── -->
+<section id="split">
+  <div class="sec-header">
+    <div class="sec-num">07 — 分成结构</div>
+    <h2 class="sec-title">各方向分成比例全览</h2>
+    <p class="sec-sub">分成原则：谁是价值创造主体，谁拿更多。技术交付 > 资源供给 > 渠道引荐。</p>
+  </div>
+  <div class="split-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>变现方向</th>
+          <th>你的角色</th>
+          <th>同事角色</th>
+          <th>你</th>
+          <th>同事</th>
+          <th>比例图示</th>
+          <th>关键前提</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>云资源嵌入 / Token</strong></td>
+          <td>需求识别 + 客户对接</td>
+          <td>代理下单 + 价差管理</td>
+          <td class="you-pct">60%</td>
+          <td class="peer-pct">40%</td>
+          <td><div class="bar-wrap"><div class="bar-you" style="width:60%"></div><div class="bar-peer" style="width:40%"></div></div></td>
+          <td>你带来客户时适用，同事带客户则 50/50</td>
+        </tr>
+        <tr>
+          <td><strong>Qoder / 通义企业包</strong></td>
+          <td>落地实施 + 技术培训</td>
+          <td>代理资质 + 产品供给</td>
+          <td class="you-pct">55%</td>
+          <td class="peer-pct">45%</td>
+          <td><div class="bar-wrap"><div class="bar-you" style="width:55%"></div><div class="bar-peer" style="width:45%"></div></div></td>
+          <td>你提供落地能力形成差异化，否则客户直接找代理</td>
+        </tr>
+        <tr>
+          <td><strong>数据服务佣金</strong></td>
+          <td>场景挖掘 + 技术集成</td>
+          <td>产品供给 + 合规保障</td>
+          <td class="you-pct">50%</td>
+          <td class="peer-pct">50%</td>
+          <td><div class="bar-wrap"><div class="bar-you" style="width:50%"></div><div class="bar-peer" style="width:50%"></div></div></td>
+          <td>标准五五分</td>
+        </tr>
+        <tr>
+          <td><strong>合规外呼平台</strong></td>
+          <td>AI 系统开发 + 交付</td>
+          <td>通信资源 + 黑名单 + 销售</td>
+          <td class="you-pct">40%</td>
+          <td class="peer-pct">60%</td>
+          <td><div class="bar-wrap"><div class="bar-you" style="width:40%"></div><div class="bar-peer" style="width:60%"></div></div></td>
+          <td>同事销售渠道和通信资源贡献更大；进入 SaaS 阶段后重新谈</td>
+        </tr>
+        <tr>
+          <td><strong>数据 + AI 分析产品</strong></td>
+          <td>AI 分析建模 + 产品化</td>
+          <td>数据原材料供给</td>
+          <td class="you-pct">60%</td>
+          <td class="peer-pct">40%</td>
+          <td><div class="bar-wrap"><div class="bar-you" style="width:60%"></div><div class="bar-peer" style="width:40%"></div></div></td>
+          <td>你创造了数据之上的溢价，分成比例应体现这一贡献</td>
+        </tr>
+        <tr>
+          <td><strong>企业 AI 培训</strong></td>
+          <td>内容研发 + 授课交付</td>
+          <td>渠道引荐 + 资源背书</td>
+          <td class="you-pct">70%</td>
+          <td class="peer-pct">30%</td>
+          <td><div class="bar-wrap"><div class="bar-you" style="width:70%"></div><div class="bar-peer" style="width:30%"></div></div></td>
+          <td>你是唯一交付主体；同事提供客户引荐则 60/40</td>
+        </tr>
+        <tr>
+          <td><strong>阿里生态大客户引荐</strong></td>
+          <td>技术交付全程主导</td>
+          <td>人脉引荐（引荐费）</td>
+          <td class="you-pct">70%</td>
+          <td class="peer-pct">30%</td>
+          <td><div class="bar-wrap"><div class="bar-you" style="width:70%"></div><div class="bar-peer" style="width:30%"></div></div></td>
+          <td>引荐费单独核算（项目额 10–20%），不应混入项目整体利润分成</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── S8: 风险对策 ──────────────────────────────────────────────────────────── -->
+<section>
+  <div class="sec-header">
+    <div class="sec-num">08 — 风险管理</div>
+    <h2 class="sec-title">四大执行风险与对策</h2>
+  </div>
+  <div class="risk-grid">
+    <div class="risk-card">
+      <div class="risk-top">
+        <span class="risk-icon">⚡</span>
+        <span class="risk-title">同事绕过你直接对接客户</span>
+      </div>
+      <div class="risk-desc">你带入的客户线索，同事掌握联系方式后有可能绕过你直接成交，尤其是不需要技术交付的纯资源订单。</div>
+      <div class="risk-action">在合作协议中约定"客户归属锁定"：你首次书面引入的客户，两年内该客户所有相关收入均计入分成基数，无论哪方实际跟单。</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-top">
+        <span class="risk-icon">⚡</span>
+        <span class="risk-title">老东家将此视为利益冲突</span>
+      </div>
+      <div class="risk-desc">向老东家分包客户销售资源服务，若老东家有同类代理业务，可能引发摩擦，影响主营分包合作关系。</div>
+      <div class="risk-action">提前确认老东家无竞争性资源代理业务，或将资源销售纳入三方合作框架，让老东家也参与分成，变竞争为协同。</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-top">
+        <span class="risk-icon">⚡</span>
+        <span class="risk-title">收入结算不透明</span>
+      </div>
+      <div class="risk-desc">九个方向收入来源分散，若无清晰账目，五五分成在实际结算中容易产生分歧，伤害合作关系。</div>
+      <div class="risk-action">合作协议约定：所有订单须书面确认来源方，每月共享收入流水对账一次，逾期未提异议视为认可。建议用共享在线表格实时记录。</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-top">
+        <span class="risk-icon">⚡</span>
+        <span class="risk-title">精力分散蚕食技术主业</span>
+      </div>
+      <div class="risk-desc">资源销售初期往往需要较多主动跟进，容易从"补充收入"演变为"第二主业"，稀释技术交付的核心竞争力。</div>
+      <div class="risk-action">设立硬性时间预算：每月投入此业务不超过 20% 精力。方向 04/05/07 的客户主动跟进由同事主导，你只在技术节点介入。</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<div class="foot">
+  <div>本方案基于"被动变现为主、技术主业优先"定位设计。九大方向可独立推进，建议优先启动方向 01/02/03（零额外动作），方向 04 是中期核心产品，方向 07/09 是长期天花板。</div>
+  <div style="white-space:nowrap;color:var(--coral)">分成比例为建议值<br>最终以书面协议为准</div>
+</div>
+
+</div><!-- /wrap -->
+</body>
+</html>

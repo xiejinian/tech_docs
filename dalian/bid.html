@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日语AI自适应测试智能体 · 投标报价文档</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600&family=Noto+Sans+SC:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #f9f8f6;
+    --surface: #ffffff;
+    --surface-2: #f4f3f0;
+    --surface-3: #eeedea;
+    --border: #e5e4e0;
+    --border-strong: #d0cec9;
+    --text-primary: #1a1917;
+    --text-secondary: #6b6860;
+    --text-tertiary: #9b9890;
+    --accent: #d97706;
+    --accent-light: #fef3c7;
+    --accent-bg: #fffbf0;
+    --teal: #0d9488;
+    --teal-light: #f0fdfa;
+    --coral: #dc6b4a;
+    --coral-light: #fff5f2;
+    --blue: #2563eb;
+    --blue-light: #eff6ff;
+    --red: #dc2626;
+    --red-light: #fef2f2;
+    --green: #16a34a;
+    --green-light: #f0fdf4;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.09), 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans SC', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    line-height: 1.7;
+    font-size: 14px;
+  }
+
+  /* ── Page Layout ── */
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ── Cover ── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 0 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -80px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(217,119,6,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: -60px;
+    width: 400px; height: 300px;
+    background: radial-gradient(circle, rgba(13,148,136,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cover-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-light);
+    border: 1px solid rgba(217,119,6,0.2);
+    padding: 5px 12px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+    width: fit-content;
+  }
+
+  .cover-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .cover-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  .cover-subtitle {
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--text-secondary);
+    margin-bottom: 48px;
+    letter-spacing: 0.02em;
+  }
+
+  .cover-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 56px;
+  }
+
+  .cover-meta-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .cover-meta-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 6px;
+  }
+
+  .cover-meta-value {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .cover-divider {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 28px;
+  }
+
+  .cover-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .cover-client {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.9;
+  }
+
+  .cover-client strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  .cover-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+
+  .cover-price {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .cover-price-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    letter-spacing: 0.06em;
+  }
+
+  /* ── Section Headers ── */
+  .section {
+    margin-top: 72px;
+  }
+
+  .section-number {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 6px;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+
+  .section-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  .section-rule {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 32px;
+  }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .card-sm {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* ── Grid Layouts ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
+
+  /* ── Highlight Box ── */
+  .highlight {
+    border-radius: var(--radius-md);
+    padding: 18px 22px;
+    font-size: 13px;
+    line-height: 1.75;
+  }
+
+  .highlight-amber { background: var(--accent-bg); border: 1px solid rgba(217,119,6,0.18); color: #92400e; }
+  .highlight-teal { background: var(--teal-light); border: 1px solid rgba(13,148,136,0.18); color: #134e4a; }
+  .highlight-blue { background: var(--blue-light); border: 1px solid rgba(37,99,235,0.15); color: #1e3a8a; }
+  .highlight-red { background: var(--red-light); border: 1px solid rgba(220,38,38,0.15); color: #7f1d1d; }
+  .highlight-green { background: var(--green-light); border: 1px solid rgba(22,163,74,0.15); color: #14532d; }
+
+  /* ── Tags ── */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .tag-amber { background: var(--accent-light); color: #92400e; border: 1px solid rgba(217,119,6,0.2); }
+  .tag-teal { background: var(--teal-light); color: #0f766e; border: 1px solid rgba(13,148,136,0.2); }
+  .tag-red { background: var(--red-light); color: #b91c1c; border: 1px solid rgba(220,38,38,0.2); }
+  .tag-green { background: var(--green-light); color: #15803d; border: 1px solid rgba(22,163,74,0.2); }
+  .tag-gray { background: var(--surface-2); color: var(--text-secondary); border: 1px solid var(--border); }
+  .tag-blue { background: var(--blue-light); color: #1d4ed8; border: 1px solid rgba(37,99,235,0.2); }
+
+  /* ── Table ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  th {
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px 14px;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  tr:hover td { background: var(--surface-2); }
+
+  .td-note { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+  .tr-total td {
+    background: var(--surface-2);
+    font-weight: 600;
+    border-top: 1px solid var(--border-strong);
+    border-bottom: none;
+  }
+
+  /* ── Metric Cards ── */
+  .metric-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .metric-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 8px;
+  }
+
+  .metric-value {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .metric-sub {
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  /* ── Module Scope ── */
+  .module-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .module-item:last-child { border-bottom: none; }
+
+  .module-icon {
+    width: 36px; height: 36px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .module-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 3px;
+  }
+
+  .module-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .module-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 7px;
+  }
+
+  /* ── Timeline ── */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px; top: 8px; bottom: 8px;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 24px;
+  }
+
+  .timeline-item:last-child { margin-bottom: 0; }
+
+  .timeline-dot {
+    position: absolute;
+    left: -24px;
+    top: 5px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--surface);
+    box-shadow: 0 0 0 1px var(--border-strong);
+  }
+
+  .timeline-phase {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 3px;
+  }
+
+  .timeline-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  .timeline-body {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .timeline-bar {
+    height: 4px;
+    border-radius: 2px;
+    margin-top: 8px;
+    opacity: 0.7;
+  }
+
+  /* ── Risk Matrix ── */
+  .risk-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    margin-bottom: 10px;
+    background: var(--surface);
+  }
+
+  .risk-level {
+    flex-shrink: 0;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 100px;
+    letter-spacing: 0.06em;
+    margin-top: 1px;
+  }
+
+  .risk-high { background: var(--red-light); color: #b91c1c; }
+  .risk-mid { background: var(--accent-light); color: #92400e; }
+  .risk-low { background: var(--green-light); color: #15803d; }
+
+  .risk-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 3px;
+  }
+
+  .risk-body {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* ── Validation Metrics ── */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 140px 160px;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .kpi-row:last-child { border-bottom: none; }
+
+  .kpi-name { font-weight: 500; color: var(--text-primary); }
+  .kpi-method { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+  .kpi-target { font-size: 13px; font-weight: 500; text-align: right; }
+  .kpi-phase { text-align: right; }
+
+  /* ── Two column content ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 32px 0;
+  }
+
+  /* ── Scope Out ── */
+  .scope-out-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--surface-2);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-decoration: line-through;
+    text-decoration-color: var(--border-strong);
+    margin-bottom: 6px;
+  }
+
+  .scope-out-item::before {
+    content: '✕';
+    font-size: 11px;
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+    text-decoration: none;
+    display: inline-block;
+    text-decoration: none;
+  }
+
+  /* ── Footer ── */
+  .doc-footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { background: white; }
+    .page { padding: 0 20px 40px; }
+    .cover { min-height: auto; padding: 40px 0 30px; page-break-after: always; }
+    .section { page-break-inside: avoid; }
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .cover > * {
+    animation: fadeUp 0.6s ease-out both;
+  }
+
+  .cover-tag { animation-delay: 0.05s; }
+  .cover-title { animation-delay: 0.1s; }
+  .cover-subtitle { animation-delay: 0.15s; }
+  .cover-meta-grid { animation-delay: 0.2s; }
+  .cover-divider { animation-delay: 0.25s; }
+  .cover-bottom { animation-delay: 0.3s; }
+
+  /* Profit highlight card */
+  .profit-hero {
+    background: linear-gradient(135deg, #fffbf0 0%, #fef3c7 100%);
+    border: 1.5px solid rgba(217,119,6,0.25);
+    border-radius: var(--radius-xl);
+    padding: 36px;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 20px;
+  }
+
+  .profit-hero-left { flex: 1; }
+  .profit-hero-title {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #92400e;
+    margin-bottom: 8px;
+  }
+  .profit-hero-amount {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 52px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .profit-hero-sub { font-size: 13px; color: #a16207; }
+
+  .profit-hero-divider {
+    width: 1px; height: 80px;
+    background: rgba(217,119,6,0.2);
+  }
+
+  .profit-hero-right {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 200px;
+  }
+
+  .profit-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+  }
+
+  .profit-stat-label { color: #92400e; }
+  .profit-stat-value { font-weight: 600; color: var(--text-primary); }
+
+  /* Waterfall row */
+  .wf-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .wf-row:last-child { border-bottom: none; }
+  .wf-row-total { background: var(--surface-2); font-weight: 600; border-radius: var(--radius-sm); }
+  .wf-label { color: var(--text-primary); }
+  .wf-sub { font-size: 11px; color: var(--text-tertiary); }
+  .wf-amount { font-weight: 500; white-space: nowrap; }
+  .neg { color: var(--red); }
+  .pos { color: var(--green); }
+  .neutral { color: var(--text-primary); }
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ═══════════════════════════════════════════
+       COVER
+  ═══════════════════════════════════════════ -->
+  <div class="cover">
+    <div class="cover-tag">技术服务投标文件 · 2026年3月</div>
+
+    <div class="cover-title">日语AI自适应<br>测试智能体</div>
+    <div class="cover-subtitle">大连外国语大学 · 软件开发与交付服务</div>
+
+    <div class="cover-meta-grid">
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">交付周期</div>
+        <div class="cover-meta-value">8–10 个月</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">核心算法</div>
+        <div class="cover-meta-value">IRT 三段演进</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">服务对象</div>
+        <div class="cover-meta-value">学习者 + 运营团队</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">团队规模</div>
+        <div class="cover-meta-value">10 人精干团队</div>
+      </div>
+    </div>
+
+    <div class="cover-divider"></div>
+
+    <div class="cover-bottom">
+      <div class="cover-client">
+        <strong>项目委托方</strong>
+        大连外国语大学<br>
+        联系人：于 处<br>
+        需求文档版本：V1.1 · 2026-03-25
+      </div>
+      <div class="cover-badge">
+        <div class="cover-price-label">本期服务报价（含税）</div>
+        <div class="cover-price">¥ 1,000,000</div>
+        <div class="cover-price-label" style="margin-top:4px">云资源及运营成本由甲方另行采购</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       01 · 项目背景与目标
+  ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">01</div>
+    <div class="section-title">项目背景与目标</div>
+    <div class="section-desc">围绕 JLPT N1–N5 应试备考全链路，构建"测试—分析—规划—训练"四位一体的智能化备考服务体系。</div>
+    <div class="section-rule"></div>
+
+    <div class="grid-2" style="margin-bottom:20px;">
+      <div class="card">
+        <div style="font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:12px;">核心痛点</div>
+        <div class="module-item" style="padding:10px 0;">
+          <div class="module-icon" style="background:var(--red-light);">⚠</div>
+          <div>
+            <div class="module-name">水平评估不准</div>
+            <div class="module-desc">固定题库无法反映真实 JLPT 水平，误差超过一个等级</div>
+          </div>
+        </div>
+        <div class="module-item" style="padding:10px 0;">
+          <div class="module-icon" style="background:var(--accent-light);">⚠</div>
+          <div>
+            <div class="module-name">复习规划一刀切</div>
+            <div class="module-desc">无法结合目标等级与剩余备考时间制定个性化计划</div>
+          </div>
+        </div>
+        <div class="module-item" style="padding:10px 0;border:none;">
+          <div class="module-icon" style="background:var(--blue-light);">⚠</div>
+          <div>
+            <div class="module-name">数据价值未挖掘</div>
+            <div class="module-desc">学习数据分散存储，无法支撑算法迭代与教研优化</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:12px;">解决方案</div>
+        <div class="module-item" style="padding:10px 0;">
+          <div class="module-icon" style="background:var(--teal-light);">✦</div>
+          <div>
+            <div class="module-name">IRT 自适应测试引擎</div>
+            <div class="module-desc">基于项目反应理论，千人千题，水平定位误差 ≤ 0.5 等级</div>
+          </div>
+        </div>
+        <div class="module-item" style="padding:10px 0;">
+          <div class="module-icon" style="background:var(--teal-light);">✦</div>
+          <div>
+            <div class="module-name">mem0 记忆科学架构</div>
+            <div class="module-desc">三层用户记忆体系，LLM Agent 携带完整历史上下文生成规划</div>
+          </div>
+        </div>
+        <div class="module-item" style="padding:10px 0;border:none;">
+          <div class="module-icon" style="background:var(--teal-light);">✦</div>
+          <div>
+            <div class="module-name">备考闭环服务链路</div>
+            <div class="module-desc">测试→薄弱点分析→个性化规划→靶向训练，数据完全打通</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       02 · 交付范围
+  ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">02</div>
+    <div class="section-title">本期交付范围</div>
+    <div class="section-desc">服务对象仅为学习者与运营人员两类角色。教师端、学生 Web 端、发音/作文评测、课程体系等功能列入二期需求池，不在本次合同范围内。</div>
+    <div class="section-rule"></div>
+
+    <div class="grid-2" style="margin-bottom:20px;">
+      <!-- APP -->
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+          <div style="width:32px;height:32px;background:var(--teal-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">📱</div>
+          <div>
+            <div style="font-size:14px;font-weight:500;">移动端 APP</div>
+            <div style="font-size:12px;color:var(--text-secondary);">iOS + Android · 约 10 个页面</div>
+          </div>
+        </div>
+        <div class="module-item">
+          <div class="module-icon" style="background:var(--teal-light);font-size:13px;">①</div>
+          <div>
+            <div class="module-name">登录注册</div>
+            <div class="module-desc">手机号 / 微信 / QQ，学习信息完善</div>
+          </div>
+        </div>
+        <div class="module-item">
+          <div class="module-icon" style="background:var(--teal-light);font-size:13px;">②</div>
+          <div>
+            <div class="module-name">AI 自适应测试</div>
+            <div class="module-desc">N1–N5 分级，实时难度调整，断点续答，30–60 分钟</div>
+          </div>
+        </div>
+        <div class="module-item">
+          <div class="module-icon" style="background:var(--teal-light);font-size:13px;">③</div>
+          <div>
+            <div class="module-name">水平报告 + 薄弱点分析</div>
+            <div class="module-desc">即时生成等级报告，考点拆解，可视化图表展示</div>
+          </div>
+        </div>
+        <div class="module-item">
+          <div class="module-icon" style="background:var(--teal-light);font-size:13px;">④</div>
+          <div>
+            <div class="module-name">AI 个性化备考规划</div>
+            <div class="module-desc">基于目标等级 + 剩余天数 + 历史记忆生成每日计划</div>
+          </div>
+        </div>
+        <div class="module-item">
+          <div class="module-icon" style="background:var(--teal-light);font-size:13px;">⑤</div>
+          <div>
+            <div class="module-name">靶向训练 + 错题管理</div>
+            <div class="module-desc">薄弱点推题，错题收藏、重做、解析，复习提醒</div>
+          </div>
+        </div>
+        <div class="module-item" style="border:none;">
+          <div class="module-icon" style="background:var(--teal-light);font-size:13px;">⑥</div>
+          <div>
+            <div class="module-name">个人中心 + 资讯社群</div>
+            <div class="module-desc">学习档案、测试历史、JLPT 考试资讯入口</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Web 后台 -->
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+          <div style="width:32px;height:32px;background:var(--accent-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">🖥</div>
+          <div>
+            <div style="font-size:14px;font-weight:500;">Web 运营管理后台</div>
+            <div style="font-size:12px;color:var(--text-secondary);">教研 + 运营人员 · 约 8 个页面</div>
+          </div>
+        </div>
+        <div class="module-item">
+          <div class="module-icon" style="background:var(--accent-light);font-size:13px;">①</div>
+          <div>
+            <div class="module-name">仪表盘 / 数据总览</div>
+            <div class="module-desc">注册量、活跃度、测试准确率等核心运营指标</div>
+          </div>
+        </div>
+        <div class="module-item">
+          <div class="module-icon" style="background:var(--accent-light);font-size:13px;">②</div>
+          <div>
+            <div class="module-name">题库管理</div>
+            <div class="module-desc">N1–N5 全题型 CRUD，考点/难度/易错点标注，2–3 轮审核流程</div>
+          </div>
+        </div>
+        <div class="module-item">
+          <div class="module-icon" style="background:var(--accent-light);font-size:13px;">③</div>
+          <div>
+            <div class="module-name">错题数据库管理</div>
+            <div class="module-desc">高频错题统计，错因分析，算法优化数据支撑</div>
+          </div>
+        </div>
+        <div class="module-item">
+          <div class="module-icon" style="background:var(--accent-light);font-size:13px;">④</div>
+          <div>
+            <div class="module-name">用户管理</div>
+            <div class="module-desc">用户列表、用户详情、学习档案查看</div>
+          </div>
+        </div>
+        <div class="module-item">
+          <div class="module-icon" style="background:var(--accent-light);font-size:13px;">⑤</div>
+          <div>
+            <div class="module-name">用户行为分析</div>
+            <div class="module-desc">测试频率、训练时长、规划执行率等行为数据</div>
+          </div>
+        </div>
+        <div class="module-item" style="border:none;">
+          <div class="module-icon" style="background:var(--accent-light);font-size:13px;">⑥</div>
+          <div>
+            <div class="module-name">资讯运营 + 算法配置</div>
+            <div class="module-desc">JLPT 资讯发布，IRT 参数调整，规则引擎配置</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 范围外 -->
+    <div class="highlight highlight-amber" style="margin-bottom:16px;">
+      <strong>本期范围外（列入二期需求池）</strong>——以下功能不在本次合同交付范围内，原始需求说明书中均无记载，属于后续扩展方向。
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div class="scope-out-item">发音评测页面（需专用语音 API + 多模态处理）</div>
+      <div class="scope-out-item">作文评测页面（LLM 长文本批改流水线）</div>
+      <div class="scope-out-item">教师端（班级管理、作业布置、作业批改）</div>
+      <div class="scope-out-item">学生 Web 端（课程详情、错题本、学习报告）</div>
+      <div class="scope-out-item">课程列表 / 词汇学习独立页面</div>
+      <div class="scope-out-item">课程库管理后台</div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       03 · 技术方案
+  ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">03</div>
+    <div class="section-title">核心技术方案</div>
+    <div class="section-desc">三大技术难点的落地路径，均已结合项目冷启动现实与100万预算约束进行优化设计。</div>
+    <div class="section-rule"></div>
+
+    <!-- IRT -->
+    <div class="card" style="margin-bottom:16px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px;">
+        <div>
+          <div style="font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:4px;">难点 01 · 最高风险项</div>
+          <div style="font-size:17px;font-weight:500;color:var(--text-primary);">IRT 自适应算法——三段演进策略</div>
+        </div>
+        <span class="tag tag-amber">算法</span>
+      </div>
+
+      <div class="grid-3">
+        <div style="padding:16px;background:var(--surface-2);border-radius:var(--radius-md);border-left:3px solid var(--teal);">
+          <div style="font-size:11px;font-weight:600;color:var(--teal);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;">Phase 1 · 0–6月</div>
+          <div style="font-size:13px;font-weight:500;margin-bottom:6px;">规则引擎兜底</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.65;">JLPT 官方分级预标注难度1–5级，EAP 简化估计 θ 值。答对3题连续升级，答错2题连续降级。此阶段算法可靠，承诺指标保守表述。</div>
+        </div>
+        <div style="padding:16px;background:var(--surface-2);border-radius:var(--radius-md);border-left:3px solid var(--accent);">
+          <div style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;">Phase 2 · 6–12月</div>
+          <div style="font-size:13px;font-weight:500;margin-bottom:6px;">混合过渡期</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.65;">单题积累超 500 条作答数据后启动 EM 算法参数标定。高置信度题目切换 IRT 选题，低数据量题目继续规则兜底。</div>
+        </div>
+        <div style="padding:16px;background:var(--surface-2);border-radius:var(--radius-md);border-left:3px solid var(--blue);">
+          <div style="font-size:11px;font-weight:600;color:var(--blue);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;">Phase 3 · 12月+</div>
+          <div style="font-size:13px;font-weight:500;margin-bottom:6px;">全量 IRT 切换</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.65;">全部题目完成三参数标定（难度 b / 区分度 a / 猜测率 c），实现真正 CAT 计算机自适应测试，精度达到验收标准。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- mem0 -->
+    <div class="card" style="margin-bottom:16px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px;">
+        <div>
+          <div style="font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:4px;">难点 02 · 差异化核心</div>
+          <div style="font-size:17px;font-weight:500;color:var(--text-primary);">记忆科学架构——三层用户记忆体系</div>
+        </div>
+        <span class="tag tag-teal">LLM / mem0</span>
+      </div>
+
+      <div class="grid-3">
+        <div style="background:var(--surface-2);border-radius:var(--radius-md);padding:16px;text-align:center;">
+          <div style="font-size:22px;margin-bottom:8px;">⚡</div>
+          <div style="font-size:13px;font-weight:500;margin-bottom:4px;">短期记忆</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-bottom:8px;">本次测试会话状态</div>
+          <span class="tag tag-gray">Redis · TTL 24h</span>
+        </div>
+        <div style="background:var(--surface-2);border-radius:var(--radius-md);padding:16px;text-align:center;">
+          <div style="font-size:22px;margin-bottom:8px;">🧠</div>
+          <div style="font-size:13px;font-weight:500;margin-bottom:4px;">情景记忆</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-bottom:8px;">历史答题模式归纳</div>
+          <span class="tag tag-teal">向量 DB · 周期更新</span>
+        </div>
+        <div style="background:var(--surface-2);border-radius:var(--radius-md);padding:16px;text-align:center;">
+          <div style="font-size:22px;margin-bottom:8px;">📋</div>
+          <div style="font-size:13px;font-weight:500;margin-bottom:4px;">语义记忆</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-bottom:8px;">用户学习画像摘要</div>
+          <span class="tag tag-amber">PostgreSQL · 长期</span>
+        </div>
+      </div>
+
+      <div class="highlight highlight-teal" style="margin-top:14px;">
+        每次 LLM Agent 交互时，系统从三层记忆中检索相关上下文注入 Prompt，使 AI 能"记得"用户上次 N3 语法假定形持续出错、备考剩余 45 天、习惯晚间 10 点学习等个性化信息，规划质量远超通用方案。这是本项目相对竞品的核心技术护城河。
+      </div>
+    </div>
+
+    <!-- 数据记录 -->
+    <div class="card">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px;">
+        <div>
+          <div style="font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:4px;">难点 03 · 数据资产</div>
+          <div style="font-size:17px;font-weight:500;color:var(--text-primary);">多维度用户历史数据记录</div>
+        </div>
+        <span class="tag tag-blue">事件溯源</span>
+      </div>
+
+      <div class="grid-4">
+        <div style="background:var(--surface-2);padding:14px;border-radius:var(--radius-md);">
+          <div style="font-size:11px;font-weight:500;color:var(--text-tertiary);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">答题层</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.7;">题目 ID · 作答选项 · 耗时（毫秒）· 修改次数 · 最终答案</div>
+        </div>
+        <div style="background:var(--surface-2);padding:14px;border-radius:var(--radius-md);">
+          <div style="font-size:11px;font-weight:500;color:var(--text-tertiary);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">会话层</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.7;">测试类型 · 进入时间 · 中断次数 · 断点续答情况</div>
+        </div>
+        <div style="background:var(--surface-2);padding:14px;border-radius:var(--radius-md);">
+          <div style="font-size:11px;font-weight:500;color:var(--text-tertiary);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">能力层</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.7;">每题后 θ 值估计 · 置信区间 · 等级变化轨迹</div>
+        </div>
+        <div style="background:var(--surface-2);padding:14px;border-radius:var(--radius-md);">
+          <div style="font-size:11px;font-weight:500;color:var(--text-tertiary);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">行为层</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.7;">学习时间分布 · 连续学习天数 · 规划完成率</div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;font-size:12px;color:var(--text-secondary);padding:12px 14px;background:var(--surface-2);border-radius:var(--radius-sm);">
+        采用<strong style="color:var(--text-primary);">事件溯源（Event Sourcing）</strong>模式存储，任意时间点的用户状态均可回溯——既是算法优化的基础，也是后续 IRT 标定的核心数据资产。
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       04 · 交付周期
+  ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">04</div>
+    <div class="section-title">项目交付周期</div>
+    <div class="section-desc">8–10 个月完整交付，含 IRT 冷启动过渡期与等保同步建设，比激进的 5–6 个月方案多出充足的算法验证和质量保障时间。</div>
+    <div class="section-rule"></div>
+
+    <div class="card">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--teal);box-shadow:0 0 0 1px var(--teal);"></div>
+          <div class="timeline-phase">Month 1–2</div>
+          <div class="timeline-title">筹备与调研期</div>
+          <div class="timeline-body">需求深化确认（2次现场）· 系统架构设计 · 题库框架搭建 · 算法工程师到岗 · 等保同步启动差距评估</div>
+          <div class="timeline-bar" style="background:var(--teal);width:15%;"></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--accent);box-shadow:0 0 0 1px var(--accent);"></div>
+          <div class="timeline-phase">Month 3–4</div>
+          <div class="timeline-title">核心资源搭建期</div>
+          <div class="timeline-body">N3–N4 题库录入（考点/难度/易错点标注）· 规则引擎 IRT 原型开发 · mem0 记忆层架构设计 · UI 设计稿全量交付</div>
+          <div class="timeline-bar" style="background:var(--accent);width:25%;"></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--blue);box-shadow:0 0 0 1px var(--blue);"></div>
+          <div class="timeline-phase">Month 5–8</div>
+          <div class="timeline-title">产品核心开发期</div>
+          <div class="timeline-body">APP（iOS + Android）全功能开发 · Web 管理后台开发 · N1–N2–N5 题库补全 · mem0 记忆层集成 · 等保安全加固实施</div>
+          <div class="timeline-bar" style="background:var(--blue);width:60%;"></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--coral);box-shadow:0 0 0 1px var(--coral);"></div>
+          <div class="timeline-phase">Month 9–10</div>
+          <div class="timeline-title">测试优化与上线</div>
+          <div class="timeline-body">功能测试 + 1000并发压测 · UAT 用户验收 · 等保三级测评 · 灰度上线 → 全量发布 · 上线培训（1次现场）</div>
+          <div class="timeline-bar" style="background:var(--coral);width:100%;"></div>
+        </div>
+        <div class="timeline-item" style="margin-bottom:0;">
+          <div class="timeline-dot" style="background:var(--green);box-shadow:0 0 0 1px var(--green);"></div>
+          <div class="timeline-phase">Month 12+</div>
+          <div class="timeline-title">IRT 全量切换（里程碑）</div>
+          <div class="timeline-body">真实作答数据积累达标后，逐步完成全题库 IRT 参数标定，切换至真正 CAT 自适应测试，精准度验收指标正式生效</div>
+          <div class="timeline-bar" style="background:var(--green);width:80%;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       05 · 团队配置
+  ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">05</div>
+    <div class="section-title">团队配置</div>
+    <div class="section-desc">10 人精干团队，覆盖 LLM 应用、移动端开发、算法工程、教育行业全栈能力。</div>
+    <div class="section-rule"></div>
+
+    <div class="grid-2">
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>角色</th>
+              <th>人数</th>
+              <th>核心职责</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>算法工程师</strong></td>
+              <td><span class="tag tag-teal">×1</span></td>
+              <td>IRT 引擎 · 推荐算法 · NLP</td>
+            </tr>
+            <tr>
+              <td><strong>LLM 应用工程师</strong></td>
+              <td><span class="tag tag-teal">×1</span></td>
+              <td>Agent 设计 · mem0 集成 · Prompt 工程</td>
+            </tr>
+            <tr>
+              <td><strong>后端工程师</strong></td>
+              <td><span class="tag tag-blue">×2</span></td>
+              <td>API 开发 · 数据库设计 · 算法接口</td>
+            </tr>
+            <tr>
+              <td><strong>移动端工程师</strong></td>
+              <td><span class="tag tag-blue">×2</span></td>
+              <td>iOS + Android 原生开发</td>
+            </tr>
+            <tr>
+              <td><strong>日语教研专员</strong></td>
+              <td><span class="tag tag-amber">×2</span></td>
+              <td>题库出题 · 考点标注 · 解析撰写</td>
+            </tr>
+            <tr>
+              <td><strong>产品 / UI 设计</strong></td>
+              <td><span class="tag tag-gray">×1</span></td>
+              <td>交互设计 · 原型 · 设计规范</td>
+            </tr>
+            <tr>
+              <td><strong>测试 / 运维</strong></td>
+              <td><span class="tag tag-gray">×1</span></td>
+              <td>QA · DevOps · 等保配合</td>
+            </tr>
+            <tr>
+              <td><strong>项目经理</strong></td>
+              <td><span class="tag tag-gray">×1</span></td>
+              <td>交付管理 · 客户对接 · 风险预警</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="highlight highlight-amber" style="margin-bottom:12px;">
+          <strong>关键招聘提示</strong><br>
+          算法工程师（IRT + 推荐方向）为市场稀缺资源，招聘周期约 2–3 个月，建议合同签订后第一周立即启动招聘，否则将直接影响 Phase 1 算法设计节点。
+        </div>
+        <div class="highlight highlight-teal">
+          <strong>教研专员说明</strong><br>
+          日语教研专员可采用兼职顾问制（按天结算），在题库录入高峰期（Month 3–5）全量投入，其余阶段按需调用，有效降低人力成本约 4–6 万元。
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       06 · 验收标准
+  ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">06</div>
+    <div class="section-title">可量化验收标准</div>
+    <div class="section-desc">所有指标均可客观测量，测量方法在合同附件中明确约定。IRT 精准度指标区分 Phase 1 与 Phase 2 两个阶段生效时间。</div>
+    <div class="section-rule"></div>
+
+    <div class="card">
+      <div style="display:grid;grid-template-columns:180px 1fr 150px 140px;gap:12px;padding:8px 0 12px;border-bottom:1px solid var(--border);margin-bottom:4px;">
+        <div style="font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-tertiary);">指标</div>
+        <div style="font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-tertiary);">测量方法</div>
+        <div style="font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-tertiary);text-align:right;">验收门槛</div>
+        <div style="font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-tertiary);text-align:right;">生效阶段</div>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi-name">测试精准度</div>
+        <div class="kpi-method">收集 50 名有官方 JLPT 成绩用户做盲测，计算估计等级与真实等级的 MAE（平均绝对误差）</div>
+        <div class="kpi-target"><span class="tag tag-amber">MAE ≤ 0.6 等级</span></div>
+        <div class="kpi-phase" style="text-align:right;"><span class="tag tag-gray">Phase 1</span></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi-name">IRT 精准度</div>
+        <div class="kpi-method">同上，完成全量 IRT 标定后复测，MAE 进一步收敛</div>
+        <div class="kpi-target"><span class="tag tag-teal">MAE ≤ 0.5 等级</span></div>
+        <div class="kpi-phase" style="text-align:right;"><span class="tag tag-teal">Phase 2+</span></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi-name">自适应有效性</div>
+        <div class="kpi-method">系统日志统计每场测试题目难度标准差，σ 越大说明难度调整越充分</div>
+        <div class="kpi-target"><span class="tag tag-amber">σ ＞ 0.8</span></div>
+        <div class="kpi-phase" style="text-align:right;"><span class="tag tag-gray">上线即效</span></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi-name">系统响应速度</div>
+        <div class="kpi-method">压测工具模拟 1000 并发，统计 P95 单题响应时间（从提交到下一题出现）</div>
+        <div class="kpi-target"><span class="tag tag-teal">P95 ≤ 1.5s</span></div>
+        <div class="kpi-phase" style="text-align:right;"><span class="tag tag-gray">上线即效</span></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi-name">系统稳定性</div>
+        <div class="kpi-method">监控系统自动采集月度服务可用率</div>
+        <div class="kpi-target"><span class="tag tag-teal">月可用率 ≥ 99.5%</span></div>
+        <div class="kpi-phase" style="text-align:right;"><span class="tag tag-gray">上线即效</span></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi-name">题库覆盖度</div>
+        <div class="kpi-method">题库管理后台统计各等级审核通过题目数量</div>
+        <div class="kpi-target"><span class="tag tag-amber">N1–N5 各 ≥ 1000 题</span></div>
+        <div class="kpi-phase" style="text-align:right;"><span class="tag tag-gray">上线即效</span></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi-name">规划执行率</div>
+        <div class="kpi-method">APP 行为数据统计，注册用户中连续 7 天完成当日规划的比例</div>
+        <div class="kpi-target"><span class="tag tag-amber">3 个月内 ≥ 40%</span></div>
+        <div class="kpi-phase" style="text-align:right;"><span class="tag tag-gray">上线后3月</span></div>
+      </div>
+      <div class="kpi-row" style="border:none;">
+        <div class="kpi-name">安全合规</div>
+        <div class="kpi-method">公安部门指定等保测评机构出具测评报告</div>
+        <div class="kpi-target"><span class="tag tag-blue">等保三级通过</span></div>
+        <div class="kpi-phase" style="text-align:right;"><span class="tag tag-gray">上线前完成</span></div>
+      </div>
+    </div>
+
+    <div class="highlight highlight-blue" style="margin-top:14px;">
+      <strong>合同保护条款建议</strong>：Phase 1 阶段（规则引擎期）的精准度指标应在合同中表述为"系统性能提升目标"而非"上线即达标"，Phase 2 指标绑定 IRT 全量标定里程碑后生效，避免冷启动期引发验收争议。
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       07 · 费用说明
+  ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">07</div>
+    <div class="section-title">费用说明</div>
+    <div class="section-desc">本次报价采用"开发交付费与运营资源费分离"结构，符合高校 IT 采购双预算口惯例，客户可通过教育优惠渠道自主采购云资源，通常享有 10–20% 折扣。</div>
+    <div class="section-rule"></div>
+
+    <!-- 开发费 -->
+    <div style="font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:12px;">A · 本期合同报价（开发交付费，含税）</div>
+    <div class="card" style="margin-bottom:20px;">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:40%;">成本项目</th>
+            <th style="text-align:right;">金额</th>
+            <th style="text-align:right;">占比</th>
+            <th>说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>人力成本</strong><div class="td-note">10 人团队 · 8–10 个月 · 约 160 人天</div></td>
+            <td style="text-align:right;font-weight:500;">42 万</td>
+            <td style="text-align:right;"><span class="tag tag-amber">65%</span></td>
+            <td style="font-size:12px;color:var(--text-secondary);">算法工程师按市场价 3,500 元/天计，教研专员兼职制</td>
+          </tr>
+          <tr>
+            <td><strong>差旅费用</strong><div class="td-note">2 次现场（需求确认 + 上线培训）</div></td>
+            <td style="text-align:right;font-weight:500;">3 万</td>
+            <td style="text-align:right;"><span class="tag tag-gray">5%</span></td>
+            <td style="font-size:12px;color:var(--text-secondary);">其余沟通采用远程视频</td>
+          </tr>
+          <tr>
+            <td><strong>APP 上架 + 第三方 SDK</strong><div class="td-note">苹果开发者账号 · 安卓各平台 · 推送 SDK</div></td>
+            <td style="text-align:right;font-weight:500;">1.5 万</td>
+            <td style="text-align:right;"><span class="tag tag-gray">2%</span></td>
+            <td style="font-size:12px;color:var(--text-secondary);">固定成本</td>
+          </tr>
+          <tr>
+            <td><strong>LLM Prompt 工程优化</strong><div class="td-note">专业 Prompt 工程师服务 + 测试验证</div></td>
+            <td style="text-align:right;font-weight:500;">1 万</td>
+            <td style="text-align:right;"><span class="tag tag-gray">2%</span></td>
+            <td style="font-size:12px;color:var(--text-secondary);">规划生成 + 薄弱点分析两个核心场景</td>
+          </tr>
+          <tr>
+            <td><strong>三级等保（测评 + 安全加固）</strong><div class="td-note">公安部指定机构测评 + 安全措施实施</div></td>
+            <td style="text-align:right;font-weight:500;">12 万</td>
+            <td style="text-align:right;"><span class="tag tag-teal">18%</span></td>
+            <td style="font-size:12px;color:var(--text-secondary);">教育系统强制要求，建设周期 2–3 个月，须与开发同步启动</td>
+          </tr>
+          <tr>
+            <td><strong>风险预留（8%）</strong><div class="td-note">范围变更 · 人员流动 · 算法调试超期</div></td>
+            <td style="text-align:right;font-weight:500;">4.8 万</td>
+            <td style="text-align:right;"><span class="tag tag-gray">7%</span></td>
+            <td style="font-size:12px;color:var(--text-secondary);">项目内部缓冲，不另行向甲方收取</td>
+          </tr>
+          <tr class="tr-total">
+            <td><strong>开发交付费合计</strong></td>
+            <td style="text-align:right;font-size:16px;color:var(--accent);">64.3 万</td>
+            <td style="text-align:right;">100%</td>
+            <td style="font-size:12px;color:var(--text-secondary);">含税（增值税 6%）</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 客户自采 -->
+    <div style="font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:12px;">B · 甲方另行采购（运营资源费，不含在本合同报价内）</div>
+    <div class="card" style="margin-bottom:20px;">
+      <table>
+        <thead>
+          <tr>
+            <th>资源项目</th>
+            <th style="text-align:right;">费用估算</th>
+            <th>说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>云服务器 + 数据库</strong><div class="td-note">应用服务器 ×2（4核8G）+ RDS（4核16G）+ Redis</div></td>
+            <td style="text-align:right;font-weight:500;">3–4 万/年</td>
+            <td style="font-size:12px;color:var(--text-secondary);">推荐阿里云 / 华为云教育版，享专属折扣</td>
+          </tr>
+          <tr>
+            <td><strong>对象存储 + CDN 加速</strong><div class="td-note">听力音频文件存储 + 静态资源分发</div></td>
+            <td style="text-align:right;font-weight:500;">0.5 万/年</td>
+            <td style="font-size:12px;color:var(--text-secondary);">按实际存储量和流量计费</td>
+          </tr>
+          <tr>
+            <td><strong>大模型 API 调用费</strong><div class="td-note">规划生成 + 薄弱点分析 · 预估 DAU 500人</div></td>
+            <td style="text-align:right;font-weight:500;">3–4 万/年</td>
+            <td style="font-size:12px;color:var(--text-secondary);">推荐 DeepSeek / 通义千问降低成本；乙方提供选型建议</td>
+          </tr>
+          <tr>
+            <td><strong>短信 + 消息推送服务</strong><div class="td-note">验证码 + 复习提醒推送</div></td>
+            <td style="text-align:right;font-weight:500;">0.5 万/年</td>
+            <td style="font-size:12px;color:var(--text-secondary);">极光推送 / 阿里云短信</td>
+          </tr>
+          <tr>
+            <td><strong>听力音频专业录制</strong><div class="td-note">N1–N5 全等级约 500 条 · 专业日语配音演员</div></td>
+            <td style="text-align:right;font-weight:500;">3 万（一次性）</td>
+            <td style="font-size:12px;color:var(--text-secondary);">建议由贵校日语教研团队主导内容质量把关</td>
+          </tr>
+          <tr>
+            <td><strong>域名 + SSL 证书</strong></td>
+            <td style="text-align:right;font-weight:500;">0.3 万/年</td>
+            <td style="font-size:12px;color:var(--text-secondary);">企业级 SSL + ICP 备案</td>
+          </tr>
+          <tr>
+            <td><strong>等保年度复审（次年起）</strong></td>
+            <td style="text-align:right;font-weight:500;">6 万/年</td>
+            <td style="font-size:12px;color:var(--text-secondary);">每年一次，含持续安全监测</td>
+          </tr>
+          <tr class="tr-total">
+            <td><strong>首年运营资源合计（估算）</strong></td>
+            <td style="text-align:right;font-size:16px;color:var(--teal);">约 16 万</td>
+            <td style="font-size:12px;color:var(--text-secondary);">次年起约 13 万/年（去掉一次性音频录制）</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 合同建议文字 -->
+    <div class="highlight highlight-teal">
+      <strong>合同表述建议</strong>：本合同报价仅含软件开发与交付服务费（含等保建设）。云计算资源、大模型 API 调用、听力内容制作等运营性资源费用由甲方（大连外国语大学）另行采购，乙方提供《资源采购规格建议书》及免费技术对接支持，但不承担因甲方资源采购延迟导致的项目延期责任。<br><br>
+      <strong>资源最低规格要求</strong>：甲方须在系统上线前完成云服务器（4核8G ×2）、数据库实例（4核16G）、Redis 缓存、OSS 对象存储及 CDN、大模型 API 账号（首次充值不低于 3 万元）的采购与配置。
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       08 · 报价总结
+  ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">08</div>
+    <div class="section-title">报价总结与付款安排</div>
+    <div class="section-desc">合同金额与利润结构说明（内部参考）。</div>
+    <div class="section-rule"></div>
+
+    <div class="profit-hero">
+      <div class="profit-hero-left">
+        <div class="profit-hero-title">开发交付服务报价</div>
+        <div class="profit-hero-amount">¥ 64.3万</div>
+        <div class="profit-hero-sub">含税 · 含等保 · 不含运营资源费</div>
+      </div>
+      <div class="profit-hero-divider"></div>
+      <div class="profit-hero-right">
+        <div class="profit-stat">
+          <span class="profit-stat-label">对外报价</span>
+          <span class="profit-stat-value">100 万（合同总额）</span>
+        </div>
+        <div class="profit-stat">
+          <span class="profit-stat-label">总包方抽成 7.5%</span>
+          <span class="profit-stat-value" style="color:var(--red);">－ 7.5 万</span>
+        </div>
+        <div class="profit-stat">
+          <span class="profit-stat-label">商务提成 10%</span>
+          <span class="profit-stat-value" style="color:var(--red);">－ 9.25 万</span>
+        </div>
+        <div class="profit-stat">
+          <span class="profit-stat-label">项目成本</span>
+          <span class="profit-stat-value" style="color:var(--red);">－ 64.3 万</span>
+        </div>
+        <div style="height:1px;background:rgba(217,119,6,0.2);margin:4px 0;"></div>
+        <div class="profit-stat">
+          <span class="profit-stat-label" style="font-weight:600;">净利润</span>
+          <span class="profit-stat-value" style="color:var(--green);font-size:16px;">≈ 18.9 万（20%）</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 付款节点 -->
+    <div style="font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:12px;">建议付款节点</div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>付款节点</th>
+            <th style="text-align:right;">比例</th>
+            <th style="text-align:right;">金额（万元）</th>
+            <th>触发条件</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>首款</strong></td>
+            <td style="text-align:right;">30%</td>
+            <td style="text-align:right;font-weight:500;">19.3</td>
+            <td style="font-size:12px;color:var(--text-secondary);">合同签订后 5 个工作日内</td>
+          </tr>
+          <tr>
+            <td><strong>中期款</strong></td>
+            <td style="text-align:right;">40%</td>
+            <td style="text-align:right;font-weight:500;">25.7</td>
+            <td style="font-size:12px;color:var(--text-secondary);">APP + 后台核心功能交付验收通过（Month 8）</td>
+          </tr>
+          <tr>
+            <td><strong>尾款</strong></td>
+            <td style="text-align:right;">30%</td>
+            <td style="text-align:right;font-weight:500;">19.3</td>
+            <td style="font-size:12px;color:var(--text-secondary);">系统上线、等保通过、培训完成（Month 10）</td>
+          </tr>
+          <tr class="tr-total">
+            <td><strong>合计</strong></td>
+            <td style="text-align:right;">100%</td>
+            <td style="text-align:right;font-size:15px;color:var(--accent);">64.3</td>
+            <td style="font-size:12px;color:var(--text-secondary);">分期支付，降低双方资金风险</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       09 · 风险说明
+  ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">09</div>
+    <div class="section-title">主要风险与应对</div>
+    <div class="section-desc">已识别的五类主要风险，均在成本预算和合同条款中提前做了防护设计。</div>
+    <div class="section-rule"></div>
+
+    <div class="risk-item">
+      <span class="risk-level risk-high">高</span>
+      <div>
+        <div class="risk-title">题库版权风险</div>
+        <div class="risk-body">JLPT 真题受日本国际交流基金会严格版权保护。<strong>应对：</strong>合同中明确"题库内容版权由甲方通过正规渠道采购授权，乙方仅负责系统建设"，书面锁定，避免30–50万隐性成本由我方承担。</div>
+      </div>
+    </div>
+    <div class="risk-item">
+      <span class="risk-level risk-high">高</span>
+      <div>
+        <div class="risk-title">算法工程师招聘延迟</div>
+        <div class="risk-body">IRT 方向算法工程师为稀缺资源，招聘周期 2–3 个月。<strong>应对：</strong>合同签订后第一周立即发布岗位，同步接触 2–3 名候选人；Phase 1 规则引擎期由后端工程师临时承接，降低招聘延迟影响。</div>
+      </div>
+    </div>
+    <div class="risk-item">
+      <span class="risk-level risk-mid">中</span>
+      <div>
+        <div class="risk-title">IRT 冷启动精度争议</div>
+        <div class="risk-body">Phase 1 规则引擎期精度有限，客户可能误以为最终效果如此。<strong>应对：</strong>合同中分阶段写明验收指标（Phase 1 MAE ≤ 0.6，Phase 2+ MAE ≤ 0.5），并约定 IRT 全量切换里程碑时间点。</div>
+      </div>
+    </div>
+    <div class="risk-item">
+      <span class="risk-level risk-mid">中</span>
+      <div>
+        <div class="risk-title">等保测评不通过需整改</div>
+        <div class="risk-body">首次等保测评通过率约 60–70%，不通过需整改复测，增加 2–4 周时间和约 2 万费用。<strong>应对：</strong>与开发同步启动等保差距评估，预留整改时间在项目周期内（Month 9–10 缓冲期），费用已含入风险预留。</div>
+      </div>
+    </div>
+    <div class="risk-item" style="margin-bottom:0;">
+      <span class="risk-level risk-low">低</span>
+      <div>
+        <div class="risk-title">范围蔓延</div>
+        <div class="risk-body">客户或总包方在项目执行中提出教师端、发音评测等二期功能。<strong>应对：</strong>合同附件中明确列出"本期范围外功能清单"，任何新增需求走书面变更单流程，按工作量单独报价，不影响本期利润。</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       10 · 附：二期规划
+  ═══════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-number">10</div>
+    <div class="section-title">附：二期功能规划（续签锁定建议）</div>
+    <div class="section-desc">建议在本期合同中加入二期优先续签条款，锁定客户关系，二期预估合同额 60–80 万，是本项目真正的利润兑现阶段。</div>
+    <div class="section-rule"></div>
+
+    <div class="grid-2">
+      <div class="card-sm">
+        <div style="font-size:13px;font-weight:500;margin-bottom:10px;">二期候选功能</div>
+        <div style="display:flex;flex-direction:column;gap:7px;">
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary);">
+            <span class="tag tag-blue">优先级高</span> 发音评测（日语口语 AI 评分）
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary);">
+            <span class="tag tag-blue">优先级高</span> 作文评测（LLM 批改 + 详细反馈）
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary);">
+            <span class="tag tag-amber">优先级中</span> 教师端（学情监控 + 作业系统）
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary);">
+            <span class="tag tag-amber">优先级中</span> 学生 Web 端（课程中心 + 学习报告）
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary);">
+            <span class="tag tag-gray">优先级低</span> 词汇学习模块（闪卡 + 记忆曲线）
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary);">
+            <span class="tag tag-gray">优先级低</span> 课程体系（视频课 + 课程购买）
+          </div>
+        </div>
+      </div>
+      <div class="card-sm">
+        <div style="font-size:13px;font-weight:500;margin-bottom:10px;">续签条款建议</div>
+        <div style="font-size:13px;color:var(--text-secondary);line-height:1.85;">
+          本项目上线验收后，双方优先就二期功能开发进行续签谈判。二期报价参照本期单价体系，乙方享有同等条件下的优先续签权。续签谈判应在本期尾款支付后 30 日内启动。
+        </div>
+        <div style="margin-top:12px;padding:10px 12px;background:var(--green-light);border-radius:var(--radius-sm);border:1px solid rgba(22,163,74,0.15);">
+          <div style="font-size:12px;color:var(--green);font-weight:500;margin-bottom:3px;">二期预估收益</div>
+          <div style="font-size:20px;font-weight:600;color:var(--green);">60–80 万</div>
+          <div style="font-size:11px;color:#166534;">有续签条款的项目，二期成单率比无条款高约 60%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <div class="doc-footer">
+    <div>日语 AI 自适应测试智能体 · 投标报价文档 · V1.0</div>
+    <div>编制日期：2026年3月25日 · 有效期：3个月</div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WBS V3.0 审核意见 · 大连外国语大学日语AI自适应测试智能体</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Noto Sans SC',-apple-system,sans-serif;
+  font-size:14px;color:#1a1917;
+  background:#f7f6f3;
+  padding:40px 24px 80px;
+}
+.wrap{max-width:960px;margin:0 auto;}
+
+/* Header */
+.doc-header{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid #e3e2de;}
+.doc-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;
+  color:#c77b14;background:#fdf6e8;border:1px solid rgba(199,123,20,0.22);
+  padding:4px 12px;border-radius:100px;margin-bottom:14px;
+}
+.doc-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:#c77b14;}
+.doc-title{font-size:28px;font-weight:600;color:#1a1917;margin-bottom:6px;line-height:1.3;}
+.doc-sub{font-size:14px;color:#5c5b57;line-height:1.6;}
+.doc-meta{display:flex;gap:20px;margin-top:14px;flex-wrap:wrap;}
+.doc-meta-item{font-size:12px;color:#9c9b97;display:flex;align-items:center;gap:5px;}
+.doc-meta-item strong{color:#5c5b57;font-weight:500;}
+
+/* Score grid */
+.score-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1.5rem;}
+.score-card{border-radius:10px;padding:16px;text-align:center;}
+.score-label{font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;}
+.score-value{font-size:26px;font-weight:600;line-height:1;}
+.score-note{font-size:11px;margin-top:4px;}
+.sc-green{background:#f0fdf4;border:1px solid rgba(22,163,74,0.2);}
+.sc-green .score-label,.sc-green .score-note{color:#166534;}
+.sc-green .score-value{color:#15803d;}
+.sc-amber{background:#fffbf0;border:1px solid rgba(199,123,20,0.22);}
+.sc-amber .score-label,.sc-amber .score-note{color:#a16207;}
+.sc-amber .score-value{color:#c77b14;}
+.sc-red{background:#fdf0ef;border:1px solid rgba(192,57,43,0.2);}
+.sc-red .score-label,.sc-red .score-note{color:#7f1d1d;}
+.sc-red .score-value{color:#c0392b;}
+.sc-gray{background:#f2f1ee;border:1px solid #e3e2de;}
+.sc-gray .score-label,.sc-gray .score-note{color:#5c5b57;}
+.sc-gray .score-value{color:#1a1917;}
+
+/* Section label */
+.sec-label{font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.sec-badge{color:#fff;font-size:10px;font-weight:700;padding:2px 10px;border-radius:100px;}
+
+/* Highlight items */
+.hl-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.5rem;}
+.hl-item{padding:10px 14px;background:#f0fdf4;border:1px solid rgba(22,163,74,0.18);border-radius:8px;font-size:12px;color:#134e4a;line-height:1.65;}
+
+/* Issue cards */
+.issue-card{border-radius:10px;overflow:hidden;margin-bottom:10px;}
+.issue-card:last-child{margin-bottom:0;}
+.issue-header{padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.issue-badge{color:#fff;font-size:10px;font-weight:700;padding:2px 10px;border-radius:100px;white-space:nowrap;}
+.issue-title{font-size:13px;font-weight:500;color:#1a1917;}
+.issue-body{padding:12px 16px;background:#fff;font-size:12px;color:#5c5b57;line-height:1.75;}
+.issue-action{font-size:12px;margin-top:6px;font-weight:500;}
+.arrow-badge{display:flex;align-items:center;gap:6px;white-space:nowrap;}
+.old-val{font-size:12px;text-decoration:line-through;}
+.new-val{font-size:13px;font-weight:600;}
+
+/* Omission table */
+table.omit{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:1.5rem;}
+table.omit th{text-align:left;padding:8px 10px;color:#9c9b97;font-weight:500;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;border-bottom:1px solid #e3e2de;}
+table.omit td{padding:10px 10px;border-bottom:1px solid #e3e2de;vertical-align:top;}
+table.omit tr:last-child td{border-bottom:none;}
+.omit-tag{display:inline-flex;font-size:11px;font-weight:500;padding:2px 9px;border-radius:100px;white-space:nowrap;}
+
+/* Cross-check table */
+.cross-table{width:100%;border-collapse:collapse;font-size:12px;}
+.cross-table th{text-align:left;padding:7px 10px;color:#1e3a8a;font-weight:500;font-size:11px;border-bottom:1px solid rgba(26,86,214,0.15);}
+.cross-table td{padding:7px 10px;border-bottom:1px solid rgba(26,86,214,0.1);vertical-align:middle;line-height:1.5;}
+.cross-table tr:last-child td{border-bottom:none;}
+
+/* Summary box */
+.summary{
+  background:linear-gradient(135deg,#fffbf0,#fef3c7);
+  border:1.5px solid rgba(199,123,20,0.28);
+  border-radius:14px;padding:22px 26px;margin-top:28px;
+}
+.summary-title{font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#92400e;margin-bottom:12px;}
+.summary-body{font-size:13px;color:#78350f;line-height:1.85;}
+
+/* Stat strip */
+.stat-strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:14px 0;}
+.stat-box{background:rgba(255,255,255,0.7);border-radius:8px;padding:12px;text-align:center;}
+.stat-label{font-size:11px;color:#92400e;margin-bottom:4px;}
+.stat-val{font-size:22px;font-weight:600;color:#1a1917;}
+.stat-note{font-size:10px;color:#9b1c1c;margin-top:2px;}
+
+/* Rule */
+.rule{height:1px;background:#e3e2de;margin:28px 0;}
+
+/* Footer */
+.footer{margin-top:48px;padding-top:20px;border-top:1px solid #e3e2de;display:flex;justify-content:space-between;font-size:11px;color:#9c9b97;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- Header -->
+<div class="doc-header">
+  <div class="doc-tag">WBS 审核报告</div>
+  <div class="doc-title">WBS V3.0 审核意见</div>
+  <div class="doc-sub">大连外国语大学 · 日语AI自适应测试智能体 · 一期工作分解结构评审</div>
+  <div class="doc-meta">
+    <div class="doc-meta-item">📄 <strong>评审文档</strong> WBS V3.0（一期版）</div>
+    <div class="doc-meta-item">📅 <strong>评审日期</strong> 2026年3月26日</div>
+    <div class="doc-meta-item">🔍 <strong>交叉核验</strong> PRD V1.0 + 概算 V1.1</div>
+  </div>
+</div>
+
+<!-- Score grid -->
+<div class="score-grid">
+  <div class="score-card sc-green">
+    <div class="score-label">三文档一致性</div>
+    <div class="score-value">高</div>
+    <div class="score-note">WBS与PRD基本对齐</div>
+  </div>
+  <div class="score-card sc-amber">
+    <div class="score-label">工时异常项</div>
+    <div class="score-value">4项</div>
+    <div class="score-note">低估或高估</div>
+  </div>
+  <div class="score-card sc-red">
+    <div class="score-label">遗漏工作项</div>
+    <div class="score-value">5项</div>
+    <div class="score-note">影响交付完整性</div>
+  </div>
+  <div class="score-card sc-gray">
+    <div class="score-label">WBS综合评分</div>
+    <div class="score-value">85<span style="font-size:14px;font-weight:400;">/100</span></div>
+    <div class="score-note">三份文档中最佳</div>
+  </div>
+</div>
+
+<!-- 亮点 -->
+<div class="sec-label" style="color:#15803d;">
+  <span class="sec-badge" style="background:#16a34a;">✓ WBS的6项亮点</span>
+</div>
+<div class="hl-grid">
+  <div class="hl-item"><strong>颗粒度合适</strong>——每个工作项≤3人天，符合WBS最佳实践，可直接作为Sprint任务卡使用</div>
+  <div class="hl-item"><strong>角色分工清晰</strong>——每项都标注了AI算法/LLM/后端/前端/测试，与概算人员配置可以交叉核验</div>
+  <div class="hl-item"><strong>P0/P1/P2优先级标注</strong>——关键路径清晰，P2项目可在资源紧张时裁剪，保护核心交付</div>
+  <div class="hl-item"><strong>风险表完整</strong>——6类风险全部来自讨论结论，题库版权和算法招聘都已写入，应对措施具体</div>
+  <div class="hl-item"><strong>云资源建议已落地</strong>——第八章实施建议明确写了"云资源建议甲方通过教育优惠渠道自主采购"，与策略一致</div>
+  <div class="hl-item"><strong>人员配置升级到位</strong>——AI算法工程师从1人增至2人，移动端/后端/Web前端各3人，团队规模18人更合理</div>
+</div>
+
+<div class="rule"></div>
+
+<!-- 工时异常 -->
+<div class="sec-label" style="color:#c77b14;">
+  <span class="sec-badge" style="background:#c77b14;">⚠ 4项工时异常</span>
+</div>
+
+<div style="margin-bottom:1.5rem;">
+
+  <div class="issue-card" style="border:1px solid rgba(192,57,43,0.22);">
+    <div class="issue-header" style="background:#fdf0ef;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="issue-badge" style="background:#c0392b;">低估</span>
+        <span class="issue-title">AI自适应测试模块 · IRT算法工程师</span>
+      </div>
+      <div class="arrow-badge">
+        <span class="old-val" style="color:#9b1c1c;">6天</span>
+        <span>→</span>
+        <span class="new-val" style="color:#15803d;">建议 14–16天</span>
+      </div>
+    </div>
+    <div class="issue-body">
+      WBS拆分为"IRT自适应算法引擎（Phase 1规则引擎）6天 + IRT参数标定与优化工具2天"，共8天。但这严重低估了以下工作：<br>
+      ① EAP简化估计的 θ 值计算逻辑（2天）&nbsp;② 动态选题状态机设计——连续答对/错的升降级逻辑（2天）&nbsp;③ 难度系数与JLPT等级的映射标定（2天）&nbsp;④ 与后端选题API的接口联调（2天）。<br>
+      <strong>实际最低需要14–16天</strong>，且这是整个系统最核心的模块，低估会直接导致超期。
+      <div class="issue-action" style="color:#c0392b;">→ 建议：将IRT算法工程师工时拆分为"规则引擎核心逻辑8天 + 参数标定工具4天 + 选题API联调4天"，合计16天。</div>
+    </div>
+  </div>
+
+  <div class="issue-card" style="border:1px solid rgba(192,57,43,0.22);margin-top:10px;">
+    <div class="issue-header" style="background:#fdf0ef;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="issue-badge" style="background:#c0392b;">低估</span>
+        <span class="issue-title">mem0记忆体系集成 · LLM工程师</span>
+      </div>
+      <div class="arrow-badge">
+        <span class="old-val" style="color:#9b1c1c;">4天</span>
+        <span>→</span>
+        <span class="new-val" style="color:#15803d;">建议 10–12天</span>
+      </div>
+    </div>
+    <div class="issue-body">
+      4天只够完成mem0 SDK的基础接入和Hello World验证。三层记忆架构的完整实现包括：<br>
+      ① 短期记忆（Redis会话状态设计）2天&nbsp;② 情景记忆（答题历史向量化 + Embedding写入）3天&nbsp;③ 语义记忆（用户画像摘要生成 + 更新策略）2天&nbsp;④ 记忆检索与Prompt注入逻辑 2天&nbsp;⑤ 生产环境性能调优（记忆召回延迟控制在200ms以内）1天。<br>
+      <strong>实际需要10–12天</strong>，是目前WBS中低估最严重的一项。
+      <div class="issue-action" style="color:#c0392b;">→ 建议：将mem0集成工时拆分为三层记忆独立子任务，总计12天，并在公共模块中补充向量数据库部署工时（见遗漏项）。</div>
+    </div>
+  </div>
+
+  <div class="issue-card" style="border:1px solid rgba(199,123,20,0.28);margin-top:10px;">
+    <div class="issue-header" style="background:#fffbf0;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="issue-badge" style="background:#c77b14;">低估</span>
+        <span class="issue-title">后台管理API开发 · 后端</span>
+      </div>
+      <div class="arrow-badge">
+        <span class="old-val" style="color:#9b1c1c;">4天</span>
+        <span>→</span>
+        <span class="new-val" style="color:#15803d;">建议 10–12天</span>
+      </div>
+    </div>
+    <div class="issue-body">
+      Web后台对应52人天的前端工作量，但后端API只分配了4天。后台实际涉及：题库CRUD+批量导入导出+审核流程API（3天）、用户管理+禁用+数据导出API（2天）、错题数据统计分析API（2天）、用户行为分析聚合查询API（2天）、算法配置读写+参数历史记录API（1天）、资讯管理API（1天）。<br>
+      <strong>合理估算应为10–12天</strong>，4天会造成后台前端大量等接口的阻塞，影响整体进度。
+      <div class="issue-action" style="color:#c77b14;">→ 建议：将"后台管理API开发"按功能域拆分为6个子任务，各自标注优先级，合计12天。</div>
+    </div>
+  </div>
+
+  <div class="issue-card" style="border:1px solid rgba(199,123,20,0.28);margin-top:10px;">
+    <div class="issue-header" style="background:#fffbf0;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="issue-badge" style="background:#c77b14;">技术选型建议</span>
+        <span class="issue-title">微服务架构设计 · 后端</span>
+      </div>
+      <div class="arrow-badge">
+        <span style="font-size:13px;font-weight:600;color:#c0392b;">建议改为单体模块化</span>
+      </div>
+    </div>
+    <div class="issue-body">
+      这里的问题不是工时，而是技术选型本身。初期1000并发、团队3人后端的规模，<strong>微服务架构会大幅增加运维复杂度和联调成本</strong>（服务发现、链路追踪、分布式事务……），是典型的过度设计。<br>
+      建议改为<strong>单体模块化架构（Monolith with Modules）</strong>，用清晰的模块边界为未来拆分做准备，但不在一期引入微服务的全套运维负担，可节省约4–6天的架构设计和运维配置工时。
+      <div class="issue-action" style="color:#c77b14;">→ 建议：将"微服务架构设计"改为"单体模块化架构设计+模块边界规范"，同时简化运维部署复杂度。</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="rule"></div>
+
+<!-- 遗漏项 -->
+<div class="sec-label" style="color:#9b1c1c;">
+  <span class="sec-badge" style="background:#c0392b;">🔴 5项遗漏工作项</span>
+</div>
+
+<table class="omit">
+  <thead>
+    <tr>
+      <th style="width:220px;">遗漏项目</th>
+      <th style="width:110px;text-align:center;">建议工时</th>
+      <th>影响说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="font-weight:500;color:#1a1917;">等保二级建设工作</td>
+      <td style="text-align:center;">
+        <span class="omit-tag" style="background:#fdf0ef;color:#9b1c1c;border:1px solid rgba(192,57,43,0.2);">8–12天</span>
+      </td>
+      <td style="color:#5c5b57;line-height:1.65;">等保测评需要安全制度建设、代码安全审查、渗透测试整改，这些工作需要专人配合。WBS完全没有列出，但概算里有5万的等保预算。谁来做、做什么、花几天——没有答案。</td>
+    </tr>
+    <tr>
+      <td style="font-weight:500;color:#1a1917;">App Store / 各安卓平台上架审核</td>
+      <td style="text-align:center;">
+        <span class="omit-tag" style="background:#fffbf0;color:#92400e;border:1px solid rgba(199,123,20,0.22);">3–5天</span>
+      </td>
+      <td style="color:#5c5b57;line-height:1.65;">iOS审核周期1–7天（含被拒重提），国内安卓各平台（华为/小米/OPPO/vivo）各需单独提交审核。这个工作量没有列入WBS，但会影响最终交付节点。</td>
+    </tr>
+    <tr>
+      <td style="font-weight:500;color:#1a1917;">音频题播放器开发（听力模块）</td>
+      <td style="text-align:center;">
+        <span class="omit-tag" style="background:#fffbf0;color:#92400e;border:1px solid rgba(199,123,20,0.22);">3–4天</span>
+      </td>
+      <td style="color:#5c5b57;line-height:1.65;">PRD第3.3节明确写了"支持音频类题目，带播放/暂停按钮"，但WBS自适应测试模块中没有任何音频播放相关工作项。JLPT听力题的播放控制（不可暂停、仅播一次）是定制逻辑，不是引用一个播放组件就能完成的。</td>
+    </tr>
+    <tr>
+      <td style="font-weight:500;color:#1a1917;">向量数据库选型与部署（mem0依赖）</td>
+      <td style="text-align:center;">
+        <span class="omit-tag" style="background:#fffbf0;color:#92400e;border:1px solid rgba(199,123,20,0.22);">2–3天</span>
+      </td>
+      <td style="color:#5c5b57;line-height:1.65;">mem0情景记忆层需要向量数据库（Chroma/Qdrant/Weaviate）存储答题历史的Embedding。WBS公共模块里只有Redis缓存设计，没有向量DB的选型、部署、索引设计工作。</td>
+    </tr>
+    <tr>
+      <td style="font-weight:500;color:#1a1917;">接口文档 + 开发手册编写</td>
+      <td style="text-align:center;">
+        <span class="omit-tag" style="background:#f2f1ee;color:#5c5b57;border:1px solid #e3e2de;">3–4天</span>
+      </td>
+      <td style="color:#5c5b57;line-height:1.65;">PRD第八章交付物第3条明确要求"接口文档（OpenAPI）、数据库设计文档、开发手册"，但WBS没有为文档编写分配任何工时。这部分漏掉会在验收时被客户追责。</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="rule"></div>
+
+<!-- 三文档交叉核验 -->
+<div class="sec-label" style="color:#1a56d6;">
+  <span class="sec-badge" style="background:#1a56d6;">📋 三份文档交叉核验结论</span>
+</div>
+
+<div style="background:#eff4fe;border:1px solid rgba(26,86,214,0.18);border-radius:10px;padding:16px 18px;margin-bottom:1.5rem;">
+  <table class="cross-table">
+    <thead>
+      <tr>
+        <th style="width:160px;">核验维度</th>
+        <th style="width:120px;text-align:center;">PRD V1.0</th>
+        <th style="width:120px;text-align:center;">概算 V1.1</th>
+        <th style="width:120px;text-align:center;">WBS V3.0</th>
+        <th>结论</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:#1e3a8a;font-weight:500;">项目周期</td>
+        <td style="text-align:center;color:#15803d;font-weight:500;">12–14周</td>
+        <td style="text-align:center;color:#15803d;font-weight:500;">12–14周</td>
+        <td style="text-align:center;color:#15803d;font-weight:500;">12–14周</td>
+        <td style="color:#15803d;font-size:11px;">✓ 三文档完全一致</td>
+      </tr>
+      <tr>
+        <td style="color:#1e3a8a;font-weight:500;">总工时</td>
+        <td style="text-align:center;color:#15803d;font-weight:500;">172人天</td>
+        <td style="text-align:center;color:#15803d;font-weight:500;">172人天</td>
+        <td style="text-align:center;color:#15803d;font-weight:500;">172人天</td>
+        <td style="color:#15803d;font-size:11px;">✓ 三文档完全一致</td>
+      </tr>
+      <tr>
+        <td style="color:#1e3a8a;font-weight:500;">二期排除范围</td>
+        <td style="text-align:center;color:#15803d;font-weight:500;">✓ 5项</td>
+        <td style="text-align:center;color:#15803d;font-weight:500;">✓ 5项</td>
+        <td style="text-align:center;color:#15803d;font-weight:500;">✓ 5项</td>
+        <td style="color:#15803d;font-size:11px;">✓ 三文档完全一致</td>
+      </tr>
+      <tr>
+        <td style="color:#1e3a8a;font-weight:500;">等保级别</td>
+        <td style="text-align:center;color:#15803d;font-weight:500;">二级</td>
+        <td style="text-align:center;color:#c0392b;font-weight:500;">标题三级/内容二级</td>
+        <td style="text-align:center;color:#15803d;font-weight:500;">二级</td>
+        <td style="color:#c0392b;font-size:11px;">✗ 概算标题错误，需修正</td>
+      </tr>
+      <tr>
+        <td style="color:#1e3a8a;font-weight:500;">IRT分阶段验收</td>
+        <td style="text-align:center;color:#c77b14;font-weight:500;">仅Phase 1</td>
+        <td style="text-align:center;color:#9c9b97;">—</td>
+        <td style="text-align:center;color:#15803d;font-weight:500;">两阶段均写入</td>
+        <td style="color:#c77b14;font-size:11px;">△ WBS比PRD更完整，PRD需补Phase 2</td>
+      </tr>
+      <tr>
+        <td style="color:#1e3a8a;font-weight:500;">云资源客户自采</td>
+        <td style="text-align:center;color:#c0392b;font-weight:500;">未提及</td>
+        <td style="text-align:center;color:#c0392b;font-weight:500;">仍含在成本内</td>
+        <td style="text-align:center;color:#15803d;font-weight:500;">✓ 已写入</td>
+        <td style="color:#c0392b;font-size:11px;">✗ WBS写了但PRD/概算未落实</td>
+      </tr>
+      <tr>
+        <td style="color:#1e3a8a;font-weight:500;">题库版权归属</td>
+        <td style="text-align:center;color:#c0392b;font-weight:500;">未提及</td>
+        <td style="text-align:center;color:#c0392b;font-weight:500;">未提及</td>
+        <td style="text-align:center;color:#15803d;font-weight:500;">✓ 已写入</td>
+        <td style="color:#c77b14;font-size:11px;">△ WBS风险表写了，PRD/概算需同步补充</td>
+      </tr>
+      <tr>
+        <td style="color:#1e3a8a;font-weight:500;">人员配置</td>
+        <td style="text-align:center;color:#c77b14;font-weight:500;">未详列</td>
+        <td style="text-align:center;color:#c77b14;font-weight:500;">约10人</td>
+        <td style="text-align:center;color:#15803d;font-weight:500;">18人详列</td>
+        <td style="color:#c77b14;font-size:11px;">△ WBS最详细，概算人数偏少需对齐</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Summary -->
+<div class="summary">
+  <div class="summary-title">修正后工时预测与对外报价影响</div>
+  <div class="stat-strip">
+    <div class="stat-box">
+      <div class="stat-label">当前WBS工时</div>
+      <div class="stat-val">172人天</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">低估+遗漏补充</div>
+      <div class="stat-val" style="color:#c0392b;">+35–45天</div>
+      <div class="stat-note">IRT+mem0+后台API+遗漏项</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">实际合理工时</div>
+      <div class="stat-val" style="color:#15803d;">205–215天</div>
+    </div>
+  </div>
+  <div class="summary-body">
+    <strong>关键判断</strong>：修正后工时约205–215人天，与之前分析的160人天（10人精干团队）差异来源是团队规模不同——WBS用的是18人大团队，两者都合理，只是人员冗余度和风险缓冲策略不同。<br><br>
+    <strong>对报价的影响</strong>：工时增加约20%，对应人力成本从39万增加至约46–48万，概算总额从57.2万上调至约64–67万，<strong>这与之前分析的64.3万高度吻合</strong>——说明之前的估算是准确的，WBS目前172人天是在刻意压低工时以控制报价数字，但实际执行会超。<br><br>
+    <strong>建议</strong>：内部工时表修正至205–215天，对外报价维持64–65万不变，差额作为执行缓冲。同时将WBS风险表中关于云资源客户自采和题库版权归甲方的表述，同步更新到PRD第九章和概算正文，让三份文档在这两个关键保护条款上完全一致。
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <div>WBS V3.0 审核意见 · 大连外国语大学日语AI自适应测试智能体 · 内部文档</div>
+  <div>2026年3月26日</div>
+</div>
+
+</div>
+</body>
+</html>

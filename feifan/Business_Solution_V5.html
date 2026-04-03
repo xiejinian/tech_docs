@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>飞凡科技 · 资源变现全景商业方案 V5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#f5f0e8;--cream-d:#ede8df;--cream-dd:#e4ddd3;--white:#fdfcfa;
+  --ink:#1a1612;--ink-60:rgba(26,22,18,.60);--ink-35:rgba(26,22,18,.35);
+  --ink-12:rgba(26,22,18,.12);--ink-06:rgba(26,22,18,.06);
+  --coral:#d4603a;--coral-lt:#f5e6df;--coral-md:#e8956e;
+  --teal:#1e6b5e;--teal-lt:#d6eeea;
+  --amber:#b87a2a;--amber-lt:#f5e8cc;
+  --plum:#5a3a6b;--plum-lt:#ece0f5;
+  --sage:#3a6645;--sage-lt:#daf0e0;
+  --steel:#3d5068;--steel-lt:#dce6f0;
+  --xc:#7a3030;--xc-lt:#f5e0e0;--xc-md:#c06060;
+  --gold:#8a6a20;--gold-lt:#f5edcc;
+  /* partner colours */
+  --feifan:#d4603a;   /* 飞凡 = coral */
+  --honxiong:#1e6b5e; /* 红熊 = teal */
+  --xiaorong:#5a3a6b; /* 小融 = plum */
+  --mengzhao:#b87a2a; /* 萌招 = amber */
+  --disp:#3d5068;     /* 显示器 = steel */
+  --xinci:#7a3030;    /* 信创 = xc */
+  --r:12px;--r-sm:7px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:'Noto Sans SC',sans-serif;font-size:14px;font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:99;background:rgba(245,240,232,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--ink-12);padding:0 36px}
+.nav-in{max-width:1160px;margin:0 auto;height:54px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.nav-brand{font-family:'Crimson Pro',serif;font-size:16px;font-weight:600;white-space:nowrap;color:var(--coral)}
+.nav-links{display:flex;gap:16px}
+.nav-links a{font-size:11px;color:var(--ink-60);text-decoration:none;letter-spacing:.04em;transition:color .2s;white-space:nowrap}
+.nav-links a:hover{color:var(--coral)}
+.nav-tag{background:var(--coral);color:#fff;border-radius:20px;padding:4px 14px;font-size:11px;font-weight:500;white-space:nowrap}
+
+/* WRAP */
+.wrap{max-width:1160px;margin:0 auto;padding:0 36px 100px}
+
+/* HERO */
+.hero{padding:64px 0 48px;border-bottom:1px solid var(--ink-12);margin-bottom:72px}
+.hero-kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);font-weight:500;margin-bottom:14px}
+.hero-h1{font-family:'Crimson Pro',serif;font-size:48px;font-weight:300;line-height:1.1;letter-spacing:-.02em;max-width:780px;margin-bottom:18px}
+.hero-h1 em{font-style:italic;color:var(--coral)}
+.hero-p{max-width:620px;color:var(--ink-60);font-size:14.5px;line-height:1.75;margin-bottom:28px}
+.hero-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:26px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border:1px solid var(--ink-12);border-radius:20px;font-size:11.5px;color:var(--ink-60);background:var(--white)}
+.chip .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.nb{display:inline-block;color:#fff;font-size:9px;font-weight:700;letter-spacing:.06em;padding:1px 5px;border-radius:3px;vertical-align:middle;margin-left:4px}
+.hero-meta{display:flex;gap:28px;flex-wrap:wrap}
+.mi{display:flex;flex-direction:column;gap:2px}
+.mi-l{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-35);font-weight:500}
+.mi-v{font-size:13px;font-weight:500}
+
+/* SECTION */
+.sec{margin-bottom:80px}
+.sec-hd{margin-bottom:26px}
+.sec-num{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);font-weight:500;margin-bottom:5px}
+.sec-h2{font-family:'Crimson Pro',serif;font-size:29px;font-weight:400;line-height:1.2;letter-spacing:-.01em}
+.sec-sub{color:var(--ink-60);font-size:13.5px;margin-top:6px;max-width:620px}
+
+/* ══ ECOSYSTEM MAP ══════════════════════════════════════════════════ */
+.eco{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto;gap:12px}
+.eco-center{grid-column:2;grid-row:1 / 3;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--coral);border-radius:var(--r);padding:28px 20px;color:#fff;text-align:center;position:relative}
+.eco-center::before{content:'';position:absolute;inset:0;border-radius:var(--r);background:radial-gradient(ellipse at 50% 30%,rgba(255,255,255,.08),transparent 70%)}
+.eco-c-name{font-family:'Crimson Pro',serif;font-size:26px;font-weight:600;margin-bottom:4px}
+.eco-c-sub{font-size:11px;color:rgba(255,255,255,.6);letter-spacing:.06em;margin-bottom:20px}
+.eco-c-caps{display:flex;flex-direction:column;gap:5px;width:100%}
+.eco-c-cap{background:rgba(255,255,255,.12);border-radius:var(--r-sm);padding:6px 10px;font-size:11.5px;color:rgba(255,255,255,.85)}
+.eco-partner{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);padding:18px}
+.eco-partner.top{align-self:end}
+.ep-badge{display:inline-block;font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;padding:2px 7px;border-radius:3px;color:#fff;margin-bottom:8px}
+.ep-name{font-family:'Crimson Pro',serif;font-size:17px;font-weight:600;margin-bottom:4px}
+.ep-rel{font-size:11px;color:var(--ink-35);margin-bottom:10px;font-style:italic}
+.ep-item{display:flex;gap:6px;margin-bottom:6px;font-size:12px;color:var(--ink-60);line-height:1.5}
+.ep-item::before{content:'·';font-size:16px;line-height:1.1;flex-shrink:0}
+.eco-arrow{display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--ink-35);gap:4px;flex-direction:column}
+.eco-arrow-label{font-size:10px;color:var(--ink-35);text-align:center;line-height:1.4}
+
+/* ══ CONFLICT WARNING ══════════════════════════════════════════════ */
+.conflict-box{background:var(--white);border:1px solid var(--amber);border-radius:var(--r);padding:22px 26px;margin-top:14px}
+.conflict-title{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--amber);margin-bottom:10px}
+.conflict-body{font-size:13px;color:var(--ink-60);line-height:1.75}
+.conflict-body strong{color:var(--ink);font-weight:500}
+
+/* ══ PRODUCT CATALOG ═══════════════════════════════════════════════ */
+.prod-sections{display:flex;flex-direction:column;gap:14px}
+.prod-group{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);overflow:hidden}
+.prod-group-head{padding:14px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--ink-06)}
+.pgh-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.pgh-owner{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.pgh-name{font-family:'Crimson Pro',serif;font-size:16px;font-weight:600}
+.pgh-role{font-size:11px;color:var(--ink-35);margin-left:auto;font-style:italic}
+.prod-items{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.prod-item{padding:16px 18px;border-right:1px solid var(--ink-06);border-bottom:1px solid var(--ink-06)}
+.prod-item:nth-child(3n){border-right:none}
+.prod-item:nth-last-child(-n+3){border-bottom:none}
+.prod-item:nth-last-child(-n+2){border-bottom:none}
+.prod-item:last-child{border-bottom:none}
+.pi-name{font-weight:600;font-size:13px;margin-bottom:3px}
+.pi-desc{font-size:12px;color:var(--ink-60);line-height:1.55;margin-bottom:8px}
+.pi-price{font-family:'Crimson Pro',serif;font-size:14px;font-weight:600}
+.pi-role-tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:3px;font-weight:500;margin-top:4px}
+
+/* ══ TRAINING MODULE ═══════════════════════════════════════════════ */
+.training-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.train-card{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);overflow:hidden}
+.tc-head{padding:18px 20px;border-bottom:1px solid var(--ink-06)}
+.tc-kicker{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--coral);margin-bottom:5px}
+.tc-title{font-family:'Crimson Pro',serif;font-size:18px;font-weight:600;line-height:1.25;margin-bottom:3px}
+.tc-sub{font-size:12px;color:var(--ink-60)}
+.tc-body{padding:16px 20px}
+.tc-course{background:var(--cream);border-radius:var(--r-sm);padding:10px 13px;margin-bottom:8px}
+.tc-course-name{font-weight:600;font-size:12.5px;margin-bottom:3px}
+.tc-course-desc{font-size:12px;color:var(--ink-60);line-height:1.5}
+.tc-footer{padding:14px 20px;background:var(--cream-d);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.tc-price{font-family:'Crimson Pro',serif;font-size:18px;font-weight:600}
+.tc-price-note{font-size:11px;color:var(--ink-60);margin-top:2px}
+.tc-mode{font-size:11.5px;color:var(--ink-60)}
+
+/* funnel box */
+.funnel-box{background:linear-gradient(135deg,var(--coral-lt),var(--teal-lt));border:1px solid var(--ink-12);border-radius:var(--r);padding:20px 24px;margin-top:14px}
+.funnel-title{font-family:'Crimson Pro',serif;font-size:17px;font-weight:600;margin-bottom:8px}
+.funnel-desc{font-size:13px;color:var(--ink-60);line-height:1.65;margin-bottom:14px}
+.funnel-steps{display:flex;align-items:center;gap:0;flex-wrap:wrap}
+.fs{flex:1;min-width:100px;text-align:center;padding:10px 8px;background:var(--white);border-radius:var(--r-sm)}
+.fs-num{font-family:'Crimson Pro',serif;font-size:18px;font-weight:600;color:var(--coral)}
+.fs-label{font-size:11px;color:var(--ink-60);margin-top:2px;line-height:1.4}
+.fa{color:var(--ink-35);font-size:16px;padding:0 6px}
+
+/* ══ CHANNEL SYSTEM ════════════════════════════════════════════════ */
+.ch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.ch-card{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);padding:18px}
+.ch-card.priority{border-color:var(--coral)}
+.ch-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.ch-icon{font-size:20px}
+.ch-badge{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500}
+.ch-name{font-family:'Crimson Pro',serif;font-size:16px;font-weight:600;margin-bottom:4px}
+.ch-who{font-size:11.5px;color:var(--ink-60);margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--ink-06)}
+.ch-item{display:flex;gap:6px;margin-bottom:6px;font-size:12.5px;color:var(--ink-60);line-height:1.5}
+.ch-item::before{content:'→';color:var(--coral);font-weight:600;flex-shrink:0;font-size:12px}
+.ch-commission{margin-top:10px;padding-top:10px;border-top:1px solid var(--ink-06);font-size:12px}
+.ch-commission strong{font-weight:600;color:var(--coral)}
+
+/* ══ OPP GRID ══════════════════════════════════════════════════════ */
+.opp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.oc{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;transition:box-shadow .2s,transform .2s}
+.oc:hover{box-shadow:0 6px 24px rgba(26,22,18,.08);transform:translateY(-2px)}
+.oc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.oc-num{font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:600}
+.oc-badge{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;white-space:nowrap}
+.b-now{background:var(--sage-lt);color:var(--sage)}
+.b-mid{background:var(--amber-lt);color:var(--amber)}
+.b-scale{background:var(--plum-lt);color:var(--plum)}
+.b-train{background:var(--coral-lt);color:var(--coral)}
+.b-ch{background:var(--teal-lt);color:var(--teal)}
+.b-xc{background:var(--xc-lt);color:var(--xc)}
+.b-st{background:var(--steel-lt);color:var(--steel)}
+.oc-icon{font-size:20px;margin-bottom:6px}
+.oc-title{font-family:'Crimson Pro',serif;font-size:16px;font-weight:600;line-height:1.3;margin-bottom:5px}
+.oc-desc{font-size:12px;color:var(--ink-60);line-height:1.6;flex:1;margin-bottom:10px}
+.oc-foot{border-top:1px solid var(--ink-06);padding-top:10px;display:flex;justify-content:space-between;align-items:center}
+.oc-model{font-size:11px;color:var(--ink-60)}
+.oc-ret{font-family:'Crimson Pro',serif;font-size:14px;font-weight:600}
+
+/* ══ MATRIX TABLE ══════════════════════════════════════════════════ */
+.mat{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);overflow:hidden}
+.mat table{width:100%;border-collapse:collapse}
+.mat th{padding:10px 13px;background:var(--cream-dd);font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--ink-60);text-align:left;border-bottom:1px solid var(--ink-12)}
+.mat td{padding:11px 13px;font-size:12px;border-bottom:1px solid var(--ink-06);vertical-align:middle}
+.mat tr:last-child td{border-bottom:none}
+.mat tr:hover td{background:var(--cream)}
+.mat tr.hr td{background:var(--honxiong-lt, var(--teal-lt))}
+.mat tr.xr td{background:var(--xiaorong-lt,var(--plum-lt))}
+.mat tr.xcr td{background:var(--xc-lt)}
+.mat tr.str td{background:var(--steel-lt)}
+.mat tr.trr td{background:var(--coral-lt)}
+.mat tr.chr td{background:var(--teal-lt)}
+.mat tr.hr:hover td{background:#c6e0dc}
+.mat tr.xr:hover td{background:#ddd0ea}
+.mat tr.xcr:hover td{background:#ecd0d0}
+.mat tr.trr:hover td{background:#ead6ce}
+.mat tr.chr:hover td{background:#c6e0dc}
+.tp{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:500}
+.t1{background:var(--sage-lt);color:var(--sage)}
+.t2{background:var(--amber-lt);color:var(--amber)}
+.t3{background:var(--plum-lt);color:var(--plum)}
+.tx{background:var(--xc-lt);color:var(--xc)}
+.ts{background:var(--steel-lt);color:var(--steel)}
+.tt{background:var(--coral-lt);color:var(--coral)}
+.tc2{background:var(--teal-lt);color:var(--teal)}
+.ebar{display:flex;gap:2px}
+.ep{width:7px;height:7px;border-radius:2px;background:var(--ink-12)}
+.ep.on{background:var(--coral)}.ep.xon{background:var(--xc)}.ep.son{background:var(--steel)}.ep.ton{background:var(--teal)}
+.spl{font-family:'Crimson Pro',serif;font-size:14px;font-weight:600;color:var(--coral)}
+.spl.t{color:var(--teal)}.spl.x{color:var(--xc)}.spl.s{color:var(--steel)}.spl.p{color:var(--plum)}
+
+/* ══ PROJECTION ════════════════════════════════════════════════════ */
+.proj-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:9px}
+.pc{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);padding:16px 13px}
+.pc-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--ink-35);margin-bottom:6px}
+.pc-range{font-family:'Crimson Pro',serif;font-size:20px;font-weight:600;line-height:1;margin-bottom:2px}
+.pc-unit{font-size:10.5px;color:var(--ink-60);margin-bottom:7px}
+.pc-items{list-style:none}
+.pc-items li{font-size:11px;color:var(--ink-60);padding-left:9px;position:relative;margin-bottom:2px;line-height:1.45}
+.pc-items li::before{content:'·';position:absolute;left:0;font-size:14px;line-height:1.1}
+
+/* ══ ROADMAP ═══════════════════════════════════════════════════════ */
+.rm3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.rm-card{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);overflow:hidden}
+.rm-head{padding:15px 18px;border-bottom:1px solid var(--ink-06)}
+.rm-period{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-bottom:3px}
+.rm-title{font-family:'Crimson Pro',serif;font-size:15px;font-weight:600;line-height:1.25}
+.rm-body{padding:13px 17px}
+.rm-item{display:flex;gap:7px;margin-bottom:7px;font-size:12px;color:var(--ink-60);line-height:1.55}
+.rm-n{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;margin-top:1px}
+.ph1 .rm-period{color:var(--teal)}.ph1 .rm-n{background:var(--teal-lt);color:var(--teal)}
+.ph2 .rm-period{color:var(--coral)}.ph2 .rm-n{background:var(--coral-lt);color:var(--coral)}
+.ph3 .rm-period{color:var(--plum)}.ph3 .rm-n{background:var(--plum-lt);color:var(--plum)}
+
+/* ══ RISK ══════════════════════════════════════════════════════════ */
+.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.risk-card{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);padding:17px 20px}
+.risk-top{display:flex;gap:8px;margin-bottom:6px}
+.risk-icon{font-size:15px}
+.risk-title{font-weight:600;font-size:13px}
+.risk-desc{font-size:12px;color:var(--ink-60);line-height:1.65}
+.risk-act{margin-top:9px;padding-top:9px;border-top:1px solid var(--ink-06);font-size:12px;display:flex;gap:6px}
+.risk-act::before{content:'→';color:var(--coral);font-weight:600;flex-shrink:0}
+
+/* FOOT */
+.divider{border:none;border-top:1px solid var(--ink-12);margin:0 0 60px}
+.foot{border-top:1px solid var(--ink-12);padding-top:20px;font-size:11.5px;color:var(--ink-35);line-height:1.8;display:flex;justify-content:space-between;gap:20px}
+
+/* ANIM */
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.hero,.sec{animation:rise .5s ease both}
+.sec:nth-child(2){animation-delay:.05s}.sec:nth-child(3){animation-delay:.09s}
+.sec:nth-child(4){animation-delay:.13s}.sec:nth-child(5){animation-delay:.17s}
+.sec:nth-child(6){animation-delay:.21s}.sec:nth-child(7){animation-delay:.25s}
+.sec:nth-child(8){animation-delay:.29s}.sec:nth-child(9){animation-delay:.33s}
+.sec:nth-child(10){animation-delay:.37s}.sec:nth-child(11){animation-delay:.41s}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <div class="nav-brand">飞凡科技 · 全景商业方案 V5</div>
+    <div class="nav-links">
+      <a href="#eco">生态地图</a>
+      <a href="#products">产品目录</a>
+      <a href="#training">培训体系</a>
+      <a href="#channels">渠道体系</a>
+      <a href="#opps">十八大机会</a>
+      <a href="#matrix">优先矩阵</a>
+      <a href="#proj">收入预测</a>
+      <a href="#roadmap">路线图</a>
+    </div>
+    <div class="nav-tag">V5 · 生态完整版</div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-kicker">飞凡科技 FeiVan Tech · Business Strategy V5</div>
+  <h1 class="hero-h1">以技术为核，<em>六方生态</em>驱动的<br>立体变现体系</h1>
+  <p class="hero-p">V5首次以飞凡科技为中心，完整呈现六大合作方的生态协同关系，整合自有产品、合作产品、培训体系与六类销售渠道，构建一套可持续规模化的商业方案。</p>
+  <div class="hero-chips">
+    <div class="chip"><span class="dot" style="background:var(--feifan)"></span>飞凡科技（主体）</div>
+    <div class="chip"><span class="dot" style="background:var(--honxiong)"></span>红熊AI — 分包+渠道</div>
+    <div class="chip"><span class="dot" style="background:var(--xiaorong)"></span>小融科技 — 金融AI+资源</div>
+    <div class="chip"><span class="dot" style="background:var(--mengzhao)"></span>萌招科技 — 通信/云/数据资源</div>
+    <div class="chip"><span class="dot" style="background:var(--disp)"></span>显示器供应商</div>
+    <div class="chip"><span class="dot" style="background:var(--xinci)"></span>信创服务器供应商 <span class="nb" style="background:var(--xc)">NEW</span></div>
+  </div>
+  <div class="hero-meta">
+    <div class="mi"><span class="mi-l">变现方向</span><span class="mi-v">十八大方向</span></div>
+    <div class="mi"><span class="mi-l">销售渠道</span><span class="mi-v">六类渠道体系</span></div>
+    <div class="mi"><span class="mi-l">培训产品</span><span class="mi-v">三大课程线</span></div>
+    <div class="mi"><span class="mi-l">年化预测</span><span class="mi-v">80 – 350万（飞凡分成）</span></div>
+  </div>
+</div>
+
+<!-- S0: 生态地图 -->
+<section class="sec" id="eco">
+  <div class="sec-hd">
+    <div class="sec-num">00 — 生态全景</div>
+    <h2 class="sec-h2">飞凡科技六方合作生态图</h2>
+    <p class="sec-sub">飞凡科技作为中心节点，向上整合五类资源/产品供给，向下通过六类渠道触达市场，技术交付能力是整个生态的核心价值锚点。</p>
+  </div>
+  <div class="eco">
+    <!-- 左上：红熊AI -->
+    <div class="eco-partner top">
+      <div class="ep-badge" style="background:var(--honxiong)">红熊AI</div>
+      <div class="ep-name">红熊AI</div>
+      <div class="ep-rel">双向关系：发包方 ↔ 渠道合作方</div>
+      <div class="ep-item" style="color:var(--honxiong)">向飞凡发包AI定制开发项目</div>
+      <div class="ep-item" style="color:var(--honxiong)">飞凡帮红熊销售：AI中台、智能营销获客、外呼产品</div>
+      <div class="ep-item">产品：AI中台 / 智能营销获客 / 外呼产品</div>
+    </div>
+    <!-- 中心：飞凡 -->
+    <div class="eco-center">
+      <div class="eco-c-name">飞凡科技</div>
+      <div class="eco-c-sub">FeiVan Tech · 核心主体</div>
+      <div class="eco-c-caps">
+        <div class="eco-c-cap">🤖 AI技术交付 · 架构设计</div>
+        <div class="eco-c-cap">📚 AI培训课程体系</div>
+        <div class="eco-c-cap">🔗 生态整合 · 渠道管理</div>
+        <div class="eco-c-cap">📋 合同法律体系已就绪</div>
+      </div>
+    </div>
+    <!-- 右上：小融科技 -->
+    <div class="eco-partner top">
+      <div class="ep-badge" style="background:var(--xiaorong)">小融科技</div>
+      <div class="ep-name">小融科技</div>
+      <div class="ep-rel">渠道合作 + 资源代理 + 交付合作</div>
+      <div class="ep-item" style="color:var(--xiaorong)">飞凡销售小融金融AI产品（金融尽调等）</div>
+      <div class="ep-item" style="color:var(--xiaorong)">小融提供Token资源代理（额外资源渠道）</div>
+      <div class="ep-item">未来：联合AI定制交付</div>
+    </div>
+    <!-- 左下：萌招科技 -->
+    <div class="eco-partner">
+      <div class="ep-badge" style="background:var(--mengzhao)">萌招科技</div>
+      <div class="ep-name">萌招科技</div>
+      <div class="ep-rel">资源供给方</div>
+      <div class="ep-item">移动通信线路（电话/视频/短信）</div>
+      <div class="ep-item">外呼黑名单服务（移动授权）</div>
+      <div class="ep-item">阿里云代理 / 算力Token资源</div>
+      <div class="ep-item">移动全景数据服务</div>
+    </div>
+    <!-- 右下：硬件供应商 -->
+    <div class="eco-partner">
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+        <div class="ep-badge" style="background:var(--disp)">显示器</div>
+        <div class="ep-badge" style="background:var(--xinci)">信创</div>
+      </div>
+      <div class="ep-name">硬件供应商</div>
+      <div class="ep-rel">两家独立供货方</div>
+      <div class="ep-item" style="color:var(--disp)">传统显示器 + AI显示器（走量+溢价）</div>
+      <div class="ep-item" style="color:var(--xinci)">信创服务器（鲲鹏/飞腾/海光）</div>
+      <div class="ep-item" style="color:var(--xinci)">政采资质 + 等保合规材料</div>
+    </div>
+  </div>
+
+  <!-- 红熊双向关系利益冲突说明 -->
+  <div class="conflict-box">
+    <div class="conflict-title">⚠️ 红熊AI双向关系：利益冲突风险说明与管控</div>
+    <div class="conflict-body">
+      红熊AI与飞凡科技存在<strong>两类独立合同关系</strong>：①《分包框架协议》（红熊发包，飞凡承接技术交付）；②《渠道销售合作协议》（飞凡作为红熊产品的销售渠道方）。<br><br>
+      <strong>潜在冲突场景：</strong>飞凡在向某客户销售红熊产品时，若该客户同时有AI定制开发需求，飞凡可能面临"推荐客户购买红熊产品（自己赚渠道佣金）"还是"自己承接定制项目（自己赚交付收入）"的利益冲突选择。<br><br>
+      <strong>管控建议：</strong>在两份协议中明确约定——飞凡自主开拓的客户，其定制开发需求优先由飞凡承接，红熊标准化产品作为可选配套；红熊主动引荐给飞凡的客户，若最终购买红熊产品，飞凡按渠道佣金结算，不主动推荐自有定制服务替代红熊产品。双方每季度对账一次客户来源归属。
+    </div>
+  </div>
+</section>
+
+<!-- S1: 产品目录 -->
+<section class="sec" id="products">
+  <div class="sec-hd">
+    <div class="sec-num">01 — 产品目录</div>
+    <h2 class="sec-h2">飞凡全产品目录：自有 + 合作产品完整清单</h2>
+    <p class="sec-sub">按产品归属方分组，明确飞凡在每类产品中的角色（交付主体 / 销售渠道 / 资源转售），避免定位模糊。</p>
+  </div>
+  <div class="prod-sections">
+
+    <!-- 飞凡自有 -->
+    <div class="prod-group">
+      <div class="prod-group-head">
+        <div class="pgh-dot" style="background:var(--feifan)"></div>
+        <div class="pgh-owner" style="color:var(--feifan)">飞凡科技自有</div>
+        <div class="pgh-name">AI技术交付 · 培训课程</div>
+        <div class="pgh-role">飞凡 = 产品主体，100%收入归属</div>
+      </div>
+      <div class="prod-items">
+        <div class="prod-item"><div class="pi-name">AI系统定制开发</div><div class="pi-desc">从需求分析到系统交付的全流程AI项目开发，含架构设计、模型集成、部署上线</div><div class="pi-price" style="color:var(--feifan)">项目制报价</div><div class="pi-role-tag" style="background:var(--coral-lt);color:var(--coral)">主营业务</div></div>
+        <div class="prod-item"><div class="pi-name">AI顾问 / 月度技术顾问费</div><div class="pi-desc">为企业提供持续AI技术咨询、架构审查、选型建议，按月收费</div><div class="pi-price" style="color:var(--feifan)">1–5万/月</div><div class="pi-role-tag" style="background:var(--coral-lt);color:var(--coral)">被动收入</div></div>
+        <div class="prod-item"><div class="pi-name">AI效果审计报告</div><div class="pi-desc">针对已部署AI系统出具效果诊断报告，发现优化机会，自然转化为后续项目</div><div class="pi-price" style="color:var(--feifan)">3–10万/次</div><div class="pi-role-tag" style="background:var(--coral-lt);color:var(--coral)">新增</div></div>
+      </div>
+    </div>
+
+    <!-- 红熊AI产品 -->
+    <div class="prod-group">
+      <div class="prod-group-head">
+        <div class="pgh-dot" style="background:var(--honxiong)"></div>
+        <div class="pgh-owner" style="color:var(--honxiong)">红熊AI出品</div>
+        <div class="pgh-name">AI中台 · 智能营销获客 · 外呼产品</div>
+        <div class="pgh-role">飞凡 = 销售渠道方，按合同获渠道佣金</div>
+      </div>
+      <div class="prod-items">
+        <div class="prod-item"><div class="pi-name">红熊AI中台</div><div class="pi-desc">企业级AI能力中台，支持多模型接入、统一API管理、权限控制，适合有自建AI能力需求的中大型企业</div><div class="pi-price" style="color:var(--honxiong)">SaaS年费 / 私有化部署</div><div class="pi-role-tag" style="background:var(--teal-lt);color:var(--teal)">渠道销售</div></div>
+        <div class="prod-item"><div class="pi-name">智能营销获客平台</div><div class="pi-desc">AI驱动的线索挖掘、意图识别、自动触达，适合有B2B获客需求的企业销售团队</div><div class="pi-price" style="color:var(--honxiong)">按坐席/月</div><div class="pi-role-tag" style="background:var(--teal-lt);color:var(--teal)">渠道销售</div></div>
+        <div class="prod-item"><div class="pi-name">智能外呼产品</div><div class="pi-desc">AI话务引擎，支持智能打断、话术推荐、通话质检，与萌招科技通信线路天然整合</div><div class="pi-price" style="color:var(--honxiong)">按坐席/月 + 通话费</div><div class="pi-role-tag" style="background:var(--teal-lt);color:var(--teal)">渠道销售</div></div>
+      </div>
+    </div>
+
+    <!-- 小融科技产品 -->
+    <div class="prod-group">
+      <div class="prod-group-head">
+        <div class="pgh-dot" style="background:var(--xiaorong)"></div>
+        <div class="pgh-owner" style="color:var(--xiaorong)">小融科技出品</div>
+        <div class="pgh-name">金融AI产品线 · Token资源代理</div>
+        <div class="pgh-role">飞凡 = 渠道方 + 未来交付合作方</div>
+      </div>
+      <div class="prod-items">
+        <div class="prod-item"><div class="pi-name">AI金融尽调系统</div><div class="pi-desc">自动化尽职调查报告生成，整合工商、司法、舆情等多维数据，适合PE/VC/银行信贷场景</div><div class="pi-price" style="color:var(--xiaorong)">按报告次数 / 年费</div><div class="pi-role-tag" style="background:var(--plum-lt);color:var(--plum)">渠道销售</div></div>
+        <div class="prod-item"><div class="pi-name">金融AI合规助手</div><div class="pi-desc">监管政策解读、合规检查清单自动生成，适合证券、基金、保险的合规部门</div><div class="pi-price" style="color:var(--xiaorong)">SaaS年费</div><div class="pi-role-tag" style="background:var(--plum-lt);color:var(--plum)">渠道销售</div></div>
+        <div class="prod-item"><div class="pi-name">小融Token资源代理</div><div class="pi-desc">小融科技持有的算力Token资源，与萌招科技渠道形成双资源来源，提升供给稳定性和议价能力</div><div class="pi-price" style="color:var(--xiaorong)">按量计费</div><div class="pi-role-tag" style="background:var(--plum-lt);color:var(--plum)">资源转售</div></div>
+      </div>
+    </div>
+
+    <!-- 萌招资源 -->
+    <div class="prod-group">
+      <div class="prod-group-head">
+        <div class="pgh-dot" style="background:var(--mengzhao)"></div>
+        <div class="pgh-owner" style="color:var(--mengzhao)">萌招科技资源</div>
+        <div class="pgh-name">通信线路 · 云资源 · 数据服务</div>
+        <div class="pgh-role">飞凡 = 资源渠道方，赚差价或佣金</div>
+      </div>
+      <div class="prod-items">
+        <div class="prod-item"><div class="pi-name">移动通信线路</div><div class="pi-desc">电话外呼 / 视频通话 / 短信三通道，移动授权，企业主叫显示</div><div class="pi-price" style="color:var(--mengzhao)">200–1500元/坐席/月</div><div class="pi-role-tag" style="background:var(--amber-lt);color:var(--amber)">资源转售</div></div>
+        <div class="prod-item"><div class="pi-name">外呼黑名单 + 全景数据</div><div class="pi-desc">移动官方授权黑名单（合规过滤）+ 用户画像/行为意图分析（精准触达）</div><div class="pi-price" style="color:var(--mengzhao)">2000–8000元/月起</div><div class="pi-role-tag" style="background:var(--amber-lt);color:var(--amber)">资源转售</div></div>
+        <div class="prod-item"><div class="pi-name">阿里云资源 / Token</div><div class="pi-desc">阿里云算力、Qwen API、百炼平台、Qoder企业版，通过授权代理渠道提供折扣价</div><div class="pi-price" style="color:var(--mengzhao)">差价5–15%</div><div class="pi-role-tag" style="background:var(--amber-lt);color:var(--amber)">资源转售</div></div>
+      </div>
+    </div>
+
+    <!-- 硬件产品 -->
+    <div class="prod-group">
+      <div class="prod-group-head">
+        <div class="pgh-dot" style="background:var(--disp)"></div>
+        <div class="pgh-owner" style="color:var(--steel)">硬件供应商</div>
+        <div class="pgh-name">显示器 · 信创服务器</div>
+        <div class="pgh-role">飞凡 = 渠道销售方，赚差价</div>
+      </div>
+      <div class="prod-items">
+        <div class="prod-item"><div class="pi-name">商务/专业显示器</div><div class="pi-desc">企业批量采购，办公/工控/监控场景，走量保底</div><div class="pi-price" style="color:var(--steel)">800–15,000元/台</div><div class="pi-role-tag" style="background:var(--steel-lt);color:var(--steel)">硬件渠道</div></div>
+        <div class="prod-item"><div class="pi-name">AI显示器</div><div class="pi-desc">内置AI算力，与飞凡AI软件系统捆绑，构成软硬一体方案，高毛利</div><div class="pi-price" style="color:var(--steel)">3,000–30,000元/台</div><div class="pi-role-tag" style="background:var(--steel-lt);color:var(--steel)">软硬捆绑</div></div>
+        <div class="prod-item"><div class="pi-name">信创服务器</div><div class="pi-desc">鲲鹏/飞腾/海光平台，附政采资质和等保合规材料，解锁政企市场</div><div class="pi-price" style="color:var(--xc)">1.5–80万元/台</div><div class="pi-role-tag" style="background:var(--xc-lt);color:var(--xc)">信创渠道</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S2: 培训体系 -->
+<section class="sec" id="training">
+  <div class="sec-hd">
+    <div class="sec-num">02 — 培训体系</div>
+    <h2 class="sec-h2">飞凡AI企业培训产品线</h2>
+    <p class="sec-sub">三大课程线覆盖基础到高阶，线上线下双轨并行。培训是独立收入来源，同时是资源销售和项目转化的最高效漏斗。</p>
+  </div>
+  <div class="training-grid">
+
+    <!-- 基础办公 -->
+    <div class="train-card">
+      <div class="tc-head">
+        <div class="tc-kicker">Course Line 01 · 全员基础</div>
+        <div class="tc-title">AI办公提效实战营</div>
+        <div class="tc-sub">面向全体员工，降低AI工具使用门槛，快速提升日常工作效率</div>
+      </div>
+      <div class="tc-body">
+        <div class="tc-course"><div class="tc-course-name">📋 项目管理 × AI协同</div><div class="tc-course-desc">AI辅助项目计划生成、风险预判、进度跟踪，工具：Qwen/Claude/Notion AI</div></div>
+        <div class="tc-course"><div class="tc-course-name">🤝 AI协作技巧</div><div class="tc-course-desc">提示词工程基础、多轮对话设计、AI输出质量审核，适用于所有岗位</div></div>
+        <div class="tc-course"><div class="tc-course-name">📊 交付管理 × AI加速</div><div class="tc-course-desc">需求文档自动化、周报/汇报生成、会议纪要提炼，缩短交付周期</div></div>
+      </div>
+      <div class="tc-footer">
+        <div><div class="tc-price" style="color:var(--teal)">线下：1.5–3万/天<br>线上：5,000–8,000/场</div><div class="tc-price-note">企业包年：8–15万/年</div></div>
+        <div class="tc-mode">👥 适合：20–200人企业<br>⏱ 半天/全天</div>
+      </div>
+    </div>
+
+    <!-- 研发场景 -->
+    <div class="train-card">
+      <div class="tc-head">
+        <div class="tc-kicker">Course Line 02 · 研发专项</div>
+        <div class="tc-title">AI研发提效工作坊</div>
+        <div class="tc-sub">面向研发/产品团队，深度整合AI工具进入研发流程</div>
+      </div>
+      <div class="tc-body">
+        <div class="tc-course"><div class="tc-course-name">💻 算法 × AI协同开发</div><div class="tc-course-desc">AI辅助算法设计、代码生成、代码审查，Qoder/Copilot企业实战</div></div>
+        <div class="tc-course"><div class="tc-course-name">🔧 AI工具链集成</div><div class="tc-course-desc">Qoder企业版部署、CI/CD流程AI化、测试用例自动生成</div></div>
+        <div class="tc-course"><div class="tc-course-name">📐 提示词工程进阶</div><div class="tc-course-desc">System Prompt设计、RAG落地实践、多Agent协作框架搭建</div></div>
+      </div>
+      <div class="tc-footer">
+        <div><div class="tc-price" style="color:var(--coral)">线下：2–4万/天<br>线上：8,000–1.2万/场</div><div class="tc-price-note">深度定制：5–10万/期</div></div>
+        <div class="tc-mode">👥 适合：研发/产品团队<br>⏱ 1–2天工作坊</div>
+      </div>
+    </div>
+
+    <!-- 高阶管理 -->
+    <div class="train-card">
+      <div class="tc-head">
+        <div class="tc-kicker">Course Line 03 · 高阶管理层</div>
+        <div class="tc-title">AI战略落地领导力课程</div>
+        <div class="tc-sub">面向CXO/总监级，帮助管理层建立AI战略认知并推动企业AI落地</div>
+      </div>
+      <div class="tc-body">
+        <div class="tc-course"><div class="tc-course-name">🎯 企业AI战略规划</div><div class="tc-course-desc">AI落地优先级评估、ROI测算方法、选型决策框架</div></div>
+        <div class="tc-course"><div class="tc-course-name">🏗️ AI项目管理与治理</div><div class="tc-course-desc">AI项目立项、风险管控、验收标准设计，避免踩坑</div></div>
+        <div class="tc-course"><div class="tc-course-name">🔍 AI应用场景识别</div><div class="tc-course-desc">结合行业特点识别高价值AI落地场景，输出企业AI路线图</div></div>
+      </div>
+      <div class="tc-footer">
+        <div><div class="tc-price" style="color:var(--plum)">线下：3–6万/天<br>线上：1.5–3万/场</div><div class="tc-price-note">高管私教：8–20万/期</div></div>
+        <div class="tc-mode">👥 适合：CXO/总监<br>⏱ 半天精华版</div>
+      </div>
+    </div>
+
+    <!-- 在线平台 -->
+    <div class="train-card" style="border-color:var(--coral)">
+      <div class="tc-head">
+        <div class="tc-kicker">Course Line 04 · 线上规模化</div>
+        <div class="tc-title">飞凡AI学院（线上平台）</div>
+        <div class="tc-sub">将三条课程线录播上线，实现被动收入 + 品牌建设 + 大规模获客漏斗</div>
+      </div>
+      <div class="tc-body">
+        <div class="tc-course"><div class="tc-course-name">🎬 录播课程</div><div class="tc-course-desc">将三条课程线精华内容录制上线，知识星球/得到/企鹅课堂等平台分发，或自建小程序</div></div>
+        <div class="tc-course"><div class="tc-course-name">📺 直播公开课（免费引流）</div><div class="tc-course-desc">每月1–2次免费直播，主题围绕AI落地热点，结尾推荐企业内训和产品资源</div></div>
+        <div class="tc-course"><div class="tc-course-name">👥 付费学习社群</div><div class="tc-course-desc">月费制AI实践社群，定期分享案例/工具/资源，培养长期客户关系</div></div>
+      </div>
+      <div class="tc-footer">
+        <div><div class="tc-price" style="color:var(--coral)">录播：299–999元/人<br>社群：199–499元/月</div><div class="tc-price-note">主要价值：获客漏斗</div></div>
+        <div class="tc-mode">🌐 不限人数<br>⏱ 持续运营</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 培训漏斗 -->
+  <div class="funnel-box">
+    <div class="funnel-title">🔄 培训转化漏斗设计：培训是最高质量的销售入口</div>
+    <div class="funnel-desc">学员在培训中体验飞凡的技术能力和产品视野，天然产生后续采购意愿。设计清晰的转化路径，让每场培训都成为多种产品的销售节点。</div>
+    <div class="funnel-steps">
+      <div class="fs"><div class="fs-num">1</div><div class="fs-label">免费直播<br>获取线索</div></div>
+      <div class="fa">→</div>
+      <div class="fs"><div class="fs-num">2</div><div class="fs-label">付费内训<br>建立信任</div></div>
+      <div class="fa">→</div>
+      <div class="fs"><div class="fs-num">3</div><div class="fs-label">推荐阿里云<br>/Qoder资源</div></div>
+      <div class="fa">→</div>
+      <div class="fs"><div class="fs-num">4</div><div class="fs-label">AI效果审计<br>发现项目机会</div></div>
+      <div class="fa">→</div>
+      <div class="fs"><div class="fs-num">5</div><div class="fs-label">AI定制开发<br>项目签约</div></div>
+      <div class="fa">→</div>
+      <div class="fs"><div class="fs-num">6</div><div class="fs-label">长期技术顾问<br>持续收入</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- S3: 渠道体系 -->
+<section class="sec" id="channels">
+  <div class="sec-hd">
+    <div class="sec-num">03 — 渠道体系</div>
+    <h2 class="sec-h2">六类销售渠道分层体系</h2>
+    <p class="sec-sub">飞凡的技术能力是供给侧，渠道是需求侧入口。渠道越多样，同等技术投入撬动的收入规模越大。六类渠道各有侧重，互不冲突。</p>
+  </div>
+  <div class="ch-grid">
+
+    <div class="ch-card priority">
+      <div class="ch-head">
+        <div class="ch-icon">🤝</div>
+        <div class="ch-badge" style="background:var(--teal-lt);color:var(--teal)">核心渠道 · 立即启动</div>
+      </div>
+      <div class="ch-name">红熊AI双向渠道</div>
+      <div class="ch-who">红熊既是发包方也是渠道合作方，双向价值流动</div>
+      <div class="ch-item">红熊引荐AI定制客户给飞凡（飞凡技术交付）</div>
+      <div class="ch-item">飞凡向客户推荐红熊AI中台/营销/外呼产品</div>
+      <div class="ch-item">联合解决方案：飞凡定制开发 + 红熊标准产品打包</div>
+      <div class="ch-commission">飞凡渠道佣金：<strong>合同额15–25%</strong>｜利益冲突按协议约定管控</div>
+    </div>
+
+    <div class="ch-card priority">
+      <div class="ch-head">
+        <div class="ch-icon">🏦</div>
+        <div class="ch-badge" style="background:var(--plum-lt);color:var(--plum)">核心渠道 · 立即启动</div>
+      </div>
+      <div class="ch-name">小融科技渠道</div>
+      <div class="ch-who">金融AI产品渠道 + Token资源双向合作</div>
+      <div class="ch-item">飞凡向金融客户销售小融金融尽调/合规产品</div>
+      <div class="ch-item">小融Token资源作为萌招的备用资源渠道</div>
+      <div class="ch-item">未来：联合承接金融AI定制开发项目</div>
+      <div class="ch-commission">飞凡渠道佣金：<strong>合同额15–20%</strong>｜Token差价归飞凡</div>
+    </div>
+
+    <div class="ch-card">
+      <div class="ch-head">
+        <div class="ch-icon">👥</div>
+        <div class="ch-badge" style="background:var(--sage-lt);color:var(--sage)">人脉渠道 · 立即启动</div>
+      </div>
+      <div class="ch-name">团队交付同事人脉</div>
+      <div class="ch-who">让技术同事成为销售节点，设计极低参与门槛</div>
+      <div class="ch-item">引荐机制：只需把潜在需求客户介绍给飞凡，其余由飞凡跟进</div>
+      <div class="ch-item">设计简单的"需求登记表"，同事填写后即完成引荐动作</div>
+      <div class="ch-item">项目成单后，引荐人拿引荐奖励，无需参与销售过程</div>
+      <div class="ch-commission">引荐奖励：<strong>成单金额10%</strong>（内部政策，单独约定）</div>
+    </div>
+
+    <div class="ch-card">
+      <div class="ch-head">
+        <div class="ch-icon">🔍</div>
+        <div class="ch-badge" style="background:var(--coral-lt);color:var(--coral)">创新渠道 · 进行中</div>
+      </div>
+      <div class="ch-name">猎头转商务渠道</div>
+      <div class="ch-who">将猎头的企业人才需求信号转化为AI项目商机</div>
+      <div class="ch-item">猎头在服务企业时发现AI人才需求 → 说明该企业有AI战略投入</div>
+      <div class="ch-item">猎头将企业需求引荐给飞凡，飞凡提供AI解决方案</div>
+      <div class="ch-item">话术参考："与其花几十万招AI人才，先用几万块做一次AI效果审计"</div>
+      <div class="ch-commission">成功引荐提成：<strong>项目额10–15%</strong>（按商务标准）</div>
+    </div>
+
+    <div class="ch-card">
+      <div class="ch-head">
+        <div class="ch-icon">🏛️</div>
+        <div class="ch-badge" style="background:var(--amber-lt);color:var(--amber)">生态渠道 · 1–2月启动</div>
+      </div>
+      <div class="ch-name">专业服务机构引荐</div>
+      <div class="ch-who">会计师事务所、律师事务所、管理咨询公司</div>
+      <div class="ch-item">这类机构服务大量企业客户，且客户对他们高度信任</div>
+      <div class="ch-item">引荐路径：他们服务客户时发现AI需求 → 引荐给飞凡</div>
+      <div class="ch-item">合作切入：先给他们做一次免费AI工具培训，建立关系</div>
+      <div class="ch-commission">成功引荐提成：<strong>项目额10–12%</strong></div>
+    </div>
+
+    <div class="ch-card">
+      <div class="ch-head">
+        <div class="ch-icon">🌐</div>
+        <div class="ch-badge" style="background:var(--steel-lt);color:var(--steel)">生态渠道 · 持续建设</div>
+      </div>
+      <div class="ch-name">行业协会 / 社群 / 技术圈</div>
+      <div class="ch-who">覆盖广、低成本、复利效应强</div>
+      <div class="ch-item">行业协会/商会：一次演讲覆盖几十个决策者，培训后转化</div>
+      <div class="ch-item">技术社群：掘金/GitHub分发阿里云折扣资源，建立私域</div>
+      <div class="ch-item">MBA/高管圈：学员有决策权，培训是最自然的切入方式</div>
+      <div class="ch-commission">主要价值：<strong>品牌建设 + 长尾获客</strong>，非直接销售渠道</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- S4: 十八大机会 -->
+<section class="sec" id="opps">
+  <div class="sec-hd">
+    <div class="sec-num">04 — 变现机会全景</div>
+    <h2 class="sec-h2">十八大变现方向</h2>
+    <p class="sec-sub">在V4十五大方向基础上，新增培训三方向（橙色）、红熊产品渠道（绿色）、小融金融AI渠道（紫色），共十八大方向。</p>
+  </div>
+  <div class="opp-grid">
+    <!-- 原有核心方向精简版 -->
+    <div class="oc" style="border-color:var(--teal)"><div class="oc-top"><span class="oc-num" style="color:var(--teal)">01</span><span class="oc-badge b-now">立即</span></div><div class="oc-icon">☁️</div><div class="oc-title">云资源 + Token 嵌入销售</div><div class="oc-desc">AI项目交付时将萌招阿里云资源写入SOW，同时补充小融Token渠道，双资源来源提升议价空间。</div><div class="oc-foot"><span class="oc-model">差价/返佣</span><span class="oc-ret" style="color:var(--teal)">5–15%</span></div></div>
+
+    <div class="oc" style="border-color:var(--coral)"><div class="oc-top"><span class="oc-num" style="color:var(--coral)">02</span><span class="oc-badge b-now">立即</span></div><div class="oc-icon">📊</div><div class="oc-title">通信/数据服务交叉销售</div><div class="oc-desc">萌招通信线路、黑名单、全景数据，AI项目交付后作为增值模块推荐，信任已建立。</div><div class="oc-foot"><span class="oc-model">佣金分成</span><span class="oc-ret" style="color:var(--coral)">20–30%</span></div></div>
+
+    <div class="oc" style="border-color:var(--honxiong)"><div class="oc-top"><span class="oc-num" style="color:var(--honxiong)">03</span><span class="oc-badge b-ch">红熊渠道·立即</span></div><div class="oc-icon">🤖</div><div class="oc-title">红熊AI产品渠道销售</div><div class="oc-desc">飞凡作为红熊AI中台、智能营销获客、外呼产品的销售渠道方，面向自有客户推广，渠道佣金不需要技术交付投入。</div><div class="oc-foot"><span class="oc-model">渠道佣金</span><span class="oc-ret" style="color:var(--honxiong)">15–25%</span></div></div>
+
+    <div class="oc" style="border-color:var(--xiaorong)"><div class="oc-top"><span class="oc-num" style="color:var(--xiaorong)">04</span><span class="oc-badge b-ch">小融渠道·立即</span></div><div class="oc-icon">🏦</div><div class="oc-title">小融金融AI产品渠道</div><div class="oc-desc">向金融机构客户（PE/VC/银行/保险）销售小融金融尽调、合规助手等产品，金融场景需求明确，成交决策快。</div><div class="oc-foot"><span class="oc-model">渠道佣金</span><span class="oc-ret" style="color:var(--xiaorong)">15–20%</span></div></div>
+
+    <div class="oc" style="border-color:var(--steel)"><div class="oc-top"><span class="oc-num" style="color:var(--steel)">05</span><span class="oc-badge b-st">显示器·立即</span></div><div class="oc-icon">🖥️</div><div class="oc-title">传统/AI显示器渠道</div><div class="oc-desc">企业客户采购季嵌入推荐传统显示器（走量）；AI项目交付时捆绑AI显示器（溢价），软硬一体方案。</div><div class="oc-foot"><span class="oc-model">差价/捆绑溢价</span><span class="oc-ret" style="color:var(--steel)">5–30%毛利</span></div></div>
+
+    <!-- 培训三方向 -->
+    <div class="oc" style="border-color:var(--coral);background:var(--coral-lt)"><div class="oc-top"><span class="oc-num" style="color:var(--coral)">06</span><span class="oc-badge b-train">培训NEW·立即</span></div><div class="oc-icon">📚</div><div class="oc-title">AI办公提效企业内训</div><div class="oc-desc">面向全员的AI协作/项目管理/交付管理课程，已有大纲，线下1.5–3万/天，年度服务包8–15万，直接可销售。</div><div class="oc-foot"><span class="oc-model">课程费</span><span class="oc-ret" style="color:var(--coral)">1.5–15万/单</span></div></div>
+
+    <div class="oc" style="border-color:var(--coral);background:var(--coral-lt)"><div class="oc-top"><span class="oc-num" style="color:var(--coral)">07</span><span class="oc-badge b-train">培训NEW·立即</span></div><div class="oc-icon">💻</div><div class="oc-title">AI研发提效工作坊</div><div class="oc-desc">算法AI协同、Qoder实战、提示词工程进阶，面向研发团队，2–4万/天，技术圈客单价高且需求强。</div><div class="oc-foot"><span class="oc-model">工作坊费</span><span class="oc-ret" style="color:var(--coral)">2–10万/单</span></div></div>
+
+    <div class="oc" style="border-color:var(--coral);background:var(--coral-lt)"><div class="oc-top"><span class="oc-num" style="color:var(--coral)">08</span><span class="oc-badge b-train">培训NEW·1月内</span></div><div class="oc-icon">🎯</div><div class="oc-title">AI战略管理层课程 + 线上平台</div><div class="oc-desc">高管课程（3–6万/天）+ 飞凡AI学院线上录播和社群，录播课是获客漏斗，社群是长期客户关系池。</div><div class="oc-foot"><span class="oc-model">课程+订阅</span><span class="oc-ret" style="color:var(--coral)">多层收益</span></div></div>
+
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--amber)">09</span><span class="oc-badge b-mid">1–2月</span></div><div class="oc-icon">📞</div><div class="oc-title">合规外呼整体方案</div><div class="oc-desc">萌招通信线路+黑名单+红熊外呼产品+飞凡AI系统，打包成完整合规外呼方案，面向金融/保险/零售。</div><div class="oc-foot"><span class="oc-model">项目+年费</span><span class="oc-ret" style="color:var(--amber)">五五分成</span></div></div>
+
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--amber)">10</span><span class="oc-badge b-mid">1–2月</span></div><div class="oc-icon">🔍</div><div class="oc-title">AI效果审计服务</div><div class="oc-desc">对已用AI工具的企业出具效果诊断报告，收顾问费3–10万，同时发现改进机会自然转化为AI定制项目。</div><div class="oc-foot"><span class="oc-model">顾问报告</span><span class="oc-ret" style="color:var(--amber)">3–10万/次</span></div></div>
+
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--amber)">11</span><span class="oc-badge b-mid">1–2月</span></div><div class="oc-icon">🎯</div><div class="oc-title">数据 + AI 分析产品</div><div class="oc-desc">萌招全景数据为原材料，飞凡AI分析能力加工，输出行业洞察报告，实现数据3–5倍溢价。</div><div class="oc-foot"><span class="oc-model">报告/订阅</span><span class="oc-ret" style="color:var(--amber)">高溢价</span></div></div>
+
+    <div class="oc" style="border-color:var(--xc)"><div class="oc-top"><span class="oc-num" style="color:var(--xc)">12</span><span class="oc-badge b-xc">信创·1–2月</span></div><div class="oc-icon">🖥️</div><div class="oc-title">信创服务器 + AI一体化方案</div><div class="oc-desc">信创服务器（合规底座）+ 飞凡AI系统，打包成政务/金融AI私有化部署整体方案，飞凡作总集成方。</div><div class="oc-foot"><span class="oc-model">总集成项目</span><span class="oc-ret" style="color:var(--xc)">百万级</span></div></div>
+
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--plum)">13</span><span class="oc-badge b-scale">规模化</span></div><div class="oc-icon">🏗️</div><div class="oc-title">阿里云ISV上架变现</div><div class="oc-desc">正式申请ISV合作伙伴，在阿里云市场上架飞凡AI解决方案，借助平台流量被动获客。</div><div class="oc-foot"><span class="oc-model">平台订阅</span><span class="oc-ret" style="color:var(--plum)">被动获客</span></div></div>
+
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--plum)">14</span><span class="oc-badge b-scale">规模化</span></div><div class="oc-icon">🌐</div><div class="oc-title">技术社区资源分发</div><div class="oc-desc">掘金/GitHub/技术群分发阿里云折扣，建立私域流量池，培训+资源+项目三层转化。</div><div class="oc-foot"><span class="oc-model">流量池转化</span><span class="oc-ret" style="color:var(--plum)">长尾复利</span></div></div>
+
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--plum)">15</span><span class="oc-badge b-scale">规模化</span></div><div class="oc-icon">🔗</div><div class="oc-title">阿里生态大客户引流</div><div class="oc-desc">萌招科技同事的蚂蚁/阿里高管人脉引荐AI定制需求，单项目50万+，信创叠加后更高。</div><div class="oc-foot"><span class="oc-model">交付+引荐</span><span class="oc-ret" style="color:var(--plum)">50万+/项</span></div></div>
+
+    <div class="oc" style="border-color:var(--xc)"><div class="oc-top"><span class="oc-num" style="color:var(--xc)">16</span><span class="oc-badge b-xc">信创·规模化</span></div><div class="oc-icon">🏗️</div><div class="oc-title">多方联合政企投标</div><div class="oc-desc">飞凡（AI软件）+信创商（服务器）+显示器商（终端）联合投标政企综合数字化标包，千万级潜力。</div><div class="oc-foot"><span class="oc-model">联合投标</span><span class="oc-ret" style="color:var(--xc)">千万级潜力</span></div></div>
+
+    <div class="oc" style="border-color:var(--xiaorong)"><div class="oc-top"><span class="oc-num" style="color:var(--xiaorong)">17</span><span class="oc-badge b-scale">规模化</span></div><div class="oc-icon">💼</div><div class="oc-title">飞凡×小融金融AI联合交付</div><div class="oc-desc">小融提供金融AI产品，飞凡提供定制开发和系统集成，联合承接金融机构AI改造项目，双方互补。</div><div class="oc-foot"><span class="oc-model">联合交付</span><span class="oc-ret" style="color:var(--xiaorong)">按贡献分成</span></div></div>
+
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--sage)">18</span><span class="oc-badge b-mid">1–2月</span></div><div class="oc-icon">📋</div><div class="oc-title">月度AI技术顾问服务</div><div class="oc-desc">对企业客户收取月度顾问费，提供持续AI技术咨询、架构审查、工具选型建议，是最稳定的被动收入。</div><div class="oc-foot"><span class="oc-model">月度顾问费</span><span class="oc-ret" style="color:var(--sage)">1–5万/月</span></div></div>
+  </div>
+</section>
+
+<!-- S5: 优先矩阵 -->
+<section class="sec" id="matrix">
+  <div class="sec-hd">
+    <div class="sec-num">05 — 优先矩阵</div>
+    <h2 class="sec-h2">十八大方向全景评估</h2>
+    <p class="sec-sub">按启动成本、时间投入、收入天花板综合排序；新增渠道类、培训类两个新维度。</p>
+  </div>
+  <div class="mat">
+    <table>
+      <thead><tr><th>#</th><th>变现方向</th><th>类型</th><th>梯队</th><th>你的时间投入</th><th>收入天花板</th><th>建议分成/佣金</th></tr></thead>
+      <tbody>
+        <tr class="trr"><td>06</td><td><strong>AI办公提效企业内训</strong></td><td><span class="tp tt">培训</span></td><td><span class="tp t1">立即</span></td><td><div class="ebar"><div class="ep on"></div><div class="ep on"></div><div class="ep on"></div><div class="ep"></div><div class="ep"></div></div></td><td>中高，年度服务包可叠加</td><td><span class="spl">100%归飞凡</span></td></tr>
+        <tr class="trr"><td>07</td><td><strong>AI研发提效工作坊</strong></td><td><span class="tp tt">培训</span></td><td><span class="tp t1">立即</span></td><td><div class="ebar"><div class="ep on"></div><div class="ep on"></div><div class="ep on"></div><div class="ep"></div><div class="ep"></div></div></td><td>高，技术客单价高</td><td><span class="spl">100%归飞凡</span></td></tr>
+        <tr class="hr"><td>03</td><td><strong>红熊AI产品渠道销售</strong></td><td><span class="tp tc2">渠道</span></td><td><span class="tp t1">立即</span></td><td><div class="ebar"><div class="ep ton"></div><div class="ep ton"></div><div class="ep"></div><div class="ep"></div><div class="ep"></div></div></td><td>中等，靠客户量积累</td><td><span class="spl t">飞凡15–25%佣金</span></td></tr>
+        <tr class="xr"><td>04</td><td><strong>小融金融AI产品渠道</strong></td><td><span class="tp tc2">渠道</span></td><td><span class="tp t1">立即</span></td><td><div class="ebar"><div class="ep ton"></div><div class="ep ton"></div><div class="ep"></div><div class="ep"></div><div class="ep"></div></div></td><td>高，金融客单价高</td><td><span class="spl p">飞凡15–20%佣金</span></td></tr>
+        <tr><td>01</td><td><strong>云资源/Token嵌入</strong></td><td><span class="tp t1">资源</span></td><td><span class="tp t1">立即</span></td><td><div class="ebar"><div class="ep on"></div><div class="ep"></div><div class="ep"></div><div class="ep"></div><div class="ep"></div></div></td><td>中等</td><td><span class="spl">60/40（飞凡/萌招）</span></td></tr>
+        <tr><td>02</td><td><strong>通信/数据交叉销售</strong></td><td><span class="tp t1">资源</span></td><td><span class="tp t1">立即</span></td><td><div class="ebar"><div class="ep on"></div><div class="ep on"></div><div class="ep"></div><div class="ep"></div><div class="ep"></div></div></td><td>中等</td><td><span class="spl">50/50</span></td></tr>
+        <tr class="str"><td>05</td><td><strong>传统/AI显示器渠道</strong></td><td><span class="tp ts">硬件</span></td><td><span class="tp t1">立即</span></td><td><div class="ebar"><div class="ep son"></div><div class="ep"></div><div class="ep"></div><div class="ep"></div><div class="ep"></div></div></td><td>中等，AI捆绑溢价高</td><td><span class="spl s">差价归飞凡</span></td></tr>
+        <tr><td>18</td><td><strong>月度AI技术顾问</strong></td><td><span class="tp tt">顾问</span></td><td><span class="tp t2">1–2月</span></td><td><div class="ebar"><div class="ep on"></div><div class="ep on"></div><div class="ep"></div><div class="ep"></div><div class="ep"></div></div></td><td>稳定，最佳被动收入</td><td><span class="spl">100%归飞凡</span></td></tr>
+        <tr><td>10</td><td><strong>AI效果审计服务</strong></td><td><span class="tp tt">顾问</span></td><td><span class="tp t2">1–2月</span></td><td><div class="ebar"><div class="ep on"></div><div class="ep on"></div><div class="ep on"></div><div class="ep"></div><div class="ep"></div></div></td><td>中等，主要价值是转化后续项目</td><td><span class="spl">100%归飞凡</span></td></tr>
+        <tr><td>09</td><td><strong>合规外呼整体方案</strong></td><td><span class="tp t2">方案</span></td><td><span class="tp t2">1–2月</span></td><td><div class="ebar"><div class="ep on"></div><div class="ep on"></div><div class="ep on"></div><div class="ep"></div><div class="ep"></div></div></td><td>高，年费可叠加</td><td><span class="spl">飞凡40–50%</span></td></tr>
+        <tr class="trr"><td>08</td><td><strong>AI战略课程+线上平台</strong></td><td><span class="tp tt">培训</span></td><td><span class="tp t2">1月内</span></td><td><div class="ebar"><div class="ep on"></div><div class="ep on"></div><div class="ep on"></div><div class="ep on"></div><div class="ep"></div></div></td><td>高，线上规模化后复利强</td><td><span class="spl">100%归飞凡</span></td></tr>
+        <tr><td>11</td><td><strong>数据+AI分析产品</strong></td><td><span class="tp t2">产品</span></td><td><span class="tp t2">1–2月</span></td><td><div class="ebar"><div class="ep on"></div><div class="ep on"></div><div class="ep on"></div><div class="ep on"></div><div class="ep"></div></div></td><td>高，可包装为行业产品</td><td><span class="spl">飞凡60%</span></td></tr>
+        <tr class="xcr"><td>12</td><td><strong>信创AI一体化方案</strong></td><td><span class="tp tx">信创</span></td><td><span class="tp t2">1–2月</span></td><td><div class="ebar"><div class="ep xon"></div><div class="ep xon"></div><div class="ep xon"></div><div class="ep"></div><div class="ep"></div></div></td><td>极高，百万级项目</td><td><span class="spl x">飞凡作总集成方</span></td></tr>
+        <tr class="xr"><td>17</td><td><strong>飞凡×小融联合交付</strong></td><td><span class="tp tc2">联合</span></td><td><span class="tp t3">规模化</span></td><td><div class="ebar"><div class="ep ton"></div><div class="ep ton"></div><div class="ep ton"></div><div class="ep ton"></div><div class="ep"></div></div></td><td>高，金融AI定制客单高</td><td><span class="spl p">按贡献协商</span></td></tr>
+        <tr><td>13</td><td><strong>阿里云ISV上架</strong></td><td><span class="tp t3">平台</span></td><td><span class="tp t3">规模化</span></td><td><div class="ebar"><div class="ep on"></div><div class="ep on"></div><div class="ep"></div><div class="ep"></div><div class="ep"></div></div></td><td>极高，平台被动获客</td><td><span class="spl">飞凡70%</span></td></tr>
+        <tr><td>14</td><td><strong>技术社区资源分发</strong></td><td><span class="tp t3">社群</span></td><td><span class="tp t3">规模化</span></td><td><div class="ebar"><div class="ep on"></div><div class="ep on"></div><div class="ep on"></div><div class="ep"></div><div class="ep"></div></div></td><td>中等，复利效应</td><td><span class="spl">飞凡60%</span></td></tr>
+        <tr><td>15</td><td><strong>阿里生态大客户引流</strong></td><td><span class="tp t3">大客户</span></td><td><span class="tp t3">规模化</span></td><td><div class="ebar"><div class="ep on"></div><div class="ep on"></div><div class="ep on"></div><div class="ep on"></div><div class="ep on"></div></div></td><td>极高，50万+/项目</td><td><span class="spl">飞凡70%</span></td></tr>
+        <tr class="xcr"><td>16</td><td><strong>多方联合政企投标</strong></td><td><span class="tp tx">信创</span></td><td><span class="tp t3">规模化</span></td><td><div class="ebar"><div class="ep xon"></div><div class="ep xon"></div><div class="ep xon"></div><div class="ep xon"></div><div class="ep xon"></div></div></td><td>极高，千万级潜力</td><td><span class="spl x">按标包协商</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- S6: 收入预测 -->
+<section class="sec" id="proj">
+  <div class="sec-hd">
+    <div class="sec-num">06 — 收入预测</div>
+    <h2 class="sec-h2">七大收入支柱 · V5年化区间</h2>
+    <p class="sec-sub">新增培训收入支柱和渠道佣金支柱，V5总体年化区间80–350万（飞凡分成部分）。</p>
+  </div>
+  <div class="proj-grid">
+    <div class="pc" style="border-top:3px solid var(--teal)">
+      <div class="pc-label">云/Token/通信资源</div>
+      <div class="pc-range" style="color:var(--teal)">5–20万</div>
+      <div class="pc-unit">/年</div>
+      <ul class="pc-items"><li style="--c:var(--teal)">嵌入AI项目销售</li><li>萌招+小融双渠道</li><li>差价5–30%</li></ul>
+    </div>
+    <div class="pc" style="border-top:3px solid var(--coral);border-color:var(--coral)">
+      <div class="pc-label">AI培训课程 <span class="nb" style="background:var(--coral)">NEW</span></div>
+      <div class="pc-range" style="color:var(--coral)">15–60万</div>
+      <div class="pc-unit">/年</div>
+      <ul class="pc-items"><li>线下内训1.5–6万/天</li><li>年度包8–20万</li><li>线上平台规模化后持续</li></ul>
+    </div>
+    <div class="pc" style="border-top:3px solid var(--honxiong)">
+      <div class="pc-label">渠道佣金 <span class="nb" style="background:var(--honxiong)">NEW</span></div>
+      <div class="pc-range" style="color:var(--honxiong)">10–40万</div>
+      <div class="pc-unit">/年</div>
+      <ul class="pc-items"><li>红熊产品15–25%佣金</li><li>小融金融AI15–20%</li><li>猎头/专业机构引荐</li></ul>
+    </div>
+    <div class="pc" style="border-top:3px solid var(--amber)">
+      <div class="pc-label">合规外呼+数据产品</div>
+      <div class="pc-range" style="color:var(--amber)">10–40万</div>
+      <div class="pc-unit">/年</div>
+      <ul class="pc-items"><li>年费SaaS逐年叠加</li><li>数据分析产品高溢价</li><li>AI效果审计3–10万/次</li></ul>
+    </div>
+    <div class="pc" style="border-top:3px solid var(--plum)">
+      <div class="pc-label">AI顾问+大客户</div>
+      <div class="pc-range" style="color:var(--plum)">20–80万</div>
+      <div class="pc-unit">/年</div>
+      <ul class="pc-items"><li>月度顾问1–5万/月</li><li>阿里生态50万+/项</li><li>高管培训私教</li></ul>
+    </div>
+    <div class="pc" style="border-top:3px solid var(--steel)">
+      <div class="pc-label">显示器渠道</div>
+      <div class="pc-range" style="color:var(--steel)">5–25万</div>
+      <div class="pc-unit">/年</div>
+      <ul class="pc-items"><li>传统走量保底</li><li>AI软硬捆绑溢价</li><li>政企批量采购</li></ul>
+    </div>
+    <div class="pc" style="border-top:3px solid var(--xc)">
+      <div class="pc-label">信创AI项目</div>
+      <div class="pc-range" style="color:var(--xc)">20–100万</div>
+      <div class="pc-unit">/年</div>
+      <ul class="pc-items"><li>硬件差价8–20%</li><li>AI一体化项目溢价</li><li>联合投标百万级潜力</li></ul>
+    </div>
+  </div>
+
+  <div style="margin-top:13px;background:var(--ink);border-radius:var(--r);padding:24px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+    <div>
+      <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:7px">V5 全年总收入区间（飞凡实际所得）</div>
+      <div style="font-family:'Crimson Pro',serif;font-size:38px;font-weight:600;color:var(--coral-md)">80 – 365 万元 / 年</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.35);margin-top:5px">V4为60–265万；新增培训15–60万、渠道佣金10–40万；联合投标爆发时天花板开放</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:5px">V5核心增量来源</div>
+      <div style="font-size:12.5px;color:rgba(255,255,255,.65);line-height:2">培训课程体系 +15–60万<br>红熊+小融渠道佣金 +10–40万<br>猎头+专业机构渠道（持续建设）</div>
+    </div>
+  </div>
+</section>
+
+<!-- S7: 推进路线图 -->
+<section class="sec" id="roadmap">
+  <div class="sec-hd">
+    <div class="sec-num">07 — 推进节奏</div>
+    <h2 class="sec-h2">三阶段执行路线图（V5）</h2>
+  </div>
+  <div class="rm3">
+    <div class="rm-card ph1">
+      <div class="rm-head"><div class="rm-period">第一阶段 · 0–4周</div><div class="rm-title">协议落地<br>立即可做的全面启动</div></div>
+      <div class="rm-body">
+        <div class="rm-item"><div class="rm-n">1</div><div>与萌招科技签署资源合作协议（通信/数据/云），明确结算规则</div></div>
+        <div class="rm-item"><div class="rm-n">2</div><div>与红熊AI签署两份协议：分包框架协议 + 渠道销售合作协议（含利益冲突管控条款）</div></div>
+        <div class="rm-item"><div class="rm-n">3</div><div>与小融科技签署渠道合作协议，明确金融AI产品佣金和Token资源合作条款</div></div>
+        <div class="rm-item"><div class="rm-n">4</div><div>与猎头联系人确认引荐提成比例（10–15%），起草简单引荐合作备忘录</div></div>
+        <div class="rm-item"><div class="rm-n">5</div><div>整理培训大纲为可对外发送的产品介绍，开始接触第一批培训客户</div></div>
+        <div class="rm-item"><div class="rm-n">6</div><div>在下一个AI项目SOW中嵌入云资源+显示器推荐章节</div></div>
+      </div>
+    </div>
+    <div class="rm-card ph2">
+      <div class="rm-head"><div class="rm-period">第二阶段 · 1–3月</div><div class="rm-title">产品成型<br>渠道激活</div></div>
+      <div class="rm-body">
+        <div class="rm-item"><div class="rm-n">1</div><div>完成第一场AI企业内训，记录客户反馈，优化课程内容</div></div>
+        <div class="rm-item"><div class="rm-n">2</div><div>通过红熊渠道推成1–2个红熊AI产品订单，验证渠道佣金结算流程</div></div>
+        <div class="rm-item"><div class="rm-n">3</div><div>向1–2个金融客户推荐小融金融尽调产品，测试渠道转化率</div></div>
+        <div class="rm-item"><div class="rm-n">4</div><div>完成合规外呼平台MVP，面向金融种子客户试运营</div></div>
+        <div class="rm-item"><div class="rm-n">5</div><div>信创服务器技术摸底：确认海光平台适配工作量，完成信创AI方案文档</div></div>
+        <div class="rm-item"><div class="rm-n">6</div><div>启动飞凡AI学院规划：确定线上平台选型，准备第一批录播课内容</div></div>
+      </div>
+    </div>
+    <div class="rm-card ph3">
+      <div class="rm-head"><div class="rm-period">第三阶段 · 3–6月</div><div class="rm-title">规模复制<br>生态深化</div></div>
+      <div class="rm-body">
+        <div class="rm-item"><div class="rm-n">1</div><div>培训标杆案例形成，制作可复用的课程营销材料，通过行业协会/商会渠道批量推广</div></div>
+        <div class="rm-item"><div class="rm-n">2</div><div>飞凡AI学院线上平台上线，开始运营免费直播引流漏斗</div></div>
+        <div class="rm-item"><div class="rm-n">3</div><div>信创AI一体化方案成功案例形成，向朋友B提交联合投标资质梳理申请</div></div>
+        <div class="rm-item"><div class="rm-n">4</div><div>启动阿里云ISV合作伙伴申请，准备市场上架材料</div></div>
+        <div class="rm-item"><div class="rm-n">5</div><div>评估红熊+小融渠道实际ROI，决定是否加大投入或调整佣金比例</div></div>
+        <div class="rm-item"><div class="rm-n">6</div><div>半年复盘：七大支柱实际收入对比预测，聚焦ROI最高的3–4个方向重点投入</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S8: 风险 -->
+<section class="sec">
+  <div class="sec-hd">
+    <div class="sec-num">08 — 风险管理</div>
+    <h2 class="sec-h2">V5核心风险与对策</h2>
+  </div>
+  <div class="risk-grid">
+    <div class="risk-card" style="border-left:3px solid var(--amber)">
+      <div class="risk-top"><span class="risk-icon">⚡</span><span class="risk-title">红熊双向关系利益冲突</span></div>
+      <div class="risk-desc">红熊同时是发包方和渠道合作方，客户归属和项目来源容易产生争议，长期可能影响合作关系。</div>
+      <div class="risk-act">两份协议中明确客户归属判定规则；每季度对账一次；建立明确的"利益冲突申报"机制，发现冲突场景提前协商而非事后争议。</div>
+    </div>
+    <div class="risk-card" style="border-left:3px solid var(--coral)">
+      <div class="risk-top"><span class="risk-icon">⚡</span><span class="risk-title">渠道佣金未签约先执行</span></div>
+      <div class="risk-desc">猎头和专业机构引荐渠道正在推进，如果没有书面协议就开始引荐，成单后佣金争议风险高。</div>
+      <div class="risk-act">所有渠道合作必须有书面备忘录或协议，哪怕只有一页纸；引荐记录须以书面（邮件或微信文字）留存，口头引荐不计入佣金统计。</div>
+    </div>
+    <div class="risk-card" style="border-left:3px solid var(--teal)">
+      <div class="risk-top"><span class="risk-icon">⚡</span><span class="risk-title">培训产能与主业冲突</span></div>
+      <div class="risk-desc">培训交付需要飞凡主要成员亲自授课，如果同期有多个AI项目交付，产能可能不足，影响两边质量。</div>
+      <div class="risk-act">培训产品线初期以"月最多2场"为产能上限；提前开发标准化课件，评估是否可引入外部讲师作为交付补充，保护技术主业优先级。</div>
+    </div>
+    <div class="risk-card" style="border-left:3px solid var(--plum)">
+      <div class="risk-top"><span class="risk-icon">⚡</span><span class="risk-title">六方生态管理复杂度</span></div>
+      <div class="risk-desc">V5涉及六个合作方、十八个变现方向，管理复杂度指数级上升，容易出现结算混乱、责任不清的情况。</div>
+      <div class="risk-act">建立一张简单的"收入追踪表"，每笔收入记录来源方、引荐方、金额、分成比例；每月15日前完成上月对账；任何新合作方加入前必须先签书面协议。</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+<div class="foot">
+  <div>V5以飞凡科技为中心，整合六大合作方形成完整生态。核心新增价值：培训体系（立即可变现的高毛利产品）、渠道佣金体系（红熊+小融双渠道）、猎头转商务渠道。建议优先签署所有合作协议（第一阶段），同时启动第一场培训和第一批渠道引荐，在第二阶段前验证各渠道转化率。</div>
+  <div style="white-space:nowrap;color:var(--coral)">飞凡科技 · V5<br>分成/佣金以书面协议为准</div>
+</div>
+
+</div>
+</body>
+</html>

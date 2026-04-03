@@ -1,0 +1,887 @@
+i<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>飞凡科技 · 下周拜访任务清单</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#f5f0e8;--cream-d:#ede8df;--cream-dd:#e4ddd3;--white:#fdfcfa;
+  --ink:#1a1612;--ink-60:rgba(26,22,18,.6);--ink-35:rgba(26,22,18,.35);
+  --ink-12:rgba(26,22,18,.12);--ink-06:rgba(26,22,18,.06);
+  --coral:#d4603a;--coral-lt:#f5e6df;--coral-md:#e8956e;
+  --teal:#1e6b5e;--teal-lt:#d6eeea;
+  --amber:#b87a2a;--amber-lt:#f5e8cc;
+  --plum:#5a3a6b;--plum-lt:#ece0f5;
+  --sage:#3a6645;--sage-lt:#daf0e0;
+  --steel:#3d5068;--steel-lt:#dce6f0;
+  --red:#b03030;--red-lt:#f5dede;
+  --r:10px;--r-sm:6px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:'Noto Sans SC',sans-serif;font-size:14px;font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:99;background:rgba(245,240,232,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--ink-12);padding:0 36px}
+.nav-in{max-width:1080px;margin:0 auto;height:52px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.nav-brand{font-family:'Crimson Pro',serif;font-size:15px;font-weight:600;color:var(--coral)}
+.nav-links{display:flex;gap:20px}
+.nav-links a{font-size:11.5px;color:var(--ink-60);text-decoration:none;letter-spacing:.04em;transition:color .2s}
+.nav-links a:hover{color:var(--coral)}
+.nav-progress{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--ink-35)}
+#progress-count{font-weight:600;color:var(--coral)}
+
+/* WRAP */
+.wrap{max-width:1080px;margin:0 auto;padding:0 36px 100px}
+
+/* HERO */
+.hero{padding:52px 0 40px;border-bottom:1px solid var(--ink-12);margin-bottom:56px}
+.hero-kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);font-weight:500;margin-bottom:12px}
+.hero-h1{font-family:'Crimson Pro',serif;font-size:42px;font-weight:300;line-height:1.1;letter-spacing:-.02em;margin-bottom:16px}
+.hero-h1 em{font-style:italic;color:var(--coral)}
+.hero-meta{display:flex;gap:32px;flex-wrap:wrap;margin-bottom:20px}
+.mi{display:flex;flex-direction:column;gap:2px}
+.mi-l{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-35);font-weight:500}
+.mi-v{font-size:13px;font-weight:500}
+.hero-warning{background:var(--red-lt);border:1px solid var(--red);border-radius:var(--r);padding:14px 18px;display:flex;gap:10px;align-items:flex-start}
+.hw-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.hw-text{font-size:13px;color:var(--red);line-height:1.7}
+.hw-text strong{font-weight:600}
+
+/* SECTION */
+.sec{margin-bottom:64px}
+.sec-hd{margin-bottom:22px;display:flex;align-items:baseline;gap:14px}
+.sec-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-bottom:1px}
+.sec-h2{font-family:'Crimson Pro',serif;font-size:26px;font-weight:600;line-height:1.2}
+.sec-sub{color:var(--ink-60);font-size:13px;margin-top:5px;max-width:620px}
+.sec-tag{display:inline-block;font-size:10px;padding:2px 9px;border-radius:20px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-left:8px;vertical-align:middle}
+
+/* TASK GROUP */
+.task-group{margin-bottom:20px}
+.tg-head{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-35);margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--ink-12)}
+.task-list{display:flex;flex-direction:column;gap:6px}
+
+/* TASK ITEM */
+.task{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);padding:14px 16px 14px 14px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;transition:box-shadow .2s,border-color .2s;user-select:none}
+.task:hover{box-shadow:0 3px 12px rgba(26,22,18,.07)}
+.task.done{background:var(--cream-d);border-color:var(--ink-06)}
+.task.done .task-title{text-decoration:line-through;color:var(--ink-35)}
+.task.done .task-desc{color:rgba(26,22,18,.3)}
+.task.warn-task{border-color:var(--red);background:var(--red-lt)}
+.task.warn-task.done{background:var(--cream-d);border-color:var(--ink-06)}
+
+/* CHECKBOX */
+.cb{width:18px;height:18px;border-radius:4px;border:2px solid var(--ink-12);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s}
+.cb svg{display:none}
+.task.done .cb{background:var(--sage);border-color:var(--sage)}
+.task.done .cb svg{display:block}
+
+/* TASK BODY */
+.task-body{flex:1;min-width:0}
+.task-top{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;margin-bottom:3px}
+.task-title{font-size:13.5px;font-weight:500;line-height:1.4;flex:1}
+.task-tags{display:flex;gap:4px;flex-wrap:wrap;flex-shrink:0}
+.ttag{font-size:10px;padding:1px 7px;border-radius:3px;font-weight:500;white-space:nowrap}
+.ttag-must{background:var(--red-lt);color:var(--red)}
+.ttag-doc{background:var(--teal-lt);color:var(--teal)}
+.ttag-talk{background:var(--amber-lt);color:var(--amber)}
+.ttag-risk{background:var(--red-lt);color:var(--red)}
+.ttag-pre{background:var(--plum-lt);color:var(--plum)}
+.ttag-token{background:var(--steel-lt);color:var(--steel)}
+.ttag-biz{background:var(--coral-lt);color:var(--coral)}
+.ttag-legal{background:#fff3cd;color:#856404}
+.task-desc{font-size:12px;color:var(--ink-60);line-height:1.6}
+.task-note{margin-top:6px;padding:7px 10px;background:var(--cream-d);border-radius:var(--r-sm);font-size:11.5px;color:var(--ink-60);line-height:1.6;border-left:3px solid var(--ink-12)}
+.task-note.warn{border-color:var(--red);background:var(--red-lt);color:var(--red)}
+.task-note.tip{border-color:var(--teal);background:var(--teal-lt);color:var(--teal)}
+
+/* PRIORITY BADGE */
+.p-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;white-space:nowrap}
+.p-critical{background:var(--red-lt);color:var(--red)}
+.p-high{background:var(--coral-lt);color:var(--coral)}
+.p-mid{background:var(--amber-lt);color:var(--amber)}
+.p-low{background:var(--sage-lt);color:var(--sage)}
+
+/* SUMMARY CARD */
+.summary{background:var(--ink);border-radius:var(--r);padding:24px 30px;margin-bottom:56px}
+.sum-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.sum-item .sum-num{font-family:'Crimson Pro',serif;font-size:28px;font-weight:600;color:var(--coral-md);line-height:1}
+.sum-item .sum-label{font-size:11px;color:rgba(255,255,255,.4);margin-top:4px}
+
+/* DIVIDER */
+.divider{border:none;border-top:1px solid var(--ink-12);margin:0 0 56px}
+
+/* FOOT */
+.foot{border-top:1px solid var(--ink-12);padding-top:18px;font-size:11.5px;color:var(--ink-35);line-height:1.8}
+
+/* ANIM */
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.hero,.summary,.sec{animation:rise .45s ease both}
+.sec:nth-child(2){animation-delay:.04s}.sec:nth-child(3){animation-delay:.08s}
+.sec:nth-child(4){animation-delay:.12s}.sec:nth-child(5){animation-delay:.16s}
+.sec:nth-child(6){animation-delay:.20s}.sec:nth-child(7){animation-delay:.24s}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <div class="nav-brand">飞凡科技 · 下周拜访任务清单</div>
+    <div class="nav-links">
+      <a href="#pre">拜访前准备</a>
+      <a href="#honxiong">红熊AI</a>
+      <a href="#mengzhao">萌招科技</a>
+      <a href="#token">Token平台</a>
+      <a href="#after">拜访后跟进</a>
+      <a href="#risk">风险提示</a>
+    </div>
+    <div class="nav-progress">已完成 <span id="progress-count">0</span> / <span id="total-count">0</span> 项</div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-kicker">飞凡科技 FeiVan Tech · 下周拜访准备</div>
+  <h1 class="hero-h1">红熊AI & 萌招科技<br><em>详细任务清单</em></h1>
+  <div class="hero-meta">
+    <div class="mi"><span class="mi-l">拜访对象</span><span class="mi-v">红熊AI + 萌招科技</span></div>
+    <div class="mi"><span class="mi-l">核心目标</span><span class="mi-v">签署协议 + 确定合作模式</span></div>
+    <div class="mi"><span class="mi-l">涉及身份</span><span class="mi-v">你个人 / 飞凡科技 / 红熊渠道</span></div>
+    <div class="mi"><span class="mi-l">任务总数</span><span class="mi-v" id="hero-total">加载中…</span></div>
+  </div>
+  <div class="hero-warning">
+    <div class="hw-icon">⚠️</div>
+    <div class="hw-text">
+      <strong>重要法律与税务提示：</strong>你个人作为萌招内部分润合伙人（个人分润收入）与飞凡科技作为萌招分销商（企业商务收入）是两个独立的法律关系和收入流。<strong>两者绝对不能混同结算</strong>——个人分润走个人所得税申报，企业分销收入走企业开票和增值税申报。建议在协议签署前咨询税务顾问，确认各自收入的合规路径，否则可能面临税务稽查风险。
+    </div>
+  </div>
+</div>
+
+<!-- SUMMARY -->
+<div class="summary">
+  <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:14px">任务总览</div>
+  <div class="sum-grid">
+    <div class="sum-item"><div class="sum-num" id="s-pre">—</div><div class="sum-label">拜访前准备任务</div></div>
+    <div class="sum-item"><div class="sum-num" id="s-hx">—</div><div class="sum-label">红熊AI 会谈任务</div></div>
+    <div class="sum-item"><div class="sum-num" id="s-mz">—</div><div class="sum-label">萌招科技 会谈任务</div></div>
+    <div class="sum-item"><div class="sum-num" id="s-after">—</div><div class="sum-label">拜访后跟进任务</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 0: 拜访前准备 -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<section class="sec" id="pre">
+  <div class="sec-hd">
+    <div class="sec-dot" style="background:var(--plum)"></div>
+    <div>
+      <div class="sec-h2">拜访前准备 <span class="sec-tag" style="background:var(--plum-lt);color:var(--plum)">两次拜访通用</span></div>
+      <div class="sec-sub">所有准备工作在拜访前完成，不要带着未完成的功课去谈判</div>
+    </div>
+  </div>
+
+  <div class="task-group">
+    <div class="tg-head">📋 文件与材料准备</div>
+    <div class="task-list">
+      <div class="task" data-section="pre">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">准备飞凡科技营业执照、法人身份证复印件</div><div class="task-tags"><span class="ttag ttag-doc">文件</span><span class="ttag ttag-must">必备</span></div></div>
+          <div class="task-desc">两次拜访均需要，用于合同主体核验。建议各准备2份纸质版 + 电子版备用。</div>
+        </div>
+      </div>
+      <div class="task" data-section="pre">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">准备你个人身份证（用于个人合伙人协议签署）</div><div class="task-tags"><span class="ttag ttag-doc">文件</span><span class="ttag ttag-must">必备</span></div></div>
+          <div class="task-desc">萌招的个人分润合伙人协议以你个人名义签署，与飞凡科技法人章完全独立，不要混用。</div>
+        </div>
+      </div>
+      <div class="task" data-section="pre">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">整理飞凡科技银行开户信息（对公账户）</div><div class="task-tags"><span class="ttag ttag-doc">文件</span><span class="ttag ttag-must">必备</span></div></div>
+          <div class="task-desc">开户行、账号、联行号，用于合同付款条款填写。个人收款账号同样需要（用于个人分润结算）。</div>
+        </div>
+      </div>
+      <div class="task" data-section="pre">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">打印飞凡科技V5商业方案摘要版（2–3页）</div><div class="task-tags"><span class="ttag ttag-biz">商务</span></div></div>
+          <div class="task-desc">作为向两家公司介绍飞凡整体布局的背景材料，说明飞凡在整个生态中的定位和价值，增强谈判筹码。</div>
+        </div>
+      </div>
+      <div class="task" data-section="pre">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">准备空白协议模板（框架协议、授权代理协议各一份）</div><div class="task-tags"><span class="ttag ttag-doc">文件</span><span class="ttag ttag-pre">准备</span></div></div>
+          <div class="task-desc">即使对方有自己的模板，带自己的版本去可以掌握谈判主动权。可基于现有框架协议V2.0修改适配。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="task-group">
+    <div class="tg-head">🧠 信息与策略准备</div>
+    <div class="task-list">
+      <div class="task" data-section="pre">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">梳理飞凡现有客户资源清单（用于在两家公司展示渠道能力）</div><div class="task-tags"><span class="ttag ttag-biz">商务</span><span class="ttag ttag-pre">准备</span></div></div>
+          <div class="task-desc">不需要透露客户名称，只需展示行业分布和体量。比如："目前服务金融类企业X家、制造类Y家"，增强对方对飞凡渠道价值的认可。</div>
+        </div>
+      </div>
+      <div class="task" data-section="pre">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确定你的底线条款清单（每份协议各一张）</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span><span class="ttag ttag-must">必备</span></div></div>
+          <div class="task-desc">谈判前明确：哪些条款必须争取、哪些可以让步、哪些是绝对底线。防止现场被带偏。关键底线项参考：最低折扣率、账期、独家/非独家授权范围、退出条款。</div>
+        </div>
+      </div>
+      <div class="task" data-section="pre">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">了解萌招和红熊的市场公开定价体系</div><div class="task-tags"><span class="ttag ttag-pre">准备</span></div></div>
+          <div class="task-desc">知道对方的公开价格才能判断代理折扣是否合理。阿里云资源有公开价，移动通信线路和黑名单服务可以提前询价或查询竞品。</div>
+        </div>
+      </div>
+      <div class="task" data-section="pre">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">想清楚Token平台的初步商业模型再去谈</div><div class="task-tags"><span class="ttag ttag-token">Token平台</span><span class="ttag ttag-pre">准备</span></div></div>
+          <div class="task-desc">Token平台是个大命题，如果现场讨论可能陷入细节发散。建议提前准备一张"Token平台一页纸"：平台定位、参与方、收益分配方式，这样现场讨论有锚点。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="task-group">
+    <div class="tg-head">⚖️ 法律合规预检</div>
+    <div class="task-list">
+      <div class="task warn-task" data-section="pre">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认个人分润与企业分销的收入隔离方案</div><div class="task-tags"><span class="ttag ttag-legal">法税</span><span class="ttag ttag-risk">风险</span></div></div>
+          <div class="task-desc">个人合伙人分润 ≠ 飞凡商务收入。两者须通过不同账户、不同协议、不同发票路径独立核算。</div>
+          <div class="task-note warn">⚠ 建议在签署任何协议前，与飞凡的财税顾问确认个人分润的合规申报路径（是否需要代扣代缴个人所得税、是否涉及劳务报酬还是股息红利性质）。</div>
+        </div>
+      </div>
+      <div class="task warn-task" data-section="pre">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认在红熊既作分包乙方、又作渠道代理方时的身份隔离</div><div class="task-tags"><span class="ttag ttag-legal">法律</span><span class="ttag ttag-risk">风险</span></div></div>
+          <div class="task-desc">两份协议的签署主体、结算路径、客户归属规则须在协议层面完全隔离，避免日后争议。</div>
+          <div class="task-note warn">⚠ 特别注意：两份协议中均需写明"客户归属判定标准"和"利益冲突处理机制"，防止出现"同一客户，两份协议都能主张"的情况。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 1: 红熊AI 拜访 -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<section class="sec" id="honxiong">
+  <div class="sec-hd">
+    <div class="sec-dot" style="background:var(--teal)"></div>
+    <div>
+      <div class="sec-h2" style="color:var(--teal)">红熊AI 拜访 <span class="sec-tag" style="background:var(--teal-lt);color:var(--teal)">2份协议 + 扩展探讨</span></div>
+      <div class="sec-sub">核心目标：签署分包框架协议 + 产品授权代理协议；探讨红熊作为飞凡资源销售渠道的可能性</div>
+    </div>
+  </div>
+
+  <div class="task-group">
+    <div class="tg-head">📄 协议一：分包框架协议（红熊发包 → 飞凡承接）</div>
+    <div class="task-list">
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认合同主体：红熊（发包方）/ 飞凡科技（承包方）</div><div class="task-tags"><span class="ttag ttag-doc">协议</span><span class="ttag ttag-must">必确认</span></div></div>
+          <div class="task-desc">确认红熊法人主体名称、统一社会信用代码、注册地址、法定代表人，与协议封面信息核对一致。</div>
+        </div>
+      </div>
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">明确分包项目范围：哪些类型的项目可以分包给飞凡</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span><span class="ttag ttag-must">必确认</span></div></div>
+          <div class="task-desc">界定清楚：AI定制开发、系统集成、还是全部技术交付项目？是否包含红熊自有产品的二次定制开发？</div>
+        </div>
+      </div>
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">争取写入绝对付款义务条款（不以红熊收到客户款为前提）</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span><span class="ttag ttag-must">底线</span></div></div>
+          <div class="task-desc">这是飞凡最核心的收款保障。参考现有框架协议V2.0第五条5.4款："无论甲方是否已向最终客户收款，验收通过后30日内须足额支付。"</div>
+          <div class="task-note tip">💡 如果红熊抵触，可以退一步：改为"背靠背付款，但设置最长等待上限（如60天）"，超过上限无论如何必须付。</div>
+        </div>
+      </div>
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认首付款比例（不低于40%）且开工前到账</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span><span class="ttag ttag-must">底线</span></div></div>
+          <div class="task-desc">明确写入协议：首付款到账日为飞凡开工起算日，未收到首付款前飞凡无开工义务。</div>
+        </div>
+      </div>
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认飞凡赔偿责任上限（以实际收到的分包款为上限）</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span><span class="ttag ttag-must">底线</span></div></div>
+          <div class="task-desc">飞凡不承担间接损失（含红熊向客户支付的违约金、商誉损失）。这条如果红熊坚决反对，可降级为"上限为分包款的2倍"，但不能不设上限。</div>
+        </div>
+      </div>
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认飞凡底层技术资产（附件一：既有资产清单）受协议保护</div><div class="task-tags"><span class="ttag ttag-doc">协议</span></div></div>
+          <div class="task-desc">明确飞凡自研框架不属于项目交付成果，知识产权归飞凡所有。红熊不得以"职务作品"或"定制外包成果"为由主张权益。</div>
+        </div>
+      </div>
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认主合同披露义务：红熊须在分包前向飞凡披露与客户合同核心条款</div><div class="task-tags"><span class="ttag ttag-doc">协议</span></div></div>
+          <div class="task-desc">含：交付时间节点、违约金上限、保密等级要求。红熊未披露导致飞凡连带损失的，由红熊全额赔偿。</div>
+        </div>
+      </div>
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确定争议解决方式（建议：杭州仲裁委员会）</div><div class="task-tags"><span class="ttag ttag-doc">协议</span></div></div>
+          <div class="task-desc">仲裁保密性强、效率高，优于诉讼。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="task-group">
+    <div class="tg-head">📄 协议二：产品授权代理协议（飞凡销售红熊产品）</div>
+    <div class="task-list">
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">明确授权产品范围和版本：AI中台/智能营销获客/外呼产品</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span><span class="ttag ttag-must">必确认</span></div></div>
+          <div class="task-desc">逐一确认：每个产品的授权版本（标准版/企业版）、授权地域范围（全国/杭州/特定区域）、授权期限。</div>
+        </div>
+      </div>
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认渠道佣金比例（目标：15–25%合同额）</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span><span class="ttag ttag-must">底线</span></div></div>
+          <div class="task-desc">争取不同产品线分别设定佣金比例，高利润产品争取更高比例。确认佣金基数：是含税合同额还是税前合同额？</div>
+          <div class="task-note tip">💡 谈判筹码：飞凡带来的是增量客户，红熊没有额外销售成本，可以据此争取更高比例。</div>
+        </div>
+      </div>
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认佣金结算触发条件和账期</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span><span class="ttag ttag-must">必确认</span></div></div>
+          <div class="task-desc">触发条件：客户签约即触发，还是客户付款后触发？账期：红熊收到客户款后多少天内结算给飞凡？建议：15个工作日内，逾期按日计违约金。</div>
+        </div>
+      </div>
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">写入客户归属锁定条款（防止红熊绕过飞凡直接接触飞凡客户）</div><div class="task-tags"><span class="ttag ttag-doc">协议</span><span class="ttag ttag-must">底线</span></div></div>
+          <div class="task-desc">飞凡引荐的客户，锁定期2年，该客户期间产生的所有红熊产品订单均须结算佣金给飞凡。红熊不得绕过飞凡直接接触飞凡的活跃跟进客户。</div>
+        </div>
+      </div>
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">写入利益冲突管控条款（双向关系的核心保障）</div><div class="task-tags"><span class="ttag ttag-doc">协议</span><span class="ttag ttag-risk">风险</span></div></div>
+          <div class="task-desc">明确约定：当同一客户既有AI定制开发需求又有红熊标准产品需求时，客户来源方（飞凡/红熊）优先承接其主营业务，另一方作为配套方。</div>
+          <div class="task-note warn">⚠ 这条款是分包协议和代理协议共同的底线，必须在两份协议中都有体现，且表述一致，防止未来解读冲突。</div>
+        </div>
+      </div>
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认飞凡是否可以将代理资格转授给下级渠道（如猎头、专业机构）</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span></div></div>
+          <div class="task-desc">如果飞凡要通过猎头等渠道销售红熊产品，需要明确是否允许转授权，以及转授权是否需要红熊书面批准。</div>
+        </div>
+      </div>
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">获取红熊产品的完整技术文档和销售资料包</div><div class="task-tags"><span class="ttag ttag-doc">资料</span></div></div>
+          <div class="task-desc">含：产品功能介绍、定价手册、案例材料、演示账号/演示环境，用于飞凡后续向客户推介。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="task-group">
+    <div class="tg-head">🚀 扩展探讨：红熊作为飞凡资源销售的下级渠道</div>
+    <div class="task-list">
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">探讨红熊通过飞凡渠道销售萌招通信/数据资源的意愿</div><div class="task-tags"><span class="ttag ttag-biz">探讨</span></div></div>
+          <div class="task-desc">飞凡作为萌招资源的分销商，可以授权红熊作为下级渠道销售。红熊每卖出一单，飞凡赚差价，红熊赚其自定的加价。评估红熊是否有客户资源愿意采购这类服务。</div>
+          <div class="task-note tip">💡 可以这样提："我们拿到了萌招的通信和数据资源授权，如果你们客户有这类需求，可以通过我们采购，你们可以加价销售给你们的客户，我们只要底价。"</div>
+        </div>
+      </div>
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">探讨红熊通过飞凡渠道销售小融金融AI产品的意愿</div><div class="task-tags"><span class="ttag ttag-biz">探讨</span></div></div>
+          <div class="task-desc">红熊的客户里是否有金融机构？如果有，小融的金融尽调/合规助手是否是他们客户的需求？飞凡作为小融渠道，可以给红熊分佣。</div>
+        </div>
+      </div>
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">探讨显示器和信创服务器的联合销售可能</div><div class="task-tags"><span class="ttag ttag-biz">探讨</span></div></div>
+          <div class="task-desc">红熊的AI项目客户是否有硬件采购需求？如果红熊帮飞凡带来显示器/信创服务器订单，飞凡给红熊销售提成（目标：5–10%）。</div>
+        </div>
+      </div>
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">探讨Token平台建设的合作意愿（红熊参与方式）</div><div class="task-tags"><span class="ttag ttag-token">Token平台</span><span class="ttag ttag-biz">探讨</span></div></div>
+          <div class="task-desc">红熊是否有意参与Token平台建设（技术/资金/客户资源）？或者仅作为平台的资源分销渠道？摸清红熊的参与意愿和边界，不需要现场拍板。</div>
+        </div>
+      </div>
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">探讨联合投标政企项目的可能性</div><div class="task-tags"><span class="ttag ttag-biz">探讨</span></div></div>
+          <div class="task-desc">红熊有无政府/央国企客户资源？如果有，飞凡（AI软件）+ 红熊（AI中台/营销）联合投标是否有机会？评估双方资质互补性。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="task-group">
+    <div class="tg-head">📝 红熊拜访会后即办</div>
+    <div class="task-list">
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">当场或次日发送会议纪要邮件给红熊对接人</div><div class="task-tags"><span class="ttag ttag-must">必做</span></div></div>
+          <div class="task-desc">列明：已确认事项、待确认事项、下一步行动及责任人、协议签署预计时间。书面留存是保护自己的关键习惯。</div>
+        </div>
+      </div>
+      <div class="task" data-section="hx">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">拍照存档所有当场签署的文件</div><div class="task-tags"><span class="ttag ttag-doc">存档</span></div></div>
+          <div class="task-desc">盖章版协议拍照发送给自己邮箱，同时保存纸质原件。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 2: 萌招科技 拜访 -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<section class="sec" id="mengzhao">
+  <div class="sec-hd">
+    <div class="sec-dot" style="background:var(--amber)"></div>
+    <div>
+      <div class="sec-h2" style="color:var(--amber)">萌招科技 拜访 <span class="sec-tag" style="background:var(--amber-lt);color:var(--amber)">三维度协议 + 销售模式</span></div>
+      <div class="sec-sub">核心目标：个人合伙人协议 + 飞凡分销商协议 + 红熊直接采购确认；确定资源销售模式（计费/优惠/结算）</div>
+    </div>
+  </div>
+
+  <div class="task-group">
+    <div class="tg-head">👤 维度一：你个人 — 内部分润合伙人协议</div>
+    <div class="task-list">
+      <div class="task warn-task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认个人分润的法律性质（劳务报酬/服务费/股权分红/利润分成）</div><div class="task-tags"><span class="ttag ttag-legal">法税</span><span class="ttag ttag-risk">核心</span></div></div>
+          <div class="task-desc">不同性质对应不同税率和合规路径，必须在签协议前想清楚。</div>
+          <div class="task-note warn">⚠ 建议按"服务费"性质处理：你以个人名义向萌招提供商务开发/渠道推广服务，萌招按约定比例支付服务费，你按劳务报酬或经营所得申报个税。如果是"利润分成"性质，税务处理更复杂，须单独咨询。</div>
+        </div>
+      </div>
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认个人分润比例和计算基数</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span><span class="ttag ttag-must">必确认</span></div></div>
+          <div class="task-desc">分润比例是多少？计算基数是萌招的全部收入、飞凡渠道带来的收入，还是某个特定产品线的收入？是否有保底金额？</div>
+        </div>
+      </div>
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认个人分润结算周期和方式（建议：月结，对公/个人账户均可）</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span></div></div>
+          <div class="task-desc">结算周期建议月结，账单确认后7–15个工作日内打款。萌招须出具月度收入明细供核对，防止数据不透明。</div>
+        </div>
+      </div>
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认个人分润是否与飞凡分销商收入相互独立（不重叠计算）</div><div class="task-tags"><span class="ttag ttag-legal">法律</span><span class="ttag ttag-risk">风险</span></div></div>
+          <div class="task-desc">明确约定：同一笔销售收入，个人分润和飞凡分销佣金不能同时主张，避免"双重领取"引发的法律和税务问题。</div>
+          <div class="task-note warn">⚠ 建议：个人分润仅针对非飞凡渠道引来的萌招收入（如红熊直接向萌招采购、其他你个人引入的渠道）；飞凡渠道引来的收入，飞凡拿分销佣金，你通过飞凡的利润分配获得收益，不再单独个人领取分润。</div>
+        </div>
+      </div>
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认个人合伙人的退出条款（协议终止后的分润处理）</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span></div></div>
+          <div class="task-desc">如果合作关系终止，协议终止前已产生的分润如何结算？是否有锁定期？锁定期内单方面终止是否需要支付违约金？</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="task-group">
+    <div class="tg-head">🏢 维度二：飞凡科技 — 分销商协议</div>
+    <div class="task-list">
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认飞凡的分销商资质等级和对应折扣体系</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span><span class="ttag ttag-must">必确认</span></div></div>
+          <div class="task-desc">萌招是否有分级代理体系（一级/二级分销商）？飞凡进入哪个等级？不同等级对应的折扣率、返佣比例、销售支持政策是什么？</div>
+        </div>
+      </div>
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认飞凡可分销的产品范围（全线产品 or 部分产品）</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span><span class="ttag ttag-must">必确认</span></div></div>
+          <div class="task-desc">逐一确认：移动通信线路（电话/视频/短信）、外呼黑名单、全景数据服务、阿里云资源/Token——哪些可以分销，哪些暂不开放？</div>
+        </div>
+      </div>
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">是否允许飞凡授权下级渠道（红熊、猎头等）转销售萌招资源</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span><span class="ttag ttag-must">必确认</span></div></div>
+          <div class="task-desc">飞凡希望将萌招资源通过红熊等渠道分发，需要萌招明确授权"允许转授权分销"，否则红熊销售萌招资源在法律上存在问题。</div>
+        </div>
+      </div>
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认飞凡分销商的最低采购量或年度销售额承诺（如有）</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span></div></div>
+          <div class="task-desc">萌招是否要求最低订单量或年度销售指标？如果有，争取前6个月免指标考核期，用实际业绩换取更好条件。</div>
+          <div class="task-note tip">💡 如果萌招要求业绩保底，可以反向提出：达到保底后，折扣率自动提升一个档次，形成正向激励。</div>
+        </div>
+      </div>
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认飞凡分销商合同的排他性（非独家，可同时代理其他资源）</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span><span class="ttag ttag-must">底线</span></div></div>
+          <div class="task-desc">飞凡必须保留同时代理小融Token资源的权利，不能被萌招锁定独家。若萌招要求独家，必须给予足够的价格补偿，否则拒绝。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="task-group">
+    <div class="tg-head">🔄 维度三：红熊 — 直接采购客户关系确认</div>
+    <div class="task-list">
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认红熊直接向萌招采购时，飞凡是否仍可获得引荐佣金</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span><span class="ttag ttag-must">必确认</span></div></div>
+          <div class="task-desc">你介绍红熊成为萌招客户，红熊直接和萌招签约采购，飞凡在这个关系中的收益是什么？是一次性引荐费、还是持续的渠道分润？需要明确写入协议。</div>
+          <div class="task-note warn">⚠ 如果不事先约定，红熊一旦和萌招建立直接关系，未来飞凡就完全被排除在外，这笔收入会永久消失。</div>
+        </div>
+      </div>
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">三方关系在协议中的书面确认（建议签署三方备忘录）</div><div class="task-tags"><span class="ttag ttag-doc">协议</span></div></div>
+          <div class="task-desc">建议用一份简短的三方备忘录明确：红熊作为萌招直接客户、飞凡作为萌招分销商、飞凡作为引荐红熊的介绍方三者之间的关系和收益安排。避免未来萌招和红熊直接绕过你。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="task-group">
+    <div class="tg-head">💰 资源销售模式：计费方式 / 优惠形式 / 结算机制（重点谈判项）</div>
+    <div class="task-list">
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认每类资源的计费单位和计费方式</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span><span class="ttag ttag-must">必确认</span></div></div>
+          <div class="task-desc">逐一确认：<br>· 通信线路：按坐席/月？按分钟计费？按路数/月？<br>· 黑名单服务：按查询次数？月包？<br>· 全景数据：按查询次数？按人群包？<br>· 阿里云/Token：按实际消耗量？预付包年？</div>
+        </div>
+      </div>
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认对飞凡的供货价（出厂价/折扣价体系）</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span><span class="ttag ttag-must">必确认</span></div></div>
+          <div class="task-desc">飞凡从萌招拿到的价格是什么？是固定折扣（如8折）还是阶梯折扣（采购量越大折扣越高）？是含税价还是不含税？飞凡需要向萌招开具发票吗？</div>
+        </div>
+      </div>
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">优惠形式选择：优惠码 / 优惠券 / 定向折扣 / 充值中转——哪种更灵活？</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span><span class="ttag ttag-must">必确认</span></div></div>
+          <div class="task-desc">
+            四种模式的优缺点：<br>
+            · <strong>优惠码/优惠券</strong>：客户自行使用，飞凡无需介入交易，管理简单，但飞凡对客户消费数据不透明<br>
+            · <strong>定向折扣</strong>：萌招对飞凡引来的客户设定专属价格，飞凡有更强的控制感，但需要萌招配合操作<br>
+            · <strong>充值中转（飞凡买入再卖出）</strong>：飞凡先充值到萌招账户，再分配给客户，飞凡控制最强，但需要垫资，有资金风险<br>
+            · <strong>纯返佣模式</strong>：客户直接和萌招签约，飞凡事后拿佣金，飞凡无资金风险但对交易控制力最弱
+          </div>
+          <div class="task-note tip">💡 建议优先选择"定向折扣+后置返佣"组合：客户享受飞凡渠道专属折扣，飞凡每月核对销售数据后拿返佣，既不需要垫资，又有一定的渠道控制力。</div>
+        </div>
+      </div>
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认结算周期和对账机制</div><div class="task-tags"><span class="ttag ttag-talk">谈判</span><span class="ttag ttag-must">必确认</span></div></div>
+          <div class="task-desc">飞凡拿返佣/差价的结算周期是多长？月结还是季度结？每次结算前如何对账？萌招是否提供后台数据查询权限（让飞凡能实时查看引入客户的消费数据）？</div>
+          <div class="task-note tip">💡 强烈建议争取萌招提供"渠道商后台"访问权限，让飞凡可以实时看到自己渠道下客户的消费情况，防止数据不透明导致的结算争议。</div>
+        </div>
+      </div>
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认客户归属锁定规则（飞凡引来的客户，持续归属飞凡渠道）</div><div class="task-tags"><span class="ttag ttag-doc">协议</span><span class="ttag ttag-must">底线</span></div></div>
+          <div class="task-desc">飞凡引来的客户，一旦在萌招注册激活，该客户未来的所有消费（至少2年内）都应计入飞凡渠道的返佣基数。防止萌招将飞凡的客户"漂白"为直客。</div>
+        </div>
+      </div>
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">确认发票和税务安排：飞凡/个人分别如何开票</div><div class="task-tags"><span class="ttag ttag-legal">法税</span><span class="ttag ttag-must">必确认</span></div></div>
+          <div class="task-desc">飞凡分销商收入：飞凡向萌招开增值税发票（普通/专用），税率按技术服务6%处理。个人分润收入：萌招代扣代缴个人所得税，或你自行申报（需提前确认）。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="task-group">
+    <div class="tg-head">📝 萌招拜访会后即办</div>
+    <div class="task-list">
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">当场或次日发送会议纪要邮件</div><div class="task-tags"><span class="ttag ttag-must">必做</span></div></div>
+          <div class="task-desc">分开发送两封邮件：一封给萌招对接人（企业合作事项），一封给个人合伙人协议的对接方（如果是不同人的话）。清晰区分两个维度的事项。</div>
+        </div>
+      </div>
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">获取萌招完整产品价格手册（用于飞凡定价参考）</div><div class="task-tags"><span class="ttag ttag-doc">资料</span></div></div>
+          <div class="task-desc">包含：所有产品的零售价、分销商价、阶梯折扣条件。这是飞凡后续向客户报价的基础。</div>
+        </div>
+      </div>
+      <div class="task" data-section="mz">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">获取萌招渠道商后台访问权限（如已开通）</div><div class="task-tags"><span class="ttag ttag-must">重要</span></div></div>
+          <div class="task-desc">登录测试，确认可以看到客户消费数据、结算报表、订单记录。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 3: Token平台专项 -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<section class="sec" id="token">
+  <div class="sec-hd">
+    <div class="sec-dot" style="background:var(--steel)"></div>
+    <div>
+      <div class="sec-h2" style="color:var(--steel)">Token平台专项 <span class="sec-tag" style="background:var(--steel-lt);color:var(--steel)">两次拜访均需探讨</span></div>
+      <div class="sec-sub">Token平台是中长期战略项目，两次拜访均需摸底意愿，现场不需要拍板，但要把关键问题问清楚</div>
+    </div>
+  </div>
+  <div class="task-group">
+    <div class="tg-head">🔑 需要在两次拜访中分别确认的问题</div>
+    <div class="task-list">
+      <div class="task" data-section="after">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">【问红熊】红熊是否有意愿参与建设Token平台（技术/资金/客户）</div><div class="task-tags"><span class="ttag ttag-token">Token</span><span class="ttag ttag-biz">探讨</span></div></div>
+          <div class="task-desc">红熊参与方式选项：技术共建（出开发资源）/ 资金入股（出钱占股份）/ 客户导流（仅作为分销渠道）。不同参与方式对应的收益分配完全不同，要摸清意向。</div>
+        </div>
+      </div>
+      <div class="task" data-section="after">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">【问萌招】萌招是否愿意作为Token平台的资源方参与（独家/非独家）</div><div class="task-tags"><span class="ttag ttag-token">Token</span><span class="ttag ttag-biz">探讨</span></div></div>
+          <div class="task-desc">萌招在Token平台中的角色：仅作为资源供给方（不参与平台建设和运营），还是也希望参与平台股权？是否愿意给平台独家资源价格优势？</div>
+        </div>
+      </div>
+      <div class="task" data-section="after">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">【两者都要问】平台的竞品情况：目前市场上有没有类似的Token交易平台</div><div class="task-tags"><span class="ttag ttag-token">Token</span><span class="ttag ttag-pre">准备</span></div></div>
+          <div class="task-desc">两家公司对市场的了解可能比你更深，听听他们的判断，避免建一个已经有成熟竞品的平台。</div>
+        </div>
+      </div>
+      <div class="task" data-section="after">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">【小融平台】确认小融Token平台的规划，飞凡/萌招的参与路径</div><div class="task-tags"><span class="ttag ttag-token">Token</span></div></div>
+          <div class="task-desc">小融计划建设自己的Token平台，飞凡可以作为资源供给方（代理萌招资源入场），也可以作为技术合作方。需要和小融单独沟通（不在本次拜访范围，但可以在两次拜访中收集信息作准备）。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 4: 拜访后跟进 -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<section class="sec" id="after">
+  <div class="sec-hd">
+    <div class="sec-dot" style="background:var(--coral)"></div>
+    <div>
+      <div class="sec-h2" style="color:var(--coral)">拜访后跟进 <span class="sec-tag" style="background:var(--coral-lt);color:var(--coral)">1周内完成</span></div>
+      <div class="sec-sub">拜访谈完只是开始，这些跟进任务决定合作能不能真正落地</div>
+    </div>
+  </div>
+  <div class="task-group">
+    <div class="tg-head">📋 协议完善与签署跟进</div>
+    <div class="task-list">
+      <div class="task" data-section="after">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">根据会谈结果，更新所有协议草案并发给对方审阅</div><div class="task-tags"><span class="ttag ttag-doc">协议</span><span class="ttag ttag-must">必做</span></div></div>
+          <div class="task-desc">建议拜访后3个工作日内发出协议草案，避免拖延导致合作热度下降。发送时附上"主要条款摘要"方便对方快速审阅。</div>
+        </div>
+      </div>
+      <div class="task" data-section="after">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">与财税顾问确认个人分润合规方案，再签署个人合伙人协议</div><div class="task-tags"><span class="ttag ttag-legal">法税</span><span class="ttag ttag-must">必做</span></div></div>
+          <div class="task-desc">不要先签再问，顺序很重要。个人分润协议的税务处理一旦定了，后续很难更改。</div>
+        </div>
+      </div>
+      <div class="task" data-section="after">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">整理所有协议的签署主体、盖章要求清单，避免遗漏</div><div class="task-tags"><span class="ttag ttag-doc">协议</span></div></div>
+          <div class="task-desc">本次涉及协议清单：①红熊分包框架协议（飞凡公章）②红熊产品授权代理协议（飞凡公章）③萌招个人合伙人协议（你个人签字）④萌招飞凡分销商协议（飞凡公章）⑤萌招三方备忘录（飞凡公章+你个人+萌招）。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="task-group">
+    <div class="tg-head">🚀 业务启动跟进</div>
+    <div class="task-list">
+      <div class="task" data-section="after">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">建立统一的"收入追踪表"，登记所有合作关系的应收账款</div><div class="task-tags"><span class="ttag ttag-biz">运营</span></div></div>
+          <div class="task-desc">表格列：合作方、合同、金额、触发条件、应收日期、实收日期、状态。这是管理六方生态的最基础工具。</div>
+        </div>
+      </div>
+      <div class="task" data-section="after">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">将萌招产品信息整合进飞凡产品手册，开始向飞凡现有客户推介</div><div class="task-tags"><span class="ttag ttag-biz">运营</span></div></div>
+          <div class="task-desc">协议签署后，第一批推介对象：老东家分包客户、技术圈客户中有通信/数据需求的。</div>
+        </div>
+      </div>
+      <div class="task" data-section="after">
+        <div class="cb"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="task-body">
+          <div class="task-top"><div class="task-title">安排与小融科技的下一次会谈（Token平台和渠道合作）</div><div class="task-tags"><span class="ttag ttag-biz">运营</span></div></div>
+          <div class="task-desc">两次拜访收集到的信息（红熊意向、萌招资源条件）可以作为和小融谈判的背景材料。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 5: 风险提示汇总 -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<section class="sec" id="risk">
+  <div class="sec-hd">
+    <div class="sec-dot" style="background:var(--red)"></div>
+    <div>
+      <div class="sec-h2" style="color:var(--red)">风险提示汇总 <span class="sec-tag" style="background:var(--red-lt);color:var(--red)">必读</span></div>
+      <div class="sec-sub">这些是本次拜访中最容易忽略、但代价最高的风险点</div>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="task warn-task" data-section="risk" style="cursor:default">
+      <div class="cb" style="background:var(--red);border-color:var(--red)"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="task-body">
+        <div class="task-top"><div class="task-title">【最高风险】个人分润与企业收入混同结算</div><div class="task-tags"><span class="ttag ttag-risk">法税风险</span></div></div>
+        <div class="task-desc">你个人合伙人分润和飞凡分销商收入，绝对不能通过同一账户结算，不能用同一发票处理。混同结算会引发税务稽查，且在法律上会模糊两种关系的边界。</div>
+      </div>
+    </div>
+    <div class="task warn-task" data-section="risk" style="cursor:default">
+      <div class="cb" style="background:var(--red);border-color:var(--red)"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="task-body">
+        <div class="task-top"><div class="task-title">【高风险】红熊绕过飞凡直接联系萌招客户</div><div class="task-tags"><span class="ttag ttag-risk">渠道风险</span></div></div>
+        <div class="task-desc">你把红熊介绍给萌招后，红熊可能直接和萌招建立深度关系，逐渐排除飞凡。必须在萌招的三方备忘录中写明：飞凡作为引荐方，享有持续渠道分润权，不因红熊直接采购而消失。</div>
+      </div>
+    </div>
+    <div class="task warn-task" data-section="risk" style="cursor:default">
+      <div class="cb" style="background:var(--red);border-color:var(--red)"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="task-body">
+        <div class="task-top"><div class="task-title">【高风险】口头承诺未落入协议</div><div class="task-tags"><span class="ttag ttag-risk">法律风险</span></div></div>
+        <div class="task-desc">谈判现场很容易产生大量口头承诺（"这个没问题的""我们肯定给你好价格"），但这些在法律上没有任何效力。只有白纸黑字写进协议的才算数。任何口头承诺，当场要求对方以书面方式（微信文字/邮件）确认。</div>
+      </div>
+    </div>
+    <div class="task warn-task" data-section="risk" style="cursor:default">
+      <div class="cb" style="background:var(--red);border-color:var(--red)"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="task-body">
+        <div class="task-top"><div class="task-title">【中风险】萌招要求独家代理锁定飞凡</div><div class="task-tags"><span class="ttag ttag-risk">商务风险</span></div></div>
+        <div class="task-desc">如果萌招要求飞凡签署独家代理条款（不能代理其他云/通信资源），这会直接冲突飞凡同时代理小融Token资源的计划。若对方坚持，要求对等的独家补偿（更高折扣/保底返佣），否则拒绝独家条款。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+<div class="foot">
+  本清单覆盖拜访前准备、红熊AI会谈、萌招科技会谈、Token平台探讨、拜访后跟进、风险提示六大模块，共 <span id="foot-total" style="font-weight:600;color:var(--coral)">—</span> 项任务。点击任意任务可标记完成状态，刷新后不保留。建议截图或导出保存。
+</div>
+
+</div>
+
+<script>
+// CHECKBOX INTERACTION
+document.querySelectorAll('.task[data-section]').forEach(task => {
+  if (!task.style.cursor || task.style.cursor !== 'default') {
+    task.addEventListener('click', () => {
+      task.classList.toggle('done');
+      updateProgress();
+    });
+  }
+});
+
+function updateProgress() {
+  const all = document.querySelectorAll('.task[data-section]:not([style*="cursor: default"]):not([style*="cursor:default"])');
+  const done = document.querySelectorAll('.task[data-section].done');
+  document.getElementById('progress-count').textContent = done.length;
+  document.getElementById('total-count').textContent = all.length;
+
+  // section counts
+  const sections = ['pre','hx','mz','after'];
+  const ids = {pre:'s-pre',hx:'s-hx',mz:'s-mz',after:'s-after'};
+  sections.forEach(s => {
+    const count = document.querySelectorAll(`.task[data-section="${s}"]`).length;
+    if (document.getElementById(ids[s])) document.getElementById(ids[s]).textContent = count;
+  });
+}
+
+// INIT COUNTS
+window.addEventListener('DOMContentLoaded', () => {
+  const clickable = document.querySelectorAll('.task[data-section]').length;
+  document.getElementById('total-count').textContent = clickable;
+  document.getElementById('progress-count').textContent = 0;
+  document.getElementById('hero-total').textContent = clickable + ' 项';
+  document.getElementById('foot-total').textContent = clickable;
+
+  // section counts
+  ['pre','hx','mz','after'].forEach((s, i) => {
+    const ids = ['s-pre','s-hx','s-mz','s-after'];
+    const count = document.querySelectorAll(`.task[data-section="${s}"]`).length;
+    if (document.getElementById(ids[i])) document.getElementById(ids[i]).textContent = count;
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenClaw Windows 消费者产品技术方案</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #faf9f7; }
+        .claude-card {
+            background: white;
+            border: 1px solid #e5e5e0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04);
+        }
+        .accent-orange { color: #d97736; }
+        .bg-accent { background-color: #d97736; }
+        .bg-accent-light { background-color: #fff7ed; }
+        .border-accent { border-color: #d97736; }
+        
+        .timeline-line {
+            background: linear-gradient(to bottom, #e5e5e0 0%, #d97736 100%);
+            width: 2px;
+        }
+        
+        .package-layer {
+            background: linear-gradient(135deg, #faf9f7 0%, #ffffff 100%);
+            border: 1px solid #e5e5e0;
+            transition: all 0.2s;
+        }
+        .package-layer:hover {
+            border-color: #d97736;
+            transform: translateX(4px);
+        }
+        
+        .reliability-badge {
+            background-color: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .phase-tab {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .phase-tab.active {
+            background-color: #fff7ed;
+            border-left: 3px solid #d97736;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(to right, #d97736 0%, #ea580c 100%);
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased">
+
+    <div class="max-w-6xl mx-auto px-6 py-12">
+        <!-- Header -->
+        <div class="mb-12">
+            <div class="text-sm font-medium accent-orange mb-2 tracking-wide uppercase">Consumer Offline Package</div>
+            <h1 class="text-4xl font-semibold text-gray-900 mb-4 tracking-tight">Win11 消费者离线安装方案</h1>
+            <p class="text-lg text-gray-600 max-w-3xl leading-relaxed">
+                零网络依赖的一键安装体验，渐进式品牌定制策略，针对Windows 11深度优化的可靠性保障体系
+            </p>
+        </div>
+
+        <!-- Offline Package Structure -->
+        <div class="claude-card rounded-2xl p-8 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold flex items-center gap-2">
+                    <span class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-sm font-bold">1</span>
+                    离线安装包架构（~280MB）
+                </h2>
+                <span class="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full">Single EXE Distribution</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Package Contents -->
+                <div class="lg:col-span-2 space-y-3">
+                    <div class="package-layer rounded-lg p-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded bg-orange-100 flex items-center justify-center text-lg">📦</div>
+                            <div>
+                                <div class="font-medium text-sm">Node.js 24.x LTS Runtime</div>
+                                <div class="text-xs text-gray-500">~180MB | 免系统安装，沙盒运行</div>
+                            </div>
+                        </div>
+                        <span class="text-xs bg-gray-100 px-2 py-1 rounded">必要</span>
+                    </div>
+
+                    <div class="package-layer rounded-lg p-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded bg-blue-100 flex items-center justify-center text-lg">⚙️</div>
+                            <div>
+                                <div class="font-medium text-sm">OpenClaw Core + Dependencies</div>
+                                <div class="text-xs text-gray-500">~45MB | 包含预编译二进制依赖</div>
+                            </div>
+                        </div>
+                        <span class="text-xs bg-gray-100 px-2 py-1 rounded">必要</span>
+                    </div>
+
+                    <div class="package-layer rounded-lg p-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded bg-purple-100 flex items-center justify-center text-lg">🎨</div>
+                            <div>
+                                <div class="font-medium text-sm">品牌定制 UI（前期二开版）</div>
+                                <div class="text-xs text-gray-500">~25MB | 预构建dist目录注入</div>
+                            </div>
+                        </div>
+                        <span class="text-xs bg-accent-light text-orange-700 px-2 py-1 rounded">定制</span>
+                    </div>
+
+                    <div class="package-layer rounded-lg p-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded bg-gray-100 flex items-center justify-center text-lg">🛡️</div>
+                            <div>
+                                <div class="font-medium text-sm">VC++ Redist / WinSW / 证书</div>
+                                <div class="text-xs text-gray-500">~15MB | 系统级依赖与签名</div>
+                            </div>
+                        </div>
+                        <span class="text-xs reliability-badge px-2 py-1 rounded">可靠</span>
+                    </div>
+
+                    <div class="package-layer rounded-lg p-4 flex items-center justify-between border-dashed border-2 border-gray-300 bg-transparent">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded bg-gray-50 flex items-center justify-center text-lg text-gray-400">⬇️</div>
+                            <div>
+                                <div class="font-medium text-sm text-gray-600">用户数据与配置（安装时生成）</div>
+                                <div class="text-xs text-gray-400">~5MB初始 | 首次启动初始化</div>
+                            </div>
+                        </div>
+                        <span class="text-xs bg-gray-100 px-2 py-1 rounded text-gray-500">运行时</span>
+                    </div>
+                </div>
+
+                <!-- Install Flow Mini -->
+                <div class="bg-gray-50 rounded-xl p-5">
+                    <div class="text-xs font-medium text-gray-400 mb-4 uppercase tracking-wider">安装流程</div>
+                    <div class="space-y-4">
+                        <div class="flex gap-3">
+                            <div class="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold flex-shrink-0">1</div>
+                            <div class="text-sm">
+                                <div class="font-medium text-gray-900">权限提升</div>
+                                <div class="text-xs text-gray-500">请求管理员（Win11 UAC优化）</div>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <div class="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold flex-shrink-0">2</div>
+                            <div class="text-sm">
+                                <div class="font-medium text-gray-900">环境预检</div>
+                                <div class="text-xs text-gray-500">系统版本/.NET/磁盘空间</div>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <div class="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold flex-shrink-0">3</div>
+                            <div class="text-sm">
+                                <div class="font-medium text-gray-900">原子释放</div>
+                                <div class="text-xs text-gray-500">7z自解压到Program Files</div>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <div class="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold flex-shrink-0">4</div>
+                            <div class="text-sm">
+                                <div class="font-medium text-gray-900">服务注册</div>
+                                <div class="text-xs text-gray-500">WinSW写入Windows服务</div>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <div class="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold flex-shrink-0">5</div>
+                            <div class="text-sm">
+                                <div class="font-medium text-gray-900">防火墙规则</div>
+                                <div class="text-xs text-gray-500">自动添加入站例外（18789）</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progressive Customization Strategy -->
+        <div class="claude-card rounded-2xl p-8 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold flex items-center gap-2">
+                    <span class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-sm font-bold">2</span>
+                    渐进式定制路线图
+                </h2>
+                <span class="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full">Fork & Replace Strategy</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Timeline -->
+                <div class="lg:col-span-4 space-y-4">
+                    <div class="phase-tab active rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="font-semibold text-sm">Phase 1: 主题二开</span>
+                            <span class="text-xs text-gray-500">MVP阶段</span>
+                        </div>
+                        <div class="text-xs text-gray-600">基于OpenClaw原生UI，通过CSS变量注入和组件覆盖实现品牌化</div>
+                    </div>
+
+                    <div class="phase-tab rounded-lg p-4 border-l-2 border-transparent hover:border-gray-300">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="font-semibold text-sm text-gray-700">Phase 2: 功能定制</span>
+                            <span class="text-xs text-gray-500">成长期</span>
+                        </div>
+                        <div class="text-xs text-gray-600">逐步替换页面组件，保留核心逻辑层（API调用）</div>
+                    </div>
+
+                    <div class="phase-tab rounded-lg p-4 border-l-2 border-transparent hover:border-gray-300">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="font-semibold text-sm text-gray-700">Phase 3: 完全独立</span>
+                            <span class="text-xs text-gray-500">成熟期</span>
+                        </div>
+                        <div class="text-xs text-gray-600">独立React项目，仅依赖Gateway API，完全掌控UX</div>
+                    </div>
+                </div>
+
+                <!-- Phase 1 Details -->
+                <div class="lg:col-span-8 bg-gray-50 rounded-xl p-6">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-sm font-bold accent-orange">当前推荐：Phase 1 实施方案</span>
+                        <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">最快2周上线</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="bg-white rounded-lg p-4 border border-gray-200">
+                            <div class="text-xs font-medium text-gray-400 mb-2">技术路径</div>
+                            <div class="text-sm text-gray-800 space-y-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-1 h-1 rounded-full bg-orange-400"></span>
+                                    Fork github.com/kimi/openclaw
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-1 h-1 rounded-full bg-orange-400"></span>
+                                    修改 packages/ui/src/styles/vars.css
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-1 h-1 rounded-full bg-orange-400"></span>
+                                    覆盖Logo、主题色、字体
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-1 h-1 rounded-full bg-orange-400"></span>
+                                    pnpm ui:build 生成dist
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg p-4 border border-gray-200">
+                            <div class="text-xs font-medium text-gray-400 mb-2">定制维度</div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-gray-700">视觉识别</span>
+                                    <span class="text-xs text-green-600">✓ 完全可控</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-gray-700">布局结构</span>
+                                    <span class="text-xs text-yellow-600">~ 部分可控</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-gray-700">功能模块</span>
+                                    <span class="text-xs text-green-600">✓ 可隐藏/重排</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-gray-700">交互逻辑</span>
+                                    <span class="text-xs text-gray-500">✗ 受限于原生</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg p-3 border border-gray-200 font-mono text-xs text-gray-600">
+                        <span class="text-gray-400"># 安装时配置注入（自动执行）</span><br>
+                        openclaw config set ui.brand.logo "/assets/your-logo.svg"<br>
+                        openclaw config set ui.brand.primary_color "#d97736"<br>
+                        openclaw config set ui.brand.font_family "Inter"<br>
+                        openclaw config set features.hide_settings true  <span class="text-gray-400"># 隐藏原生设置入口</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Win11 Reliability -->
+        <div class="claude-card rounded-2xl p-8 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold flex items-center gap-2">
+                    <span class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-sm font-bold">3</span>
+                    Win11 可靠性保障体系
+                </h2>
+                <span class="reliability-badge px-3 py-1 rounded-full text-xs">目标：99%+ 安装成功率</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Pre-check -->
+                <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-5 border border-gray-200">
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-sm">🔍</div>
+                        <h3 class="font-semibold text-sm">前置依赖矩阵</h3>
+                    </div>
+                    <ul class="space-y-2 text-xs text-gray-600">
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-500 mt-0.5">✓</span>
+                            <span>系统版本 ≥ Windows 11 21H2 (Build 22000)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-500 mt-0.5">✓</span>
+                            <span>.NET Framework 4.8.1+ (WinSW依赖)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-500 mt-0.5">✓</span>
+                            <span>磁盘空间 ≥ 1GB 可用</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-500 mt-0.5">✓</span>
+                            <span>内存 ≥ 4GB（Node运行时需求）</span>
+                        </li>
+                    </ul>
+                    <div class="mt-3 text-xs text-gray-500 bg-gray-100 rounded p-2">
+                        不满足条件时优雅降级，提供清晰的解决指引
+                    </div>
+                </div>
+
+                <!-- Security -->
+                <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-5 border border-gray-200">
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-sm">🛡️</div>
+                        <h3 class="font-semibold text-sm">安全软件兼容性</h3>
+                    </div>
+                    <ul class="space-y-2 text-xs text-gray-600">
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-500 mt-0.5">✓</span>
+                            <span>代码签名证书（EV证书最佳）</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-500 mt-0.5">✓</span>
+                            <span>Windows Defender SmartScreen 白名单申请</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-500 mt-0.5">✓</span>
+                            <span>安装包SHA256校验和公开提供</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-500 mt-0.5">✓</span>
+                            <span>杀毒软件提交（360、火绒、卡巴斯基）</span>
+                        </li>
+                    </ul>
+                    <div class="mt-3 text-xs text-gray-500 bg-gray-100 rounded p-2">
+                        避免误报导致的安装阻断，提升消费者信任度
+                    </div>
+                </div>
+
+                <!-- Recovery -->
+                <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-5 border border-gray-200">
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 text-sm">🔄</div>
+                        <h3 class="font-semibold text-sm">故障恢复机制</h3>
+                    </div>
+                    <ul class="space-y-2 text-xs text-gray-600">
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-500 mt-0.5">✓</span>
+                            <span>事务性安装：失败自动回滚</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-500 mt-0.5">✓</span>
+                            <span>端口占用检测（18789冲突处理）</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-500 mt-0.5">✓</span>
+                            <span>服务启动超时保护（30s重试机制）</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-500 mt-0.5">✓</span>
+                            <span>详细日志输出（%Temp%\YourProduct_Install.log）</span>
+                        </li>
+                    </ul>
+                    <div class="mt-3 text-xs text-gray-500 bg-gray-100 rounded p-2">
+                        消费者场景需避免技术黑盒，提供可理解的错误提示
+                    </div>
+                </div>
+            </div>
+
+            <!-- Win11 Specific Optimizations -->
+            <div class="mt-6 bg-blue-50 rounded-xl p-5 border border-blue-100">
+                <h4 class="font-semibold text-sm text-blue-900 mb-3 flex items-center gap-2">
+                    <span class="text-lg">⚡</span> Win11 专属优化项（区别于Win10方案）
+                </h4>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+                    <div class="bg-white rounded p-3 shadow-sm">
+                        <div class="font-medium text-gray-900 mb-1">圆角与Mica</div>
+                        <div class="text-gray-600">安装向导UI采用Win11云母材质，圆角8px</div>
+                    </div>
+                    <div class="bg-white rounded p-3 shadow-sm">
+                        <div class="font-medium text-gray-900 mb-1">Segoe UI Variable</div>
+                        <div class="text-gray-600">使用系统可变字体，更精细的字重控制</div>
+                    </div>
+                    <div class="bg-white rounded p-3 shadow-sm">
+                        <div class="font-medium text-gray-900 mb-1">现代上下文菜单</div>
+                        <div class="text-gray-600">右键菜单集成（Win11新API，非传统IContextMenu）</div>
+                    </div>
+                    <div class="bg-white rounded p-3 shadow-sm">
+                        <div class="font-medium text-gray-900 mb-1">ARM64支持预留</div>
+                        <div class="text-gray-600">x64为主，预留Snapdragon X Elite兼容路径</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Distribution & Update -->
+        <div class="claude-card rounded-2xl p-8 mb-8">
+            <h2 class="text-xl font-semibold mb-6 flex items-center gap-2">
+                <span class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-sm font-bold">4</span>
+                多渠道分发与更新策略
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-semibold text-gray-900 mb-4 text-sm">分发渠道适配</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <span class="text-xl">🌐</span>
+                                <div>
+                                    <div class="text-sm font-medium">官网下载</div>
+                                    <div class="text-xs text-gray-500">CDN加速，支持断点续传</div>
+                                </div>
+                            </div>
+                            <span class="text-xs bg-accent-light text-orange-700 px-2 py-1 rounded">主推</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <span class="text-xl">💿</span>
+                                <div>
+                                    <div class="text-sm font-medium">物理介质</div>
+                                    <div class="text-xs text-gray-500">U盘/光盘，完全离线场景</div>
+                                </div>
+                            </div>
+                            <span class="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded">企业</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <span class="text-xl">🏪</span>
+                                <div>
+                                    <div class="text-sm font-medium">应用商店</div>
+                                    <div class="text-xs text-gray-500">MSIX打包，Microsoft Store</div>
+                                </div>
+                            </div>
+                            <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">预留</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold text-gray-900 mb-4 text-sm">离线场景下的更新机制</h3>
+                    <div class="bg-gray-900 rounded-xl p-5 text-sm font-mono text-gray-300 space-y-2">
+                        <div class="text-gray-500"># 策略A：增量离线包（推荐）</div>
+                        <div>client → 检测更新 → 下载.diff补丁 → 本地合并</div>
+                        <div class="text-gray-500 mt-3"># 策略B：全量替换（简单）</div>
+                        <div>client → 提示新版本 → 下载完整.exe → 调用自更新</div>
+                        <div class="text-gray-500 mt-3"># 策略C：混合模式（消费者友好）</div>
+                        <div>WiFi时自动增量更新 / 离线时提示手动下载</div>
+                    </div>
+                    <div class="mt-3 text-xs text-gray-600">
+                        考虑到消费者可能长期离线，需支持"离线更新包"手动导入机制
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Implementation Checklist -->
+        <div class="claude-card rounded-2xl p-8">
+            <h2 class="text-xl font-semibold mb-6 flex items-center gap-2">
+                <span class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-sm font-bold">5</span>
+                关键实施检查点
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <input type="checkbox" class="rounded text-orange-500 focus:ring-orange-500" checked>
+                        <span class="font-medium">代码签名证书申请</span>
+                    </div>
+                    <div class="text-xs text-gray-600">DigiCert/Sectigo EV证书，消除SmartScreen警告</div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <input type="checkbox" class="rounded text-orange-500 focus:ring-orange-500">
+                        <span class="font-medium">NSIS Modern UI定制</span>
+                    </div>
+                    <div class="text-xs text-gray-600">基于MUI2，匹配Win11视觉风格，支持暗黑/浅色</div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <input type="checkbox" class="rounded text-orange-500 focus:ring-orange-500">
+                        <span class="font-medium">OpenClaw UI Fork & 主题</span>
+                    </div>
+                    <div class="text-xs text-gray-600">建立私有仓库，设计Token化CSS变量体系</div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <input type="checkbox" class="rounded text-orange-500 focus:ring-orange-500">
+                        <span class="font-medium">安装失败场景测试</span>
+                    </div>
+                    <div class="text-xs text-gray-600">磁盘满、权限不足、杀毒软件拦截、端口占用</div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <input type="checkbox" class="rounded text-orange-500 focus:ring-orange-500">
+                        <span class="font-medium">卸载程序完整性</span>
+                    </div>
+                    <div class="text-xs text-gray-600">服务停止、文件清理、注册表清理、用户数据保留选项</div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <input type="checkbox" class="rounded text-orange-500 focus:ring-orange-500">
+                        <span class="font-medium">物理介质自启动</span>
+                    </div>
+                    <div class="text-xs text-gray-600">U盘自动播放(autorun.inf)或引导程序适配</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-8 text-xs text-gray-500 space-y-1">
+            <p>技术基线：OpenClaw Core v2026.4.x + Node.js 24 LTS + Windows 11 21H2+</p>
+            <p>预计安装包体积：280MB | 安装时间：SSD约45秒 / HDD约2分钟 | 运行时内存占用：~300MB</p>
+        </div>
+    </div>
+
+</body>
+</html>

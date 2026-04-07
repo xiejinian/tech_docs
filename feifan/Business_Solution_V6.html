@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>飞凡科技 · 资源变现全景商业方案 V6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#f5f0e8; --cream-d:#ede8df; --cream-dd:#e4ddd3; --white:#fdfcfa;
+  --ink:#1a1612; --ink-60:rgba(26,22,18,.60); --ink-35:rgba(26,22,18,.35);
+  --ink-12:rgba(26,22,18,.12); --ink-06:rgba(26,22,18,.06);
+  --coral:#d4603a; --coral-lt:#f5e6df; --coral-md:#e8956e;
+  --teal:#1e6b5e; --teal-lt:#d6eeea;
+  --amber:#b87a2a; --amber-lt:#f5e8cc;
+  --plum:#5a3a6b; --plum-lt:#ece0f5;
+  --sage:#3a6645; --sage-lt:#daf0e0;
+  --steel:#3d5068; --steel-lt:#dce6f0;
+  --xc:#7a3030; --xc-lt:#f5e0e0;
+  --token:#1a4a7a; --token-lt:#d8eaf5; --token-md:#4a8ab5;
+  --overseas:#2a5a3a; --overseas-lt:#d8f0e0;
+  --r:12px; --r-sm:7px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:'Noto Sans SC',sans-serif;font-size:14px;font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased}
+
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:99;background:rgba(245,240,232,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--ink-12);padding:0 36px}
+.nav-in{max-width:1160px;margin:0 auto;height:54px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.nav-brand{font-family:'Crimson Pro',serif;font-size:16px;font-weight:600;color:var(--coral);white-space:nowrap}
+.nav-links{display:flex;gap:16px}
+.nav-links a{font-size:11px;color:var(--ink-60);text-decoration:none;letter-spacing:.04em;transition:color .2s;white-space:nowrap}
+.nav-links a:hover{color:var(--coral)}
+.nav-tag{background:var(--token);color:#fff;border-radius:20px;padding:4px 14px;font-size:11px;font-weight:500;white-space:nowrap}
+
+/* ── WRAP ── */
+.wrap{max-width:1160px;margin:0 auto;padding:0 36px 100px}
+
+/* ── HERO ── */
+.hero{padding:64px 0 48px;border-bottom:1px solid var(--ink-12);margin-bottom:72px}
+.hero-kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);font-weight:500;margin-bottom:14px}
+.hero-h1{font-family:'Crimson Pro',serif;font-size:48px;font-weight:300;line-height:1.1;letter-spacing:-.02em;max-width:800px;margin-bottom:18px}
+.hero-h1 em{font-style:italic;color:var(--coral)}
+.hero-p{max-width:640px;color:var(--ink-60);font-size:14.5px;line-height:1.75;margin-bottom:26px}
+.hero-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:26px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border:1px solid var(--ink-12);border-radius:20px;font-size:11.5px;color:var(--ink-60);background:var(--white)}
+.chip .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.chip.new6{border-color:var(--token);color:var(--token);background:var(--token-lt)}
+.nb{display:inline-block;color:#fff;font-size:9px;font-weight:700;letter-spacing:.06em;padding:1px 5px;border-radius:3px;vertical-align:middle;margin-left:4px}
+.hero-meta{display:flex;gap:28px;flex-wrap:wrap}
+.mi{display:flex;flex-direction:column;gap:2px}
+.mi-l{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-35);font-weight:500}
+.mi-v{font-size:13px;font-weight:500}
+
+/* ── SECTION ── */
+.sec{margin-bottom:80px}
+.sec-hd{margin-bottom:26px}
+.sec-num{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);font-weight:500;margin-bottom:5px}
+.sec-h2{font-family:'Crimson Pro',serif;font-size:29px;font-weight:400;line-height:1.2;letter-spacing:-.01em}
+.sec-sub{color:var(--ink-60);font-size:13.5px;margin-top:6px;max-width:640px}
+
+/* ── V6 UPGRADE BANNER ── */
+.upgrade-banner{background:var(--token);border-radius:var(--r);padding:26px 32px;margin-bottom:14px}
+.ub-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:10px}
+.ub-title{font-family:'Crimson Pro',serif;font-size:22px;color:#fff;font-weight:400;line-height:1.5;margin-bottom:16px}
+.ub-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding-top:18px;border-top:1px solid rgba(255,255,255,.1)}
+.ub-item .ub-n{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:5px}
+.ub-item .ub-v{font-size:13px;color:rgba(255,255,255,.8);line-height:1.55}
+
+/* ── IDENTITY SHIFT ── */
+.identity-shift{display:grid;grid-template-columns:1fr 60px 1fr;gap:0;align-items:center;margin-bottom:14px}
+.id-box{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);padding:22px 24px}
+.id-box.v5{opacity:.7}
+.id-box.v6{border-color:var(--token)}
+.id-ver{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-bottom:8px}
+.id-title{font-family:'Crimson Pro',serif;font-size:18px;font-weight:600;line-height:1.3;margin-bottom:10px}
+.id-item{display:flex;gap:7px;margin-bottom:6px;font-size:12.5px;color:var(--ink-60);line-height:1.5}
+.id-item::before{content:'·';font-size:16px;line-height:1.1;flex-shrink:0}
+.id-arrow{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.id-arrow-circle{width:40px;height:40px;border-radius:50%;background:var(--coral);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px}
+.id-arrow-label{font-size:10px;color:var(--ink-35);text-align:center;line-height:1.3}
+
+/* ── TOKEN PLATFORM ── */
+.token-platform{background:var(--white);border:1px solid var(--token);border-radius:var(--r);overflow:hidden}
+.tp-header{background:var(--token);padding:26px 32px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px}
+.tph-kicker{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:7px}
+.tph-title{font-family:'Crimson Pro',serif;font-size:24px;color:#fff;font-weight:600}
+.tph-sub{font-size:13px;color:rgba(255,255,255,.5);margin-top:5px}
+.tph-tag{background:rgba(255,255,255,.15);color:#fff;border-radius:var(--r-sm);padding:6px 16px;font-size:12px;font-weight:500;white-space:nowrap}
+.tp-arch{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+.tp-col{padding:22px 24px;border-right:1px solid var(--ink-06)}
+.tp-col:last-child{border-right:none}
+.tp-col-title{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--ink-35);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--ink-06)}
+.tp-item{display:flex;gap:7px;margin-bottom:8px;font-size:12.5px;color:var(--ink-60);line-height:1.5}
+.tp-item::before{content:'·';color:var(--token);font-size:16px;line-height:1.1;flex-shrink:0}
+.tp-item strong{color:var(--ink);font-weight:500}
+
+/* resource flow */
+.res-flow{padding:20px 24px;background:var(--cream);border-top:1px solid var(--ink-06);display:flex;align-items:center;gap:0;flex-wrap:wrap;overflow-x:auto}
+.rf-node{flex:1;min-width:90px;text-align:center;padding:10px 8px;background:var(--white);border-radius:var(--r-sm);border:1px solid var(--ink-12)}
+.rf-node.center{background:var(--token);border-color:var(--token)}
+.rf-node .rfn-icon{font-size:16px;margin-bottom:3px}
+.rf-node .rfn-name{font-size:11px;font-weight:600;color:var(--ink)}
+.rf-node.center .rfn-name{color:#fff}
+.rf-node .rfn-sub{font-size:10px;color:var(--ink-35);margin-top:1px}
+.rf-node.center .rfn-sub{color:rgba(255,255,255,.5)}
+.rf-arrow{color:var(--ink-35);font-size:14px;padding:0 6px;flex-shrink:0}
+
+/* advantage box */
+.adv-box{background:linear-gradient(135deg,var(--token-lt),rgba(255,255,255,0));border:1px solid var(--token);border-radius:var(--r);padding:18px 22px;margin-top:12px}
+.adv-title{font-family:'Crimson Pro',serif;font-size:16px;font-weight:600;color:var(--token);margin-bottom:8px}
+.adv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.adv-item{background:var(--white);border-radius:var(--r-sm);padding:12px 14px}
+.adv-item .ai-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--token);margin-bottom:5px}
+.adv-item .ai-text{font-size:12px;color:var(--ink-60);line-height:1.55}
+
+/* ── PRODUCT CATALOG ── */
+.prod-sections{display:flex;flex-direction:column;gap:12px}
+.pg{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);overflow:hidden}
+.pg.new6{border-color:var(--token)}
+.pg-head{padding:13px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--ink-06)}
+.pg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.pg-owner{font-size:10px;letter-spacing:.13em;text-transform:uppercase;font-weight:600}
+.pg-name{font-family:'Crimson Pro',serif;font-size:15px;font-weight:600}
+.pg-role{font-size:11px;color:var(--ink-35);margin-left:auto;font-style:italic}
+.pg-items{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.pi{padding:15px 17px;border-right:1px solid var(--ink-06);border-bottom:1px solid var(--ink-06)}
+.pi:nth-child(3n){border-right:none}
+.pi:nth-last-child(-n+3){border-bottom:none}
+.pi:last-child{border-bottom:none}
+.pi-name{font-weight:600;font-size:13px;margin-bottom:3px}
+.pi-desc{font-size:12px;color:var(--ink-60);line-height:1.5;margin-bottom:6px}
+.pi-price{font-family:'Crimson Pro',serif;font-size:13.5px;font-weight:600}
+.pi-tag{display:inline-block;font-size:10px;padding:1px 7px;border-radius:3px;font-weight:500;margin-top:3px}
+
+/* ── OPP GRID ── */
+.opp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.oc{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;transition:box-shadow .2s,transform .2s}
+.oc:hover{box-shadow:0 6px 22px rgba(26,22,18,.08);transform:translateY(-2px)}
+.oc.new6{border-color:var(--token);background:linear-gradient(135deg,var(--white) 0%,var(--token-lt) 100%)}
+.oc.overseas{border-color:var(--overseas);background:linear-gradient(135deg,var(--white) 0%,var(--overseas-lt) 100%)}
+.oc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.oc-num{font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:600}
+.oc-badge{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;white-space:nowrap}
+.b-now{background:var(--sage-lt);color:var(--sage)}
+.b-mid{background:var(--amber-lt);color:var(--amber)}
+.b-scale{background:var(--plum-lt);color:var(--plum)}
+.b-token{background:var(--token-lt);color:var(--token)}
+.b-train{background:var(--coral-lt);color:var(--coral)}
+.b-ch{background:var(--teal-lt);color:var(--teal)}
+.b-xc{background:var(--xc-lt);color:var(--xc)}
+.b-st{background:var(--steel-lt);color:var(--steel)}
+.b-ov{background:var(--overseas-lt);color:var(--overseas)}
+.oc-icon{font-size:20px;margin-bottom:6px}
+.oc-title{font-family:'Crimson Pro',serif;font-size:16px;font-weight:600;line-height:1.3;margin-bottom:5px}
+.oc-desc{font-size:12px;color:var(--ink-60);line-height:1.6;flex:1;margin-bottom:10px}
+.oc-foot{border-top:1px solid var(--ink-06);padding-top:10px;display:flex;justify-content:space-between;align-items:center}
+.oc-model{font-size:11px;color:var(--ink-60)}
+.oc-ret{font-family:'Crimson Pro',serif;font-size:14px;font-weight:600}
+
+/* ── ECO MAP ── */
+.eco{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto;gap:12px}
+.eco-center{grid-column:2;grid-row:1/3;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--coral);border-radius:var(--r);padding:26px 18px;color:#fff;text-align:center}
+.ec-name{font-family:'Crimson Pro',serif;font-size:24px;font-weight:600;margin-bottom:3px}
+.ec-sub{font-size:10.5px;color:rgba(255,255,255,.55);letter-spacing:.06em;margin-bottom:18px}
+.ec-caps{display:flex;flex-direction:column;gap:5px;width:100%}
+.ec-cap{background:rgba(255,255,255,.12);border-radius:var(--r-sm);padding:6px 10px;font-size:11px;color:rgba(255,255,255,.85)}
+.ec-cap.highlight{background:rgba(255,255,255,.22);font-weight:500}
+.ep{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);padding:16px}
+.ep.new6{border-color:var(--token);box-shadow:0 0 0 2px var(--token-lt)}
+.ep-badge{display:inline-block;font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:2px 7px;border-radius:3px;color:#fff;margin-bottom:7px}
+.ep-name{font-family:'Crimson Pro',serif;font-size:16px;font-weight:600;margin-bottom:3px}
+.ep-rel{font-size:11px;color:var(--ink-35);margin-bottom:8px;font-style:italic}
+.ep-row{display:flex;gap:6px;margin-bottom:5px;font-size:12px;color:var(--ink-60);line-height:1.45}
+.ep-row::before{content:'·';font-size:14px;line-height:1.15;flex-shrink:0}
+.ep-row.new6{color:var(--token)}
+
+/* ── MATRIX ── */
+.mat{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);overflow:hidden}
+.mat table{width:100%;border-collapse:collapse}
+.mat th{padding:10px 13px;background:var(--cream-dd);font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--ink-60);text-align:left;border-bottom:1px solid var(--ink-12)}
+.mat td{padding:11px 13px;font-size:12px;border-bottom:1px solid var(--ink-06);vertical-align:middle}
+.mat tr:last-child td{border-bottom:none}
+.mat tr:hover td{background:var(--cream)}
+.mat tr.tr-token td{background:var(--token-lt)}
+.mat tr.tr-token:hover td{background:#c4dcee}
+.mat tr.tr-ov td{background:var(--overseas-lt)}
+.mat tr.tr-train td{background:var(--coral-lt)}
+.mat tr.tr-ch td{background:var(--teal-lt)}
+.mat tr.tr-xc td{background:var(--xc-lt)}
+.mat tr.tr-st td{background:var(--steel-lt)}
+.mat tr.tr-hr td{background:var(--teal-lt)}
+.mat tr.tr-xr td{background:var(--plum-lt)}
+.tp2{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:500}
+.t1{background:var(--sage-lt);color:var(--sage)}
+.t2{background:var(--amber-lt);color:var(--amber)}
+.t3{background:var(--plum-lt);color:var(--plum)}
+.tx{background:var(--xc-lt);color:var(--xc)}
+.ts{background:var(--steel-lt);color:var(--steel)}
+.tt{background:var(--coral-lt);color:var(--coral)}
+.tc{background:var(--teal-lt);color:var(--teal)}
+.ttoken{background:var(--token-lt);color:var(--token)}
+.tov{background:var(--overseas-lt);color:var(--overseas)}
+.ebar{display:flex;gap:2px}
+.ep2{width:7px;height:7px;border-radius:2px;background:var(--ink-12)}
+.ep2.on{background:var(--coral)}
+.ep2.ton{background:var(--token)}
+.ep2.oon{background:var(--overseas)}
+.ep2.xon{background:var(--xc)}
+.spl{font-family:'Crimson Pro',serif;font-size:14px;font-weight:600;color:var(--coral)}
+.spl.tk{color:var(--token)}.spl.ov{color:var(--overseas)}.spl.t{color:var(--teal)}.spl.x{color:var(--xc)}.spl.s{color:var(--steel)}.spl.p{color:var(--plum)}
+
+/* ── PROJECTION ── */
+.proj-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.proj-row2{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+.pc{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);padding:16px 13px}
+.pc.tk-pc{border-color:var(--token)}
+.pc.ov-pc{border-color:var(--overseas)}
+.pc-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--ink-35);margin-bottom:6px}
+.pc-range{font-family:'Crimson Pro',serif;font-size:22px;font-weight:600;line-height:1;margin-bottom:2px}
+.pc-unit{font-size:10.5px;color:var(--ink-60);margin-bottom:7px}
+.pc-items{list-style:none}
+.pc-items li{font-size:11px;color:var(--ink-60);padding-left:9px;position:relative;margin-bottom:2px;line-height:1.45}
+.pc-items li::before{content:'·';position:absolute;left:0;font-size:14px;line-height:1.1;color:var(--coral)}
+.pc-items li.tkl::before{color:var(--token)}
+.pc-items li.ovl::before{color:var(--overseas)}
+
+/* ── ROADMAP ── */
+.rm3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.rm-card{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);overflow:hidden}
+.rm-head{padding:15px 18px;border-bottom:1px solid var(--ink-06)}
+.rm-period{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-bottom:3px}
+.rm-title{font-family:'Crimson Pro',serif;font-size:15px;font-weight:600;line-height:1.25}
+.rm-body{padding:13px 17px}
+.rm-item{display:flex;gap:7px;margin-bottom:7px;font-size:12px;color:var(--ink-60);line-height:1.55}
+.rm-n{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;margin-top:1px}
+.ph1 .rm-period{color:var(--teal)}.ph1 .rm-n{background:var(--teal-lt);color:var(--teal)}
+.ph2 .rm-period{color:var(--coral)}.ph2 .rm-n{background:var(--coral-lt);color:var(--coral)}
+.ph3 .rm-period{color:var(--plum)}.ph3 .rm-n{background:var(--plum-lt);color:var(--plum)}
+.tk-n{background:var(--token-lt)!important;color:var(--token)!important}
+.ov-n{background:var(--overseas-lt)!important;color:var(--overseas)!important}
+
+/* ── RISK ── */
+.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.risk-card{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);padding:17px 20px}
+.risk-top{display:flex;gap:8px;margin-bottom:6px}
+.risk-icon{font-size:15px;flex-shrink:0}
+.risk-title{font-weight:600;font-size:13px}
+.risk-desc{font-size:12px;color:var(--ink-60);line-height:1.65}
+.risk-act{margin-top:9px;padding-top:9px;border-top:1px solid var(--ink-06);font-size:12px;display:flex;gap:6px}
+.risk-act::before{content:'→';color:var(--coral);font-weight:600;flex-shrink:0}
+
+/* ── FOOT ── */
+.divider{border:none;border-top:1px solid var(--ink-12);margin:0 0 60px}
+.foot{border-top:1px solid var(--ink-12);padding-top:20px;font-size:11.5px;color:var(--ink-35);line-height:1.8;display:flex;justify-content:space-between;gap:20px}
+
+/* ── ANIM ── */
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.hero,.sec{animation:rise .5s ease both}
+.sec:nth-child(2){animation-delay:.05s}.sec:nth-child(3){animation-delay:.09s}
+.sec:nth-child(4){animation-delay:.13s}.sec:nth-child(5){animation-delay:.17s}
+.sec:nth-child(6){animation-delay:.21s}.sec:nth-child(7){animation-delay:.25s}
+.sec:nth-child(8){animation-delay:.29s}.sec:nth-child(9){animation-delay:.33s}
+.sec:nth-child(10){animation-delay:.37s}.sec:nth-child(11){animation-delay:.41s}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <div class="nav-brand">飞凡科技 · 全景方案 V6</div>
+    <div class="nav-links">
+      <a href="#shift">身份升级</a>
+      <a href="#token">Token平台</a>
+      <a href="#eco">生态地图</a>
+      <a href="#products">产品目录</a>
+      <a href="#opps">二十大机会</a>
+      <a href="#matrix">优先矩阵</a>
+      <a href="#proj">收入预测</a>
+      <a href="#roadmap">路线图</a>
+    </div>
+    <div class="nav-tag">V6 · Token平台自营</div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-kicker">飞凡科技 FeiVan Tech · Business Strategy V6</div>
+  <h1 class="hero-h1">从资源渠道商到<em>AI算力基础设施平台方</em></h1>
+  <p class="hero-p">红熊AI今日授权飞凡获得Token中转源码、海外API中转资源、产品二开权限及POC支持能力。V6的核心战略升级：飞凡不再只是资源的搬运者，而是以自营Token平台为核心，成为上游对接多方资源、下游向全渠道供给算力的AI基础设施节点。</p>
+  <div class="hero-chips">
+    <div class="chip"><span class="dot" style="background:var(--coral)"></span>飞凡科技（主体）</div>
+    <div class="chip"><span class="dot" style="background:var(--teal)"></span>红熊AI — 源码+算力+二开授权</div>
+    <div class="chip"><span class="dot" style="background:var(--amber)"></span>萌招科技 — 通信/数据/阿里云</div>
+    <div class="chip"><span class="dot" style="background:var(--plum)"></span>小融科技 — 金融AI+Token资源</div>
+    <div class="chip"><span class="dot" style="background:var(--steel)"></span>显示器 + 信创服务器</div>
+    <div class="chip new6"><span class="dot" style="background:var(--token)"></span>飞凡自营Token平台 <span class="nb" style="background:var(--token)">V6核心</span></div>
+    <div class="chip new6"><span class="dot" style="background:var(--overseas)"></span>海外API中转（GPT/Claude） <span class="nb" style="background:var(--overseas)">NEW</span></div>
+  </div>
+  <div class="hero-meta">
+    <div class="mi"><span class="mi-l">变现方向</span><span class="mi-v">二十大方向</span></div>
+    <div class="mi"><span class="mi-l">核心新增</span><span class="mi-v">自营Token平台 + 海外API中转</span></div>
+    <div class="mi"><span class="mi-l">身份升级</span><span class="mi-v">渠道商 → 平台方</span></div>
+    <div class="mi"><span class="mi-l">年化预测</span><span class="mi-v">120 – 500万+（飞凡所得）</span></div>
+  </div>
+</div>
+
+<!-- S0: 身份升级 -->
+<section class="sec" id="shift">
+  <div class="sec-hd">
+    <div class="sec-num">00 — V6核心战略升级</div>
+    <h2 class="sec-h2">飞凡的身份从今天开始发生质变</h2>
+    <p class="sec-sub">Token中转源码是触发身份升级的关键变量——有了它，飞凡从"帮别人卖资源"变成"自己是资源供给方"。</p>
+  </div>
+
+  <div class="identity-shift">
+    <div class="id-box v5">
+      <div class="id-ver" style="color:var(--ink-35)">V5 身份</div>
+      <div class="id-title">资源渠道分销商</div>
+      <div class="id-item">帮萌招/红熊/小融销售资源</div>
+      <div class="id-item">赚差价或佣金（5–25%）</div>
+      <div class="id-item">依赖上游定价，议价能力有限</div>
+      <div class="id-item">资源供应链不在飞凡手中</div>
+      <div class="id-item">客户数据不透明，收入被动</div>
+    </div>
+    <div class="id-arrow">
+      <div class="id-arrow-circle">→</div>
+      <div class="id-arrow-label">Token<br>源码<br>授权</div>
+    </div>
+    <div class="id-box v6">
+      <div class="id-ver" style="color:var(--token)">V6 身份</div>
+      <div class="id-title" style="color:var(--token)">AI算力基础设施平台方</div>
+      <div class="id-item" style="color:var(--token)">自营Token中转平台，自己是资源节点</div>
+      <div class="id-item" style="color:var(--token)">上游对接红熊/萌招/小融多方资源</div>
+      <div class="id-item" style="color:var(--token)">下游向企业/个人/渠道统一供给</div>
+      <div class="id-item" style="color:var(--token)">掌握客户数据和消费记录</div>
+      <div class="id-item" style="color:var(--token)">高并发保障是飞凡独有技术壁垒</div>
+    </div>
+  </div>
+
+  <div class="upgrade-banner">
+    <div class="ub-label">V6 四大新增能力</div>
+    <div class="ub-title">红熊今日授权带来的四个战略资产，每一个都在独立改变飞凡的商业边界</div>
+    <div class="ub-grid">
+      <div class="ub-item">
+        <div class="ub-n">新增能力 01</div>
+        <div class="ub-v">🔧 Token中转源码<br>飞凡自部署，成为算力供给节点，不再依赖任何单一上游</div>
+      </div>
+      <div class="ub-item">
+        <div class="ub-n">新增能力 02</div>
+        <div class="ub-v">🌐 海外API中转<br>GPT/Claude API接入能力，覆盖国内平台无法满足的客户需求</div>
+      </div>
+      <div class="ub-item">
+        <div class="ub-n">新增能力 03</div>
+        <div class="ub-v">🛠 红熊产品二开权<br>以飞凡品牌输出（Powered by 红熊），快速建立自有产品线</div>
+      </div>
+      <div class="ub-item">
+        <div class="ub-n">新增能力 04</div>
+        <div class="ub-v">🧪 POC + 私有化部署<br>免费POC降低客户决策门槛，飞凡负责部署和长期维护</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S1: Token平台 -->
+<section class="sec" id="token">
+  <div class="sec-hd">
+    <div class="sec-num">01 — 核心产品</div>
+    <h2 class="sec-h2">飞凡自营Token中转平台：架构与变现设计</h2>
+    <p class="sec-sub">有源码、有高并发能力、有多方资源接入——三者组合，飞凡的Token平台具备真正的差异化竞争壁垒。</p>
+  </div>
+
+  <div class="token-platform">
+    <div class="tp-header">
+      <div>
+        <div class="tph-kicker">飞凡科技自营 · Token Platform</div>
+        <div class="tph-title">飞凡AI算力中转平台</div>
+        <div class="tph-sub">基于红熊授权源码自部署 · 高并发保障 · 多资源方接入 · 国内+海外双轨</div>
+      </div>
+      <div class="tph-tag">飞凡独立运营</div>
+    </div>
+    <div class="tp-arch">
+      <div class="tp-col">
+        <div class="tp-col-title">上游资源接入层</div>
+        <div class="tp-item"><strong>红熊算力</strong> — 国内模型API（阿里云模型/红熊自有）</div>
+        <div class="tp-item"><strong>萌招阿里云</strong> — Qwen API / 百炼平台 / Token配额</div>
+        <div class="tp-item"><strong>小融Token资源</strong> — 备用资源渠道，价格竞争</div>
+        <div class="tp-item"><strong>红熊海外算力</strong> — GPT-4/Claude API中转接入</div>
+        <div class="tp-item"><strong>后续可扩展</strong> — 其他模型API（Gemini等）按需接入</div>
+      </div>
+      <div class="tp-col">
+        <div class="tp-col-title">飞凡平台核心能力层</div>
+        <div class="tp-item"><strong>高并发调度</strong> — 飞凡独有技术壁垒，红熊无此能力</div>
+        <div class="tp-item"><strong>多模型路由</strong> — 按需调度最优资源，降低客户成本</div>
+        <div class="tp-item"><strong>用量计费系统</strong> — Token消耗精准计量，支持多种计费模式</div>
+        <div class="tp-item"><strong>企业账户管理</strong> — 多租户、权限分组、用量告警</div>
+        <div class="tp-item"><strong>API密钥管理</strong> — 统一的API接口，屏蔽底层复杂性</div>
+        <div class="tp-item"><strong>数据安全合规</strong> — 国内模型符合数据本地化要求</div>
+      </div>
+      <div class="tp-col">
+        <div class="tp-col-title">下游客户与变现层</div>
+        <div class="tp-item"><strong>直接企业客户</strong> — 年度Token包，高折扣锁定用量</div>
+        <div class="tp-item"><strong>个人开发者</strong> — 按量充值，低门槛快速接入</div>
+        <div class="tp-item"><strong>红熊渠道</strong> — 红熊通过飞凡平台向其客户分发Token</div>
+        <div class="tp-item"><strong>小融平台接入</strong> — 飞凡作为小融Token平台的资源供给方</div>
+        <div class="tp-item"><strong>猎头/培训转化</strong> — 培训完的企业直接接入平台</div>
+        <div class="tp-item"><strong>海外需求客户</strong> — 提供GPT/Claude API合规中转</div>
+      </div>
+    </div>
+
+    <!-- 资源流向图 -->
+    <div class="res-flow">
+      <div class="rf-node"><div class="rfn-icon">🔴</div><div class="rfn-name">红熊算力</div><div class="rfn-sub">国内+海外</div></div>
+      <div class="rf-arrow">→</div>
+      <div class="rf-node"><div class="rfn-icon">🟡</div><div class="rfn-name">萌招资源</div><div class="rfn-sub">阿里云/Token</div></div>
+      <div class="rf-arrow">→</div>
+      <div class="rf-node"><div class="rfn-icon">🟣</div><div class="rfn-name">小融Token</div><div class="rfn-sub">备用渠道</div></div>
+      <div class="rf-arrow">→</div>
+      <div class="rf-node center"><div class="rfn-icon">⚡</div><div class="rfn-name">飞凡Token平台</div><div class="rfn-sub">高并发 · 多路由</div></div>
+      <div class="rf-arrow">→</div>
+      <div class="rf-node"><div class="rfn-icon">🏢</div><div class="rfn-name">企业客户</div><div class="rfn-sub">年度包/按量</div></div>
+      <div class="rf-arrow">→</div>
+      <div class="rf-node"><div class="rfn-icon">👨‍💻</div><div class="rfn-name">个人开发者</div><div class="rfn-sub">按量充值</div></div>
+      <div class="rf-arrow">→</div>
+      <div class="rf-node"><div class="rfn-icon">🔗</div><div class="rfn-name">渠道分发</div><div class="rfn-sub">红熊/小融/猎头</div></div>
+    </div>
+  </div>
+
+  <div class="adv-box">
+    <div class="adv-title">飞凡Token平台的三大不可复制优势</div>
+    <div class="adv-grid">
+      <div class="adv-item">
+        <div class="ai-label">技术壁垒</div>
+        <div class="ai-text">高并发调度能力是飞凡独有、红熊明确缺失的技术能力。这意味着飞凡可以承接红熊无法处理的大规模并发场景客户，反向强化了飞凡对红熊的技术价值。</div>
+      </div>
+      <div class="adv-item">
+        <div class="ai-label">资源多样性</div>
+        <div class="ai-text">同时接入国内（红熊+萌招+小融）和海外（GPT/Claude）多方资源，可以根据客户需求、成本和合规要求智能路由，这是单一资源方无法提供的灵活性。</div>
+      </div>
+      <div class="adv-item">
+        <div class="ai-label">生态锁定</div>
+        <div class="ai-text">一旦企业客户接入飞凡平台，切换成本极高（API密钥更换、计费系统对接等）。这是SaaS类产品最强的护城河，能将渠道客户转化为长期粘性用户。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Token平台定价设计 -->
+  <div style="margin-top:14px;background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);overflow:hidden">
+    <div style="padding:14px 20px;background:var(--cream-dd);border-bottom:1px solid var(--ink-12)">
+      <div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--ink-60)">Token平台计费模式设计（四选或叠加）</div>
+    </div>
+    <table style="width:100%;border-collapse:collapse">
+      <thead>
+        <tr style="background:var(--cream-d)">
+          <th style="padding:10px 14px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--ink-60);text-align:left;border-bottom:1px solid var(--ink-12)">计费模式</th>
+          <th style="padding:10px 14px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--ink-60);text-align:left;border-bottom:1px solid var(--ink-12)">适用场景</th>
+          <th style="padding:10px 14px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--ink-60);text-align:left;border-bottom:1px solid var(--ink-12)">参考定价</th>
+          <th style="padding:10px 14px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--ink-60);text-align:left;border-bottom:1px solid var(--ink-12)">飞凡毛利</th>
+          <th style="padding:10px 14px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--ink-60);text-align:left;border-bottom:1px solid var(--ink-12)">优缺点</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:var(--token-lt)"><td style="padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(--ink-06);color:var(--token);font-weight:600">按量充值</td><td style="padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(--ink-06);color:var(--ink-60)">个人开发者、中小企业试用</td><td style="padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(--ink-06)"><span style="font-family:'Crimson Pro',serif;font-weight:600;color:var(--token)">官方价8–9折，按实际消耗计费</span></td><td style="padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(--ink-06);color:var(--token)">10–20%</td><td style="padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(--ink-06);color:var(--ink-60)">门槛低获客快，但收入不稳定</td></tr>
+        <tr style="background:var(--token-lt)"><td style="padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(--ink-06);color:var(--token);font-weight:600">年度包（锁量）</td><td style="padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(--ink-06);color:var(--ink-60)">有稳定用量的企业客户</td><td style="padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(--ink-06)"><span style="font-family:'Crimson Pro',serif;font-weight:600;color:var(--token)">预付1–50万，享7–8折</span></td><td style="padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(--ink-06);color:var(--token)">15–25%</td><td style="padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(--ink-06);color:var(--ink-60)">现金流最好，用量可预测</td></tr>
+        <tr style="background:var(--token-lt)"><td style="padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(--ink-06);color:var(--token);font-weight:600">渠道分发（批发）</td><td style="padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(--ink-06);color:var(--ink-60)">红熊/小融等二级渠道商</td><td style="padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(--ink-06)"><span style="font-family:'Crimson Pro',serif;font-weight:600;color:var(--token)">给渠道商6–7折，渠道自行加价</span></td><td style="padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(--ink-06);color:var(--token)">10–15%（薄利多销）</td><td style="padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(--ink-06);color:var(--ink-60)">规模最大，毛利率较低</td></tr>
+        <tr style="background:var(--token-lt)"><td style="padding:11px 14px;font-size:12.5px;color:var(--token);font-weight:600">平台SaaS费</td><td style="padding:11px 14px;font-size:12.5px;color:var(--ink-60)">对企业客户收取平台使用费</td><td style="padding:11px 14px;font-size:12.5px"><span style="font-family:'Crimson Pro',serif;font-weight:600;color:var(--token)">500–3000元/月（与Token消耗叠加）</span></td><td style="padding:11px 14px;font-size:12.5px;color:var(--token)">100%纯利润</td><td style="padding:11px 14px;font-size:12.5px;color:var(--ink-60)">最优质收入，但客户接受度需验证</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- S2: 生态地图 -->
+<section class="sec" id="eco">
+  <div class="sec-hd">
+    <div class="sec-num">02 — 生态全景</div>
+    <h2 class="sec-h2">飞凡科技 V6 六方生态地图</h2>
+    <p class="sec-sub">V6新增资产以蓝色高亮标注，红熊的角色从"单纯发包方"升级为"技术授权方+算力资源方+渠道合作方"三重身份。</p>
+  </div>
+  <div class="eco">
+    <div class="ep" style="border-color:var(--teal)">
+      <div class="ep-badge" style="background:var(--teal)">红熊AI</div>
+      <div class="ep-name">红熊AI</div>
+      <div class="ep-rel">发包方 + 技术授权方 + 算力资源方 + 渠道</div>
+      <div class="ep-row">分包AI定制开发项目给飞凡</div>
+      <div class="ep-row">授权飞凡销售/二开AI中台/营销/外呼产品</div>
+      <div class="ep-row">免费POC资源支持，飞凡负责部署维护</div>
+      <div class="ep-row new6">★ Token中转源码授权飞凡自部署</div>
+      <div class="ep-row new6">★ 国内算力资源供给（接入飞凡平台）</div>
+      <div class="ep-row new6">★ 海外API算力（GPT/Claude中转）</div>
+    </div>
+    <div class="eco-center">
+      <div class="ec-name">飞凡科技</div>
+      <div class="ec-sub">FeiVan Tech · V6 核心主体</div>
+      <div class="ec-caps">
+        <div class="ec-cap">🤖 AI技术交付 · 架构设计</div>
+        <div class="ec-cap highlight">⚡ 自营Token中转平台（V6新增）</div>
+        <div class="ec-cap highlight">🌐 海外API中转能力（V6新增）</div>
+        <div class="ec-cap highlight">🛠 红熊产品二开+品牌输出（V6新增）</div>
+        <div class="ec-cap highlight">🧪 POC+私有化部署服务（V6新增）</div>
+        <div class="ec-cap">📚 AI培训课程体系</div>
+        <div class="ec-cap">🔗 六方生态整合 · 六类渠道管理</div>
+      </div>
+    </div>
+    <div class="ep" style="border-color:var(--plum)">
+      <div class="ep-badge" style="background:var(--plum)">小融科技</div>
+      <div class="ep-name">小融科技</div>
+      <div class="ep-rel">渠道合作 + Token资源 + 平台合作</div>
+      <div class="ep-row">金融AI产品（金融尽调/合规助手）</div>
+      <div class="ep-row">Token资源代理（与红熊/萌招竞争定价）</div>
+      <div class="ep-row new6">★ 小融自建Token平台的资源供给方（飞凡接入）</div>
+      <div class="ep-row">未来：联合金融AI定制开发</div>
+    </div>
+    <div class="ep" style="border-color:var(--amber)">
+      <div class="ep-badge" style="background:var(--amber)">萌招科技</div>
+      <div class="ep-name">萌招科技</div>
+      <div class="ep-rel">资源供给方 + 飞凡个人合伙人</div>
+      <div class="ep-row">移动通信线路（电话/视频/短信）</div>
+      <div class="ep-row">外呼黑名单 + 全景数据服务</div>
+      <div class="ep-row">阿里云资源/Token（接入飞凡平台）</div>
+      <div class="ep-row">红熊直接采购客户（飞凡引荐分润）</div>
+    </div>
+    <div class="ep">
+      <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px">
+        <div class="ep-badge" style="background:var(--steel)">显示器</div>
+        <div class="ep-badge" style="background:var(--xc)">信创</div>
+      </div>
+      <div class="ep-name">硬件供应商</div>
+      <div class="ep-rel">两家独立供货方</div>
+      <div class="ep-row">传统/AI显示器（走量+软硬捆绑）</div>
+      <div class="ep-row">信创服务器（政采资质+等保合规）</div>
+      <div class="ep-row new6">★ 信创服务器+飞凡Token平台 = 国产化AI算力方案</div>
+    </div>
+  </div>
+</section>
+
+<!-- S3: 产品目录 -->
+<section class="sec" id="products">
+  <div class="sec-hd">
+    <div class="sec-num">03 — 产品目录</div>
+    <h2 class="sec-h2">V6全产品目录（新增6项）</h2>
+    <p class="sec-sub">蓝色边框为V6新增产品，灰色为V5延续产品。飞凡自有产品线从2项扩展到7项。</p>
+  </div>
+  <div class="prod-sections">
+
+    <!-- 飞凡自有（V6大幅扩充） -->
+    <div class="pg new6">
+      <div class="pg-head">
+        <div class="pg-dot" style="background:var(--coral)"></div>
+        <div class="pg-owner" style="color:var(--coral)">飞凡科技自有</div>
+        <div class="pg-name">AI交付 · Token平台 · 二开产品 · 培训</div>
+        <div class="pg-role">飞凡 = 产品主体，100%收入归属（部分共享）</div>
+      </div>
+      <div class="pg-items">
+        <div class="pi"><div class="pi-name">AI系统定制开发</div><div class="pi-desc">全流程AI项目，含架构、开发、部署</div><div class="pi-price" style="color:var(--coral)">项目制报价</div><div class="pi-tag" style="background:var(--coral-lt);color:var(--coral)">主营</div></div>
+        <div class="pi" style="background:var(--token-lt)"><div class="pi-name">飞凡Token中转平台 <span class="nb" style="background:var(--token)">NEW</span></div><div class="pi-desc">自营算力平台，国内+海外多资源接入，高并发保障，按量/年包/渠道批发</div><div class="pi-price" style="color:var(--token)">SaaS+按量</div><div class="pi-tag" style="background:var(--token-lt);color:var(--token)">V6核心</div></div>
+        <div class="pi" style="background:var(--overseas-lt)"><div class="pi-name">海外API中转服务 <span class="nb" style="background:var(--overseas)">NEW</span></div><div class="pi-desc">GPT-4/Claude API合规中转，面向需要访问海外模型的企业和开发者</div><div class="pi-price" style="color:var(--overseas)">按Token量计费</div><div class="pi-tag" style="background:var(--overseas-lt);color:var(--overseas)">差异化</div></div>
+        <div class="pi" style="background:var(--token-lt)"><div class="pi-name">飞凡·智能外呼平台（二开红熊） <span class="nb" style="background:var(--token)">NEW</span></div><div class="pi-desc">基于红熊外呼产品二开，飞凡品牌输出（Powered by 红熊），集成萌招通信线路</div><div class="pi-price" style="color:var(--token)">坐席费+通话费</div><div class="pi-tag" style="background:var(--token-lt);color:var(--token)">自有产品</div></div>
+        <div class="pi" style="background:var(--token-lt)"><div class="pi-name">飞凡·AI营销获客平台（二开红熊） <span class="nb" style="background:var(--token)">NEW</span></div><div class="pi-desc">基于红熊智能营销获客产品二开，飞凡品牌输出，叠加萌招全景数据</div><div class="pi-price" style="color:var(--token)">按坐席/月</div><div class="pi-tag" style="background:var(--token-lt);color:var(--token)">自有产品</div></div>
+        <div class="pi" style="background:var(--token-lt)"><div class="pi-name">POC + 私有化部署服务 <span class="nb" style="background:var(--token)">NEW</span></div><div class="pi-desc">红熊产品免费POC演示，飞凡负责部署实施（含信创环境），红熊提供技术支持</div><div class="pi-price" style="color:var(--token)">实施费+维护费</div><div class="pi-tag" style="background:var(--token-lt);color:var(--token)">服务产品</div></div>
+        <div class="pi"><div class="pi-name">AI月度技术顾问</div><div class="pi-desc">持续AI技术咨询、架构审查、工具选型</div><div class="pi-price" style="color:var(--coral)">1–5万/月</div><div class="pi-tag" style="background:var(--coral-lt);color:var(--coral)">被动收入</div></div>
+        <div class="pi"><div class="pi-name">AI效果审计报告</div><div class="pi-desc">企业AI应用效果诊断，转化后续项目</div><div class="pi-price" style="color:var(--coral)">3–10万/次</div><div class="pi-tag" style="background:var(--coral-lt);color:var(--coral)">漏斗</div></div>
+        <div class="pi"><div class="pi-name">AI企业培训（三大课程线）</div><div class="pi-desc">项目管理/AI协作/算法AI协同/管理层战略课</div><div class="pi-price" style="color:var(--coral)">1.5–6万/天</div><div class="pi-tag" style="background:var(--coral-lt);color:var(--coral)">高毛利</div></div>
+      </div>
+    </div>
+
+    <!-- 红熊产品（渠道+授权） -->
+    <div class="pg">
+      <div class="pg-head">
+        <div class="pg-dot" style="background:var(--teal)"></div>
+        <div class="pg-owner" style="color:var(--teal)">红熊AI出品</div>
+        <div class="pg-name">AI中台 · 营销获客 · 外呼（原版授权销售）</div>
+        <div class="pg-role">飞凡 = 授权销售渠道方，15–25%佣金</div>
+      </div>
+      <div class="pg-items">
+        <div class="pi"><div class="pi-name">红熊AI中台（原版）</div><div class="pi-desc">企业级AI能力中台，多模型接入，适合有自建AI能力需求的中大型企业</div><div class="pi-price" style="color:var(--teal)">SaaS年费/私有化</div><div class="pi-tag" style="background:var(--teal-lt);color:var(--teal)">渠道销售</div></div>
+        <div class="pi"><div class="pi-name">智能营销获客平台（原版）</div><div class="pi-desc">AI驱动线索挖掘、意图识别、自动触达</div><div class="pi-price" style="color:var(--teal)">按坐席/月</div><div class="pi-tag" style="background:var(--teal-lt);color:var(--teal)">渠道销售</div></div>
+        <div class="pi"><div class="pi-name">智能外呼产品（原版）</div><div class="pi-desc">AI话务引擎，智能打断/话术推荐/通话质检</div><div class="pi-price" style="color:var(--teal)">坐席费+通话费</div><div class="pi-tag" style="background:var(--teal-lt);color:var(--teal)">渠道销售</div></div>
+      </div>
+    </div>
+
+    <!-- 萌招+小融+硬件（延续V5，精简展示） -->
+    <div class="pg">
+      <div class="pg-head">
+        <div class="pg-dot" style="background:var(--amber)"></div>
+        <div class="pg-owner" style="color:var(--amber)">萌招科技 + 小融科技 + 硬件供应商</div>
+        <div class="pg-name">通信/数据/云资源 · 金融AI · 显示器 · 信创服务器</div>
+        <div class="pg-role">飞凡 = 渠道方/资源转售方，各自收益详见优先矩阵</div>
+      </div>
+      <div class="pg-items">
+        <div class="pi"><div class="pi-name">萌招：通信线路+黑名单+全景数据</div><div class="pi-desc">移动授权通信三通道+合规过滤+用户画像</div><div class="pi-price" style="color:var(--amber)">月包/按量</div><div class="pi-tag" style="background:var(--amber-lt);color:var(--amber)">资源转售</div></div>
+        <div class="pi"><div class="pi-name">小融：金融尽调+合规助手</div><div class="pi-desc">AI驱动金融尽职调查和监管合规检查</div><div class="pi-price" style="color:var(--plum)">按报告/年费</div><div class="pi-tag" style="background:var(--plum-lt);color:var(--plum)">渠道销售</div></div>
+        <div class="pi"><div class="pi-name">AI显示器 + 信创服务器</div><div class="pi-desc">软硬捆绑方案；信创解锁政企市场</div><div class="pi-price" style="color:var(--steel)">差价毛利</div><div class="pi-tag" style="background:var(--steel-lt);color:var(--steel)">硬件渠道</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S4: 二十大机会 -->
+<section class="sec" id="opps">
+  <div class="sec-hd">
+    <div class="sec-num">04 — 变现机会</div>
+    <h2 class="sec-h2">二十大变现方向</h2>
+    <p class="sec-sub">V6在V5十八大方向基础上新增Token平台自营、海外API中转两个方向（蓝色边框），共二十大方向。</p>
+  </div>
+  <div class="opp-grid">
+    <!-- Token平台系 -->
+    <div class="oc new6">
+      <div class="oc-top"><span class="oc-num" style="color:var(--token)">01</span><span class="oc-badge b-token">Token核心·立即</span></div>
+      <div class="oc-icon">⚡</div>
+      <div class="oc-title">飞凡Token平台自营</div>
+      <div class="oc-desc">基于红熊授权源码自部署，上游接入红熊+萌招+小融多方资源，下游向企业/个人/渠道供给。飞凡掌握定价权和客户数据，高并发能力是核心壁垒。</div>
+      <div class="oc-foot"><span class="oc-model">按量+年包+SaaS费</span><span class="oc-ret" style="color:var(--token)">毛利15–30%</span></div>
+    </div>
+    <div class="oc overseas">
+      <div class="oc-top"><span class="oc-num" style="color:var(--overseas)">02</span><span class="oc-badge b-ov">海外NEW·1月内</span></div>
+      <div class="oc-icon">🌐</div>
+      <div class="oc-title">海外API中转服务</div>
+      <div class="oc-desc">基于红熊海外算力，提供GPT-4/Claude API合规中转。国内企业直接访问海外模型合规门槛高，飞凡中转服务填补这个空白，差异化极强。</div>
+      <div class="oc-foot"><span class="oc-model">按Token量计费</span><span class="oc-ret" style="color:var(--overseas)">20–35%毛利</span></div>
+    </div>
+    <div class="oc new6">
+      <div class="oc-top"><span class="oc-num" style="color:var(--token)">03</span><span class="oc-badge b-token">Token·1月内</span></div>
+      <div class="oc-icon">🔗</div>
+      <div class="oc-title">小融Token平台资源供给</div>
+      <div class="oc-desc">飞凡作为小融自建Token平台的资源供给方，将飞凡平台的算力资源批发给小融，小融加价向其金融客户分发。飞凡成为B2B资源批发商。</div>
+      <div class="oc-foot"><span class="oc-model">批发价差</span><span class="oc-ret" style="color:var(--token)">10–15%</span></div>
+    </div>
+
+    <!-- 二开产品系 -->
+    <div class="oc new6">
+      <div class="oc-top"><span class="oc-num" style="color:var(--token)">04</span><span class="oc-badge b-token">二开·1–2月</span></div>
+      <div class="oc-icon">🛠</div>
+      <div class="oc-title">飞凡品牌二开产品销售</div>
+      <div class="oc-desc">将红熊外呼/营销产品二开为飞凡品牌产品（Powered by 红熊），飞凡自主定价、自主销售。无需技术从零开发，快速建立自有产品线，知识产权整体归红熊但销售权在飞凡。</div>
+      <div class="oc-foot"><span class="oc-model">飞凡自主定价</span><span class="oc-ret" style="color:var(--token)">高于纯渠道佣金</span></div>
+    </div>
+    <div class="oc new6">
+      <div class="oc-top"><span class="oc-num" style="color:var(--token)">05</span><span class="oc-badge b-token">POC·立即</span></div>
+      <div class="oc-icon">🧪</div>
+      <div class="oc-title">免费POC → 付费部署转化</div>
+      <div class="oc-desc">利用红熊免费POC资源向目标客户演示产品效果，飞凡负责POC实施，客户看到效果后转化为付费私有化部署项目（飞凡收实施费+维护费）。零成本获客，高转化漏斗。</div>
+      <div class="oc-foot"><span class="oc-model">POC免费→实施收费</span><span class="oc-ret" style="color:var(--token)">5–30万/项目</span></div>
+    </div>
+
+    <!-- 原有方向（精简版） -->
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--teal)">06</span><span class="oc-badge b-now">立即</span></div><div class="oc-icon">🤖</div><div class="oc-title">红熊产品渠道销售（原版）</div><div class="oc-desc">红熊AI中台/营销/外呼原版授权销售，渠道佣金15–25%，无需技术投入。</div><div class="oc-foot"><span class="oc-model">渠道佣金</span><span class="oc-ret" style="color:var(--teal)">15–25%</span></div></div>
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--amber)">07</span><span class="oc-badge b-now">立即</span></div><div class="oc-icon">📡</div><div class="oc-title">萌招通信/数据服务</div><div class="oc-desc">通信线路、黑名单、全景数据，嵌入AI项目交付，信任已建立转化率高。</div><div class="oc-foot"><span class="oc-model">佣金/差价</span><span class="oc-ret" style="color:var(--amber)">20–30%</span></div></div>
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--coral)">08</span><span class="oc-badge b-train">培训·立即</span></div><div class="oc-icon">📚</div><div class="oc-title">AI企业内训（三课程线）</div><div class="oc-desc">项目管理/AI协作/算法协同/管理战略，已有大纲，线下1.5–6万/天，100%归飞凡。</div><div class="oc-foot"><span class="oc-model">课程费</span><span class="oc-ret" style="color:var(--coral)">1.5–20万/单</span></div></div>
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--plum)">09</span><span class="oc-badge b-ch">小融·立即</span></div><div class="oc-icon">🏦</div><div class="oc-title">小融金融AI产品渠道</div><div class="oc-desc">金融尽调/合规助手面向PE/VC/银行/保险，渠道佣金15–20%。</div><div class="oc-foot"><span class="oc-model">渠道佣金</span><span class="oc-ret" style="color:var(--plum)">15–20%</span></div></div>
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--steel)">10</span><span class="oc-badge b-st">显示器</span></div><div class="oc-icon">🖥️</div><div class="oc-title">AI显示器×AI软件捆绑</div><div class="oc-desc">软硬一体方案，AI显示器+飞凡AI系统，独家竞争壁垒。</div><div class="oc-foot"><span class="oc-model">软硬捆绑</span><span class="oc-ret" style="color:var(--steel)">毛利2–3×</span></div></div>
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--amber)">11</span><span class="oc-badge b-mid">1–2月</span></div><div class="oc-icon">📞</div><div class="oc-title">合规外呼整体方案</div><div class="oc-desc">萌招通信+黑名单+飞凡二开外呼产品，金融/保险/零售合规刚需。</div><div class="oc-foot"><span class="oc-model">项目+年费</span><span class="oc-ret" style="color:var(--amber)">五五分成</span></div></div>
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--amber)">12</span><span class="oc-badge b-mid">1–2月</span></div><div class="oc-icon">🔍</div><div class="oc-title">AI效果审计 + 月度顾问</div><div class="oc-desc">审计3–10万/次发现项目机会；月度顾问1–5万/月，最稳定被动收入。</div><div class="oc-foot"><span class="oc-model">顾问/报告</span><span class="oc-ret" style="color:var(--amber)">3–10万</span></div></div>
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--xc)">13</span><span class="oc-badge b-xc">信创</span></div><div class="oc-icon">🖥️</div><div class="oc-title">信创服务器+飞凡Token平台</div><div class="oc-desc">信创服务器作为底座，部署飞凡Token平台，形成国产化AI算力一体方案，专攻政企市场。</div><div class="oc-foot"><span class="oc-model">硬件+平台</span><span class="oc-ret" style="color:var(--xc)">百万级</span></div></div>
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--teal)">14</span><span class="oc-badge b-ch">渠道</span></div><div class="oc-icon">🔍</div><div class="oc-title">猎头+专业机构渠道</div><div class="oc-desc">猎头捕捉AI招聘信号→引荐飞凡，专业机构（会计师/律师）引荐客户，10–15%提成。</div><div class="oc-foot"><span class="oc-model">引荐提成</span><span class="oc-ret" style="color:var(--teal)">10–15%</span></div></div>
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--coral)">15</span><span class="oc-badge b-train">培训</span></div><div class="oc-icon">🎓</div><div class="oc-title">飞凡AI学院线上平台</div><div class="oc-desc">录播课299–999元/人，付费社群199–499元/月，主要价值是大规模获客漏斗。</div><div class="oc-foot"><span class="oc-model">订阅/课程</span><span class="oc-ret" style="color:var(--coral)">规模化获客</span></div></div>
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--amber)">16</span><span class="oc-badge b-mid">1–2月</span></div><div class="oc-icon">🎯</div><div class="oc-title">数据+AI分析产品</div><div class="oc-desc">萌招全景数据+飞凡AI分析，输出行业洞察报告，3–5×数据溢价。</div><div class="oc-foot"><span class="oc-model">报告/订阅</span><span class="oc-ret" style="color:var(--amber)">高溢价</span></div></div>
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--plum)">17</span><span class="oc-badge b-scale">规模化</span></div><div class="oc-icon">🏗️</div><div class="oc-title">阿里云ISV上架</div><div class="oc-desc">飞凡AI解决方案上架阿里云市场，平台流量被动获客，Token平台也可上架。</div><div class="oc-foot"><span class="oc-model">平台订阅</span><span class="oc-ret" style="color:var(--plum)">被动获客</span></div></div>
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--plum)">18</span><span class="oc-badge b-scale">规模化</span></div><div class="oc-icon">🔗</div><div class="oc-title">阿里生态大客户引流</div><div class="oc-desc">萌招同事蚂蚁/阿里高管人脉，引荐AI+Token平台需求，单项目50万+。</div><div class="oc-foot"><span class="oc-model">交付+引荐</span><span class="oc-ret" style="color:var(--plum)">50万+/项</span></div></div>
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--xc)">19</span><span class="oc-badge b-scale">规模化</span></div><div class="oc-icon">📋</div><div class="oc-title">多方联合政企投标</div><div class="oc-desc">飞凡AI+信创服务器+显示器三方联合，竞标政企综合数字化标包，千万级潜力。</div><div class="oc-foot"><span class="oc-model">联合投标</span><span class="oc-ret" style="color:var(--xc)">千万级潜力</span></div></div>
+    <div class="oc"><div class="oc-top"><span class="oc-num" style="color:var(--plum)">20</span><span class="oc-badge b-scale">规模化</span></div><div class="oc-icon">💼</div><div class="oc-title">飞凡×小融金融AI联合交付</div><div class="oc-desc">小融金融AI产品+飞凡定制开发，联合承接金融机构AI改造项目。</div><div class="oc-foot"><span class="oc-model">联合交付</span><span class="oc-ret" style="color:var(--plum)">按贡献分成</span></div></div>
+  </div>
+</section>
+
+<!-- S5: 优先矩阵 -->
+<section class="sec" id="matrix">
+  <div class="sec-hd">
+    <div class="sec-num">05 — 优先矩阵</div>
+    <h2 class="sec-h2">二十大方向全景评估</h2>
+    <p class="sec-sub">Token相关方向（蓝色）是V6最优先投入的方向；二开产品和海外中转是V6独有的差异化方向。</p>
+  </div>
+  <div class="mat">
+    <table>
+      <thead><tr><th>#</th><th>变现方向</th><th>类型</th><th>梯队</th><th>时间投入</th><th>收入天花板</th><th>飞凡分成/收益率</th></tr></thead>
+      <tbody>
+        <tr class="tr-token"><td>01</td><td><strong>飞凡Token平台自营</strong> ★</td><td><span class="tp2 ttoken">Token核心</span></td><td><span class="tp2 t1">立即部署</span></td><td><div class="ebar"><div class="ep2 ton"></div><div class="ep2 ton"></div><div class="ep2 ton"></div><div class="ep2 ton"></div><div class="ep2"></div></div></td><td>极高，随客户规模线性增长</td><td><span class="spl tk">自营，毛利15–30%</span></td></tr>
+        <tr class="tr-ov"><td>02</td><td><strong>海外API中转服务</strong> ★</td><td><span class="tp2 tov">海外差异化</span></td><td><span class="tp2 t1">1月内</span></td><td><div class="ebar"><div class="ep2 oon"></div><div class="ep2 oon"></div><div class="ep2"></div><div class="ep2"></div><div class="ep2"></div></div></td><td>高，海外模型需求持续增长</td><td><span class="spl ov">自营，毛利20–35%</span></td></tr>
+        <tr class="tr-train"><td>08</td><td><strong>AI企业内训（三课程线）</strong></td><td><span class="tp2 tt">培训</span></td><td><span class="tp2 t1">立即</span></td><td><div class="ebar"><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2"></div><div class="ep2"></div></div></td><td>中高，年度包可叠加</td><td><span class="spl">100%归飞凡</span></td></tr>
+        <tr class="tr-token"><td>05</td><td><strong>免费POC → 付费部署转化</strong> ★</td><td><span class="tp2 ttoken">二开/POC</span></td><td><span class="tp2 t1">立即启动</span></td><td><div class="ebar"><div class="ep2 ton"></div><div class="ep2 ton"></div><div class="ep2 ton"></div><div class="ep2"></div><div class="ep2"></div></div></td><td>高，每次POC都是高价值漏斗</td><td><span class="spl tk">实施费100%归飞凡</span></td></tr>
+        <tr class="tr-hr"><td>06</td><td><strong>红熊产品渠道销售（原版）</strong></td><td><span class="tp2 tc">渠道</span></td><td><span class="tp2 t1">立即</span></td><td><div class="ebar"><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2"></div><div class="ep2"></div><div class="ep2"></div></div></td><td>中等，靠客户量积累</td><td><span class="spl t">15–25%佣金</span></td></tr>
+        <tr class="tr-xr"><td>09</td><td><strong>小融金融AI渠道</strong></td><td><span class="tp2 tc">渠道</span></td><td><span class="tp2 t1">立即</span></td><td><div class="ebar"><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2"></div><div class="ep2"></div><div class="ep2"></div></div></td><td>高，金融客单价高</td><td><span class="spl p">15–20%佣金</span></td></tr>
+        <tr><td>07</td><td><strong>萌招通信/数据服务</strong></td><td><span class="tp2 t1">资源</span></td><td><span class="tp2 t1">立即</span></td><td><div class="ebar"><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2"></div><div class="ep2"></div><div class="ep2"></div></div></td><td>中等</td><td><span class="spl">50–60%</span></td></tr>
+        <tr class="tr-token"><td>04</td><td><strong>飞凡品牌二开产品销售</strong> ★</td><td><span class="tp2 ttoken">自有产品</span></td><td><span class="tp2 t2">1–2月</span></td><td><div class="ebar"><div class="ep2 ton"></div><div class="ep2 ton"></div><div class="ep2 ton"></div><div class="ep2"></div><div class="ep2"></div></div></td><td>高，自主定价空间大</td><td><span class="spl tk">高于佣金，自主定价</span></td></tr>
+        <tr class="tr-token"><td>03</td><td><strong>小融Token平台资源供给</strong> ★</td><td><span class="tp2 ttoken">Token批发</span></td><td><span class="tp2 t2">1–2月</span></td><td><div class="ebar"><div class="ep2 ton"></div><div class="ep2 ton"></div><div class="ep2"></div><div class="ep2"></div><div class="ep2"></div></div></td><td>中等，稳定但薄利</td><td><span class="spl tk">10–15%批发差价</span></td></tr>
+        <tr><td>11</td><td><strong>合规外呼整体方案</strong></td><td><span class="tp2 t2">方案</span></td><td><span class="tp2 t2">1–2月</span></td><td><div class="ebar"><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2"></div><div class="ep2"></div></div></td><td>高，年费叠加</td><td><span class="spl">飞凡40–50%</span></td></tr>
+        <tr><td>12</td><td><strong>AI效果审计 + 月度顾问</strong></td><td><span class="tp2 tt">顾问</span></td><td><span class="tp2 t2">1–2月</span></td><td><div class="ebar"><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2"></div><div class="ep2"></div></div></td><td>稳定，最佳被动收入</td><td><span class="spl">100%归飞凡</span></td></tr>
+        <tr class="tr-st"><td>10</td><td><strong>AI显示器×AI软件捆绑</strong></td><td><span class="tp2 ts">硬件</span></td><td><span class="tp2 t2">1–2月</span></td><td><div class="ebar"><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2"></div><div class="ep2"></div><div class="ep2"></div></div></td><td>中高，独家壁垒</td><td><span class="spl s">软件100%+硬件差价</span></td></tr>
+        <tr><td>16</td><td><strong>数据+AI分析产品</strong></td><td><span class="tp2 t2">产品</span></td><td><span class="tp2 t2">1–2月</span></td><td><div class="ebar"><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2"></div></div></td><td>高，可包装为行业产品</td><td><span class="spl">飞凡60%</span></td></tr>
+        <tr class="tr-train"><td>15</td><td><strong>飞凡AI学院线上平台</strong></td><td><span class="tp2 tt">培训</span></td><td><span class="tp2 t3">规模化</span></td><td><div class="ebar"><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2"></div></div></td><td>高，线上规模化后复利强</td><td><span class="spl">100%归飞凡</span></td></tr>
+        <tr><td>14</td><td><strong>猎头+专业机构渠道</strong></td><td><span class="tp2 tc">渠道</span></td><td><span class="tp2 t3">规模化</span></td><td><div class="ebar"><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2"></div><div class="ep2"></div></div></td><td>中等，长尾积累</td><td><span class="spl t">引荐方拿10–15%</span></td></tr>
+        <tr class="tr-xc"><td>13</td><td><strong>信创服务器+飞凡Token平台</strong></td><td><span class="tp2 tx">信创+Token</span></td><td><span class="tp2 t3">规模化</span></td><td><div class="ebar"><div class="ep2 xon"></div><div class="ep2 xon"></div><div class="ep2 xon"></div><div class="ep2 xon"></div><div class="ep2"></div></div></td><td>极高，国产化算力方案</td><td><span class="spl x">总集成方</span></td></tr>
+        <tr><td>17</td><td><strong>阿里云ISV上架</strong></td><td><span class="tp2 t3">平台</span></td><td><span class="tp2 t3">规模化</span></td><td><div class="ebar"><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2"></div><div class="ep2"></div><div class="ep2"></div></div></td><td>极高，被动获客</td><td><span class="spl">飞凡70%</span></td></tr>
+        <tr><td>18</td><td><strong>阿里生态大客户引流</strong></td><td><span class="tp2 t3">大客户</span></td><td><span class="tp2 t3">规模化</span></td><td><div class="ebar"><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2 on"></div></div></td><td>极高，50万+/项目</td><td><span class="spl">飞凡70%</span></td></tr>
+        <tr class="tr-xc"><td>19</td><td><strong>多方联合政企投标</strong></td><td><span class="tp2 tx">信创</span></td><td><span class="tp2 t3">规模化</span></td><td><div class="ebar"><div class="ep2 xon"></div><div class="ep2 xon"></div><div class="ep2 xon"></div><div class="ep2 xon"></div><div class="ep2 xon"></div></div></td><td>极高，千万级潜力</td><td><span class="spl x">按标包协商</span></td></tr>
+        <tr class="tr-xr"><td>20</td><td><strong>飞凡×小融联合交付</strong></td><td><span class="tp2 tc">联合</span></td><td><span class="tp2 t3">规模化</span></td><td><div class="ebar"><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2 on"></div><div class="ep2"></div></div></td><td>高，金融AI定制</td><td><span class="spl p">按贡献协商</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- S6: 收入预测 -->
+<section class="sec" id="proj">
+  <div class="sec-hd">
+    <div class="sec-num">06 — 收入预测</div>
+    <h2 class="sec-h2">八大收入支柱 · V6年化区间</h2>
+    <p class="sec-sub">V6新增Token平台和海外中转两个收入支柱（蓝色/绿色），Token平台的天花板随用户规模持续扩大，是飞凡未来最重要的收入来源。</p>
+  </div>
+  <div class="proj-grid">
+    <div class="pc tk-pc" style="border-top:3px solid var(--token)">
+      <div class="pc-label">Token平台自营 <span class="nb" style="background:var(--token)">V6</span></div>
+      <div class="pc-range" style="color:var(--token)">20–120万</div>
+      <div class="pc-unit">/年（随规模扩大）</div>
+      <ul class="pc-items">
+        <li class="tkl">年包锁量客户毛利最高</li>
+        <li class="tkl">个人开发者量大稳定</li>
+        <li class="tkl">渠道批发薄利多销</li>
+        <li class="tkl">SaaS平台费纯利润</li>
+      </ul>
+    </div>
+    <div class="pc ov-pc" style="border-top:3px solid var(--overseas)">
+      <div class="pc-label">海外API中转 <span class="nb" style="background:var(--overseas)">V6</span></div>
+      <div class="pc-range" style="color:var(--overseas)">10–50万</div>
+      <div class="pc-unit">/年</div>
+      <ul class="pc-items">
+        <li class="ovl">GPT/Claude中转需求强</li>
+        <li class="ovl">合规门槛高，竞品少</li>
+        <li class="ovl">毛利20–35%，高于国内</li>
+      </ul>
+    </div>
+    <div class="pc tk-pc" style="border-top:3px solid var(--token)">
+      <div class="pc-label">二开产品+POC转化 <span class="nb" style="background:var(--token)">V6</span></div>
+      <div class="pc-range" style="color:var(--token)">15–60万</div>
+      <div class="pc-unit">/年</div>
+      <ul class="pc-items">
+        <li class="tkl">飞凡品牌，自主定价</li>
+        <li class="tkl">POC免费，转化率高</li>
+        <li class="tkl">私有化部署维护年费</li>
+      </ul>
+    </div>
+    <div class="pc" style="border-top:3px solid var(--coral)">
+      <div class="pc-label">AI培训课程</div>
+      <div class="pc-range" style="color:var(--coral)">15–60万</div>
+      <div class="pc-unit">/年</div>
+      <ul class="pc-items">
+        <li>线下内训1.5–6万/天</li>
+        <li>年度包8–20万</li>
+        <li>线上规模化后复利</li>
+      </ul>
+    </div>
+  </div>
+  <div class="proj-row2">
+    <div class="pc" style="border-top:3px solid var(--teal)">
+      <div class="pc-label">渠道佣金（红熊+小融+猎头）</div>
+      <div class="pc-range" style="color:var(--teal)">10–40万</div>
+      <div class="pc-unit">/年</div>
+      <ul class="pc-items">
+        <li>红熊15–25%</li><li>小融15–20%</li><li>猎头10–15%</li>
+      </ul>
+    </div>
+    <div class="pc" style="border-top:3px solid var(--amber)">
+      <div class="pc-label">通信/数据/云资源</div>
+      <div class="pc-range" style="color:var(--amber)">5–20万</div>
+      <div class="pc-unit">/年</div>
+      <ul class="pc-items">
+        <li>萌招通信数据服务</li><li>嵌入AI项目交付</li><li>5–30%差价/返佣</li>
+      </ul>
+    </div>
+    <div class="pc" style="border-top:3px solid var(--plum)">
+      <div class="pc-label">AI顾问+大客户项目</div>
+      <div class="pc-range" style="color:var(--plum)">20–80万</div>
+      <div class="pc-unit">/年</div>
+      <ul class="pc-items">
+        <li>月度顾问1–5万/月</li><li>大客户50万+/项</li><li>高管私教培训</li>
+      </ul>
+    </div>
+    <div class="pc" style="border-top:3px solid var(--xc)">
+      <div class="pc-label">显示器+信创项目</div>
+      <div class="pc-range" style="color:var(--xc)">25–120万</div>
+      <div class="pc-unit">/年</div>
+      <ul class="pc-items">
+        <li>显示器走量+AI捆绑</li>
+        <li class="ovl">信创+Token国产化方案</li>
+        <li>联合投标百万级潜力</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:13px;background:var(--ink);border-radius:var(--r);padding:24px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+    <div>
+      <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:7px">V6 全年总收入区间（飞凡实际所得·保守估算）</div>
+      <div style="font-family:'Crimson Pro',serif;font-size:38px;font-weight:600;color:var(--coral-md)">120 – 550 万元 / 年</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.35);margin-top:5px">V5为80–365万；Token平台和海外中转新增50–170万；随Token平台用户规模扩大，天花板持续上移</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:5px">V6核心增量</div>
+      <div style="font-size:12.5px;color:rgba(255,255,255,.65);line-height:2">Token平台自营 +20–120万<br>海外API中转 +10–50万<br>二开产品+POC +15–60万</div>
+    </div>
+  </div>
+</section>
+
+<!-- S7: 路线图 -->
+<section class="sec" id="roadmap">
+  <div class="sec-hd">
+    <div class="sec-num">07 — 推进节奏</div>
+    <h2 class="sec-h2">三阶段路线图（V6更新）</h2>
+    <p class="sec-sub">Token平台部署是第一阶段的绝对优先项，其他所有方向都可以在平台就绪后受益。</p>
+  </div>
+  <div class="rm3">
+    <div class="rm-card ph1">
+      <div class="rm-head"><div class="rm-period">第一阶段 · 0–4周</div><div class="rm-title">Token平台部署<br>协议落地</div></div>
+      <div class="rm-body">
+        <div class="rm-item"><div class="rm-n tk-n">1</div><div>获取红熊Token中转源码，评估部署工作量，确定部署方案（自有服务器/云服务器）</div></div>
+        <div class="rm-item"><div class="rm-n tk-n">2</div><div>完成飞凡Token平台MVP版本部署，接入红熊国内算力和萌招阿里云资源，内测验证</div></div>
+        <div class="rm-item"><div class="rm-n tk-n">3</div><div>确认红熊海外算力接入方案，完成海外API中转功能测试，确认合规路径</div></div>
+        <div class="rm-item"><div class="rm-n">4</div><div>与红熊签署两份协议（分包框架+产品授权代理），明确源码使用授权范围和二开权限</div></div>
+        <div class="rm-item"><div class="rm-n">5</div><div>与萌招签署三维度协议（个人合伙人+飞凡分销商+红熊客户三方备忘录）</div></div>
+        <div class="rm-item"><div class="rm-n">6</div><div>启动SOW嵌入：在下一个AI项目中写入飞凡Token平台推荐和显示器采购章节</div></div>
+      </div>
+    </div>
+    <div class="rm-card ph2">
+      <div class="rm-head"><div class="rm-period">第二阶段 · 1–3月</div><div class="rm-title">平台上线运营<br>产品线成型</div></div>
+      <div class="rm-body">
+        <div class="rm-item"><div class="rm-n tk-n">1</div><div>飞凡Token平台正式上线，面向前10个种子客户（企业/开发者）开放，验证计费和体验</div></div>
+        <div class="rm-item"><div class="rm-n ov-n">2</div><div>海外API中转服务上线，通过技术圈推广，面向有GPT/Claude需求的开发者快速获客</div></div>
+        <div class="rm-item"><div class="rm-n tk-n">3</div><div>完成第一个飞凡品牌二开产品（外呼或营销），面向1–2个目标客户发起POC演示</div></div>
+        <div class="rm-item"><div class="rm-n">4</div><div>完成第一场AI企业内训，收集反馈，优化课程材料</div></div>
+        <div class="rm-item"><div class="rm-n">5</div><div>向小融提出Token平台资源供给合作方案，推进接入谈判</div></div>
+        <div class="rm-item"><div class="rm-n">6</div><div>通过红熊和猎头渠道推成1–3个红熊/小融产品订单，验证渠道佣金结算流程</div></div>
+      </div>
+    </div>
+    <div class="rm-card ph3">
+      <div class="rm-head"><div class="rm-period">第三阶段 · 3–6月</div><div class="rm-title">规模复制<br>生态深化</div></div>
+      <div class="rm-body">
+        <div class="rm-item"><div class="rm-n tk-n">1</div><div>Token平台达到稳定运营，评估是否申请阿里云ISV，将平台上架阿里云市场</div></div>
+        <div class="rm-item"><div class="rm-n ov-n">2</div><div>海外中转客户积累到一定规模后，评估是否独立包装为"飞凡GlobalAPI"产品，官网上线</div></div>
+        <div class="rm-item"><div class="rm-n">3</div><div>二开产品POC成功案例形成，制作标杆案例文档，开始批量推广</div></div>
+        <div class="rm-item"><div class="rm-n">4</div><div>飞凡AI学院线上平台上线，免费直播引流漏斗开始运转</div></div>
+        <div class="rm-item"><div class="rm-n">5</div><div>信创服务器+飞凡Token平台完成一次国产化AI方案联合演示，向政企客户提交方案</div></div>
+        <div class="rm-item"><div class="rm-n">6</div><div>半年复盘：八大收入支柱实际ROI对比，聚焦最高效3–4个方向，更新各方合作协议</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S8: 风险 -->
+<section class="sec">
+  <div class="sec-hd">
+    <div class="sec-num">08 — 风险管理</div>
+    <h2 class="sec-h2">V6新增风险与对策</h2>
+  </div>
+  <div class="risk-grid">
+    <div class="risk-card" style="border-left:3px solid var(--token)">
+      <div class="risk-top"><span class="risk-icon">⚡</span><span class="risk-title">Token源码授权范围需书面明确</span></div>
+      <div class="risk-desc">红熊口头说"完整可用，大方向没问题"，但未签署书面授权协议前，飞凡的使用范围在法律上没有保障——能否商用、能否接入其他资源方、能否对外销售，都需要协议条款支撑。</div>
+      <div class="risk-act">在签署产品授权代理协议时，单独加入一个附件："Token中转系统源码使用授权书"，明确授权范围（可商用、可接入多方资源、可对外销售服务）、授权期限和条件。</div>
+    </div>
+    <div class="risk-card" style="border-left:3px solid var(--overseas)">
+      <div class="risk-top"><span class="risk-icon">⚡</span><span class="risk-title">海外算力合规性需确认</span></div>
+      <div class="risk-desc">你提到"后续确认"，这是一个不能拖的问题。面向国内企业客户销售海外API中转服务，涉及数据跨境传输、增值电信业务许可等合规问题，若无明确法律依据，可能面临监管风险。</div>
+      <div class="risk-act">在海外API中转产品正式上线前，明确以下问题：①红熊的海外算力有无合规运营资质；②面向国内用户提供此服务是否需要增值电信业务许可（ICP/IDC）；③初期可以先小范围内测（技术圈个人开发者），规避企业合规审查。</div>
+    </div>
+    <div class="risk-card" style="border-left:3px solid var(--token)">
+      <div class="risk-top"><span class="risk-icon">⚡</span><span class="risk-title">高并发能力需要在商业化前验证</span></div>
+      <div class="risk-desc">飞凡的高并发保障能力是Token平台的核心卖点，但这个能力需要在真实负载下验证，不能在客户面前首次测试。一旦出现线上故障，品牌信任度很难修复。</div>
+      <div class="risk-act">平台上线前做专项压力测试，模拟峰值并发场景，确认系统稳定后再对外推广。首批种子客户建议选择用量较低的个人开发者，逐步放量，不要一开始就接大客户。</div>
+    </div>
+    <div class="risk-card" style="border-left:3px solid var(--ink-35)">
+      <div class="risk-top"><span class="risk-icon">⚡</span><span class="risk-title">二开产品"Powered by 红熊"的品牌风险</span></div>
+      <div class="risk-desc">二开产品必须标注"Powered by 红熊"，这意味着飞凡的品牌输出会带着红熊的背书。若红熊日后出现产品质量问题、品牌危机或商业纠纷，可能连带影响飞凡的品牌声誉。</div>
+      <div class="risk-act">在产品授权协议中加入条款：若红熊品牌发生重大负面事件，飞凡有权在30天内停止使用红熊品牌标注，同时协议不因此终止，飞凡保留继续销售（去除标注版本）的权利。</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+<div class="foot">
+  <div>V6以飞凡自营Token中转平台为核心升级，标志着飞凡从"资源渠道分销商"向"AI算力基础设施平台方"的战略身份转变。Token平台是未来收入天花板最高、护城河最深的方向，建议将其作为第一阶段的绝对优先项目。待确认事项：①Token源码书面授权协议；②海外算力合规路径；③高并发能力压测结果。</div>
+  <div style="white-space:nowrap;color:var(--coral)">飞凡科技 · V6<br>Token平台是核心战略升级</div>
+</div>
+
+</div>
+</body>
+</html>

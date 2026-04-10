@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>飞凡AI服务平台 · 综合业务与技术方案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:      #f5f0e8;
+  --cream-d:    #ede8df;
+  --cream-dd:   #e4ddd3;
+  --white:      #fdfcfa;
+  --ink:        #1a1612;
+  --ink-60:     rgba(26,22,18,.60);
+  --ink-35:     rgba(26,22,18,.35);
+  --ink-12:     rgba(26,22,18,.12);
+  --ink-06:     rgba(26,22,18,.06);
+  --coral:      #d4603a;
+  --coral-lt:   #f5e6df;
+  --coral-md:   #e8956e;
+  --teal:       #1e6b5e;
+  --teal-lt:    #d6eeea;
+  --amber:      #b87a2a;
+  --amber-lt:   #f5e8cc;
+  --plum:       #5a3a6b;
+  --plum-lt:    #ece0f5;
+  --sage:       #3a6645;
+  --sage-lt:    #daf0e0;
+  --steel:      #3d5068;
+  --steel-lt:   #dce6f0;
+  --navy:       #1a3a5c;
+  --navy-lt:    #d6e4f0;
+  --red:        #8b2020;
+  --red-lt:     #f5dada;
+  --r:          12px;
+  --r-sm:       7px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:'Noto Sans SC',sans-serif;font-size:14px;font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:99;background:rgba(245,240,232,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--ink-12);padding:0 36px}
+.nav-in{max-width:1160px;margin:0 auto;height:54px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.nav-brand{font-family:'Crimson Pro',serif;font-size:16px;font-weight:600;color:var(--coral);white-space:nowrap}
+.nav-links{display:flex;gap:18px}
+.nav-links a{font-size:11px;color:var(--ink-60);text-decoration:none;letter-spacing:.04em;transition:color .2s;white-space:nowrap}
+.nav-links a:hover{color:var(--coral)}
+.nav-tag{background:var(--navy);color:#fff;border-radius:20px;padding:4px 14px;font-size:11px;font-weight:500;white-space:nowrap}
+
+/* WRAP */
+.wrap{max-width:1160px;margin:0 auto;padding:0 36px 100px}
+
+/* HERO */
+.hero{padding:68px 0 52px;border-bottom:1px solid var(--ink-12);margin-bottom:72px}
+.hero-kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);font-weight:500;margin-bottom:14px}
+.hero-h1{font-family:'Crimson Pro',serif;font-size:50px;font-weight:300;line-height:1.1;letter-spacing:-.02em;max-width:780px;margin-bottom:20px}
+.hero-h1 em{font-style:italic;color:var(--coral)}
+.hero-p{max-width:620px;color:var(--ink-60);font-size:15px;line-height:1.75;margin-bottom:30px}
+.hero-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border:1px solid var(--ink-12);border-radius:20px;font-size:11.5px;color:var(--ink-60);background:var(--white)}
+.chip .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.hero-meta{display:flex;gap:32px;flex-wrap:wrap}
+.mi{display:flex;flex-direction:column;gap:2px}
+.mi-l{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-35);font-weight:500}
+.mi-v{font-size:13px;font-weight:500}
+
+/* SECTION */
+.sec{margin-bottom:80px}
+.sec-hd{margin-bottom:28px}
+.sec-num{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);font-weight:500;margin-bottom:5px}
+.sec-h2{font-family:'Crimson Pro',serif;font-size:30px;font-weight:400;line-height:1.2;letter-spacing:-.01em}
+.sec-sub{color:var(--ink-60);font-size:13.5px;margin-top:6px;max-width:640px}
+
+/* DARK BANNER */
+.dark{background:var(--ink);border-radius:var(--r);padding:30px 36px}
+.dark .dl{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--coral-md);font-weight:500;margin-bottom:10px}
+.dark .dt{font-family:'Crimson Pro',serif;font-size:20px;color:#fff;font-weight:400;line-height:1.55;max-width:700px}
+.dark .dg{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:22px;padding-top:22px;border-top:1px solid rgba(255,255,255,.08)}
+.di .dn{font-family:'Crimson Pro',serif;font-size:24px;font-weight:600;color:var(--coral-md);line-height:1}
+.di .dd{font-size:12px;color:rgba(255,255,255,.42);margin-top:4px}
+
+/* POSITIONING */
+.pos-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pos-card{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);padding:22px}
+.pos-card.featured{border-color:var(--coral);background:linear-gradient(135deg,var(--white),var(--coral-lt))}
+.pc-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.pc-icon{font-size:20px}
+.pc-title{font-family:'Crimson Pro',serif;font-size:17px;font-weight:600}
+.pc-desc{font-size:12.5px;color:var(--ink-60);line-height:1.65;margin-bottom:12px}
+.pc-items{list-style:none}
+.pc-items li{font-size:12px;color:var(--ink-60);padding-left:14px;position:relative;margin-bottom:4px;line-height:1.55}
+.pc-items li::before{content:'·';position:absolute;left:0;color:var(--coral);font-size:16px;line-height:1.1}
+
+/* PLATFORM ARCH */
+.arch-stack{display:flex;flex-direction:column;gap:3px}
+.arch-layer{border-radius:var(--r-sm);overflow:hidden}
+.al-head{padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.al-label{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:#fff;opacity:.6}
+.al-title{font-family:'Crimson Pro',serif;font-size:16px;font-weight:600;color:#fff}
+.al-body{background:var(--white);padding:16px 20px;border:1px solid var(--ink-12);border-top:none;border-radius:0 0 var(--r-sm) var(--r-sm)}
+.al-items{display:flex;flex-wrap:wrap;gap:8px}
+.al-item{display:flex;align-items:center;gap:6px;background:var(--cream);border-radius:4px;padding:5px 10px;font-size:12px;color:var(--ink-60)}
+.al-item .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+/* MEMORY MODULE */
+.mem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.mem-card{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);overflow:hidden;transition:box-shadow .2s,transform .2s}
+.mem-card:hover{box-shadow:0 6px 24px rgba(26,22,18,.08);transform:translateY(-2px)}
+.mc-head{padding:18px 20px;border-bottom:1px solid var(--ink-06)}
+.mc-tier{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.mc-title{font-family:'Crimson Pro',serif;font-size:18px;font-weight:600;line-height:1.25;margin-bottom:3px}
+.mc-sub{font-size:12px;line-height:1.55}
+.mc-body{padding:16px 20px}
+.mc-feature{display:flex;gap:7px;margin-bottom:8px;font-size:12.5px;color:var(--ink-60);line-height:1.5}
+.mc-feature::before{content:'→';color:var(--coral);font-weight:600;flex-shrink:0;font-size:12px}
+.mc-foot{padding:14px 20px;background:var(--cream-d);display:flex;justify-content:space-between;align-items:center}
+.mc-price{font-family:'Crimson Pro',serif;font-size:16px;font-weight:600}
+.mc-note{font-size:11px;color:var(--ink-60)}
+
+/* COMPLIANCE */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.comp-card{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);padding:20px}
+.comp-card.warn{border-color:var(--amber);background:var(--amber-lt)}
+.comp-card.risk{border-color:var(--red);background:var(--red-lt)}
+.cc-head{display:flex;gap:9px;margin-bottom:9px;align-items:flex-start}
+.cc-icon{font-size:17px;flex-shrink:0}
+.cc-title{font-weight:600;font-size:13.5px}
+.cc-body{font-size:12.5px;color:var(--ink-60);line-height:1.7}
+.cc-action{margin-top:10px;padding-top:10px;border-top:1px solid var(--ink-12);font-size:12px;display:flex;gap:6px}
+.cc-action::before{content:'→';color:var(--coral);font-weight:600;flex-shrink:0}
+
+/* PRODUCT TIERS */
+.tier-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.tier-card{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);overflow:hidden;transition:box-shadow .2s}
+.tier-card:hover{box-shadow:0 6px 20px rgba(26,22,18,.08)}
+.tier-card.featured{border-color:var(--coral)}
+.tc-head{padding:18px 16px;border-bottom:1px solid var(--ink-06)}
+.tc-tier{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.tc-name{font-family:'Crimson Pro',serif;font-size:18px;font-weight:600;margin-bottom:3px}
+.tc-price{font-family:'Crimson Pro',serif;font-size:22px;font-weight:600;margin-top:8px}
+.tc-price-note{font-size:11px;color:var(--ink-60);margin-top:2px}
+.tc-body{padding:14px 16px}
+.tc-item{display:flex;gap:6px;margin-bottom:6px;font-size:12px;color:var(--ink-60);line-height:1.5}
+.tc-item::before{content:'✓';color:var(--sage);font-weight:700;flex-shrink:0}
+.tc-item.off{color:var(--ink-35)}
+.tc-item.off::before{content:'—';color:var(--ink-35)}
+
+/* TECH STACK */
+.tech-table{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);overflow:hidden}
+.tech-table table{width:100%;border-collapse:collapse}
+.tech-table th{padding:11px 14px;background:var(--cream-dd);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--ink-60);text-align:left;border-bottom:1px solid var(--ink-12)}
+.tech-table td{padding:12px 14px;font-size:13px;border-bottom:1px solid var(--ink-06);vertical-align:top}
+.tech-table tr:last-child td{border-bottom:none}
+.tech-table tr:hover td{background:var(--cream)}
+.tag{display:inline-block;font-size:10.5px;padding:2px 8px;border-radius:4px;font-weight:500;margin:1px}
+.tag-go{background:var(--teal-lt);color:var(--teal)}
+.tag-py{background:var(--navy-lt);color:var(--navy)}
+.tag-js{background:var(--amber-lt);color:var(--amber)}
+.tag-oss{background:var(--sage-lt);color:var(--sage)}
+.tag-cloud{background:var(--coral-lt);color:var(--coral)}
+.rec{font-size:11px;color:var(--ink-35);margin-top:3px}
+
+/* ROADMAP */
+.rm3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.rm-card{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);overflow:hidden}
+.rm-head{padding:16px 18px;border-bottom:1px solid var(--ink-06)}
+.rm-period{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-bottom:3px}
+.rm-title{font-family:'Crimson Pro',serif;font-size:16px;font-weight:600;line-height:1.25}
+.rm-body{padding:14px 17px}
+.rm-item{display:flex;gap:7px;margin-bottom:8px;font-size:12px;color:var(--ink-60);line-height:1.55}
+.rm-n{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;margin-top:1px}
+.ph1 .rm-period{color:var(--teal)}.ph1 .rm-n{background:var(--teal-lt);color:var(--teal)}
+.ph2 .rm-period{color:var(--coral)}.ph2 .rm-n{background:var(--coral-lt);color:var(--coral)}
+.ph3 .rm-period{color:var(--plum)}.ph3 .rm-n{background:var(--plum-lt);color:var(--plum)}
+
+/* RISK */
+.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.risk-card{background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);padding:18px 20px}
+.rt{display:flex;gap:8px;margin-bottom:7px}
+.ri{font-size:15px;flex-shrink:0}
+.rtitle{font-weight:600;font-size:13px}
+.rbody{font-size:12px;color:var(--ink-60);line-height:1.65}
+.ract{margin-top:9px;padding-top:9px;border-top:1px solid var(--ink-06);font-size:12px;display:flex;gap:6px}
+.ract::before{content:'→';color:var(--coral);font-weight:600;flex-shrink:0}
+
+/* DIVIDER / FOOT */
+.divider{border:none;border-top:1px solid var(--ink-12);margin:0 0 64px}
+.foot{border-top:1px solid var(--ink-12);padding-top:20px;font-size:11.5px;color:var(--ink-35);line-height:1.8;display:flex;justify-content:space-between;gap:20px}
+
+/* ANIM */
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.hero,.sec{animation:rise .5s ease both}
+.sec:nth-child(2){animation-delay:.05s}.sec:nth-child(3){animation-delay:.09s}
+.sec:nth-child(4){animation-delay:.13s}.sec:nth-child(5){animation-delay:.17s}
+.sec:nth-child(6){animation-delay:.21s}.sec:nth-child(7){animation-delay:.25s}
+.sec:nth-child(8){animation-delay:.29s}.sec:nth-child(9){animation-delay:.33s}
+.sec:nth-child(10){animation-delay:.37s}.sec:nth-child(11){animation-delay:.41s}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <div class="nav-brand">飞凡AI服务平台 · 综合方案</div>
+    <div class="nav-links">
+      <a href="#positioning">产品定位</a>
+      <a href="#arch">平台架构</a>
+      <a href="#memory">记忆体系</a>
+      <a href="#compliance">合规框架</a>
+      <a href="#pricing">产品定价</a>
+      <a href="#tech">技术选型</a>
+      <a href="#roadmap">路线图</a>
+      <a href="#risk">风险管理</a>
+    </div>
+    <div class="nav-tag">业务 · 技术综合方案</div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-kicker">FeiVan AI Platform · 综合业务与技术方案</div>
+  <h1 class="hero-h1">面向出海企业的<em>AI基础设施</em><br>综合服务平台</h1>
+  <p class="hero-p">以高效上下文记忆为核心差异化，提供LLM/TTS/ASR多模态AI服务转发、计费与账单的一站式平台。新加坡主体合规部署，专为面向海外业务的中国企业客户设计。</p>
+  <div class="hero-chips">
+    <div class="chip"><span class="dot" style="background:var(--coral)"></span>多模态AI服务网关</div>
+    <div class="chip"><span class="dot" style="background:var(--teal)"></span>上下文高效记忆引擎</div>
+    <div class="chip"><span class="dot" style="background:var(--navy)"></span>程序员智能插件</div>
+    <div class="chip"><span class="dot" style="background:var(--plum)"></span>企业知识库集成</div>
+    <div class="chip"><span class="dot" style="background:var(--sage)"></span>新加坡合规部署</div>
+  </div>
+  <div class="hero-meta">
+    <div class="mi"><span class="mi-l">目标客户</span><span class="mi-v">面向海外业务的中国B端企业</span></div>
+    <div class="mi"><span class="mi-l">核心差异化</span><span class="mi-v">上下文记忆 · Token效率优化</span></div>
+    <div class="mi"><span class="mi-l">合规框架</span><span class="mi-v">新加坡主体 · 新加坡机房</span></div>
+    <div class="mi"><span class="mi-l">可用性目标</span><span class="mi-v">99.9% SLA</span></div>
+  </div>
+</div>
+
+<!-- S0: 核心价值主张 -->
+<section class="sec">
+  <div class="sec-hd">
+    <div class="sec-num">00 — 核心价值主张</div>
+    <h2 class="sec-h2">为什么这个平台有独特价值</h2>
+    <p class="sec-sub">市场上的AI网关产品大多是纯转发，飞凡平台的差异化在于"转发+增值"的双层能力，让客户在降低Token成本的同时获得更好的AI使用体验。</p>
+  </div>
+  <div class="dark">
+    <div class="dl">Core Value Proposition</div>
+    <div class="dt">普通AI网关卖的是通道，飞凡平台卖的是效率——同样的业务场景，客户用更少的Token得到更好的结果，成本降低30–60%，这是纯转发平台无法提供的。</div>
+    <div class="dg">
+      <div class="di"><div class="dn">30–60%</div><div class="dd">记忆压缩带来的Token成本降低预估</div></div>
+      <div class="di"><div class="dn">3层</div><div class="dd">会话内/跨会话/企业知识库记忆体系</div></div>
+      <div class="di"><div class="dn">99.9%</div><div class="dd">平台SLA目标（全年宕机&lt;8.7小时）</div></div>
+      <div class="di"><div class="dn">新加坡</div><div class="dd">主体+机房合规部署，面向出海企业</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- S1: 产品定位 -->
+<section class="sec" id="positioning">
+  <div class="sec-hd">
+    <div class="sec-num">01 — 产品定位</div>
+    <h2 class="sec-h2">三条产品线 · 分层覆盖不同客户需求</h2>
+    <p class="sec-sub">平台不是单一产品，而是三条有机联动的产品线，共用同一个基础设施，面向不同客户场景分别定价。</p>
+  </div>
+  <div class="pos-grid">
+    <div class="pos-card featured">
+      <div class="pc-head"><div class="pc-icon">⚡</div><div class="pc-title">核心产品线：AI服务网关 + 记忆引擎</div></div>
+      <div class="pc-desc">面向所有B端企业客户的基础产品。提供LLM/TTS/ASR多模态服务转发，叠加会话内和跨会话记忆能力，大幅降低客户的Token消耗成本。这是平台的收入主体，也是其他两条产品线的流量入口。</div>
+      <ul class="pc-items">
+        <li>多模态API统一网关（LLM/TTS/ASR）</li>
+        <li>会话内上下文智能压缩（降低单次Token消耗）</li>
+        <li>跨会话长期记忆（用户偏好/历史上下文持久化）</li>
+        <li>New API计费体系（余额/账单/额度管理完整托管）</li>
+        <li>企业多租户管理（子账号/权限/用量统计）</li>
+      </ul>
+    </div>
+    <div class="pos-card">
+      <div class="pc-head"><div class="pc-icon">👨‍💻</div><div class="pc-title">增值产品线：程序员智能插件（高阶套餐）</div></div>
+      <div class="pc-desc">面向技术团队和开发者的独立插件产品，以高阶套餐包形式定价。基于红熊记忆科学底座，提供代码学习记忆、编程上下文增强等能力。定位是"让AI更了解你的代码库和编程习惯"，而非取代Cursor。</div>
+      <ul class="pc-items">
+        <li>代码仓库语义理解与记忆（跨项目上下文）</li>
+        <li>编程习惯和偏好的长期记忆</li>
+        <li>IDE插件集成（VS Code / JetBrains）</li>
+        <li>团队代码规范和最佳实践的知识沉淀</li>
+        <li>与核心产品线共用同一计费体系</li>
+      </ul>
+    </div>
+    <div class="pos-card">
+      <div class="pc-head"><div class="pc-icon">🏢</div><div class="pc-title">企业集成产品线：企业知识库集成</div></div>
+      <div class="pc-desc">以集成形式提供，不是平台自建知识库，而是帮助企业客户把现有的知识管理系统（Notion、Confluence、SharePoint等）接入平台的记忆引擎，让AI调用企业私有知识。</div>
+      <ul class="pc-items">
+        <li>主流知识库系统的标准化接入适配器</li>
+        <li>企业私有数据的本地向量化（数据不出企业）</li>
+        <li>私有知识与公有模型的安全隔离架构</li>
+        <li>自定义RAG参数调优服务</li>
+      </ul>
+    </div>
+    <div class="pos-card">
+      <div class="pc-head"><div class="pc-icon">🎯</div><div class="pc-title">竞争定位：我们和谁不同</div></div>
+      <div class="pc-desc">明确区分竞争赛道，避免定位模糊。</div>
+      <ul class="pc-items">
+        <li><strong style="color:var(--ink)">vs 纯API代理（302.ai等）：</strong>我们不只是转发，记忆引擎是核心增值</li>
+        <li><strong style="color:var(--ink)">vs Cursor：</strong>我们不做编辑器，做的是跨工具的记忆层</li>
+        <li><strong style="color:var(--ink)">vs LangChain Memory：</strong>我们是开箱即用的SaaS，不是开发者框架</li>
+        <li><strong style="color:var(--ink)">vs 国内AI厂商：</strong>我们专注出海合规，对接海外模型能力</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- S2: 平台架构 -->
+<section class="sec" id="arch">
+  <div class="sec-hd">
+    <div class="sec-num">02 — 平台架构</div>
+    <h2 class="sec-h2">五层平台架构设计</h2>
+    <p class="sec-sub">从用户接入到底层资源，每一层职责清晰、可独立扩展，记忆引擎作为独立层插入API网关与上游资源之间。</p>
+  </div>
+  <div class="arch-stack">
+    <!-- L1 -->
+    <div class="arch-layer">
+      <div class="al-head" style="background:var(--navy)">
+        <div><div class="al-label">Layer 1 · 接入层</div><div class="al-title">客户接入 & 身份认证</div></div>
+        <div style="font-size:12px;color:rgba(255,255,255,.5)">新加坡节点 · Cloudflare CDN · DDoS防护</div>
+      </div>
+      <div class="al-body">
+        <div class="al-items">
+          <div class="al-item"><span class="dot" style="background:var(--navy)"></span>API Key鉴权</div>
+          <div class="al-item"><span class="dot" style="background:var(--navy)"></span>JWT用户身份验证</div>
+          <div class="al-item"><span class="dot" style="background:var(--navy)"></span>请求速率限制</div>
+          <div class="al-item"><span class="dot" style="background:var(--navy)"></span>企业账号映射（New API）</div>
+          <div class="al-item"><span class="dot" style="background:var(--navy)"></span>TLS 1.3加密传输</div>
+          <div class="al-item"><span class="dot" style="background:var(--navy)"></span>WebSocket支持（实时语音）</div>
+        </div>
+      </div>
+    </div>
+    <!-- L2 -->
+    <div class="arch-layer">
+      <div class="al-head" style="background:var(--coral)">
+        <div><div class="al-label">Layer 2 · 网关层</div><div class="al-title">New API · 路由 / 计费 / 账单</div></div>
+        <div style="font-size:12px;color:rgba(255,255,255,.5)">完全托管计费 · 企业账号体系 · 余额管理</div>
+      </div>
+      <div class="al-body">
+        <div class="al-items">
+          <div class="al-item"><span class="dot" style="background:var(--coral)"></span>多模型路由（LLM/TTS/ASR）</div>
+          <div class="al-item"><span class="dot" style="background:var(--coral)"></span>Token/字符/时长多维计费</div>
+          <div class="al-item"><span class="dot" style="background:var(--coral)"></span>用户账单与余额管理</div>
+          <div class="al-item"><span class="dot" style="background:var(--coral)"></span>上游多资源负载均衡</div>
+          <div class="al-item"><span class="dot" style="background:var(--coral)"></span>上游故障自动切换</div>
+          <div class="al-item"><span class="dot" style="background:var(--coral)"></span>消费明细与用量统计</div>
+        </div>
+      </div>
+    </div>
+    <!-- L3 -->
+    <div class="arch-layer">
+      <div class="al-head" style="background:var(--teal)">
+        <div><div class="al-label">Layer 3 · 记忆层（核心差异化）</div><div class="al-title">记忆引擎 · 上下文优化 · Token效率提升</div></div>
+        <div style="font-size:12px;color:rgba(255,255,255,.5)">红熊记忆科学底座 · 飞凡高并发运营</div>
+      </div>
+      <div class="al-body">
+        <div class="al-items">
+          <div class="al-item"><span class="dot" style="background:var(--teal)"></span>会话内滑动窗口压缩</div>
+          <div class="al-item"><span class="dot" style="background:var(--teal)"></span>会话内摘要蒸馏（自动生成上下文摘要）</div>
+          <div class="al-item"><span class="dot" style="background:var(--teal)"></span>跨会话用户记忆持久化</div>
+          <div class="al-item"><span class="dot" style="background:var(--teal)"></span>语义相关性检索（向量数据库）</div>
+          <div class="al-item"><span class="dot" style="background:var(--teal)"></span>记忆写入时机智能判断</div>
+          <div class="al-item"><span class="dot" style="background:var(--teal)"></span>企业知识库RAG接入适配器</div>
+          <div class="al-item"><span class="dot" style="background:var(--teal)"></span>程序员代码上下文记忆模块</div>
+          <div class="al-item"><span class="dot" style="background:var(--teal)"></span>记忆数据加密存储（归属客户）</div>
+        </div>
+      </div>
+    </div>
+    <!-- L4 -->
+    <div class="arch-layer">
+      <div class="al-head" style="background:var(--plum)">
+        <div><div class="al-label">Layer 4 · 风控层</div><div class="al-title">内容合规 · 服务安全 · 滥用防控</div></div>
+        <div style="font-size:12px;color:rgba(255,255,255,.5)">异步检测为主 · 不影响主链路延迟</div>
+      </div>
+      <div class="al-body">
+        <div class="al-items">
+          <div class="al-item"><span class="dot" style="background:var(--plum)"></span>输入内容合规检测</div>
+          <div class="al-item"><span class="dot" style="background:var(--plum)"></span>输出内容安全过滤</div>
+          <div class="al-item"><span class="dot" style="background:var(--plum)"></span>异常调用行为检测（API滥用）</div>
+          <div class="al-item"><span class="dot" style="background:var(--plum)"></span>Key泄露自动检测与封禁</div>
+          <div class="al-item"><span class="dot" style="background:var(--plum)"></span>客户准入KYC验证</div>
+          <div class="al-item"><span class="dot" style="background:var(--plum)"></span>合规日志完整审计链</div>
+        </div>
+      </div>
+    </div>
+    <!-- L5 -->
+    <div class="arch-layer">
+      <div class="al-head" style="background:var(--steel)">
+        <div><div class="al-label">Layer 5 · 资源层</div><div class="al-title">上游AI资源 · 多来源并行</div></div>
+        <div style="font-size:12px;color:rgba(255,255,255,.5)">红熊/萌招/小融 · 海外API合规渠道</div>
+      </div>
+      <div class="al-body">
+        <div class="al-items">
+          <div class="al-item"><span class="dot" style="background:var(--steel)"></span>红熊国内算力（阿里云）</div>
+          <div class="al-item"><span class="dot" style="background:var(--steel)"></span>红熊海外算力（Claude/GPT/Gemini）</div>
+          <div class="al-item"><span class="dot" style="background:var(--steel)"></span>萌招阿里云资源</div>
+          <div class="al-item"><span class="dot" style="background:var(--steel)"></span>小融Token资源（备用）</div>
+          <div class="al-item"><span class="dot" style="background:var(--steel)"></span>向量数据库（记忆存储）</div>
+          <div class="al-item"><span class="dot" style="background:var(--steel)"></span>对象存储（日志/审计）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S3: 记忆体系 -->
+<section class="sec" id="memory">
+  <div class="sec-hd">
+    <div class="sec-num">03 — 记忆体系</div>
+    <h2 class="sec-h2">三层记忆架构：从会话到企业知识</h2>
+    <p class="sec-sub">记忆能力是平台最核心的差异化，三层架构覆盖从个人开发者到大型企业的完整需求，基于红熊记忆科学底座构建，飞凡负责高并发运营保障。</p>
+  </div>
+  <div class="mem-grid">
+    <div class="mem-card">
+      <div class="mc-head">
+        <div class="mc-tier" style="color:var(--teal)">Memory Layer 1 · 全套餐包含</div>
+        <div class="mc-title">会话内记忆</div>
+        <div class="mc-sub" style="color:var(--ink-60)">智能压缩单次对话上下文，最直接的Token节省手段</div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-feature">滑动窗口管理：自动裁剪过早的上下文，保留最相关的历史轮次</div>
+        <div class="mc-feature">摘要蒸馏：当上下文超过阈值时，自动将历史对话压缩为结构化摘要注入</div>
+        <div class="mc-feature">关键信息提取：识别并优先保留用户明确设定的关键约束和偏好</div>
+        <div class="mc-feature">Token预估：调用前预估消耗，超限前主动提示用户</div>
+      </div>
+      <div class="mc-foot">
+        <div><div class="mc-price" style="color:var(--teal)">基础套餐内含</div></div>
+        <div class="mc-note">预期节省 20–40% Token</div>
+      </div>
+    </div>
+    <div class="mem-card">
+      <div class="mc-head">
+        <div class="mc-tier" style="color:var(--coral)">Memory Layer 2 · 标准套餐+</div>
+        <div class="mc-title">跨会话长期记忆</div>
+        <div class="mc-sub" style="color:var(--ink-60)">让AI记住用户的偏好、习惯和历史上下文，跨次对话持续生效</div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-feature">用户画像持久化：记录并更新用户的语言偏好、工作背景、常用术语</div>
+        <div class="mc-feature">重要结论存档：自动识别对话中的重要决策和结论，写入长期记忆</div>
+        <div class="mc-feature">语义相关性检索：每次对话开始时，从长期记忆中检索最相关的历史信息注入上下文</div>
+        <div class="mc-feature">记忆隐私控制：用户可查看、编辑、删除自己的所有记忆数据</div>
+      </div>
+      <div class="mc-foot">
+        <div><div class="mc-price" style="color:var(--coral)">标准套餐及以上</div></div>
+        <div class="mc-note">预期节省 40–60% 重复Token</div>
+      </div>
+    </div>
+    <div class="mem-card">
+      <div class="mc-head">
+        <div class="mc-tier" style="color:var(--plum)">Memory Layer 3 · 企业套餐</div>
+        <div class="mc-title">企业知识库集成</div>
+        <div class="mc-sub" style="color:var(--ink-60)">企业私有知识接入记忆引擎，数据不出企业，安全隔离</div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-feature">标准适配器：支持Notion/Confluence/SharePoint/飞书知识库等主流系统</div>
+        <div class="mc-feature">本地向量化：企业数据在客户本地完成向量化，只有检索结果经过平台，原始数据不出企业</div>
+        <div class="mc-feature">私有部署选项：对安全要求极高的企业，支持记忆引擎私有化部署到客户环境</div>
+        <div class="mc-feature">权限隔离：不同部门/项目的知识库相互隔离，按需授权访问</div>
+      </div>
+      <div class="mc-foot">
+        <div><div class="mc-price" style="color:var(--plum)">企业套餐 / 定制</div></div>
+        <div class="mc-note">配套专属技术支持</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 程序员插件专题 -->
+  <div style="margin-top:14px;background:var(--white);border:1px solid var(--teal);border-radius:var(--r);overflow:hidden">
+    <div style="background:var(--teal);padding:20px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+      <div>
+        <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:6px">Developer Plugin · 程序员智能插件</div>
+        <div style="font-family:'Crimson Pro',serif;font-size:22px;color:#fff;font-weight:600">代码记忆引擎：让AI真正了解你的代码库</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.5);margin-top:4px">高阶套餐包 · 独立定价 · IDE插件形态</div>
+      </div>
+      <div style="background:rgba(255,255,255,.15);color:#fff;padding:7px 18px;border-radius:var(--r-sm);font-size:12px;font-weight:500">与Cursor差异：跨工具记忆层，非编辑器替代</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0">
+      <div style="padding:18px 20px;border-right:1px solid var(--ink-06)">
+        <div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--ink-35);margin-bottom:10px">代码仓库记忆</div>
+        <div style="font-size:12.5px;color:var(--ink-60);line-height:1.6">跨文件/跨项目的代码结构理解，记住你的架构决策和设计模式偏好</div>
+      </div>
+      <div style="padding:18px 20px;border-right:1px solid var(--ink-06)">
+        <div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--ink-35);margin-bottom:10px">编程习惯学习</div>
+        <div style="font-size:12.5px;color:var(--ink-60);line-height:1.6">记住你的命名规范、代码风格、常用库和框架偏好，减少重复解释成本</div>
+      </div>
+      <div style="padding:18px 20px;border-right:1px solid var(--ink-06)">
+        <div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--ink-35);margin-bottom:10px">团队知识沉淀</div>
+        <div style="font-size:12.5px;color:var(--ink-60);line-height:1.6">将团队的代码规范、最佳实践、踩坑记录沉淀为可检索的知识，新成员快速上手</div>
+      </div>
+      <div style="padding:18px 20px">
+        <div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--ink-35);margin-bottom:10px">IDE集成</div>
+        <div style="font-size:12.5px;color:var(--ink-60);line-height:1.6">VS Code插件 + JetBrains插件，无需切换工具，记忆能力在现有工作流中生效</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S4: 合规框架 -->
+<section class="sec" id="compliance">
+  <div class="sec-hd">
+    <div class="sec-num">04 — 合规框架</div>
+    <h2 class="sec-h2">合规是产品设计，不是法务后置</h2>
+    <p class="sec-sub">合规不能只靠服务协议，需要技术架构和协议条款双重保障。以下是当前判断的核心风险点和应对方案，正式运营前必须有律师介入确认。</p>
+  </div>
+
+  <div style="background:var(--amber-lt);border:1px solid var(--amber);border-radius:var(--r);padding:18px 22px;margin-bottom:16px;display:flex;gap:10px">
+    <div style="font-size:17px;flex-shrink:0">⚠️</div>
+    <div style="font-size:13px;color:#7d4700;line-height:1.75"><strong>重要声明：</strong>以下合规框架为业务层面的初步设计，不构成法律意见。正式运营前，必须委托具有中新两地执照的涉外律师事务所，对PIPL数据出境合规、新加坡主体实质运营要求、VAS牌照（如适用）等进行专项法律评估并出具书面意见。</div>
+  </div>
+
+  <div class="comp-grid">
+    <div class="comp-card">
+      <div class="cc-head"><span class="cc-icon">🏛️</span><span class="cc-title">主体架构：新加坡实体要求</span></div>
+      <div class="cc-body">新加坡主体不只是注册一个公司，监管机构会看"实质"——是否有真实的本地运营、本地董事、本地办公地点。如果实际控制人和运营团队全在中国，新加坡主体的合规效力会打折扣。</div>
+      <div class="cc-action">建议：在新加坡设立至少一名本地常驻联系人/董事，并在运营上体现新加坡实质（如银行账户、当地合同等）。</div>
+    </div>
+    <div class="comp-card">
+      <div class="cc-head"><span class="cc-icon">🔒</span><span class="cc-title">PIPL数据出境：最核心的合规风险</span></div>
+      <div class="cc-body">如果企业客户的数据（即使是B端数据）包含中国境内个人信息，通过平台流转到新加坡服务器，可能触发PIPL第38-40条的数据出境要求，包括安全评估、标准合同等。</div>
+      <div class="cc-action">技术上：平台不存储原始对话内容，仅存储经过脱敏处理的记忆摘要。协议上：明确客户对数据出境合规负主责，平台仅作为数据处理者。</div>
+    </div>
+    <div class="comp-card">
+      <div class="cc-head"><span class="cc-icon">📋</span><span class="cc-title">客户准入KYC：技术+协议双防线</span></div>
+      <div class="cc-body">仅靠服务协议声明"仅限面向海外业务企业"不够，需要在技术和流程上有配套措施，否则一旦有客户将平台用于国内业务，平台可能承担连带责任。</div>
+      <div class="cc-action">准入流程：要求企业客户提交海外业务证明材料（海外公司注册证明、海外业务合同摘要等），并在平台协议中明确违规使用的违约责任和赔偿条款。</div>
+    </div>
+    <div class="comp-card">
+      <div class="cc-head"><span class="cc-icon">🌐</span><span class="cc-title">海外API合规：灰色地带的边界管理</span></div>
+      <div class="cc-body">Claude/GPT等海外模型在国内使用存在政策不确定性。"仅面向海外业务"的限定是重要的合规边界，但需要在技术上也有体现——比如IP地址检测、使用场景声明等。</div>
+      <div class="cc-action">从红熊处获取其海外算力渠道的合规材料（服务商资质、合同等），作为平台合规的上游背书。同时在平台协议中明确"海外业务用途"的定义和限制。</div>
+    </div>
+  </div>
+
+  <!-- 合规技术措施 -->
+  <div style="margin-top:14px;background:var(--white);border:1px solid var(--ink-12);border-radius:var(--r);padding:22px 26px">
+    <div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--ink-35);margin-bottom:14px">技术层面的合规保障措施（协议之外必须落地的）</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px">
+      <div>
+        <div style="font-weight:600;font-size:13px;margin-bottom:6px">数据最小化存储</div>
+        <div style="font-size:12px;color:var(--ink-60);line-height:1.65">平台不存储原始对话内容，记忆引擎只保存经过脱敏和摘要化的语义信息。日志保留不超过90天，自动清理。</div>
+      </div>
+      <div>
+        <div style="font-weight:600;font-size:13px;margin-bottom:6px">数据归属技术保障</div>
+        <div style="font-size:12px;color:var(--ink-60);line-height:1.65">每个企业租户的记忆数据物理隔离存储，支持客户一键导出和删除全部数据，平台无法访问已删除数据。</div>
+      </div>
+      <div>
+        <div style="font-weight:600;font-size:13px;margin-bottom:6px">审计日志完整性</div>
+        <div style="font-size:12px;color:var(--ink-60);line-height:1.65">所有API调用、数据访问、配置变更均生成不可篡改的审计日志，可供监管审查，存储在新加坡机房。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S5: 产品定价 -->
+<section class="sec" id="pricing">
+  <div class="sec-hd">
+    <div class="sec-num">05 — 产品定价</div>
+    <h2 class="sec-h2">四档套餐 · 按量付费与订阅并行</h2>
+    <p class="sec-sub">定价策略体现记忆能力的价值层次，越高阶的套餐记忆能力越强，Token效率越高，客户的实际使用成本反而可能更低。</p>
+  </div>
+  <div class="tier-grid">
+    <div class="tier-card">
+      <div class="tc-head">
+        <div class="tc-tier" style="color:var(--sage)">入门版</div>
+        <div class="tc-name">Starter</div>
+        <div style="font-size:12px;color:var(--ink-60);margin-top:3px">适合小团队试用</div>
+        <div class="tc-price" style="color:var(--sage)">$49<span style="font-size:14px;font-weight:300">/月</span></div>
+        <div class="tc-price-note">或按量付费，无月费</div>
+      </div>
+      <div class="tc-body">
+        <div class="tc-item">多模态API转发（LLM/TTS/ASR）</div>
+        <div class="tc-item">会话内记忆压缩（Layer 1）</div>
+        <div class="tc-item">New API计费体系</div>
+        <div class="tc-item">最多3个子账号</div>
+        <div class="tc-item off">跨会话长期记忆</div>
+        <div class="tc-item off">企业知识库集成</div>
+        <div class="tc-item off">程序员插件</div>
+        <div class="tc-item off">专属技术支持</div>
+      </div>
+    </div>
+    <div class="tier-card featured">
+      <div class="tc-head">
+        <div class="tc-tier" style="color:var(--coral)">🔥 主力版</div>
+        <div class="tc-name">Professional</div>
+        <div style="font-size:12px;color:var(--ink-60);margin-top:3px">最高性价比，推荐首选</div>
+        <div class="tc-price" style="color:var(--coral)">$199<span style="font-size:14px;font-weight:300">/月</span></div>
+        <div class="tc-price-note">年付85折，约$2,030/年</div>
+      </div>
+      <div class="tc-body">
+        <div class="tc-item">全部Starter功能</div>
+        <div class="tc-item">跨会话长期记忆（Layer 2）</div>
+        <div class="tc-item">最多20个子账号</div>
+        <div class="tc-item">用量分析Dashboard</div>
+        <div class="tc-item">Email技术支持（24h响应）</div>
+        <div class="tc-item off">企业知识库集成</div>
+        <div class="tc-item off">程序员插件（可加购）</div>
+        <div class="tc-item off">私有化部署</div>
+      </div>
+    </div>
+    <div class="tier-card">
+      <div class="tc-head">
+        <div class="tc-tier" style="color:var(--plum)">企业版</div>
+        <div class="tc-name">Enterprise</div>
+        <div style="font-size:12px;color:var(--ink-60);margin-top:3px">完整能力，适合大型团队</div>
+        <div class="tc-price" style="color:var(--plum)">$599<span style="font-size:14px;font-weight:300">/月</span></div>
+        <div class="tc-price-note">年付8折，约$5,750/年</div>
+      </div>
+      <div class="tc-body">
+        <div class="tc-item">全部Professional功能</div>
+        <div class="tc-item">企业知识库集成（Layer 3）</div>
+        <div class="tc-item">无限子账号</div>
+        <div class="tc-item">程序员插件（含包内）</div>
+        <div class="tc-item">SLA 99.9%书面保障</div>
+        <div class="tc-item">专属客户成功经理</div>
+        <div class="tc-item off">私有化部署</div>
+        <div class="tc-item off">定制开发</div>
+      </div>
+    </div>
+    <div class="tier-card">
+      <div class="tc-head">
+        <div class="tc-tier" style="color:var(--navy)">旗舰版</div>
+        <div class="tc-name">Enterprise Plus</div>
+        <div style="font-size:12px;color:var(--ink-60);margin-top:3px">私有化+定制，大型机构</div>
+        <div class="tc-price" style="color:var(--navy)">定制报价</div>
+        <div class="tc-price-note">年框架合同</div>
+      </div>
+      <div class="tc-body">
+        <div class="tc-item">全部Enterprise功能</div>
+        <div class="tc-item">记忆引擎私有化部署</div>
+        <div class="tc-item">数据完全不出客户环境</div>
+        <div class="tc-item">定制化记忆策略调优</div>
+        <div class="tc-item">专属技术团队支持</div>
+        <div class="tc-item">联合市场推广支持</div>
+        <div class="tc-item">季度业务QBR</div>
+        <div class="tc-item">信创服务器可选配</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 程序员插件定价 -->
+  <div style="margin-top:12px;background:var(--white);border:1px solid var(--teal);border-radius:var(--r);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+    <div>
+      <div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--teal);margin-bottom:5px">Add-on · 程序员智能插件</div>
+      <div style="font-family:'Crimson Pro',serif;font-size:17px;font-weight:600;margin-bottom:3px">Developer Memory Plugin</div>
+      <div style="font-size:12.5px;color:var(--ink-60)">可单独购买，也可作为Enterprise套餐内含权益；团队许可按席位计费</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-family:'Crimson Pro',serif;font-size:22px;font-weight:600;color:var(--teal)">$29/席位/月</div>
+      <div style="font-size:12px;color:var(--ink-60);margin-top:2px">5席位起购 · 年付8折</div>
+    </div>
+  </div>
+</section>
+
+<!-- S6: 技术选型 -->
+<section class="sec" id="tech">
+  <div class="sec-hd">
+    <div class="sec-num">06 — 技术选型</div>
+    <h2 class="sec-h2">各层技术选型与理由</h2>
+    <p class="sec-sub">选型原则：生产验证优先、开源可控为主、避免单一云厂商锁定。记忆层基于红熊底座，不从零开发。</p>
+  </div>
+  <div class="tech-table">
+    <table>
+      <thead>
+        <tr><th>模块</th><th>推荐选型</th><th>技术语言/协议</th><th>选型理由</th><th>备选方案</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>API网关层</strong></td>
+          <td>New API（QuantumNous fork）<span class="tag tag-oss">开源</span></td>
+          <td><span class="tag tag-go">Go</span></td>
+          <td>31k+ stars，生产验证，计费体系完整，Docker一键部署，符合飞凡"托管计费"决策</td>
+          <td>One API（原版，功能稍少）</td>
+        </tr>
+        <tr>
+          <td><strong>接入层/边缘</strong></td>
+          <td>Cloudflare Workers / Nginx</td>
+          <td><span class="tag tag-js">JS</span></td>
+          <td>新加坡节点覆盖好，DDoS防护内置，TLS终止，CDN加速，成本低</td>
+          <td>AWS CloudFront + ALB</td>
+        </tr>
+        <tr>
+          <td><strong>记忆引擎底座</strong></td>
+          <td>红熊记忆科学产品</td>
+          <td>—</td>
+          <td>合作方既有产品，飞凡不重复造轮子，基于此做工程化封装和高并发运营</td>
+          <td>Mem0（开源，4k stars）</td>
+        </tr>
+        <tr>
+          <td><strong>向量数据库</strong></td>
+          <td>Qdrant<span class="tag tag-oss">开源</span></td>
+          <td><span class="tag tag-go">Rust</span></td>
+          <td>新加坡可部署，性能强，支持自托管（数据不出境），Docker镜像成熟，Apache 2.0协议</td>
+          <td>Weaviate / Pinecone（托管）</td>
+        </tr>
+        <tr>
+          <td><strong>会话压缩/摘要</strong></td>
+          <td>自研轻量服务（基于LLM）</td>
+          <td><span class="tag tag-py">Python</span></td>
+          <td>调用平台自身的LLM能力做摘要，成本可控，逻辑简单，技术风险低</td>
+          <td>LangChain ConversationSummaryMemory</td>
+        </tr>
+        <tr>
+          <td><strong>企业知识库适配</strong></td>
+          <td>LlamaIndex<span class="tag tag-oss">开源</span></td>
+          <td><span class="tag tag-py">Python</span></td>
+          <td>最成熟的RAG框架，已有Notion/Confluence/SharePoint等主流连接器，不用从零写</td>
+          <td>LangChain（更通用但更重）</td>
+        </tr>
+        <tr>
+          <td><strong>风控/内容检测</strong></td>
+          <td>异步检测：Azure Content Safety / 自研</td>
+          <td><span class="tag tag-py">Python</span></td>
+          <td>异步不影响主链路延迟，Azure在新加坡有节点，合规材料完整；高风险内容同步拦截</td>
+          <td>OpenAI Moderation API</td>
+        </tr>
+        <tr>
+          <td><strong>IDE插件</strong></td>
+          <td>VS Code Extension API + LSP</td>
+          <td><span class="tag tag-js">TypeScript</span></td>
+          <td>VS Code市场覆盖最广，LSP协议可复用到JetBrains，先做VS Code版验证市场</td>
+          <td>JetBrains Plugin SDK（二期）</td>
+        </tr>
+        <tr>
+          <td><strong>可观测性</strong></td>
+          <td>Grafana + Prometheus + Loki</td>
+          <td><span class="tag tag-oss">开源</span></td>
+          <td>全栈监控，自托管数据不出境，Grafana可视化成熟，SLA监控和告警一体化</td>
+          <td>Datadog（成本高）</td>
+        </tr>
+        <tr>
+          <td><strong>基础设施</strong></td>
+          <td>AWS Singapore (ap-southeast-1)</td>
+          <td><span class="tag tag-cloud">云</span></td>
+          <td>新加坡区域稳定，合规材料完整，EKS容器化部署，多AZ保障99.9% SLA</td>
+          <td>腾讯云新加坡 / 阿里云新加坡</td>
+        </tr>
+        <tr>
+          <td><strong>CI/CD</strong></td>
+          <td>GitHub Actions + ArgoCD</td>
+          <td><span class="tag tag-oss">开源</span></td>
+          <td>GitOps流程标准化，ArgoCD做K8s声明式部署，蓝绿发布保障SLA</td>
+          <td>Jenkins（过重）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- S7: 路线图 -->
+<section class="sec" id="roadmap">
+  <div class="sec-hd">
+    <div class="sec-num">07 — 执行路线图</div>
+    <h2 class="sec-h2">三阶段上线路线图</h2>
+    <p class="sec-sub">MVP优先，记忆能力分阶段上线，合规工作与技术开发并行推进，不能等技术做完再补合规。</p>
+  </div>
+  <div class="rm3">
+    <div class="rm-card ph1">
+      <div class="rm-head"><div class="rm-period">第一阶段 · 0–8周</div><div class="rm-title">MVP上线<br>核心网关 + 基础记忆</div></div>
+      <div class="rm-body">
+        <div class="rm-item"><div class="rm-n">1</div><div>新加坡主体注册完成，AWS ap-southeast-1基础设施搭建</div></div>
+        <div class="rm-item"><div class="rm-n">2</div><div>New API部署，对接红熊/萌招上游资源，完成企业账号映射体系</div></div>
+        <div class="rm-item"><div class="rm-n">3</div><div>会话内记忆压缩（Layer 1）上线，验证Token节省效果</div></div>
+        <div class="rm-item"><div class="rm-n">4</div><div>基础风控：速率限制、Key管理、内容检测（异步）</div></div>
+        <div class="rm-item"><div class="rm-n">5</div><div><strong style="color:var(--red)">并行：</strong>委托律师开始合规评估，客户准入KYC流程设计</div></div>
+        <div class="rm-item"><div class="rm-n">6</div><div>面向现有商务关系的3–5家种子客户内测，收集反馈</div></div>
+      </div>
+    </div>
+    <div class="rm-card ph2">
+      <div class="rm-head"><div class="rm-period">第二阶段 · 2–4月</div><div class="rm-title">能力完善<br>跨会话记忆 + 插件</div></div>
+      <div class="rm-body">
+        <div class="rm-item"><div class="rm-n">1</div><div>跨会话长期记忆（Layer 2）上线，Qdrant向量库部署</div></div>
+        <div class="rm-item"><div class="rm-n">2</div><div>程序员VS Code插件MVP发布，面向技术用户内测</div></div>
+        <div class="rm-item"><div class="rm-n">3</div><div>充值页面前端定制完成，计费体系全面托管给New API</div></div>
+        <div class="rm-item"><div class="rm-n">4</div><div>合规律师意见出具，根据意见调整服务协议和技术架构</div></div>
+        <div class="rm-item"><div class="rm-n">5</div><div>Grafana监控体系上线，SLA监控和自动告警配置</div></div>
+        <div class="rm-item"><div class="rm-n">6</div><div>正式对外商业化，Professional套餐开始销售</div></div>
+      </div>
+    </div>
+    <div class="rm-card ph3">
+      <div class="rm-head"><div class="rm-period">第三阶段 · 4–6月</div><div class="rm-title">规模化<br>企业集成 + 私有化</div></div>
+      <div class="rm-body">
+        <div class="rm-item"><div class="rm-n">1</div><div>企业知识库集成适配器上线（Notion/Confluence优先）</div></div>
+        <div class="rm-item"><div class="rm-n">2</div><div>记忆引擎私有化部署方案打包，Enterprise Plus首单落地</div></div>
+        <div class="rm-item"><div class="rm-n">3</div><div>JetBrains插件发布，程序员插件覆盖主流IDE</div></div>
+        <div class="rm-item"><div class="rm-n">4</div><div>根据种子客户数据，优化记忆策略和Token节省效果</div></div>
+        <div class="rm-item"><div class="rm-n">5</div><div>申请AWS ISV合作伙伴资质，在AWS Marketplace上架</div></div>
+        <div class="rm-item"><div class="rm-n">6</div><div>半年复盘：产品市场契合度评估，决定下阶段投入优先级</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S8: 风险管理 -->
+<section class="sec" id="risk">
+  <div class="sec-hd">
+    <div class="sec-num">08 — 风险管理</div>
+    <h2 class="sec-h2">关键风险与对策</h2>
+  </div>
+  <div class="risk-grid">
+    <div class="risk-card" style="border-left:3px solid var(--red)">
+      <div class="rt"><span class="ri">⚡</span><span class="rtitle">合规风险（最高优先级）</span></div>
+      <div class="rbody">新加坡主体合规实质性要求、PIPL数据出境、海外API使用政策，任何一个踩雷都可能导致平台被迫停止运营。</div>
+      <div class="ract">合规工作与技术开发并行，不能等产品上线再补。第一阶段必须有律师书面意见，合规评估的结论可能影响产品架构，必须提前知晓。</div>
+    </div>
+    <div class="risk-card" style="border-left:3px solid var(--amber)">
+      <div class="rt"><span class="ri">⚡</span><span class="rtitle">记忆能力效果未经生产验证</span></div>
+      <div class="rbody">Token节省30–60%是理论预估，实际效果取决于用户使用场景和记忆质量。如果效果不达预期，产品核心卖点就会动摇。</div>
+      <div class="ract">MVP阶段优先验证记忆能力的实际Token节省数据，设计A/B测试（开启/关闭记忆对比），用真实数据替代理论数字，再开始大规模推广。</div>
+    </div>
+    <div class="risk-card" style="border-left:3px solid var(--amber)">
+      <div class="rt"><span class="ri">⚡</span><span class="rtitle">上游资源依赖风险</span></div>
+      <div class="rbody">红熊提供源码和算力，是平台最重要的上游依赖。如果红熊调整政策、源码授权出现争议，或算力供给不稳定，平台核心能力会受影响。</div>
+      <div class="ract">Token源码授权协议中确保商用权和多资源接入权（已在飞凡×红熊授权协议中体现）；技术上同时接入萌招和小融作为备用资源，不单一依赖红熊算力。</div>
+    </div>
+    <div class="risk-card" style="border-left:3px solid var(--steel)">
+      <div class="rt"><span class="ri">⚡</span><span class="rtitle">冷启动速度风险</span></div>
+      <div class="rbody">目标客户是"面向海外业务的中国企业"，这个群体的触达路径相对窄，商务关系能带来的种子客户数量有限，冷启动可能比预期慢。</div>
+      <div class="ract">第一批客户优先从红熊、小融、萌招的现有客户里转化，这些客户已有AI使用需求且有信任基础。同时准备英文版官网和文档，面向新加坡本地科技企业开拓第二梯队客户。</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+<div class="foot">
+  <div>飞凡AI服务平台综合方案 · 核心逻辑：以记忆引擎为差异化，以New API为计费基础设施，以新加坡合规部署为市场准入门槛。三阶段路线图中，合规工作必须与技术开发并行，不能后置。MVP优先验证记忆能力的实际Token节省效果，用数据驱动后续投入决策。</div>
+  <div style="white-space:nowrap;color:var(--coral)">飞凡科技 · 综合方案<br>合规评估须由律师确认</div>
+</div>
+
+</div>
+</body>
+</html>

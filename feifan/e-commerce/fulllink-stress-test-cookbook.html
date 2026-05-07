@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全链路压测指南 · 电商平台大促备战版</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #f97316;
+    --orange-light: #fed7aa;
+    --orange-deep: #c2410c;
+    --cream: #fefaf5;
+    --paper: #fff8f0;
+    --ink: #1c1917;
+    --ink-light: #44403c;
+    --ink-muted: #78716c;
+    --border: #e7e0d8;
+    --border-strong: #d4c9bc;
+    --green: #15803d;
+    --green-bg: #f0fdf4;
+    --red: #b91c1c;
+    --red-bg: #fef2f2;
+    --blue: #1d4ed8;
+    --blue-bg: #eff6ff;
+    --yellow-bg: #fefce8;
+    --yellow: #854d0e;
+    --purple: #7c3aed;
+    --purple-bg: #f5f3ff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.8;
+    font-size: 15px;
+  }
+
+  /* ── 封面 ── */
+  .cover {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #0c1a2e 100%);
+    color: white;
+    padding: 80px 60px 60px;
+    position: relative;
+    overflow: hidden;
+    min-height: 320px;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: -80px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249,115,22,0.15) 0%, transparent 65%);
+  }
+  .cover::after {
+    content: '压测';
+    position: absolute;
+    right: 40px; bottom: -30px;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 140px;
+    font-weight: 700;
+    color: rgba(249,115,22,0.07);
+    line-height: 1;
+  }
+  .cover-badge {
+    display: inline-block;
+    background: var(--orange);
+    color: white;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+  .cover h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .cover h1 span { color: var(--orange); }
+  .cover-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,0.6);
+    font-weight: 300;
+    max-width: 540px;
+  }
+  .cover-meta {
+    margin-top: 40px;
+    display: flex;
+    gap: 32px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+  }
+  .cover-meta strong { color: rgba(255,255,255,0.8); display: block; font-size: 18px; }
+
+  /* ── 布局 ── */
+  .container { max-width: 900px; margin: 0 auto; padding: 48px 40px; }
+
+  /* ── 目录 ── */
+  .toc {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--orange);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin-bottom: 48px;
+  }
+  .toc-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--orange-deep);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .toc ol { padding-left: 20px; }
+  .toc li { margin: 6px 0; font-size: 14px; }
+  .toc a { color: var(--ink-light); text-decoration: none; }
+  .toc a:hover { color: var(--orange); }
+  .toc .sub { font-size: 13px; color: var(--ink-muted); margin-left: 16px; list-style: none; }
+
+  /* ── 章节 ── */
+  .chapter { margin-bottom: 60px; }
+  .chapter-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border);
+  }
+  .chapter-num {
+    width: 44px; height: 44px;
+    background: var(--orange);
+    color: white;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 20px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .chapter-title { font-family: 'Noto Serif SC', serif; font-size: 24px; font-weight: 700; }
+  .chapter-desc { font-size: 13px; color: var(--ink-muted); margin-top: 2px; }
+
+  h3 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 28px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  h3::before {
+    content: '';
+    width: 4px; height: 18px;
+    background: var(--orange);
+    border-radius: 2px;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  h4 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-light);
+    margin: 20px 0 8px;
+    padding-left: 12px;
+    border-left: 2px solid var(--orange-light);
+  }
+
+  p { margin-bottom: 12px; color: var(--ink-light); }
+
+  /* ── 代码块 ── */
+  .code-block {
+    background: #0f172a;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 16px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .code-header {
+    background: #1e293b;
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #334155;
+  }
+  .code-lang {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--orange);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .code-dots { display: flex; gap: 5px; }
+  .code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+  .code-dots .d1 { background: #ff5f57; }
+  .code-dots .d2 { background: #febc2e; }
+  .code-dots .d3 { background: #28c840; }
+  pre {
+    padding: 20px;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #cbd5e1;
+  }
+  .kw { color: #fb923c; }
+  .fn { color: #fcd34d; }
+  .cm { color: #475569; font-style: italic; }
+  .st { color: #86efac; }
+  .nm { color: #93c5fd; }
+  .op { color: #f472b6; }
+
+  /* ── 提示框 ── */
+  .tip { background: var(--blue-bg); border-left: 3px solid var(--blue); border-radius: 0 4px 4px 0; padding: 14px 18px; margin: 16px 0; font-size: 14px; }
+  .tip strong { color: var(--blue); }
+  .warn { background: var(--yellow-bg); border-left: 3px solid #d97706; border-radius: 0 4px 4px 0; padding: 14px 18px; margin: 16px 0; font-size: 14px; }
+  .warn strong { color: #92400e; }
+  .danger { background: var(--red-bg); border-left: 3px solid var(--red); border-radius: 0 4px 4px 0; padding: 14px 18px; margin: 16px 0; font-size: 14px; }
+  .danger strong { color: var(--red); }
+  .success { background: var(--green-bg); border-left: 3px solid var(--green); border-radius: 0 4px 4px 0; padding: 14px 18px; margin: 16px 0; font-size: 14px; }
+  .success strong { color: var(--green); }
+  .purple-box { background: var(--purple-bg); border-left: 3px solid var(--purple); border-radius: 0 4px 4px 0; padding: 14px 18px; margin: 16px 0; font-size: 14px; }
+  .purple-box strong { color: var(--purple); }
+
+  /* ── 阿里实践标签 ── */
+  .alibaba-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(90deg, #f97316, #ea580c);
+    color: white;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .alibaba-tag::before { content: '🏷'; font-size: 10px; }
+  .ali-box {
+    border: 1px solid var(--orange-light);
+    border-radius: 6px;
+    background: linear-gradient(135deg, #fff7ed, #fff);
+    padding: 18px 22px;
+    margin: 16px 0;
+  }
+
+  /* ── 表格 ── */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13.5px; }
+  th { background: var(--orange); color: white; padding: 10px 14px; text-align: left; font-weight: 500; font-size: 13px; }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--ink-light); vertical-align: top; }
+  tr:nth-child(even) td { background: var(--paper); }
+  tr:hover td { background: #fff3e8; }
+  .tag-bad { color: var(--red); font-weight: 500; }
+  .tag-good { color: var(--green); font-weight: 500; }
+
+  /* ── 步骤 ── */
+  .steps { counter-reset: step; margin: 16px 0; }
+  .step { display: flex; gap: 16px; margin-bottom: 20px; }
+  .step-num {
+    width: 32px; height: 32px;
+    background: var(--orange);
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 600;
+    flex-shrink: 0;
+  }
+  .step-content { flex: 1; padding-top: 4px; }
+  .step-title { font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+
+  /* ── 指标卡片组 ── */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 16px 0;
+  }
+  .metric-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px;
+    background: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--orange);
+  }
+  .metric-card.green::before { background: var(--green); }
+  .metric-card.blue::before { background: var(--blue); }
+  .metric-card.red::before { background: var(--red); }
+  .metric-card.purple::before { background: var(--purple); }
+  .metric-name { font-size: 12px; color: var(--ink-muted); font-weight: 500; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+  .metric-value { font-family: 'Noto Serif SC', serif; font-size: 22px; font-weight: 700; color: var(--ink); }
+  .metric-desc { font-size: 12px; color: var(--ink-muted); margin-top: 4px; }
+
+  /* ── 流程图（纯CSS） ── */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 20px 0;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .flow-item {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    text-align: center;
+    flex-shrink: 0;
+    min-width: 80px;
+  }
+  .flow-item.active { background: var(--orange); color: white; border-color: var(--orange); }
+  .flow-item.warn-item { background: var(--yellow-bg); border-color: #d97706; color: #92400e; }
+  .flow-arrow {
+    color: var(--ink-muted);
+    font-size: 18px;
+    padding: 0 6px;
+    flex-shrink: 0;
+  }
+
+  /* ── 两栏布局 ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .col-card { border: 1px solid var(--border); border-radius: 6px; padding: 18px; background: white; }
+  .col-card-title { font-weight: 600; font-size: 14px; margin-bottom: 10px; color: var(--ink); }
+
+  /* ── 阈值标准卡 ── */
+  .threshold-table { margin: 0; }
+  .threshold-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 13.5px;
+  }
+  .threshold-row:last-child { border-bottom: none; }
+  .threshold-label { color: var(--ink-light); }
+  .threshold-value { font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+  .tv-green { color: var(--green); }
+  .tv-yellow { color: #d97706; }
+  .tv-red { color: var(--red); }
+
+  /* ── 避坑清单 ── */
+  .pitfall-list { margin: 0; padding: 0; list-style: none; }
+  .pitfall-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 14px;
+    color: var(--ink-light);
+  }
+  .pitfall-list li::before { content: '⚠️'; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── 复盘模板 ── */
+  .report-template {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+  .report-section {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .report-section:last-child { border-bottom: none; }
+  .report-section-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--orange-deep);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .report-section-content {
+    font-size: 13.5px;
+    color: var(--ink-muted);
+  }
+  .report-section:nth-child(even) { background: var(--paper); }
+
+  /* ── 分割线 ── */
+  .divider { border: none; height: 1px; background: linear-gradient(90deg, var(--orange), transparent); margin: 40px 0; opacity: 0.4; }
+
+  /* ── 标签 ── */
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 500; }
+  .badge-orange { background: var(--orange-light); color: var(--orange-deep); }
+  .badge-green { background: #dcfce7; color: var(--green); }
+  .badge-red { background: #fee2e2; color: var(--red); }
+  .badge-blue { background: #dbeafe; color: var(--blue); }
+
+  /* ── 页脚 ── */
+  .footer {
+    margin-top: 60px;
+    padding: 24px 40px;
+    background: #0f172a;
+    color: rgba(255,255,255,0.4);
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer span { color: var(--orange); }
+</style>
+</head>
+<body>
+
+<!-- 封面 -->
+<div class="cover">
+  <div style="position:relative;z-index:1">
+    <div class="cover-badge">平台优化系列 · Vol.2</div>
+    <h1>全链路<span>压测</span>指南<br>电商平台大促备战版</h1>
+    <p class="cover-sub">以阿里巴巴全链路压测体系为方法论基础，覆盖影子库方案、流量染色、容量规划、瓶颈排查 SOP 及大促复盘报告结构</p>
+    <div class="cover-meta">
+      <div><strong>6</strong>核心模块</div>
+      <div><strong>影子库</strong>隔离方案</div>
+      <div><strong>15+</strong>监控指标</div>
+      <div><strong>完整</strong>复盘模板</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 目录 -->
+  <div class="toc">
+    <div class="toc-title">目录 · Contents</div>
+    <ol>
+      <li><a href="#ch1">压测体系总览与核心原则</a></li>
+      <li><a href="#ch2">影子库/影子表方案设计</a>
+        <ul class="sub"><li>影子数据源配置 · 流量染色机制 · 中间件适配</li></ul>
+      </li>
+      <li><a href="#ch3">压测模型与容量规划</a>
+        <ul class="sub"><li>峰值流量估算公式 · 接口权重分配 · 测试数据准备</li></ul>
+      </li>
+      <li><a href="#ch4">关键监控指标体系</a>
+        <ul class="sub"><li>业务层 / 应用层 / 数据库层 / 基础设施层</li></ul>
+      </li>
+      <li><a href="#ch5">典型瓶颈识别与排查 SOP</a>
+        <ul class="sub"><li>从现象到根因的完整排查链路</li></ul>
+      </li>
+      <li><a href="#ch6">限流降级预案</a>
+        <ul class="sub"><li>Sentinel 热点限流 · Hystrix 熔断配置 · 降级策略</li></ul>
+      </li>
+      <li><a href="#ch7">压测复盘报告结构</a></li>
+      <li><a href="#pitfalls">避坑清单</a></li>
+    </ol>
+  </div>
+
+  <!-- Chapter 1 -->
+  <div class="chapter" id="ch1">
+    <div class="chapter-header">
+      <div class="chapter-num">1</div>
+      <div>
+        <div class="chapter-title">压测体系总览与核心原则</div>
+        <div class="chapter-desc">全链路压测不是简单地打流量，而是一套闭环体系</div>
+      </div>
+    </div>
+
+    <div class="ali-box">
+      <div class="alibaba-tag">阿里实践参考 · 技术峰会公开分享</div>
+      <p style="font-size:14px">阿里巴巴全链路压测（Full-Link Stress Testing）始于 2014 年双11备战，核心思路是：在生产环境中使用真实流量路径，通过"影子"机制隔离测试数据，确保压测结果真实反映系统容量，避免测试环境与生产环境的差异导致误判。</p>
+    </div>
+
+    <h3>1.1 全链路压测 vs 传统压测</h3>
+    <table>
+      <thead><tr><th>对比维度</th><th>传统压测</th><th>全链路压测</th></tr></thead>
+      <tbody>
+        <tr><td>测试环境</td><td>独立测试环境</td><td><strong>生产环境</strong>（影子隔离）</td></tr>
+        <tr><td>流量路径</td><td>单接口/单服务</td><td>完整业务链路（浏览→加购→下单→支付）</td></tr>
+        <tr><td>测试数据</td><td>测试库/Mock数据</td><td>影子库（基于生产数据副本）</td></tr>
+        <tr><td>结果真实性</td><td>低（环境差异大）</td><td>高（反映真实容量）</td></tr>
+        <tr><td>实施成本</td><td>低</td><td>高（需要改造各层中间件）</td></tr>
+        <tr><td>风险</td><td>无线上风险</td><td>需要严格的隔离机制</td></tr>
+      </tbody>
+    </table>
+
+    <h3>1.2 核心原则</h3>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-name">原则一</div>
+        <div class="metric-value" style="font-size:16px">生产可见</div>
+        <div class="metric-desc">压测必须在生产环境路径上跑，测试环境结论不可信</div>
+      </div>
+      <div class="metric-card green">
+        <div class="metric-name">原则二</div>
+        <div class="metric-value" style="font-size:16px">数据隔离</div>
+        <div class="metric-desc">压测产生的所有数据必须与真实数据完全隔离</div>
+      </div>
+      <div class="metric-card blue">
+        <div class="metric-name">原则三</div>
+        <div class="metric-value" style="font-size:16px">流量真实</div>
+        <div class="metric-desc">按真实业务比例模拟流量，不能只压单一接口</div>
+      </div>
+      <div class="metric-card red">
+        <div class="metric-name">原则四</div>
+        <div class="metric-value" style="font-size:16px">随时可停</div>
+        <div class="metric-desc">压测必须有一键停止机制，发现异常立即中断</div>
+      </div>
+      <div class="metric-card purple">
+        <div class="metric-name">原则五</div>
+        <div class="metric-value" style="font-size:16px">问题必改</div>
+        <div class="metric-desc">压测发现的问题不修复不得进入大促，不能带病上阵</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-name">原则六</div>
+        <div class="metric-value" style="font-size:16px">逐步加压</div>
+        <div class="metric-desc">从目标容量的 20% 开始，梯度加压，观察系统行为</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Chapter 2 -->
+  <div class="chapter" id="ch2">
+    <div class="chapter-header">
+      <div class="chapter-num">2</div>
+      <div>
+        <div class="chapter-title">影子库/影子表方案设计</div>
+        <div class="chapter-desc">数据隔离是全链路压测的基础工程，做不好即是灾难</div>
+      </div>
+    </div>
+
+    <h3>2.1 影子数据库方案对比</h3>
+    <table>
+      <thead><tr><th>方案</th><th>实现方式</th><th>优点</th><th>缺点</th><th>推荐场景</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>影子库（推荐）</strong></td>
+          <td>独立数据库实例，库名加 <code>_shadow</code> 后缀</td>
+          <td>完全隔离，风险最低</td>
+          <td>成本较高，需额外资源</td>
+          <td>核心链路（订单/支付）</td>
+        </tr>
+        <tr>
+          <td><strong>影子表</strong></td>
+          <td>同库不同表，表名加 <code>_shadow</code> 后缀</td>
+          <td>成本低，实施快</td>
+          <td>共享DB资源，可能影响生产</td>
+          <td>非核心链路（日志/行为）</td>
+        </tr>
+        <tr>
+          <td>影子Schema</td>
+          <td>同实例不同Schema</td>
+          <td>中等成本</td>
+          <td>仍共享数据库连接池</td>
+          <td>中小团队妥协方案</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>2.2 流量染色机制</h3>
+    <p>染色（Traffic Coloring）是全链路压测的灵魂：在请求入口注入压测标识，该标识在整个调用链中透传，每个服务节点依据标识决定路由到影子资源。</p>
+
+    <div class="flow">
+      <div class="flow-item active">压测工具<br><small>注入Header</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">Zuul网关<br><small>透传X-Stress-Test</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item">业务服务<br><small>识别压测标识</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item warn-item">影子数据库<br><small>写入隔离数据</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item warn-item">影子MQ<br><small>隔离消息</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-item warn-item">影子缓存<br><small>Key加压测前缀</small></div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="code-lang">Java · 压测标识透传（ThreadLocal + Filter）</div><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div></div>
+      <pre><span class="cm">// 1. 定义压测上下文</span>
+<span class="kw">public class</span> StressTestContext {
+    <span class="kw">private static final</span> ThreadLocal&lt;Boolean&gt; STRESS_FLAG =
+        <span class="kw">new</span> <span class="fn">InheritableThreadLocal</span>&lt;&gt;();
+
+    <span class="kw">public static void</span> <span class="fn">mark</span>() { STRESS_FLAG.<span class="fn">set</span>(<span class="kw">true</span>); }
+    <span class="kw">public static boolean</span> <span class="fn">isStressTest</span>() {
+        <span class="kw">return</span> Boolean.TRUE.equals(STRESS_FLAG.<span class="fn">get</span>());
+    }
+    <span class="kw">public static void</span> <span class="fn">clear</span>() { STRESS_FLAG.<span class="fn">remove</span>(); }
+}
+
+<span class="cm">// 2. Zuul Filter 识别并透传压测标识</span>
+@Component
+<span class="kw">public class</span> StressTestFilter <span class="kw">extends</span> ZuulFilter {
+    @Override
+    <span class="kw">public</span> Object <span class="fn">run</span>() {
+        RequestContext ctx = RequestContext.<span class="fn">getCurrentContext</span>();
+        HttpServletRequest req = ctx.<span class="fn">getRequest</span>();
+
+        String stressHeader = req.<span class="fn">getHeader</span>(<span class="st">"X-Stress-Test"</span>);
+        <span class="kw">if</span> (<span class="st">"true"</span>.<span class="fn">equals</span>(stressHeader)) {
+            StressTestContext.<span class="fn">mark</span>();
+            <span class="cm">// 向下游服务透传Header</span>
+            ctx.<span class="fn">addZuulRequestHeader</span>(<span class="st">"X-Stress-Test"</span>, <span class="st">"true"</span>);
+        }
+        <span class="kw">return null</span>;
+    }
+}
+
+<span class="cm">// 3. MyBatis 拦截器 — 自动替换为影子表</span>
+@Intercepts({@Signature(type=StatementHandler.class,
+             method=<span class="st">"prepare"</span>, args={Connection.class, Integer.class})})
+<span class="kw">public class</span> ShadowTableInterceptor <span class="kw">implements</span> Interceptor {
+    @Override
+    <span class="kw">public</span> Object <span class="fn">intercept</span>(Invocation invocation) <span class="kw">throws</span> Throwable {
+        <span class="kw">if</span> (StressTestContext.<span class="fn">isStressTest</span>()) {
+            StatementHandler handler = (StatementHandler) invocation.<span class="fn">getTarget</span>();
+            MetaObject meta = SystemMetaObject.<span class="fn">forObject</span>(handler);
+            String sql = (String) meta.<span class="fn">getValue</span>(<span class="st">"delegate.boundSql.sql"</span>);
+            <span class="cm">// 将表名替换为影子表：orders → orders_shadow</span>
+            String shadowSql = <span class="fn">replaceTablesToShadow</span>(sql);
+            meta.<span class="fn">setValue</span>(<span class="st">"delegate.boundSql.sql"</span>, shadowSql);
+        }
+        <span class="kw">return</span> invocation.<span class="fn">proceed</span>();
+    }
+}</pre>
+    </div>
+
+    <h3>2.3 各中间件影子化策略</h3>
+    <table>
+      <thead><tr><th>中间件</th><th>影子化方案</th><th>关键配置</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>MySQL</strong></td>
+          <td>影子库（独立实例）或影子表（表名后缀）</td>
+          <td>ShardingSphere 动态数据源 + MyBatis 拦截器</td>
+        </tr>
+        <tr>
+          <td><strong>Redis</strong></td>
+          <td>Key 加压测前缀 <code>stress:</code></td>
+          <td>RedisTemplate 包装层，根据 Context 自动加前缀</td>
+        </tr>
+        <tr>
+          <td><strong>RabbitMQ/RocketMQ</strong></td>
+          <td>压测消息投递到影子 Topic/Exchange</td>
+          <td>Topic 名后缀 <code>_shadow</code>，消费者同步部署</td>
+        </tr>
+        <tr>
+          <td><strong>Elasticsearch</strong></td>
+          <td>压测数据写入影子索引</td>
+          <td>Index 名后缀 <code>_shadow</code></td>
+        </tr>
+        <tr>
+          <td><strong>本地缓存（Caffeine）</strong></td>
+          <td>压测请求跳过本地缓存直读</td>
+          <td>缓存 Key 加标识或直接绕过</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="danger">
+      <strong>🚨 绝对禁止：</strong>压测期间向第三方支付（支付宝/微信支付）、短信服务、物流系统发送真实请求。必须在压测环境中对这些外部调用做 Mock 拦截，否则会产生真实交易和费用。
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Chapter 3 -->
+  <div class="chapter" id="ch3">
+    <div class="chapter-header">
+      <div class="chapter-num">3</div>
+      <div>
+        <div class="chapter-title">压测模型与容量规划</div>
+        <div class="chapter-desc">科学估算峰值，设计真实的压测场景</div>
+      </div>
+    </div>
+
+    <h3>3.1 峰值流量估算公式</h3>
+
+    <div class="ali-box">
+      <div class="alibaba-tag">阿里实践参考 · 容量规划方法论</div>
+      <p style="font-size:14px">阿里容量规划的核心公式：<strong>目标 TPS = 日峰值订单量 × 流量放大系数 / 业务链路中最慢节点 RT</strong>。大促场景通常以日常峰值的 <strong>3~5 倍</strong>作为压测目标，并预留 <strong>20% Buffer</strong>。</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="code-lang">容量规划计算示例</div><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div></div>
+      <pre><span class="cm">【业务背景】</span>
+日常峰值 TPS：500（每秒500笔交易）
+大促目标放大倍数：3x（达到大促 3 倍峰值）
+压测目标 TPS：500 × 3 = 1500 TPS
+安全Buffer 20%：1500 × 1.2 = 1800 TPS（压测实际打到此值）
+
+<span class="cm">【接口 TPS 分解（根据业务漏斗比例）】</span>
+商品详情页：   1800 × 10  = 18000 QPS  <span class="cm">(每笔订单10次浏览)</span>
+加购接口：      1800 × 3   =  5400 QPS  <span class="cm">(每笔订单3次加购)</span>
+下单接口：      1800 × 1   =  1800 TPS  <span class="cm">(基准)</span>
+支付接口：      1800 × 0.7 =  1260 TPS  <span class="cm">(70%下单后支付)</span>
+查询订单状态：  1800 × 5   =  9000 QPS  <span class="cm">(支付后频繁轮询)</span>
+
+<span class="cm">【Little公式：并发数估算】</span>
+并发数 = TPS × RT(秒)
+示例：下单接口 RT = 200ms → 并发数 = 1800 × 0.2 = 360 个并发</pre>
+    </div>
+
+    <h3>3.2 接口权重分配（业务漏斗模型）</h3>
+    <table>
+      <thead><tr><th>接口</th><th>业务说明</th><th>权重比例</th><th>目标QPS（基于1800TPS）</th></tr></thead>
+      <tbody>
+        <tr><td>GET /product/detail</td><td>商品详情页</td><td>35%</td><td>18,000</td></tr>
+        <tr><td>GET /search</td><td>搜索接口</td><td>20%</td><td>10,000</td></tr>
+        <tr><td>POST /cart/add</td><td>加入购物车</td><td>15%</td><td>5,400</td></tr>
+        <tr><td>POST /order/create</td><td>创建订单</td><td>10%</td><td>1,800</td></tr>
+        <tr><td>POST /pay/submit</td><td>发起支付</td><td>7%</td><td>1,260</td></tr>
+        <tr><td>GET /order/status</td><td>查询订单状态</td><td>10%</td><td>9,000</td></tr>
+        <tr><td>GET /user/coupon</td><td>查询可用优惠券</td><td>3%</td><td>3,600</td></tr>
+      </tbody>
+    </table>
+
+    <h3>3.3 压测数据准备要求</h3>
+    <div class="two-col">
+      <div class="col-card">
+        <div class="col-card-title">📦 测试账号准备</div>
+        <ul style="font-size:13.5px; padding-left:16px; color:var(--ink-light); line-height:2">
+          <li>压测专用账号：<strong>≥ 并发数 × 10</strong> 个</li>
+          <li>账号需有历史订单数据（模拟真实用户）</li>
+          <li>账号余额充足（影子支付可通过）</li>
+          <li>账号状态正常，非黑名单</li>
+        </ul>
+      </div>
+      <div class="col-card">
+        <div class="col-card-title">🛍️ 商品数据准备</div>
+        <ul style="font-size:13.5px; padding-left:16px; color:var(--ink-light); line-height:2">
+          <li>影子库商品数量：<strong>≥ 生产商品量 1/10</strong></li>
+          <li>压测商品库存充足，不限库存（避免因缺货中断压测）</li>
+          <li>商品含真实图片、描述、SKU（避免特殊逻辑绕过）</li>
+          <li>覆盖不同价格段、分类、促销类型</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tip">
+      <strong>💡 压测执行建议：</strong>推荐使用 JMeter（开源）或阿里云 PTS（商业）。建议先在凌晨低峰期做摸底压测（50% 目标量），验证影子方案无误后，再在业务低峰期（早7-9点）执行正式压测，避免对生产造成影响。
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Chapter 4 -->
+  <div class="chapter" id="ch4">
+    <div class="chapter-header">
+      <div class="chapter-num">4</div>
+      <div>
+        <div class="chapter-title">关键监控指标体系</div>
+        <div class="chapter-desc">压测期间需要四层指标全覆盖，缺一不可</div>
+      </div>
+    </div>
+
+    <h3>4.1 业务层指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>健康阈值</th><th>警告阈值</th><th>熔断阈值</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>接口成功率</td>
+          <td class="tag-good">> 99.9%</td>
+          <td>99% ~ 99.9%</td>
+          <td class="tag-bad">< 99%（立即停压）</td>
+        </tr>
+        <tr>
+          <td>下单接口 P99 RT</td>
+          <td class="tag-good">< 500ms</td>
+          <td>500ms ~ 1s</td>
+          <td class="tag-bad">> 2s</td>
+        </tr>
+        <tr>
+          <td>支付成功率</td>
+          <td class="tag-good">> 99%</td>
+          <td>98% ~ 99%</td>
+          <td class="tag-bad">< 98%</td>
+        </tr>
+        <tr>
+          <td>超时错误率</td>
+          <td class="tag-good">< 0.1%</td>
+          <td>0.1% ~ 1%</td>
+          <td class="tag-bad">> 1%</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>4.2 应用层指标（JVM + Spring Cloud）</h3>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-name">GC 频率</div>
+        <div class="metric-value">< 1次/分</div>
+        <div class="metric-desc">Full GC 超过此频率需立即排查内存泄漏</div>
+      </div>
+      <div class="metric-card green">
+        <div class="metric-name">堆内存使用率</div>
+        <div class="metric-value">< 75%</div>
+        <div class="metric-desc">峰值不超过最大堆的75%，留出GC空间</div>
+      </div>
+      <div class="metric-card blue">
+        <div class="metric-name">线程池活跃率</div>
+        <div class="metric-value">< 80%</div>
+        <div class="metric-desc">Hystrix/Tomcat线程池使用率，超过需扩容</div>
+      </div>
+      <div class="metric-card red">
+        <div class="metric-name">Hystrix 熔断率</div>
+        <div class="metric-value">< 5%</div>
+        <div class="metric-desc">熔断率过高说明下游服务或网络存在问题</td>
+      </div>
+      <div class="metric-card purple">
+        <div class="metric-name">Ribbon 重试率</div>
+        <div class="metric-value">< 1%</div>
+        <div class="metric-desc">频繁重试会放大下游压力</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-name">CPU 使用率</div>
+        <div class="metric-value">< 70%</div>
+        <div class="metric-desc">峰值 CPU 超70%需考虑扩容或优化</div>
+      </div>
+    </div>
+
+    <h3>4.3 数据库层指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>健康范围</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>HikariCP 连接池使用率</td><td class="tag-good">< 80%</td><td>超过80%连接池成瓶颈，需调大 maximumPoolSize</td></tr>
+        <tr><td>慢查询数量（> 1s）</td><td class="tag-good">0</td><td>压测期间出现慢查询必须记录并修复</td></tr>
+        <tr><td>数据库 QPS</td><td>视规格定基线</td><td>主库 QPS 不超过规格上限的 70%</td></tr>
+        <tr><td>主从延迟</td><td class="tag-good">< 100ms</td><td>超过 1s 需检查从库配置和主库写入量</td></tr>
+        <tr><td>活跃连接数</td><td class="tag-good">< max_connections × 0.7</td><td>预留连接给运维和监控使用</td></tr>
+        <tr><td>锁等待时间（innodb_lock_wait）</td><td class="tag-good">< 50ms</td><td>出现大量锁等待说明存在热点数据竞争</td></tr>
+      </tbody>
+    </table>
+
+    <h3>4.4 基础设施层指标</h3>
+    <div class="two-col">
+      <div class="col-card">
+        <div class="col-card-title">🖥️ 服务器指标</div>
+        <div class="threshold-table">
+          <div class="threshold-row"><span class="threshold-label">CPU 使用率</span><span class="threshold-value tv-green">< 70%</span></div>
+          <div class="threshold-row"><span class="threshold-label">内存使用率</span><span class="threshold-value tv-green">< 80%</span></div>
+          <div class="threshold-row"><span class="threshold-label">磁盘 I/O 利用率</span><span class="threshold-value tv-yellow">< 85%</span></div>
+          <div class="threshold-row"><span class="threshold-label">网络带宽使用率</span><span class="threshold-value tv-green">< 60%</span></div>
+          <div class="threshold-row"><span class="threshold-label">TCP CLOSE_WAIT 连接数</span><span class="threshold-value tv-yellow">< 1000</span></div>
+        </div>
+      </div>
+      <div class="col-card">
+        <div class="col-card-title">⚡ Redis 指标</div>
+        <div class="threshold-table">
+          <div class="threshold-row"><span class="threshold-label">命中率</span><span class="threshold-value tv-green">> 95%</span></div>
+          <div class="threshold-row"><span class="threshold-label">内存使用率</span><span class="threshold-value tv-yellow">< 80%</span></div>
+          <div class="threshold-row"><span class="threshold-label">连接数</span><span class="threshold-value tv-green">< maxclients × 0.7</span></div>
+          <div class="threshold-row"><span class="threshold-label">OPS（每秒操作数）</span><span class="threshold-value tv-yellow">视实例规格</span></div>
+          <div class="threshold-row"><span class="threshold-label">慢命令（> 10ms）</span><span class="threshold-value tv-red">0（必须排查）</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Chapter 5 -->
+  <div class="chapter" id="ch5">
+    <div class="chapter-header">
+      <div class="chapter-num">5</div>
+      <div>
+        <div class="chapter-title">典型瓶颈识别与排查 SOP</div>
+        <div class="chapter-desc">从告警现象到根因定位的完整排查链路</div>
+      </div>
+    </div>
+
+    <h3>5.1 接口 RT 飙升排查链路</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">定位慢接口：查 APM 调用链（SkyWalking/Zipkin）</div>
+          <p style="font-size:13.5px">找到耗时 Top5 的接口，查看调用链中哪个节点耗时最长（DB？Redis？下游服务？）</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">若是 DB 慢：查慢查询日志 + EXPLAIN</div>
+          <p style="font-size:13.5px">参考《SQL优化手册》第1章诊断流程，重点看是否有全表扫描、filesort、锁等待。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">若是 Redis 慢：查 slowlog + 热 Key 分析</div>
+          <div class="code-block">
+            <div class="code-header"><div class="code-lang">Redis CLI</div><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div></div>
+            <pre><span class="cm"># 查看慢命令</span>
+SLOWLOG GET 20
+
+<span class="cm"># 热Key分析（redis-cli --hotkeys 需Redis 4.0+）</span>
+redis-cli --hotkeys -a password
+
+<span class="cm"># 查看大Key（可能导致阻塞）</span>
+redis-cli --bigkeys</pre>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">若是线程池耗尽：用 Arthas 实时诊断</div>
+          <div class="code-block">
+            <div class="code-header"><div class="code-lang">Arthas · 实时诊断</div><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div></div>
+            <pre><span class="cm"># 查看线程状态，找BLOCKED/WAITING线程</span>
+thread -n 20
+
+<span class="cm"># 定位线程在哪里阻塞（如锁等待）</span>
+thread -b
+
+<span class="cm"># 监控某方法执行时间（找慢方法）</span>
+trace com.example.OrderService createOrder -n 5
+
+<span class="cm"># 实时监控方法调用统计</span>
+monitor com.example.OrderService createOrder -c 5</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>5.2 典型瓶颈现象与根因速查表</h3>
+    <table>
+      <thead><tr><th>现象</th><th>可能根因</th><th>快速验证命令</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>所有接口 RT 同步上升</td>
+          <td>依赖服务响应慢 / 网络带宽打满</td>
+          <td><code>sar -n DEV 1 5</code>（查网络）</td>
+        </tr>
+        <tr>
+          <td>DB 连接池满，请求排队</td>
+          <td>SQL 执行慢 / 事务未及时释放 / 连接池配置偏小</td>
+          <td><code>SHOW PROCESSLIST</code></td>
+        </tr>
+        <tr>
+          <td>GC 频繁，CPU 飙升</td>
+          <td>内存泄漏 / 大对象分配 / 堆配置太小</td>
+          <td><code>jstat -gcutil {pid} 1000</code></td>
+        </tr>
+        <tr>
+          <td>Hystrix 熔断率骤增</td>
+          <td>下游服务超时 / Hystrix 超时配置比 Ribbon 短</td>
+          <td>检查 Hystrix timeout vs Ribbon timeout 配置</td>
+        </tr>
+        <tr>
+          <td>Redis 命中率骤降</td>
+          <td>缓存 Key 批量过期（雪崩）/ 缓存穿透</td>
+          <td><code>INFO stats</code> 查 keyspace_misses</td>
+        </tr>
+        <tr>
+          <td>特定接口 RT 正常，其他接口慢</td>
+          <td>线程池隔离问题 / 热点 DB 行锁</td>
+          <td><code>SHOW ENGINE INNODB STATUS</code></td>
+        </tr>
+        <tr>
+          <td>压测一段时间后 RT 持续升高</td>
+          <td>内存泄漏 / 慢增长的锁竞争 / 消息积压</td>
+          <td>检查堆内存增长曲线 + MQ 消费滞后量</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Chapter 6 -->
+  <div class="chapter" id="ch6">
+    <div class="chapter-header">
+      <div class="chapter-num">6</div>
+      <div>
+        <div class="chapter-title">限流降级预案</div>
+        <div class="chapter-desc">压测验证容量上限，预案保障大促安全兜底</div>
+      </div>
+    </div>
+
+    <h3>6.1 Sentinel 热点参数限流配置</h3>
+    <div class="code-block">
+      <div class="code-header"><div class="code-lang">Java · Sentinel 热点限流</div><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div></div>
+      <pre><span class="cm">// 热点商品防刷：对同一 skuId 限频</span>
+@SentinelResource(
+    value = <span class="st">"getProductDetail"</span>,
+    blockHandler = <span class="st">"productDetailFallback"</span>
+)
+<span class="kw">public</span> ProductDTO <span class="fn">getProductDetail</span>(Long skuId) {
+    <span class="cm">// 业务逻辑...</span>
+}
+
+<span class="cm">// Sentinel 控制台配置（等价的代码配置）</span>
+ParamFlowRule rule = <span class="kw">new</span> <span class="fn">ParamFlowRule</span>(<span class="st">"getProductDetail"</span>)
+    .setParamIdx(<span class="nm">0</span>)           <span class="cm">// 第0个参数（skuId）</span>
+    .setGrade(RuleConstant.FLOW_GRADE_QPS)
+    .setCount(<span class="nm">100</span>)            <span class="cm">// 每个skuId每秒最多100次</span>
+    .setDurationInSec(<span class="nm">1</span>);
+
+<span class="cm">// 特例：秒杀商品额外限制更严</span>
+ParamFlowItem specialItem = <span class="kw">new</span> <span class="fn">ParamFlowItem</span>()
+    .setObject(String.valueOf(seckillSkuId))
+    .setClassType(String.class.getName())
+    .setCount(<span class="nm">10</span>);           <span class="cm">// 秒杀商品限制到10QPS</span>
+rule.<span class="fn">setParamFlowItemList</span>(Collections.singletonList(specialItem));
+ParamFlowRuleManager.<span class="fn">loadRules</span>(Collections.singletonList(rule));</pre>
+    </div>
+
+    <h3>6.2 Hystrix 熔断阈值参考配置</h3>
+
+    <div class="warn">
+      <strong>⚠️ 关键约束：</strong>Hystrix timeout 必须 > Ribbon ConnectTimeout + ReadTimeout（含重试次数）。公式：<code>HystrixTimeout > (ConnectTimeout + ReadTimeout) × (1 + MaxAutoRetries) × (1 + MaxAutoRetriesNextServer)</code>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><div class="code-lang">YAML · application.yml 熔断配置</div><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div></div>
+      <pre><span class="cm"># Ribbon超时（基础配置）</span>
+ribbon:
+  ConnectTimeout: 1000        <span class="cm"># 连接超时1s</span>
+  ReadTimeout: 3000           <span class="cm"># 读取超时3s</span>
+  MaxAutoRetries: 0           <span class="cm"># 同实例重试0次（大促推荐）</span>
+  MaxAutoRetriesNextServer: 1 <span class="cm"># 切换下一实例1次</span>
+
+<span class="cm"># Hystrix超时：必须 > Ribbon总时间</span>
+<span class="cm"># = (1000+3000) × (1+0) × (1+1) = 8000ms，留buffer设10000ms</span>
+hystrix:
+  command:
+    default:
+      execution.isolation.thread.timeoutInMilliseconds: 10000
+
+    <span class="cm"># 下单接口单独配置（更严格的SLA）</span>
+    OrderService#createOrder:
+      execution.isolation.thread.timeoutInMilliseconds: 5000
+      circuitBreaker:
+        requestVolumeThreshold: 20      <span class="cm"># 触发熔断的最小请求数</span>
+        errorThresholdPercentage: 50    <span class="cm"># 错误率超50%熔断</span>
+        sleepWindowInMilliseconds: 5000 <span class="cm"># 熔断5s后尝试恢复</span></pre>
+    </div>
+
+    <h3>6.3 三级降级预案</h3>
+    <table>
+      <thead><tr><th>降级级别</th><th>触发条件</th><th>降级动作</th><th>用户感知</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-orange">L1 自动降级</span></td>
+          <td>Hystrix 自动熔断</td>
+          <td>返回缓存数据或默认值，不调用下游</td>
+          <td>展示缓存商品信息，功能基本正常</td>
+        </tr>
+        <tr>
+          <td><span class="badge" style="background:#fde68a;color:#92400e">L2 功能降级</span></td>
+          <td>压测/大促达到 80% 容量</td>
+          <td>关闭非核心功能（推荐、评论、历史足迹）</td>
+          <td>部分功能不可用，核心下单链路正常</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-red">L3 流量管控</span></td>
+          <td>系统濒临崩溃</td>
+          <td>排队页 / 限流弹窗 / 只放核心用户</td>
+          <td>看到排队提示，体验降级但不报错</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Chapter 7 -->
+  <div class="chapter" id="ch7">
+    <div class="chapter-header">
+      <div class="chapter-num">7</div>
+      <div>
+        <div class="chapter-title">压测复盘报告结构</div>
+        <div class="chapter-desc">每次压测后必须输出结构化复盘报告，问题追踪闭环</div>
+      </div>
+    </div>
+
+    <div class="report-template">
+      <div class="report-section">
+        <div class="report-section-title">01 · 基本信息</div>
+        <div class="report-section-content">
+          压测日期 / 执行人 / 压测时长 / 影子方案版本 / 参与服务列表
+        </div>
+      </div>
+      <div class="report-section">
+        <div class="report-section-title">02 · 压测目标 vs 实际达成</div>
+        <div class="report-section-content">
+          目标 TPS / 实际达到的最高稳定 TPS / 是否达标 / 系统最高承载水位
+        </div>
+      </div>
+      <div class="report-section">
+        <div class="report-section-title">03 · 核心接口性能数据</div>
+        <div class="report-section-content">
+          各关键接口的 TP50 / TP99 / TP999 / 成功率 / 错误类型分布（制表展示）
+        </div>
+      </div>
+      <div class="report-section">
+        <div class="report-section-title">04 · 系统资源水位</div>
+        <div class="report-section-content">
+          各服务的 CPU / 内存 / 连接池 / GC 水位截图，对照阈值说明是否健康
+        </div>
+      </div>
+      <div class="report-section">
+        <div class="report-section-title">05 · 发现问题清单</div>
+        <div class="report-section-content">
+          问题编号 / 问题描述 / 根因分析 / 影响范围 / 严重程度（P0/P1/P2）/ 负责人 / 修复 Deadline
+        </div>
+      </div>
+      <div class="report-section">
+        <div class="report-section-title">06 · 瓶颈分析与优化建议</div>
+        <div class="report-section-content">
+          当前系统瓶颈点（如：连接池是最弱环节）/ 优化方向 / 预期优化后可达 TPS
+        </div>
+      </div>
+      <div class="report-section">
+        <div class="report-section-title">07 · 大促就绪评估</div>
+        <div class="report-section-content">
+          是否具备大促条件（Yes/条件具备/No）/ 待解决的 Block 问题 / 下次压测计划时间
+        </div>
+      </div>
+    </div>
+
+    <div class="success">
+      <strong>✅ 大促就绪标准：</strong>所有 P0 问题已修复 → 再次压测达标 → 限流降级预案已配置并演练 → 监控告警已接入 On-Call → 一键回滚方案已准备。五项全绿方可进入大促。
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 避坑清单 -->
+  <div class="chapter" id="pitfalls">
+    <div class="chapter-header">
+      <div class="chapter-num" style="background:#b91c1c">!</div>
+      <div>
+        <div class="chapter-title">避坑清单</div>
+        <div class="chapter-desc">全链路压测的常见翻车场景（来自真实复盘）</div>
+      </div>
+    </div>
+
+    <ul class="pitfall-list">
+      <li><strong>影子方案未覆盖 MQ 消费者：</strong>压测消息流入生产消费者，导致影子订单触发真实物流或短信通知。必须确保影子 Topic 有对应的影子消费者部署。</li>
+      <li><strong>定时任务在压测期间触发：</strong>对账、推送等定时任务恰好在压测时间窗口执行，严重干扰压测结果，必须在压测前暂停所有非关键定时任务。</li>
+      <li><strong>压测数据污染生产数据库：</strong>影子表名配置错误，数据写入了生产表。每次压测前必须验证：向影子库写入一条测试记录，确认生产库中无对应记录。</li>
+      <li><strong>只压单接口得出错误结论：</strong>单独压下单接口可能轻松达标，但真实大促时商品详情页的并发会同时打满 DB，必须按业务漏斗比例同时施压。</li>
+      <li><strong>压测流量全来自同一 IP：</strong>被接入层（Nginx/WAF）误识别为攻击流量限速，导致压测结果失真。压测工具需配置分布式出口 IP。</li>
+      <li><strong>忽略 JVM 预热阶段：</strong>压测开始的 1~2 分钟内，JIT 未充分编译，RT 偏高，该阶段数据不应纳入结果统计。建议先低流量预热5分钟。</li>
+      <li><strong>Hystrix 超时 < Ribbon 超时：</strong>导致请求在 Ribbon 还在等待时就被 Hystrix 熔断，触发大量不必要的熔断，掩盖了真实瓶颈。</li>
+      <li><strong>压测完不清理影子数据：</strong>影子库数据持续积累，下次压测时"历史数据"影响扫描行数，进而影响索引选择，导致前后压测结果不可比较。</li>
+      <li><strong>监控没有提前验证：</strong>压测期间发现监控面板无数据（采集配置问题），无法判断系统状态，盲目继续加压。监控可用性必须在压测前做端到端验证。</li>
+      <li><strong>人工宣布"达标"没有量化标准：</strong>必须预先定义明确的达标标准（成功率 / P99 / 资源水位），避免主观判断导致带着隐患上大促。</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- 页脚 -->
+<div class="footer">
+  <div>全链路压测指南 · 电商平台大促备战版 · <span>飞凡科技</span> 技术团队</div>
+  <div>以阿里巴巴全链路压测体系为基础 · 内部培训材料</div>
+</div>
+
+</body>
+</html>

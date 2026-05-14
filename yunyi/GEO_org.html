@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEO 业务组织架构 · 飞凡科技</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg:       #faf9f7;
+  --surface:  #ffffff;
+  --surf2:    #f5f4f0;
+  --ink:      #1a1915;
+  --ink2:     #2d2c27;
+  --muted:    #6b6860;
+  --dim:      #b8b5ae;
+  --border:   #e8e5df;
+  --border2:  #d4d0c8;
+
+  /* role colors — warm, editorial */
+  --c-ceo:    #1a1915;
+  --bg-ceo:   #1a1915;
+
+  --c-biz:    #5c4a1e;
+  --bg-biz:   #fdf4e3;
+  --bd-biz:   #e8d5a3;
+
+  --c-tech:   #1a3a52;
+  --bg-tech:  #e8f2fb;
+  --bd-tech:  #b8d4ed;
+
+  --c-eng:    #1e4a35;
+  --bg-eng:   #eaf5ef;
+  --bd-eng:   #a8d8bc;
+
+  --c-ops:    #3d1a52;
+  --bg-ops:   #f2ecfb;
+  --bd-ops:   #cdb8ed;
+
+  --c-flex:   #4a3010;
+  --bg-flex:  #faf0e6;
+  --bd-flex:  #ddc5a0;
+
+  --r: 10px;
+  --r-sm: 7px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Geist', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  padding: 52px 48px 72px;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 48px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.page-title h1 {
+  font-family: 'Newsreader', serif;
+  font-size: clamp(24px, 3.5vw, 36px);
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.page-title h1 em {
+  font-style: italic;
+  color: var(--muted);
+}
+.page-meta {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: var(--dim);
+  letter-spacing: 0.5px;
+  text-align: right;
+  line-height: 1.8;
+}
+
+/* ── CHART LAYOUT ── */
+.chart-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ── TIER LABELS ── */
+.tier-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 10px;
+}
+
+/* ── NODE BASE ── */
+.node {
+  border-radius: var(--r);
+  padding: 16px 20px;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  position: relative;
+  transition: box-shadow 0.15s ease;
+}
+.node:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+.node-eyebrow {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  color: var(--dim);
+}
+.node-name {
+  font-family: 'Newsreader', serif;
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  margin-bottom: 3px;
+}
+.node-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.node-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 9px;
+}
+.chip {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  letter-spacing: 0.3px;
+  background: var(--surf2);
+}
+.flex-badge {
+  display: inline-block;
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  margin-left: 6px;
+  vertical-align: middle;
+  letter-spacing: 0.5px;
+}
+
+/* ── CEO ── */
+.node-ceo {
+  background: var(--bg-ceo);
+  border-color: var(--bg-ceo);
+  padding: 20px 28px;
+}
+.node-ceo .node-eyebrow { color: rgba(255,255,255,0.35); }
+.node-ceo .node-name    { color: #ffffff; font-size: 19px; }
+.node-ceo .node-desc    { color: rgba(255,255,255,0.5); }
+.node-ceo .chip {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.55);
+}
+
+/* ── BIZ ── */
+.node-biz {
+  background: var(--bg-biz);
+  border-color: var(--bd-biz);
+}
+.node-biz .node-eyebrow { color: #9a7a30; }
+.node-biz .node-name    { color: var(--c-biz); }
+.node-biz .chip { background: rgba(255,255,255,0.6); border-color: var(--bd-biz); }
+
+/* ── TECH LEAD ── */
+.node-tech {
+  background: var(--bg-tech);
+  border-color: var(--bd-tech);
+}
+.node-tech .node-eyebrow { color: #2a6090; }
+.node-tech .node-name    { color: var(--c-tech); }
+.node-tech .chip { background: rgba(255,255,255,0.6); border-color: var(--bd-tech); }
+
+/* ── ENG ── */
+.node-eng {
+  background: var(--bg-eng);
+  border-color: var(--bd-eng);
+}
+.node-eng .node-eyebrow { color: #2a7048; }
+.node-eng .node-name    { color: var(--c-eng); font-size: 15px; }
+.node-eng .chip { background: rgba(255,255,255,0.6); border-color: var(--bd-eng); }
+
+/* ── OPS ── */
+.node-ops {
+  background: var(--bg-ops);
+  border-color: var(--bd-ops);
+}
+.node-ops .node-eyebrow { color: #6a3a90; }
+.node-ops .node-name    { color: var(--c-ops); font-size: 15px; }
+.node-ops .chip { background: rgba(255,255,255,0.6); border-color: var(--bd-ops); }
+
+/* ── FLEX (dashed) ── */
+.node-flex {
+  background: var(--bg-flex);
+  border-color: var(--bd-flex);
+  border-style: dashed;
+}
+.node-flex .node-eyebrow { color: #7a5828; }
+.node-flex .node-name    { color: var(--c-flex); font-size: 15px; }
+.node-flex .chip { background: rgba(255,255,255,0.6); border-color: var(--bd-flex); }
+.node-flex .flex-badge   { background: #f5e8d0; color: var(--c-flex); border: 1px solid var(--bd-flex); }
+
+/* ── ROWS ── */
+.row-center {
+  display: flex;
+  justify-content: center;
+}
+.row-two {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+.row-three {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+.row-two-center {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+.col-half { width: calc(50% - 9px); min-width: 0; }
+.col-third { flex: 1; min-width: 0; }
+.col-half-sm { flex: 1; min-width: 0; }
+
+/* ── CONNECTOR SVG STRIPS ── */
+.conn {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+.conn svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+/* ── COLLABORATION TABLE ── */
+.collab-section {
+  margin-top: 44px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+.collab-title {
+  font-family: 'Newsreader', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  margin-bottom: 20px;
+}
+.collab-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+.collab-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 16px 18px;
+}
+.collab-pair {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink2);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.collab-pair .arrow {
+  color: var(--dim);
+  font-size: 13px;
+}
+.collab-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── LEGEND & STATS ── */
+.bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.legend {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+.legend-swatch {
+  width: 12px; height: 12px;
+  border-radius: 3px;
+}
+.legend-dashed {
+  width: 20px; height: 1px;
+  background: repeating-linear-gradient(90deg, var(--dim) 0,var(--dim) 5px,transparent 5px,transparent 9px);
+}
+.legend-solid {
+  width: 20px; height: 1px;
+  background: var(--dim);
+}
+.stats-row {
+  display: flex;
+  gap: 12px;
+}
+.stat-pill {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 8px 18px;
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Newsreader', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1;
+  display: block;
+  margin-bottom: 2px;
+}
+.stat-lbl {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px;
+  color: var(--dim);
+  letter-spacing: 1px;
+}
+
+/* ── CONNECTOR LINES (drawn via SVG) ── */
+line.solid { stroke: var(--border2); stroke-width: 1; fill: none; }
+line.dashed { stroke: var(--border2); stroke-width: 1; fill: none; stroke-dasharray: 4 3; }
+
+/* ── SCOPE BRACKET ── */
+.scope {
+  border: 1.5px solid var(--bd-tech);
+  border-radius: 12px;
+  padding: 18px 18px 18px;
+  position: relative;
+  background: rgba(232,242,251,0.3);
+}
+.scope-tag {
+  position: absolute;
+  top: -11px;
+  left: 16px;
+  background: var(--bg);
+  padding: 0 8px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #2a6090;
+  text-transform: uppercase;
+}
+
+/* ── GAP SPACERS ── */
+.gap-28 { height: 28px; }
+.gap-20 { height: 20px; }
+
+/* ── ANIMATION ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.chart-wrap > * {
+  animation: fadeUp 0.4s ease both;
+}
+.chart-wrap > *:nth-child(1) { animation-delay: 0.0s; }
+.chart-wrap > *:nth-child(2) { animation-delay: 0.06s; }
+.chart-wrap > *:nth-child(3) { animation-delay: 0.12s; }
+.chart-wrap > *:nth-child(4) { animation-delay: 0.18s; }
+.chart-wrap > *:nth-child(5) { animation-delay: 0.24s; }
+.chart-wrap > *:nth-child(6) { animation-delay: 0.30s; }
+.chart-wrap > *:nth-child(7) { animation-delay: 0.36s; }
+.chart-wrap > *:nth-child(8) { animation-delay: 0.42s; }
+</style>
+</head>
+<body>
+
+<!-- ── PAGE HEADER ── -->
+<div class="page-header">
+  <div class="page-title">
+    <h1>GEO 业务组织架构<br><em>创业期最小化配置</em></h1>
+  </div>
+  <div class="page-meta">
+    飞凡科技<br>
+    2026.05 · V1.0<br>
+    全局视角
+  </div>
+</div>
+
+<!-- ── CHART ── -->
+<div class="chart-wrap">
+
+  <!-- TIER 1: CEO -->
+  <div class="tier-label">决策层</div>
+  <div class="row-center">
+    <div class="node node-ceo" style="width:320px;">
+      <div class="node-eyebrow">执行长</div>
+      <div class="node-name">CEO</div>
+      <div class="node-desc">战略方向 · 商务拓展 · 合作伙伴关系 · 最终决策</div>
+      <div class="node-chips">
+        <span class="chip">战略</span>
+        <span class="chip">商务谈判</span>
+        <span class="chip">资源调配</span>
+        <span class="chip">对外代表</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONNECTOR CEO → L2 -->
+  <div class="gap-28"></div>
+  <div style="position:relative;height:0;overflow:visible;">
+    <svg style="position:absolute;top:-28px;left:0;width:100%;height:28px;overflow:visible;" preserveAspectRatio="none">
+      <!-- vertical stem -->
+      <line class="solid" x1="50%" y1="0" x2="50%" y2="28"/>
+      <!-- horizontal -->
+      <line class="solid" x1="27%" y1="28" x2="73%" y2="28"/>
+      <!-- left drop -->
+      <line class="solid" x1="27%" y1="28" x2="27%" y2="28"/>
+      <!-- right drop -->
+      <line class="solid" x1="73%" y1="28" x2="73%" y2="28"/>
+    </svg>
+  </div>
+
+  <!-- TIER 2: BIZ + TECH -->
+  <div class="tier-label" style="margin-top:0;">管理层</div>
+  <div class="row-two">
+
+    <!-- 产品业务负责人 -->
+    <div class="node node-biz col-half">
+      <div class="node-eyebrow">产品业务</div>
+      <div class="node-name">产品业务负责人</div>
+      <div class="node-desc">需求定义 · 客户交付 · 内容策略 · 运营协同</div>
+      <div class="node-chips">
+        <span class="chip">产品规划</span>
+        <span class="chip">客户运营</span>
+        <span class="chip">内容方向</span>
+        <span class="chip">交付把控</span>
+      </div>
+    </div>
+
+    <!-- 技术负责人 -->
+    <div class="node node-tech col-half">
+      <div class="node-eyebrow">技术领导</div>
+      <div class="node-name">技术负责人</div>
+      <div class="node-desc">平台架构 · 技术选型 · 工程质量 · 团队管理</div>
+      <div class="node-chips">
+        <span class="chip">系统架构</span>
+        <span class="chip">开源选型</span>
+        <span class="chip">工程质量</span>
+        <span class="chip">研发管理</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CONNECTOR BIZ → exec layer -->
+  <div class="gap-28"></div>
+  <div style="position:relative;height:0;overflow:visible;">
+    <svg style="position:absolute;top:-28px;left:0;width:100%;height:28px;overflow:visible;" preserveAspectRatio="none">
+      <!-- BIZ side: 27% center, spans 14% to 41% -->
+      <line class="solid" x1="27%" y1="0" x2="27%" y2="28"/>
+      <line class="solid" x1="14%" y1="28" x2="41%" y2="28"/>
+      <line class="solid" x1="14%" y1="28" x2="14%" y2="28"/>
+      <line class="solid" x1="41%" y1="28" x2="41%" y2="28"/>
+      <!-- TECH side: 73% center, spans 58% to 88% -->
+      <line class="solid" x1="73%" y1="0" x2="73%" y2="28"/>
+      <line class="solid" x1="58%" y1="28" x2="88%" y2="28"/>
+      <line class="solid" x1="58%" y1="28" x2="58%" y2="28"/>
+      <line class="solid" x1="88%" y1="28" x2="88%" y2="28"/>
+    </svg>
+  </div>
+
+  <!-- TIER 3: EXECUTION  -->
+  <div class="tier-label">执行层 · 产品业务侧</div>
+  <div class="row-two" style="margin-bottom:14px;">
+
+    <!-- BD 商务 -->
+    <div class="node node-biz col-half" style="border-color:#dcc888;">
+      <div class="node-eyebrow">商务拓展</div>
+      <div class="node-name">BD · 商务</div>
+      <div class="node-desc">客户获取 · 方案讲解 · 合同跟进</div>
+      <div class="node-chips">
+        <span class="chip">销售</span>
+        <span class="chip">方案演示</span>
+        <span class="chip">渠道拓展</span>
+      </div>
+    </div>
+
+    <!-- GEO 项目经理 -->
+    <div class="node node-ops col-half">
+      <div class="node-eyebrow">项目交付</div>
+      <div class="node-name">GEO 项目经理</div>
+      <div class="node-desc">交付管理 · 客户月报 · 流程协调</div>
+      <div class="node-chips">
+        <span class="chip">交付节点</span>
+        <span class="chip">效果报告</span>
+        <span class="chip">跨团队协调</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 内容运营 + 合规审核 -->
+  <div class="row-two">
+
+    <div class="node node-biz col-half" style="border-color:#dcc888;">
+      <div class="node-eyebrow">内容运营</div>
+      <div class="node-name">内容运营</div>
+      <div class="node-desc">素材库维护 · 内容生产 · 多平台分发</div>
+      <div class="node-chips">
+        <span class="chip">GEOFlow 操作</span>
+        <span class="chip">Prompt 矩阵</span>
+        <span class="chip">渠道分发</span>
+      </div>
+    </div>
+
+    <div class="node node-flex col-half">
+      <div class="node-eyebrow">合规把控</div>
+      <div class="node-name">
+        合规审核
+        <span class="flex-badge">外聘</span>
+      </div>
+      <div class="node-desc">AI 内容核查 · 事实溯源 · 广告法审查</div>
+      <div class="node-chips">
+        <span class="chip">按篇计费</span>
+        <span class="chip">PM 日常管理</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CONNECTOR tech side → tech team -->
+  <div class="gap-28"></div>
+
+  <!-- TIER 3: TECH EXECUTION -->
+  <div class="tier-label">执行层 · 技术侧</div>
+
+  <!-- Scope box -->
+  <div class="scope">
+    <div class="scope-tag">技术负责人直管</div>
+
+    <!-- 3 full-time engineers -->
+    <div class="row-three" style="margin-bottom:12px;">
+
+      <div class="node node-eng col-third">
+        <div class="node-eyebrow">平台工程</div>
+        <div class="node-name">全栈工程师</div>
+        <div class="node-desc">探测引擎 · GEOFlow 改造 · Dashboard</div>
+        <div class="node-chips">
+          <span class="chip">Python</span>
+          <span class="chip">Next.js</span>
+          <span class="chip">PostgreSQL</span>
+        </div>
+      </div>
+
+      <div class="node node-eng col-third">
+        <div class="node-eyebrow">AI 工程</div>
+        <div class="node-name">AI 工程师</div>
+        <div class="node-desc">Dify 工作流 · RAG 管道 · LiteLLM 接入</div>
+        <div class="node-chips">
+          <span class="chip">Dify</span>
+          <span class="chip">LangGraph</span>
+          <span class="chip">Milvus</span>
+        </div>
+      </div>
+
+      <div class="node node-eng col-third">
+        <div class="node-eyebrow">服务工程</div>
+        <div class="node-name">后端工程师</div>
+        <div class="node-desc">API 服务 · 多租户架构 · n8n 集成</div>
+        <div class="node-chips">
+          <span class="chip">FastAPI</span>
+          <span class="chip">Redis</span>
+          <span class="chip">Docker</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 2 flex -->
+    <div class="row-two-center">
+
+      <div class="node node-flex col-half-sm">
+        <div class="node-eyebrow">数据工程</div>
+        <div class="node-name">
+          数据工程师
+          <span class="flex-badge">兼职</span>
+        </div>
+        <div class="node-desc">归因分析 · ClickHouse · ROI 报告</div>
+        <div class="node-chips">
+          <span class="chip">Phase 3 介入</span>
+          <span class="chip">按需</span>
+        </div>
+      </div>
+
+      <div class="node node-flex col-half-sm">
+        <div class="node-eyebrow">基础设施</div>
+        <div class="node-name">
+          运维工程师
+          <span class="flex-badge">兼职</span>
+        </div>
+        <div class="node-desc">K8s 部署 · 新加坡节点 · 监控告警</div>
+        <div class="node-chips">
+          <span class="chip">节点上线时介入</span>
+          <span class="chip">按需</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── COLLABORATION ── -->
+  <div class="collab-section">
+    <div class="collab-title">主要协作关系</div>
+    <div class="collab-grid">
+
+      <div class="collab-card">
+        <div class="collab-pair">
+          CEO <span class="arrow">↔</span> 产品业务负责人
+        </div>
+        <div class="collab-desc">商务线由 CEO 主导，产品业务负责人负责需求落地与客户日常交付，向 CEO 汇报业务进展。</div>
+      </div>
+
+      <div class="collab-card">
+        <div class="collab-pair">
+          CEO <span class="arrow">↔</span> 技术负责人
+        </div>
+        <div class="collab-desc">技术负责人向 CEO 汇报技术架构方向与重大资源需求，不参与商务与客户关系事务。</div>
+      </div>
+
+      <div class="collab-card">
+        <div class="collab-pair">
+          产品业务负责人 <span class="arrow">↔</span> 技术负责人
+        </div>
+        <div class="collab-desc">产品业务负责人输入业务需求与优先级，技术负责人输出技术方案与工程排期，需求评审为核心接口。</div>
+      </div>
+
+      <div class="collab-card">
+        <div class="collab-pair">
+          产品业务负责人 <span class="arrow">→</span> BD · 内容运营 · PM
+        </div>
+        <div class="collab-desc">产品业务负责人直管 BD 商务、内容运营、GEO 项目经理，负责业务侧日常执行与客户交付节奏管控。</div>
+      </div>
+
+      <div class="collab-card">
+        <div class="collab-pair">
+          技术负责人 <span class="arrow">→</span> 全栈 · AI · 后端工程师
+        </div>
+        <div class="collab-desc">技术负责人直管三位全职工程师，负责架构决策、代码审查、技术方向把控，数据与运维工程师按项目节点介入。</div>
+      </div>
+
+      <div class="collab-card">
+        <div class="collab-pair">
+          GEO 项目经理 <span class="arrow">→</span> 合规审核
+        </div>
+        <div class="collab-desc">合规审核由 GEO 项目经理日常管理，负责内容发布前的合规核查流转，按篇计费，不进入全职编制。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── BOTTOM ── -->
+  <div class="bottom-row">
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:var(--bg-biz);border:1px solid var(--bd-biz);"></div>
+        产品业务线
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:var(--bg-eng);border:1px solid var(--bd-eng);"></div>
+        技术工程线（全职）
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:var(--bg-flex);border:1px dashed var(--bd-flex);"></div>
+        弹性配置（外聘 / 兼职）
+      </div>
+      <div class="legend-item">
+        <div class="legend-dashed"></div>
+        外聘 / 按需边界
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-pill">
+        <span class="stat-num">6</span>
+        <span class="stat-lbl">全职岗位</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-num">3</span>
+        <span class="stat-lbl">兼职 / 外聘</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-num">≈90万</span>
+        <span class="stat-lbl">年度人力预算</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /chart-wrap -->
+
+</body>
+</html>

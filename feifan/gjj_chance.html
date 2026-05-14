@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>杭州公积金项目 · 合伙人内部材料</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─────────────────────────────────────────── */
+:root {
+  --ink:        #0e1a26;
+  --ink-2:      #334455;
+  --ink-3:      #6b7f92;
+  --ink-4:      #a8b8c6;
+  --surface:    #f5f3ee;
+  --surface-2:  #eceae3;
+  --white:      #ffffff;
+  --blue:       #1652c9;
+  --blue-2:     #ddeaff;
+  --green:      #0a6644;
+  --green-2:    #d1f5e4;
+  --amber:      #92500a;
+  --amber-2:    #fef2d6;
+  --red:        #991b1b;
+  --red-2:      #fee2e2;
+  --border:     rgba(14,26,38,.09);
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --shadow-sm:  0 1px 3px rgba(0,0,0,.07), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:  0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04);
+}
+
+/* ─── RESET ──────────────────────────────────────────── */
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 13px; line-height: 1.65;
+  background: var(--surface);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── NAV ────────────────────────────────────────────── */
+.nav {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(245,243,238,.94);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 40px; height: 52px;
+  gap: 20px;
+}
+.nav-brand {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px; font-weight: 700;
+  color: var(--ink); white-space: nowrap;
+  letter-spacing: .02em;
+}
+.nav-brand em { color: var(--blue); font-style: normal; }
+.nav-tabs { display: flex; gap: 2px; }
+.nav-tab {
+  padding: 5px 13px;
+  font-size: 12px; font-weight: 500;
+  color: var(--ink-3);
+  background: none; border: none; cursor: pointer;
+  border-radius: 6px; transition: all .15s;
+  white-space: nowrap;
+}
+.nav-tab:hover { color: var(--ink); background: var(--surface-2); }
+.nav-tab.active {
+  color: var(--ink);
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+.nav-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--ink-4);
+  white-space: nowrap;
+}
+
+/* ─── PAGES ──────────────────────────────────────────── */
+.page { display: none; max-width: 960px; margin: 0 auto; padding: 40px 40px 60px; }
+.page.active { display: block; animation: fadein .25s ease; }
+@keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* ─── HERO ───────────────────────────────────────────── */
+.hero { margin-bottom: 36px; }
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--blue);
+  margin-bottom: 12px;
+}
+.hero-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 32px; font-weight: 900;
+  line-height: 1.25; color: var(--ink);
+  margin-bottom: 12px;
+}
+.hero-sub {
+  font-size: 14px; color: var(--ink-2);
+  max-width: 620px; line-height: 1.75;
+}
+
+/* ─── SECTION HEADING ────────────────────────────────── */
+.sec-head {
+  display: flex; align-items: baseline;
+  gap: 10px; margin: 32px 0 16px;
+}
+.sec-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 600;
+  color: var(--blue); letter-spacing: .06em;
+}
+.sec-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 17px; font-weight: 700; color: var(--ink);
+}
+
+/* ─── STAT ROW ───────────────────────────────────────── */
+.stat-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 28px; }
+.stat {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+}
+.stat-label { font-size: 10px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+.stat-val {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 26px; font-weight: 700; color: var(--ink);
+  margin-bottom: 3px;
+}
+.stat-val small { font-size: 14px; font-weight: 400; color: var(--ink-3); }
+.stat-sub { font-size: 10px; color: var(--ink-4); }
+
+/* ─── CARD ───────────────────────────────────────────── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+}
+.card + .card { margin-top: 10px; }
+.card-title {
+  font-size: 12px; font-weight: 600; color: var(--ink);
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.card-title::before {
+  content: '';
+  display: block; width: 3px; height: 14px;
+  background: var(--blue); border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ─── GRID ───────────────────────────────────────────── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.g-span2 { grid-column: span 2; }
+
+/* ─── MONEY FLOW ─────────────────────────────────────── */
+.flow { display: flex; align-items: stretch; gap: 0; margin: 14px 0 6px; }
+.flow-box {
+  flex: 1; border-radius: var(--radius-md);
+  padding: 14px 10px; text-align: center;
+}
+.flow-arrow {
+  display: flex; align-items: center;
+  padding: 0 8px; font-size: 16px; color: var(--ink-4);
+  flex-shrink: 0;
+}
+.flow-label { font-size: 10px; color: inherit; opacity: .7; margin-bottom: 4px; }
+.flow-val {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 17px; font-weight: 700;
+  line-height: 1.2; margin-bottom: 3px;
+}
+.flow-sub { font-size: 10px; opacity: .75; line-height: 1.4; }
+.fb-blue { background: var(--blue-2); color: var(--blue); }
+.fb-gray { background: var(--surface-2); color: var(--ink-2); }
+.fb-amber { background: var(--amber-2); color: var(--amber); }
+.fb-green { background: var(--green-2); color: var(--green); }
+
+/* ─── PILLS ──────────────────────────────────────────── */
+.pill {
+  display: inline-block;
+  font-size: 10px; font-weight: 500;
+  padding: 2px 9px; border-radius: 99px;
+  line-height: 1.5; white-space: nowrap;
+}
+.p-blue  { background: var(--blue-2);  color: var(--blue); }
+.p-green { background: var(--green-2); color: var(--green); }
+.p-amber { background: var(--amber-2); color: var(--amber); }
+.p-red   { background: var(--red-2);   color: var(--red); }
+.p-gray  { background: var(--surface-2); color: var(--ink-3); border: 1px dashed var(--border); }
+
+/* ─── ALERTS ─────────────────────────────────────────── */
+.alert {
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  font-size: 12px; line-height: 1.7;
+}
+.alert strong { font-weight: 600; }
+.a-green { background: var(--green-2); color: var(--green); border: 1px solid #6ee7b7; }
+.a-blue  { background: var(--blue-2);  color: var(--blue);  border: 1px solid #93c5fd; }
+.a-amber { background: var(--amber-2); color: var(--amber); border: 1px solid #fcd34d; }
+.a-red   { background: var(--red-2);   color: var(--red);   border: 1px solid #fca5a5; }
+
+/* ─── TABLE ──────────────────────────────────────────── */
+.tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+.tbl th {
+  font-size: 10px; font-weight: 600; color: var(--ink-3);
+  text-align: left; padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  text-transform: uppercase; letter-spacing: .05em;
+  background: var(--surface);
+}
+.tbl th:first-child { border-radius: var(--radius-sm) 0 0 0; }
+.tbl th:last-child  { border-radius: 0 var(--radius-sm) 0 0; }
+.tbl td {
+  padding: 10px 10px;
+  border-bottom: 1px solid rgba(14,26,38,.05);
+  color: var(--ink); vertical-align: top; line-height: 1.55;
+}
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:hover td { background: var(--surface); transition: background .1s; }
+
+/* ─── PERSON CARDS ───────────────────────────────────── */
+.person-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+.pcard {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-top: 3px solid;
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+.pcard-role { font-size: 10px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+.pcard-name { font-family: 'Noto Serif SC', serif; font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.pcard-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+.pcard-ai {
+  font-size: 10px; color: var(--amber);
+  background: var(--amber-2);
+  border-radius: var(--radius-sm);
+  padding: 5px 8px; line-height: 1.5;
+}
+.pcard-load { font-size: 10px; color: var(--ink-4); margin-top: 6px; }
+
+/* ─── PROGRESS BARS ──────────────────────────────────── */
+.prog { margin-bottom: 13px; }
+.prog-head { display: flex; justify-content: space-between; margin-bottom: 5px; }
+.prog-name { font-size: 12px; color: var(--ink); font-weight: 500; }
+.prog-val  { font-size: 11px; color: var(--ink-3); }
+.prog-bar  { height: 7px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 4px; }
+
+/* ─── PHASE STRIP ────────────────────────────────────── */
+.phase-strip {
+  display: flex; gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden; margin: 14px 0;
+}
+.ps {
+  flex: 1; padding: 12px 10px;
+  border-right: 1px solid var(--border);
+}
+.ps:last-child { border-right: none; }
+.ps-label { font-size: 9px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 3px; }
+.ps-date  { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; margin-bottom: 6px; }
+.ps-pct   { font-family: 'Noto Serif SC', serif; font-size: 24px; font-weight: 700; }
+.ps-amt   { font-size: 10px; color: var(--ink-3); margin-top: 2px; }
+
+/* ─── TIMELINE ───────────────────────────────────────── */
+.timeline { padding-left: 28px; position: relative; }
+.timeline::before {
+  content: ''; position: absolute;
+  left: 8px; top: 8px; bottom: 8px;
+  width: 1px; background: var(--border);
+}
+.tl-item { position: relative; margin-bottom: 20px; }
+.tl-item:last-child { margin-bottom: 0; }
+.tl-dot {
+  position: absolute; left: -24px; top: 4px;
+  width: 10px; height: 10px;
+  border-radius: 50%; border: 2px solid;
+}
+.td-blue  { background: var(--blue-2);  border-color: var(--blue); }
+.td-green { background: var(--green-2); border-color: var(--green); }
+.td-amber { background: var(--amber-2); border-color: var(--amber); }
+.td-gray  { background: var(--surface-2); border-color: var(--ink-4); }
+.tl-date { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-3); margin-bottom: 3px; }
+.tl-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+.tl-desc  { font-size: 12px; color: var(--ink-2); line-height: 1.6; }
+
+/* ─── RISK ITEMS ─────────────────────────────────────── */
+.risk-item {
+  display: flex; gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(14,26,38,.06);
+}
+.risk-item:last-child { border-bottom: none; }
+.risk-icon {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0;
+}
+.risk-body { flex: 1; }
+.risk-title {
+  font-size: 13px; font-weight: 600; color: var(--ink);
+  margin-bottom: 4px;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.risk-desc { font-size: 12px; color: var(--ink-2); line-height: 1.6; margin-bottom: 6px; }
+.risk-action {
+  border-radius: var(--radius-sm);
+  padding: 7px 10px;
+  font-size: 11px; line-height: 1.55;
+}
+
+/* ─── LOAD TABLE ─────────────────────────────────────── */
+.load-tbl { width: 100%; border-collapse: collapse; font-size: 11px; }
+.load-tbl th {
+  font-size: 10px; font-weight: 600; color: var(--ink-3);
+  padding: 7px 8px; border-bottom: 1px solid var(--border);
+  text-align: center; background: var(--surface);
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.load-tbl th:first-child { text-align: left; }
+.load-tbl td {
+  padding: 9px 8px; border-bottom: 1px solid rgba(14,26,38,.05);
+  text-align: center; color: var(--ink);
+}
+.load-tbl td:first-child { text-align: left; font-weight: 600; }
+.load-tbl tr:last-child td { border-bottom: none; }
+.lc-full  { color: #991b1b; font-weight: 700; }
+.lc-high  { color: var(--amber); font-weight: 600; }
+.lc-med   { color: var(--blue); }
+.lc-low   { color: var(--green); }
+.lc-faint { color: var(--ink-4); }
+
+/* ─── DECISION BOX ───────────────────────────────────── */
+.decision {
+  background: var(--green-2);
+  border: 1.5px solid #6ee7b7;
+  border-radius: var(--radius-lg);
+  padding: 22px 26px;
+}
+.decision-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 20px; font-weight: 700;
+  color: var(--green); margin-bottom: 10px;
+}
+.decision-body { font-size: 13px; color: var(--green); line-height: 1.8; }
+.decision-body ol { padding-left: 20px; margin-top: 8px; }
+.decision-body li { margin-bottom: 4px; }
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+.page-footer {
+  margin-top: 48px; padding-top: 18px;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-l { font-size: 11px; color: var(--ink-4); }
+.footer-r { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-4); }
+
+/* ─── UTILS ──────────────────────────────────────────── */
+.mt8  { margin-top:  8px; }
+.mt12 { margin-top: 12px; }
+.mt16 { margin-top: 16px; }
+.mb12 { margin-bottom: 12px; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+.serif { font-family: 'Noto Serif SC', serif; }
+.txt-ink2 { color: var(--ink-2); }
+.txt-ink3 { color: var(--ink-3); }
+.fw6 { font-weight: 600; }
+.fs11 { font-size: 11px; }
+.fs12 { font-size: 12px; }
+
+/* ─── SCENARIO CARDS ─────────────────────────────────── */
+.scenario { border: 1px solid var(--border); border-top: 3px solid; border-radius: var(--radius-lg); padding: 18px 20px; }
+.scenario-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; margin-bottom: 6px; }
+.scenario-price { font-family: 'Noto Serif SC', serif; font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+.scenario-items { font-size: 12px; color: var(--ink-2); line-height: 1.8; }
+
+/* ─── DIVIDER LABEL ──────────────────────────────────── */
+.divlabel {
+  font-size: 10px; font-weight: 600;
+  color: var(--ink-3); text-transform: uppercase;
+  letter-spacing: .06em; margin: 20px 0 10px;
+}
+
+/* ─── AI TOOLS BOX ───────────────────────────────────── */
+.ai-row {
+  display: flex; gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(14,26,38,.06);
+}
+.ai-row:last-child { border-bottom: none; }
+.ai-icon { font-size: 20px; flex-shrink: 0; padding-top: 1px; }
+.ai-content { flex: 1; }
+.ai-title {
+  font-size: 12px; font-weight: 600; color: var(--ink);
+  margin-bottom: 3px;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.ai-desc { font-size: 11px; color: var(--ink-2); line-height: 1.6; }
+
+/* ─── EFFICIENCY SUMMARY ─────────────────────────────── */
+.eff-box {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  padding: 14px 16px; margin-top: 14px;
+}
+.eff-eq { display: flex; align-items: baseline; gap: 10px; margin-top: 6px; }
+.eff-num { font-family: 'Noto Serif SC', serif; font-size: 28px; font-weight: 700; }
+.eff-lbl { font-size: 13px; color: var(--ink-3); }
+
+/* ─── PRINT ──────────────────────────────────────────── */
+@media print {
+  .nav { display: none; }
+  .page { display: block !important; padding: 20px; page-break-after: always; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">飞凡科技 <em>×</em> 杭州公积金项目</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="go('p1',this)">项目背景</button>
+    <button class="nav-tab" onclick="go('p2',this)">商务结构</button>
+    <button class="nav-tab" onclick="go('p3',this)">团队方案</button>
+    <button class="nav-tab" onclick="go('p4',this)">收益分析</button>
+    <button class="nav-tab" onclick="go('p5',this)">风险决策</button>
+  </div>
+  <div class="nav-meta">内部合伙人材料 · 2026.05 · 保密</div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE 1 · 项目背景
+════════════════════════════════════════════════════ -->
+<div class="page active" id="p1">
+
+  <div class="hero">
+    <div class="hero-eyebrow">浙江省直公积金中心 · 新一代住房资金管理系统 · 标项二</div>
+    <div class="hero-title">一个值得认真对待的<br>省级金融核心系统机会</div>
+    <div class="hero-sub">甲方为浙江省省直单位住房基金管理中心，主合同已于2026年4月签署，标项二合同总额1623万元。通过红熊AI的合作渠道，飞凡有机会以技术分包商身份承接综合管理系统与数据迁移治理两大核心模块。</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat">
+      <div class="stat-label">主合同总金额</div>
+      <div class="stat-val">1623<small> 万</small></div>
+      <div class="stat-sub">浙江省政府采购合同</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">项目总工期</div>
+      <div class="stat-val">20<small> 个月</small></div>
+      <div class="stat-sub">2026.4 → 2027.12</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">系统峰值交易量</div>
+      <div class="stat-val">44<small> 万笔/日</small></div>
+      <div class="stat-sub">2024年日峰数据</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">质保运维期</div>
+      <div class="stat-val">3<small> 年</small></div>
+      <div class="stat-sub">终验后免费运维</div>
+    </div>
+  </div>
+
+  <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">这是什么量级的系统</span></div>
+
+  <div class="g2 mb12">
+    <div class="card">
+      <div class="card-title">系统定性：准金融核心系统</div>
+      <p class="fs12 txt-ink2" style="line-height:1.75;margin-bottom:12px;">公积金系统远不是普通政务系统。它同时具备<strong>资金管控属性</strong>——每笔业务涉及业务账、资金账、财务账三链路强一致写入，任何一方失败必须整体回滚，且外部银行出款链路不在系统控制范围内。这个技术复杂度与大型电商交易系统同级。</p>
+      <div style="display:flex;flex-wrap:wrap;gap:5px;">
+        <span class="pill p-blue">归集管理</span>
+        <span class="pill p-blue">提取管理</span>
+        <span class="pill p-blue">贷款管理</span>
+        <span class="pill p-blue">资金结算</span>
+        <span class="pill p-amber">三账强一致</span>
+        <span class="pill p-amber">人行一户通对接</span>
+        <span class="pill p-amber">委贷银行接口</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">合作方结构（四层）</div>
+      <div class="flow">
+        <div class="flow-box fb-blue">
+          <div class="flow-label">甲方</div>
+          <div class="flow-val">省公积金中心</div>
+          <div class="flow-sub">发包方</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box fb-gray">
+          <div class="flow-label">乙方联合体</div>
+          <div class="flow-val" style="font-size:12px;">金房科技<br>+ 建信金融</div>
+          <div class="flow-sub">主合同承包方</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box fb-amber">
+          <div class="flow-label">分包方</div>
+          <div class="flow-val">红熊 AI</div>
+          <div class="flow-sub">合作渠道方</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box fb-green">
+          <div class="flow-label">再分包</div>
+          <div class="flow-val">飞凡科技</div>
+          <div class="flow-sub">技术交付方</div>
+        </div>
+      </div>
+      <p class="fs11 txt-ink3">※ 主合同第五条明确允许分包"综合管理系统"和"关停系统数据还原治理"，飞凡承接范围在合规边界内。</p>
+    </div>
+  </div>
+
+  <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">飞凡承接的具体范围与技术匹配度</span></div>
+
+  <div class="card">
+    <div class="card-title">四大交付模块（主合同允许分包范围）</div>
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th style="width:140px;">模块</th>
+          <th>核心功能</th>
+          <th style="width:180px;">关键技术点</th>
+          <th style="width:160px;">飞凡匹配度</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="pill p-blue">运营管理子系统</span></td>
+          <td class="fs12">业务统计、绩效分析、渠道管理、日志监控</td>
+          <td class="fs12">数据聚合查询优化、BI报表集成</td>
+          <td>
+            <strong style="color:var(--green);">★★★★★ 极高</strong><br>
+            <span class="fs11 txt-ink3">与阿里系大型运营后台高度同类</span>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="pill p-amber">风险控制子系统</span></td>
+          <td class="fs12">交易监控、异常预警、合规检查、规则动态配置</td>
+          <td class="fs12">规则引擎API调用、实时事件流拦截</td>
+          <td>
+            <strong style="color:var(--green);">★★★★☆ 高</strong><br>
+            <span class="fs11 txt-ink3">规则引擎由乙方平台提供，飞凡调用即可</span>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="pill p-gray">电子档案子系统</span></td>
+          <td class="fs12">影像归档、档案复用、300DPI质量检测</td>
+          <td class="fs12">OCR SDK集成、档案索引机制</td>
+          <td>
+            <strong style="color:var(--amber);">★★★☆☆ 中</strong><br>
+            <span class="fs11 txt-ink3">OCR外购SDK，不自研图像算法</span>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="pill p-red">数据迁移治理</span></td>
+          <td class="fs12">历代异构库数据还原、数据清洗、三账平衡验证</td>
+          <td class="fs12">13年历史数据、多代异构数据库、余额重算</td>
+          <td>
+            <strong style="color:var(--amber);">★★★☆☆ 中高</strong><br>
+            <span class="fs11 txt-ink3">大型数据治理经验可复用，签约前须做调研</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="alert a-blue mt12">
+      <strong>关键优势：</strong>乙方现有平台已具备工作流引擎、规则引擎、权限体系等中间件能力，飞凡可直接复用，<strong>工作量减少20-30%</strong>。这是让6人合伙人团队可以在20个月内完成交付的核心前提之一。
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-l">飞凡科技 · 内部合伙人材料 · 保密</div>
+    <div class="footer-r">1 / 5 · 项目背景</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE 2 · 商务结构
+════════════════════════════════════════════════════ -->
+<div class="page" id="p2">
+
+  <div class="hero">
+    <div class="hero-eyebrow">商务结构与合同条款分析</div>
+    <div class="hero-title">对飞凡有利的<br>财务结构已经形成</div>
+    <div class="hero-sub">500-700万分包合同额，70%项目开始即付，全员合伙人零工资成本。三个条件叠加，从根本上消除了传统项目的资金风险，财务结构对飞凡相当有利。</div>
+  </div>
+
+  <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">资金流向与飞凡实际可分配额</span></div>
+
+  <div class="card mb12">
+    <div class="card-title">四层资金穿透结构（以600万为例）</div>
+    <div class="flow">
+      <div class="flow-box fb-blue">
+        <div class="flow-label">甲方付给乙方</div>
+        <div class="flow-val">1623万</div>
+        <div class="flow-sub">主合同全额<br>30-40-30分批付</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box fb-gray">
+        <div class="flow-label">乙方付给红熊</div>
+        <div class="flow-val">待定</div>
+        <div class="flow-sub">范围谈判中<br>比例未确认</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box fb-amber">
+        <div class="flow-label">红熊转付飞凡</div>
+        <div class="flow-val">500-700万</div>
+        <div class="flow-sub">扣红熊管理费后<br>目标600万</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box fb-green">
+        <div class="flow-label">飞凡可分配池</div>
+        <div class="flow-val">≈ 480-680万</div>
+        <div class="flow-sub">扣非人力支出约20万<br>几乎全额可分配</div>
+      </div>
+    </div>
+    <div class="alert a-green mt12">
+      <strong>全员合伙人制的核心优势：</strong>合同额几乎全部等于可分配收益——没有外聘工资支出，没有社保公积金固定成本，合伙人的"成本"是机会成本而非现金支出。传统公司接这个项目会亏损，飞凡接可以实现合理收益。这是合伙人制真正的竞争壁垒。
+    </div>
+  </div>
+
+  <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">付款节奏 — 70%首付是决定性优势</span></div>
+
+  <div class="card mb12">
+    <div class="card-title">两阶段回款计划（以600万合同额为基准）</div>
+    <div class="phase-strip">
+      <div class="ps" style="background:#eff6ff;">
+        <div class="ps-label">第一笔 · 项目开始即付</div>
+        <div class="ps-date" style="color:var(--blue);">2026年4月</div>
+        <div class="ps-pct" style="color:var(--blue);">70%</div>
+        <div class="ps-amt">约 420万 立即到账</div>
+      </div>
+      <div class="ps" style="background:#f0fdf4; flex:0.6;">
+        <div class="ps-label">第二笔 · 终验通过后</div>
+        <div class="ps-date" style="color:var(--green);">2027年12月</div>
+        <div class="ps-pct" style="color:var(--green);">30%</div>
+        <div class="ps-amt">约 180万 收官到账</div>
+      </div>
+    </div>
+    <div class="alert a-amber">
+      <strong>70%首付的意义：</strong>项目一启动，绝大部分收益即可分配。合伙人不需要垫资等待20个月。剩余30%尾款是项目质量完美收官的天然激励——初验和终验顺利通过，尾款自然到账。这个结构对合伙人制团队是极其友好的。
+    </div>
+  </div>
+
+  <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">签约前必须谈定的三条红线</span></div>
+
+  <div class="g3">
+    <div class="card" style="border-left:3px solid var(--red);">
+      <div style="font-size:11px;font-weight:600;color:var(--red);margin-bottom:8px;">① 付款穿透条款</div>
+      <div class="fs12 txt-ink2" style="line-height:1.7;">甲方首付款到账后，红熊必须在 <strong style="color:var(--ink);">7个工作日内</strong> 按比例转付飞凡。不能以"乙方未付"为由拖延。白纸黑字写进飞凡与红熊的分包协议。</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--amber);">
+      <div style="font-size:11px;font-weight:600;color:var(--amber);margin-bottom:8px;">② SOW签约前锁定</div>
+      <div class="fs12 txt-ink2" style="line-height:1.7;">500-700万对应什么功能清单，必须在签字前<strong style="color:var(--ink);">逐条确认</strong>。变更走书面CR流程，口头要求当天书面确认后才执行。范围不清不签合同。</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--blue);">
+      <div style="font-size:11px;font-weight:600;color:var(--blue);margin-bottom:8px;">③ BA驻场条款</div>
+      <div class="fs12 txt-ink2" style="line-height:1.7;">乙方须提供<strong style="color:var(--ink);">每周至少3天</strong>的公积金业务BA驻场配合。飞凡负责技术交付，业务规则知识由乙方输入。不写进合同，进场后就没有谈判筹码。</div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-l">飞凡科技 · 内部合伙人材料 · 保密</div>
+    <div class="footer-r">2 / 5 · 商务结构</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE 3 · 团队方案
+════════════════════════════════════════════════════ -->
+<div class="page" id="p3">
+
+  <div class="hero">
+    <div class="hero-eyebrow">团队组成与分工设计</div>
+    <div class="hero-title">6名合伙人 + AI工具<br>等效传统9-10人团队</div>
+    <div class="hero-sub">全员合伙人覆盖全部交付岗位，AI工具作为效率杠杆贯穿始终。外部唯一依赖是乙方派驻BA，不产生飞凡额外成本。乙方平台层复用消除中间件开发量，是这套方案可行的基础。</div>
+  </div>
+
+  <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">6人岗位分工</span></div>
+
+  <div class="person-grid mb12">
+    <div class="pcard" style="border-top-color:#7F77DD;">
+      <div class="pcard-role">项目总负责 / 系统架构师</div>
+      <div class="pcard-name">你（CTO）</div>
+      <div class="pcard-tags">
+        <span class="pill p-blue">架构决策</span>
+        <span class="pill p-blue">客户关系</span>
+        <span class="pill p-blue">风险管控</span>
+      </div>
+      <div class="pcard-ai">🤖 AI辅助：架构方案对比、合同风险扫描、汇报材料起草</div>
+      <div class="pcard-load">常态投入30%，初验前拉至80%</div>
+    </div>
+    <div class="pcard" style="border-top-color:var(--green);">
+      <div class="pcard-role">技术负责人（全程驻场）</div>
+      <div class="pcard-name">合伙人 A</div>
+      <div class="pcard-tags">
+        <span class="pill p-green">后端架构</span>
+        <span class="pill p-green">接口协议</span>
+        <span class="pill p-green">代码质量</span>
+      </div>
+      <div class="pcard-ai">🤖 AI辅助：PR审查辅助、接口文档自动生成、K8s配置</div>
+      <div class="pcard-load">全程100% · 驻场 · 需架构师高级资质</div>
+    </div>
+    <div class="pcard" style="border-top-color:var(--green);">
+      <div class="pcard-role">综合管理系统主力</div>
+      <div class="pcard-name">合伙人 B</div>
+      <div class="pcard-tags">
+        <span class="pill p-green">运营管理</span>
+        <span class="pill p-green">风控子系统</span>
+      </div>
+      <div class="pcard-ai">🤖 AI辅助：规则调用代码生成、CRUD自动化、单元测试</div>
+      <div class="pcard-load">建设期100% · 工作量最大的岗位</div>
+    </div>
+    <div class="pcard" style="border-top-color:var(--blue);">
+      <div class="pcard-role">数据迁移 + 档案系统</div>
+      <div class="pcard-name">合伙人 C</div>
+      <div class="pcard-tags">
+        <span class="pill p-blue">ETL工具链</span>
+        <span class="pill p-blue">数据治理</span>
+        <span class="pill p-blue">档案后端</span>
+      </div>
+      <div class="pcard-ai">🤖 AI辅助：DDL逆向分析、ETL脚本生成、异常模式识别</div>
+      <div class="pcard-load">全程高负载 · 试运行期仍满载</div>
+    </div>
+    <div class="pcard" style="border-top-color:var(--amber);">
+      <div class="pcard-role">测试质量 + DevOps</div>
+      <div class="pcard-name">合伙人 D</div>
+      <div class="pcard-tags">
+        <span class="pill p-amber">自动化测试</span>
+        <span class="pill p-amber">CI/CD</span>
+        <span class="pill p-amber">政务云运维</span>
+      </div>
+      <div class="pcard-ai">🤖 AI辅助：测试用例批量生成、Bug根因定位、测试报告</div>
+      <div class="pcard-load">建设期80%，初验冲刺100%</div>
+    </div>
+    <div class="pcard" style="border-top-color:var(--red);">
+      <div class="pcard-role">前端 + 全栈辅助</div>
+      <div class="pcard-name">合伙人 E</div>
+      <div class="pcard-tags">
+        <span class="pill p-red">管理后台</span>
+        <span class="pill p-red">数据看板</span>
+        <span class="pill p-amber">AI重度用户</span>
+      </div>
+      <div class="pcard-ai">🤖 AI辅助：v0.dev生成页面框架、ECharts配置、响应式适配</div>
+      <div class="pcard-load">建设期集中 · 试运行期可兼顾其他项目</div>
+    </div>
+  </div>
+
+  <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">AI效率杠杆 — 团队规模成立的核心逻辑</span></div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-title">各场景AI工具与效率提升</div>
+      <div class="ai-row">
+        <div class="ai-icon">⌨️</div>
+        <div class="ai-content">
+          <div class="ai-title">代码生成（Cursor + Copilot）<span class="pill p-blue">节省40-50%编码时间</span></div>
+          <div class="ai-desc">CRUD、DTO转换、规则调用代码自动生成，合伙人专注核心业务逻辑。1人+AI ≈ 传统2名工程师产出。</div>
+        </div>
+      </div>
+      <div class="ai-row">
+        <div class="ai-icon">🧪</div>
+        <div class="ai-content">
+          <div class="ai-title">测试用例生成（Claude）<span class="pill p-green">节省60%测试时间</span></div>
+          <div class="ai-desc">从需求文档自动生成正常/边界/异常三类用例，可运行JUnit/RestAssured代码，覆盖率80%+。</div>
+        </div>
+      </div>
+      <div class="ai-row">
+        <div class="ai-icon">📄</div>
+        <div class="ai-content">
+          <div class="ai-title">文档自动化（Claude）<span class="pill p-amber">节省70%文档时间</span></div>
+          <div class="ai-desc">接口文档、设计文档、验收材料、用户手册——AI生成初稿，合伙人只做最终审阅。</div>
+        </div>
+      </div>
+      <div class="ai-row">
+        <div class="ai-icon">🗄️</div>
+        <div class="ai-content">
+          <div class="ai-title">数据逆向分析（Claude）<span class="pill p-red">3天 vs 传统3周</span></div>
+          <div class="ai-desc">历代源库DDL批量输入，自动推断字段含义、识别关联关系、标注数据质量风险。</div>
+        </div>
+      </div>
+      <div class="ai-row">
+        <div class="ai-icon">🎨</div>
+        <div class="ai-content">
+          <div class="ai-title">前端快速原型（v0.dev）<span class="pill p-gray">节省60%前端时间</span></div>
+          <div class="ai-desc">v0.dev生成Vue组件框架，E调整业务逻辑接口对接，不从零写CSS，告别外聘前端工程师。</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">综合效率指标</div>
+      <div class="prog">
+        <div class="prog-head"><span class="prog-name">代码生成效率提升</span><span class="prog-val">+50%</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:83%;background:var(--blue);"></div></div>
+      </div>
+      <div class="prog">
+        <div class="prog-head"><span class="prog-name">测试用例AI覆盖率</span><span class="prog-val">80%+</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:80%;background:var(--green);"></div></div>
+      </div>
+      <div class="prog">
+        <div class="prog-head"><span class="prog-name">文档工作AI承担比例</span><span class="prog-val">70%</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:70%;background:var(--amber);"></div></div>
+      </div>
+      <div class="prog">
+        <div class="prog-head"><span class="prog-name">数据分析加速倍率</span><span class="prog-val">7倍以上</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:90%;background:#7F77DD;"></div></div>
+      </div>
+      <div class="prog" style="margin-bottom:0;">
+        <div class="prog-head"><span class="prog-name">前端开发时间节省</span><span class="prog-val">60%</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:60%;background:var(--red);"></div></div>
+      </div>
+
+      <div class="eff-box">
+        <div class="fs11 fw6" style="color:var(--ink);margin-bottom:2px;">综合等效团队规模</div>
+        <div class="eff-eq">
+          <span class="eff-num" style="color:var(--green);">6人</span>
+          <span class="eff-lbl">合伙人 + AI</span>
+          <span style="font-size:18px;color:var(--ink-3);">=</span>
+          <span class="eff-num" style="color:var(--ink-3);">9-10人</span>
+          <span class="eff-lbl">传统团队</span>
+        </div>
+        <div class="fs11 txt-ink3" style="margin-top:4px;">平台层复用减少30%工作量 + AI提升40-50%编码效率</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">阶段编制与负载变化</span></div>
+
+  <div class="card">
+    <div class="card-title">各阶段投入比例（建设期为峰值基准）</div>
+    <table class="load-tbl">
+      <thead>
+        <tr>
+          <th style="width:110px;">合伙人</th>
+          <th>启动期<br>4-6月</th>
+          <th>建设期<br>7-11月</th>
+          <th>初验冲刺<br>12月</th>
+          <th>试运行<br>2027上半</th>
+          <th>终验收尾<br>2027下半</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>你（总负责）</td>
+          <td class="lc-med">30%</td>
+          <td class="lc-high">50%</td>
+          <td class="lc-full">80%</td>
+          <td class="lc-low">15%</td>
+          <td class="lc-high">60%</td>
+        </tr>
+        <tr>
+          <td>A 技术负责</td>
+          <td class="lc-full">100%</td>
+          <td class="lc-full">100%</td>
+          <td class="lc-full">100%</td>
+          <td class="lc-high">60%</td>
+          <td class="lc-full">100%</td>
+        </tr>
+        <tr>
+          <td>B 运营+风控</td>
+          <td class="lc-high">50%</td>
+          <td class="lc-full">100%</td>
+          <td class="lc-full">100%</td>
+          <td class="lc-high">40%</td>
+          <td class="lc-high">50%</td>
+        </tr>
+        <tr>
+          <td>C 数据+档案</td>
+          <td class="lc-full">100%</td>
+          <td class="lc-full">100%</td>
+          <td class="lc-high">80%</td>
+          <td class="lc-full">100%</td>
+          <td class="lc-high">60%</td>
+        </tr>
+        <tr>
+          <td>D 测试+运维</td>
+          <td class="lc-low">30%</td>
+          <td class="lc-high">80%</td>
+          <td class="lc-full">100%</td>
+          <td class="lc-high">60%</td>
+          <td class="lc-high">80%</td>
+        </tr>
+        <tr>
+          <td>E 前端+全栈</td>
+          <td class="lc-low">30%</td>
+          <td class="lc-high">80%</td>
+          <td class="lc-high">80%</td>
+          <td class="lc-low">30%</td>
+          <td class="lc-faint">30%</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="alert a-blue mt12">
+      <strong>E和B在试运行期负载仅30-40%：</strong>2027年上半年可以并行承接飞凡其他项目（盛京银行智能客服、石基园区舆情等），收入可以叠加。这是合伙人制相比传统雇佣制最大的灵活性优势。
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-l">飞凡科技 · 内部合伙人材料 · 保密</div>
+    <div class="footer-r">3 / 5 · 团队方案</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE 4 · 收益分析
+════════════════════════════════════════════════════ -->
+<div class="page" id="p4">
+
+  <div class="hero">
+    <div class="hero-eyebrow">合伙人收益分析</div>
+    <div class="hero-title">财务结构健康<br>人均收益有充分吸引力</div>
+    <div class="hero-sub">全员合伙人制下，合同额几乎全部转化为可分配收益。70%首付消除现金流压力，省级金融系统案例的战略价值使项目意义超出数字本身。</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat">
+      <div class="stat-label">可分配池（600万场景）</div>
+      <div class="stat-val">580<small> 万</small></div>
+      <div class="stat-sub">扣非人力支出约20万</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">人均分配（加权前均值）</div>
+      <div class="stat-val">96<small> 万</small></div>
+      <div class="stat-sub">6人 · 按贡献加权后有差异</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">折合月均时间回报</div>
+      <div class="stat-val">4.8<small> 万/月</small></div>
+      <div class="stat-sub">20个月项目周期</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">首付到账（项目开始）</div>
+      <div class="stat-val">420<small> 万</small></div>
+      <div class="stat-sub">70% · 立即可分配</div>
+    </div>
+  </div>
+
+  <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">三种报价场景财务对比</span></div>
+
+  <div class="g3 mb12">
+    <div class="scenario" style="border-top-color:var(--red);">
+      <div class="scenario-num" style="color:var(--red);">场景 A · 对方出价下限</div>
+      <div class="scenario-price" style="color:var(--red);">500万</div>
+      <div class="scenario-items">
+        可分配池：约 480万<br>
+        人均均值：约 80万<br>
+        月均回报：约 4万/月<br>
+        首付到账：约 350万
+      </div>
+      <div class="alert a-amber mt12" style="font-size:11px;padding:8px 10px;">
+        可接受下限。需严格控制工期和范围蔓延，不能有大规模变更。
+      </div>
+    </div>
+    <div class="scenario" style="border-top-color:var(--blue);box-shadow:0 0 0 1.5px var(--blue-2);">
+      <div class="scenario-num" style="color:var(--blue);">场景 B · 目标报价 ★</div>
+      <div class="scenario-price" style="color:var(--blue);">600万</div>
+      <div class="scenario-items">
+        可分配池：约 580万<br>
+        人均均值：约 96万<br>
+        月均回报：约 4.8万/月<br>
+        首付到账：约 420万
+      </div>
+      <div class="alert a-blue mt12" style="font-size:11px;padding:8px 10px;">
+        财务结构健康，收益与付出匹配。积极争取的目标价格。
+      </div>
+    </div>
+    <div class="scenario" style="border-top-color:var(--green);">
+      <div class="scenario-num" style="color:var(--green);">场景 C · 理想结果</div>
+      <div class="scenario-price" style="color:var(--green);">700万</div>
+      <div class="scenario-items">
+        可分配池：约 680万<br>
+        人均均值：约 113万<br>
+        月均回报：约 5.7万/月<br>
+        首付到账：约 490万
+      </div>
+      <div class="alert a-green mt12" style="font-size:11px;padding:8px 10px;">
+        最优结果。月均回报超越市场高级工程师薪资水平。
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">参考分配结构（600万场景）</span></div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-title">按贡献加权分配参考区间</div>
+      <div class="prog">
+        <div class="prog-head"><span class="prog-name">你（项目总负责 + 架构）</span><span class="prog-val">90 - 110万</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:95%;background:#7F77DD;"></div></div>
+      </div>
+      <div class="prog">
+        <div class="prog-head"><span class="prog-name">合伙人 A（技术负责人 · 驻场）</span><span class="prog-val">85 - 100万</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:88%;background:var(--blue);"></div></div>
+      </div>
+      <div class="prog">
+        <div class="prog-head"><span class="prog-name">合伙人 C（数据迁移 · 全程满载）</span><span class="prog-val">80 - 95万</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:83%;background:var(--blue);"></div></div>
+      </div>
+      <div class="prog">
+        <div class="prog-head"><span class="prog-name">合伙人 B（运营+风控 · 工作量最大）</span><span class="prog-val">75 - 90万</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:78%;background:var(--green);"></div></div>
+      </div>
+      <div class="prog">
+        <div class="prog-head"><span class="prog-name">合伙人 D（测试+运维）</span><span class="prog-val">65 - 80万</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:68%;background:var(--amber);"></div></div>
+      </div>
+      <div class="prog" style="margin-bottom:0;">
+        <div class="prog-head"><span class="prog-name">合伙人 E（前端+全栈 · 后段可兼顾他项）</span><span class="prog-val">55 - 70万</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:58%;background:var(--red);"></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="card mb12">
+        <div class="card-title">超出数字的战略价值</div>
+        <div class="risk-item">
+          <div style="width:8px;height:8px;border-radius:50%;background:var(--blue);margin-top:4px;flex-shrink:0;"></div>
+          <div>
+            <div class="risk-title">省级金融系统标杆案例</div>
+            <div class="risk-desc">全国数百个公积金中心，浙江省项目落地即是最硬的行业敲门砖，打开政务金融赛道。</div>
+          </div>
+        </div>
+        <div class="risk-item">
+          <div style="width:8px;height:8px;border-radius:50%;background:var(--green);margin-top:4px;flex-shrink:0;"></div>
+          <div>
+            <div class="risk-title">政务云 + 国产DB 实战经验</div>
+            <div class="risk-desc">浙江省政务云和OceanBase/TiDB的实际落地经验，成为同类项目的技术壁垒。</div>
+          </div>
+        </div>
+        <div class="risk-item" style="border-bottom:none;">
+          <div style="width:8px;height:8px;border-radius:50%;background:var(--amber);margin-top:4px;flex-shrink:0;"></div>
+          <div>
+            <div class="risk-title">试运行期收入可叠加</div>
+            <div class="risk-desc">E和B在2027年负载30-40%，可同期推进盛京银行、石基园区等项目，收入叠加。</div>
+          </div>
+        </div>
+      </div>
+      <div class="alert a-green">
+        <strong>综合判断：</strong>月均4-5.7万回报 + 省级金融系统案例战略价值，对飞凡合伙人制团队而言是<strong>财务合理、战略有价值</strong>的优质项目。
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-l">飞凡科技 · 内部合伙人材料 · 保密</div>
+    <div class="footer-r">4 / 5 · 收益分析</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE 5 · 风险与决策
+════════════════════════════════════════════════════ -->
+<div class="page" id="p5">
+
+  <div class="hero">
+    <div class="hero-eyebrow">风险识别与最终决策</div>
+    <div class="hero-title">财务风险已排除<br>只需管好三件事</div>
+    <div class="hero-sub">全员合伙人制 + 70%首付，从根本上消除了资金风险。剩下三个值得关注的风险，都有清晰的对策。以下是完整项目时间线和最终接单建议。</div>
+  </div>
+
+  <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">三个核心风险与应对</span></div>
+
+  <div class="card mb12">
+    <div class="risk-item">
+      <div class="risk-icon" style="background:var(--red-2);">⏱</div>
+      <div class="risk-body">
+        <div class="risk-title">
+          工期超期 → 尾款被违约金侵蚀
+          <span class="pill p-red">最高风险</span>
+        </div>
+        <div class="risk-desc">违约金千分之六/日。超期10天罚约9万，超期30天罚27万，超期60天尾款（约180万）几乎归零。2026年12月初验是唯一的死线节点，不可滑动。</div>
+        <div class="risk-action a-green">
+          <strong>对策：</strong>11月底功能冻结，12月只做测试和修复，不加新功能。项目启动第一件事就是和乙方锁定初验功能清单。宁可压缩范围，不能让节点滑掉。
+        </div>
+      </div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-icon" style="background:var(--amber-2);">📋</div>
+      <div class="risk-body">
+        <div class="risk-title">
+          范围蔓延 → 500万合同做出700万工作量
+          <span class="pill p-amber">中等风险</span>
+        </div>
+        <div class="risk-desc">合伙人制团队容易对需求蔓延不敏感（"反正不花钱"）。范围扩大20%，等于每人白干3-4个月。政务项目需求变更是常态，公积金系统尤甚。</div>
+        <div class="risk-action a-amber">
+          <strong>对策：</strong>SOW功能清单签约前逐条锁定。所有变更走书面CR流程：提出→工作量评估→双方PM签字→工期/金额调整。任何口头要求当天书面确认，无确认不执行。
+        </div>
+      </div>
+    </div>
+    <div class="risk-item" style="border-bottom:none;">
+      <div class="risk-icon" style="background:var(--blue-2);">🤝</div>
+      <div class="risk-body">
+        <div class="risk-title">
+          内部分配争议 → 项目后半段动力松弛
+          <span class="pill p-blue">中等风险</span>
+        </div>
+        <div class="risk-desc">70%首款分完后，第8-12个月容易出现"我干的比他多"的摩擦。20个月长周期下，贡献不均衡是客观存在的，提前约定机制比事后处理重要100倍。</div>
+        <div class="risk-action a-blue">
+          <strong>对策：</strong>项目启动前签内部分配协议，明确每人承诺投入比例和分配系数权重，设立季度贡献复盘机制，允许系数小幅动态调整。这件事比任何技术方案都重要，<strong>今天就要做。</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">项目时间线与关键里程碑</span></div>
+
+  <div class="card mb12">
+    <div class="card-title">20个月完整路径</div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot td-blue"></div>
+        <div class="tl-date mono">2026年3-4月 · 谈判期（签约前）</div>
+        <div class="tl-title">签约前完成三件事，未完成不签字</div>
+        <div class="tl-desc">① 拿到乙方平台层API文档，确认工作流/规则引擎接口规范；② 拿到历代源库DDL或ER文档，C完成工作量估算；③ SOW功能清单双方逐条确认，付款穿透条款和BA驻场条款写进协议。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot td-blue"></div>
+        <div class="tl-date mono">2026年4-6月 · 启动期</div>
+        <div class="tl-title">70%首付到账 · 完成第一次分配</div>
+        <div class="tl-desc">A全职驻场搭建开发环境；C完成源库逆向ER图（AI辅助，3-5天）；B启动需求规格说明书；E用v0.dev出管理后台UI原型供BA确认。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot td-green"></div>
+        <div class="tl-date mono">2026年7-11月 · 建设期冲刺（核心5个月）</div>
+        <div class="tl-title">全员满载 · 11月底铁打的功能冻结节点</div>
+        <div class="tl-desc">B主攻运营管理+风控（调用平台层API）；C并行推进数据迁移工具链+档案子系统；E完成前端界面（AI辅助）；D持续推进自动化测试覆盖率。10月起集成测试，11月系统联调完成。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot td-amber"></div>
+        <div class="tl-date mono">2026年12月 · 初验冲刺 ★ 死线不可滑</div>
+        <div class="tl-title">初验通过 · 触发主合同40%节点</div>
+        <div class="tl-desc">你全程在场背书，A主讲技术答辩，D提交测试报告，AI辅助生成全套验收材料。初验通过即向红熊申请对应回款。这是整个项目最重要的里程碑。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot td-gray"></div>
+        <div class="tl-date mono">2027年1-11月 · 试运行期（降速）</div>
+        <div class="tl-title">C满载收尾 · E和B可并行其他项目</div>
+        <div class="tl-desc">C专注数据迁移收尾和三账平衡验证（此阶段最重工作）；A驻场维护处理生产问题；E和B负载降至30-40%，可同期承接飞凡其他项目，收入叠加。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot td-green"></div>
+        <div class="tl-date mono">2027年12月 · 终验 · 项目收官</div>
+        <div class="tl-title">终验通过 · 30%尾款到账 · 全员完成最终分配</div>
+        <div class="tl-desc">你全程在场，A主讲终验答辩。省级公积金系统案例正式落地，飞凡进入政务金融赛道，为后续同类项目建立最硬的参考案例。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">最终决策建议</span></div>
+
+  <div class="decision">
+    <div class="decision-title">✅ 明确建议：接单</div>
+    <div class="decision-body">
+      全员合伙人零工资成本 + 70%首付消除现金流风险，这两个条件同时成立，财务结构已无根本性障碍。500-700万分包额，6名合伙人，人均预期分配80-113万，折合月均4-5.7万，叠加省级金融系统案例战略价值，是飞凡当前阶段值得全力投入的优质项目。
+      <br><br>
+      <strong>接单前必须完成的三件事（按优先级）：</strong>
+      <ol>
+        <li>今天启动内部讨论，签署合伙人分配协议，明确每人投入比例和分配系数权重；</li>
+        <li>谈判期由你和A亲自参与技术对话，拿到平台层API文档和源库DDL，完成SOW逐条锁定；</li>
+        <li>在分包协议里确认付款穿透条款（7个工作日内转付）、BA驻场条款和违约责任上限条款。</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-l">飞凡科技 · 内部合伙人材料 · 保密 · 2026年5月</div>
+    <div class="footer-r">5 / 5 · 风险决策 · 基于省直公积金中心采购文件及主合同分析</div>
+  </div>
+</div>
+
+<script>
+function go(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
+

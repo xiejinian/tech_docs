@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>飞凡科技 · AI Bootcamp</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0D0F12;
+    --ink-mid: #3A3F47;
+    --ink-soft: #6B7280;
+    --ink-faint: #9CA3AF;
+    --surface: #F8F7F4;
+    --white: #FFFFFF;
+    --accent: #1A56DB;
+    --accent-light: #EFF4FF;
+    --accent-mid: #3B82F6;
+    --teal: #0D9488;
+    --teal-light: #F0FDFA;
+    --amber: #B45309;
+    --amber-light: #FFFBEB;
+    --rule: #E5E3DE;
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  /* ── PAGE WRAPPER ── */
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0;
+    background: var(--white);
+  }
+
+  /* ── HEADER BAND ── */
+  .header {
+    background: var(--ink);
+    padding: 48px 56px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    top: -20px; right: 80px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .header-inner { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; }
+
+  .brand { display: flex; flex-direction: column; gap: 6px; }
+  .brand-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+  }
+  .brand-headline {
+    font-family: 'DM Serif Display', serif;
+    font-size: 38px;
+    line-height: 1.12;
+    color: var(--white);
+    font-weight: 400;
+  }
+  .brand-headline em {
+    font-style: italic;
+    color: #93C5FD;
+  }
+  .brand-sub {
+    margin-top: 10px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 380px;
+  }
+
+  .header-right { flex-shrink: 0; text-align: right; }
+  .guarantee-box {
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 18px 22px;
+    background: rgba(255,255,255,0.05);
+  }
+  .guarantee-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 42px;
+    color: #93C5FD;
+    line-height: 1;
+  }
+  .guarantee-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+  }
+  .guarantee-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+    margin-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 8px;
+  }
+
+  /* ── BODY ── */
+  .body { padding: 48px 56px; }
+
+  /* ── PROBLEM STRIP ── */
+  .problem-strip {
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 44px;
+    display: flex;
+    gap: 0;
+    align-items: stretch;
+  }
+  .prob-col {
+    flex: 1;
+    padding: 0 28px 0 0;
+    border-right: 1px solid var(--rule);
+  }
+  .prob-col:last-child { border-right: none; padding: 0 0 0 28px; }
+  .prob-col:first-child { padding-left: 0; }
+  .prob-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 12px;
+  }
+  .prob-item {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    font-size: 13px;
+    color: var(--ink-mid);
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  .prob-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--ink-faint);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .prob-dot.blue { background: var(--accent-mid); }
+
+  /* ── SECTION TITLE ── */
+  .sec-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .sec-title span { color: var(--accent); font-style: italic; }
+
+  /* ── FLOW STRIP ── */
+  .flow-strip {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 44px;
+  }
+  .flow-day {
+    flex: 1;
+    padding: 20px 18px;
+    border-right: 1px solid var(--rule);
+    position: relative;
+  }
+  .flow-day:last-child { border-right: none; }
+  .flow-day-num {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 6px;
+  }
+  .flow-day-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .flow-day-body {
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .flow-out {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-light);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-weight: 500;
+  }
+  .flow-day.accent-day { background: var(--ink); }
+  .flow-day.accent-day .flow-day-num { color: rgba(255,255,255,0.3); }
+  .flow-day.accent-day .flow-day-title { color: var(--white); }
+  .flow-day.accent-day .flow-day-body { color: rgba(255,255,255,0.55); }
+  .flow-day.accent-day .flow-out { background: rgba(147,197,253,0.15); color: #93C5FD; }
+
+  /* ── TWO-COL BELOW ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 44px; }
+
+  /* ── PRICING CARDS ── */
+  .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 44px; }
+  .price-card {
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 24px 22px;
+    display: flex;
+    flex-direction: column;
+  }
+  .price-card.featured {
+    border: 2px solid var(--accent);
+    background: var(--accent-light);
+  }
+  .price-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    width: fit-content;
+  }
+  .price-tag.recommend { background: var(--accent); color: white; }
+  .price-tag.basic { background: var(--surface); color: var(--ink-soft); }
+  .price-tag.premium { background: var(--ink); color: white; }
+  .price-name { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+  .price-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .price-num sub { font-size: 16px; font-family: 'DM Sans', sans-serif; font-weight: 400; }
+  .price-sub { font-size: 12px; color: var(--ink-soft); margin-bottom: 16px; }
+  .price-line { height: 1px; background: var(--rule); margin-bottom: 14px; }
+  .price-item {
+    display: flex;
+    gap: 7px;
+    align-items: flex-start;
+    font-size: 12px;
+    color: var(--ink-mid);
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+  .price-item svg { flex-shrink: 0; margin-top: 2px; }
+  .price-deduct {
+    margin-top: auto;
+    padding-top: 14px;
+    font-size: 11px;
+    color: var(--teal);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* ── INDUSTRY ROW ── */
+  .industry-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 44px; }
+  .ind-card {
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 18px 16px;
+  }
+  .ind-icon {
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 10px;
+    font-size: 17px;
+  }
+  .ind-icon.mfg { background: var(--teal-light); }
+  .ind-icon.fin { background: #EFF4FF; }
+  .ind-icon.ret { background: var(--amber-light); }
+  .ind-icon.sea { background: #F0FDF4; }
+  .ind-name { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+  .ind-scenes { display: flex; flex-direction: column; gap: 4px; }
+  .ind-scene { font-size: 11px; color: var(--ink-soft); display: flex; gap: 5px; align-items: flex-start; line-height: 1.5; }
+
+  /* ── PROOF ROW ── */
+  .proof-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 44px; }
+  .proof-card {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 20px 18px;
+  }
+  .proof-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .proof-label { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .proof-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.55; }
+
+  /* ── GUARANTEE BANNER ── */
+  .guarantee-banner {
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 44px;
+  }
+  .gb-icon {
+    width: 48px; height: 48px;
+    background: var(--ink);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 22px;
+  }
+  .gb-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .gb-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; }
+  .gb-body strong { color: var(--ink); font-weight: 500; }
+
+  /* ── ABOUT ── */
+  .about-row {
+    background: var(--ink);
+    border-radius: 14px;
+    padding: 28px 32px;
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    margin-bottom: 44px;
+  }
+  .about-left { flex: 1; }
+  .about-label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  .about-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: white;
+    font-weight: 400;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .about-body { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+  .about-right { flex-shrink: 0; display: flex; flex-direction: column; gap: 10px; }
+  .about-tag {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 6px 14px;
+    white-space: nowrap;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    padding: 24px 56px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .footer-contact { font-size: 12px; color: var(--ink-soft); text-align: right; line-height: 1.7; }
+
+  /* ── CHECK ICON ── */
+  .chk { display: inline-flex; }
+
+  @media print {
+    body { background: white; }
+    .page { max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-name">飞凡科技 · FeiVan Tech</div>
+        <div class="brand-headline">AI 落地<br><em>Bootcamp</em></div>
+        <div class="brand-sub">5天，用你的真实数据，跑出看得见的效率提升。<br>不是演示，是生产环境里的真实结果。</div>
+      </div>
+      <div class="header-right">
+        <div class="guarantee-box">
+          <div class="guarantee-num">5天</div>
+          <div class="guarantee-label">标准交付周期</div>
+          <div class="guarantee-sub">效果不达预期<br>全额退款</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- PROBLEM -->
+    <div class="problem-strip">
+      <div class="prob-col">
+        <div class="prob-label">你可能遇到的情况</div>
+        <div class="prob-item"><div class="prob-dot"></div>接触过几家AI公司，看的都是演示，数据全是模拟的</div>
+        <div class="prob-item"><div class="prob-dot"></div>方案PPT写得很好，但不知道落到我们业务上能不能用</div>
+        <div class="prob-item"><div class="prob-dot"></div>老板想看到效果才愿意拍板，卡在这里推不动</div>
+      </div>
+      <div class="prob-col">
+        <div class="prob-label">飞凡的做法</div>
+        <div class="prob-item"><div class="prob-dot blue"></div>用你们自己的ERP、客服记录、业务数据来构建</div>
+        <div class="prob-item"><div class="prob-dot blue"></div>工程师驻场，在你们的系统里直接开发</div>
+        <div class="prob-item"><div class="prob-dot blue"></div>Day 5 当着决策人的面实跑，数据说话</div>
+      </div>
+    </div>
+
+    <!-- FLOW -->
+    <div class="sec-title">5天交付流程</div>
+    <div class="flow-strip">
+      <div class="flow-day">
+        <div class="flow-day-num">Day 1</div>
+        <div class="flow-day-title">驻场诊断</div>
+        <div class="flow-day-body">访谈核心岗位，观察业务现场，锁定1–2个最高价值痛点</div>
+        <div class="flow-out">问题清单</div>
+      </div>
+      <div class="flow-day">
+        <div class="flow-day-num">Day 2</div>
+        <div class="flow-day-title">数据接入</div>
+        <div class="flow-day-body">对接真实数据源，清洗规范，搭建AI运行环境</div>
+        <div class="flow-out">数据就绪</div>
+      </div>
+      <div class="flow-day">
+        <div class="flow-day-num">Day 3</div>
+        <div class="flow-day-title">原型构建</div>
+        <div class="flow-day-body">用真实数据构建可运行原型，覆盖2个核心业务场景</div>
+        <div class="flow-out">可运行原型</div>
+      </div>
+      <div class="flow-day">
+        <div class="flow-day-num">Day 4</div>
+        <div class="flow-day-title">业务验证</div>
+        <div class="flow-day-body">业务人员实际试用，记录处理时长、准确率对比数据</div>
+        <div class="flow-out">效果数据</div>
+      </div>
+      <div class="flow-day accent-day">
+        <div class="flow-day-num">Day 5</div>
+        <div class="flow-day-title">决策汇报</div>
+        <div class="flow-day-body">基于实测ROI向决策层演示，提出正式合作方案</div>
+        <div class="flow-out">合作协议</div>
+      </div>
+    </div>
+
+    <!-- PRICING -->
+    <div class="sec-title">选择适合你的版本</div>
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="price-tag basic">探索版</div>
+        <div class="price-name">快速摸排需求</div>
+        <div class="price-num"><sub>¥</sub>1.5万</div>
+        <div class="price-sub">远程交付 · 3天内完成</div>
+        <div class="price-line"></div>
+        <div class="price-item">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6" stroke="#1A56DB" stroke-width="1"/><path d="M4 6.5l1.8 1.8L9 4.5" stroke="#1A56DB" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          远程需求访谈（半天）
+        </div>
+        <div class="price-item">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6" stroke="#1A56DB" stroke-width="1"/><path d="M4 6.5l1.8 1.8L9 4.5" stroke="#1A56DB" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          1个场景快速原型验证
+        </div>
+        <div class="price-item">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6" stroke="#1A56DB" stroke-width="1"/><path d="M4 6.5l1.8 1.8L9 4.5" stroke="#1A56DB" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          AI落地可行性分析报告
+        </div>
+        <div class="price-deduct">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="#0D9488" stroke-width="1.5" stroke-linecap="round"/></svg>
+          签合同全额抵扣
+        </div>
+      </div>
+
+      <div class="price-card featured">
+        <div class="price-tag recommend">推荐</div>
+        <div class="price-name">标准版 · 驻场验证</div>
+        <div class="price-num"><sub>¥</sub>3万</div>
+        <div class="price-sub">驻场为主 · 5天完整交付</div>
+        <div class="price-line"></div>
+        <div class="price-item">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6" stroke="#1A56DB" stroke-width="1"/><path d="M4 6.5l1.8 1.8L9 4.5" stroke="#1A56DB" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          驻场业务诊断（1天）
+        </div>
+        <div class="price-item">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6" stroke="#1A56DB" stroke-width="1"/><path d="M4 6.5l1.8 1.8L9 4.5" stroke="#1A56DB" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          真实数据接入 + 2个场景
+        </div>
+        <div class="price-item">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6" stroke="#1A56DB" stroke-width="1"/><path d="M4 6.5l1.8 1.8L9 4.5" stroke="#1A56DB" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          量化ROI对比报告
+        </div>
+        <div class="price-item">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6" stroke="#1A56DB" stroke-width="1"/><path d="M4 6.5l1.8 1.8L9 4.5" stroke="#1A56DB" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          决策层现场演示支持
+        </div>
+        <div class="price-deduct">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="#0D9488" stroke-width="1.5" stroke-linecap="round"/></svg>
+          签合同全额抵扣
+        </div>
+      </div>
+
+      <div class="price-card">
+        <div class="price-tag premium">深度版</div>
+        <div class="price-name">全链路生产验证</div>
+        <div class="price-num"><sub>¥</sub>6万</div>
+        <div class="price-sub">2周驻场 · 直出MVP</div>
+        <div class="price-line"></div>
+        <div class="price-item">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6" stroke="#1A56DB" stroke-width="1"/><path d="M4 6.5l1.8 1.8L9 4.5" stroke="#1A56DB" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          全流程业务梳理 + 3–4场景
+        </div>
+        <div class="price-item">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6" stroke="#1A56DB" stroke-width="1"/><path d="M4 6.5l1.8 1.8L9 4.5" stroke="#1A56DB" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          生产级MVP直接上线
+        </div>
+        <div class="price-item">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6" stroke="#1A56DB" stroke-width="1"/><path d="M4 6.5l1.8 1.8L9 4.5" stroke="#1A56DB" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          数据管道完整搭建
+        </div>
+        <div class="price-item">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6" stroke="#1A56DB" stroke-width="1"/><path d="M4 6.5l1.8 1.8L9 4.5" stroke="#1A56DB" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          团队内训 + 操作手册
+        </div>
+        <div class="price-deduct">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="#0D9488" stroke-width="1.5" stroke-linecap="round"/></svg>
+          签合同抵扣50%
+        </div>
+      </div>
+    </div>
+
+    <!-- INDUSTRY -->
+    <div class="sec-title">覆盖<span>行业场景</span></div>
+    <div class="industry-row">
+      <div class="ind-card">
+        <div class="ind-icon mfg">🏭</div>
+        <div class="ind-name">制造业</div>
+        <div class="ind-scenes">
+          <div class="ind-scene">· 生产日报自动生成</div>
+          <div class="ind-scene">· 质检异常智能预警</div>
+          <div class="ind-scene">· ERP数据自然语言查询</div>
+          <div class="ind-scene">· 客诉智能分类响应</div>
+        </div>
+      </div>
+      <div class="ind-card">
+        <div class="ind-icon fin">🏦</div>
+        <div class="ind-name">金融 / 银行</div>
+        <div class="ind-scenes">
+          <div class="ind-scene">· 智能客服FAQ自动应答</div>
+          <div class="ind-scene">· 合规文档智能审核</div>
+          <div class="ind-scene">· 贷后报告AI辅助生成</div>
+          <div class="ind-scene">· 投诉工单智能分类</div>
+        </div>
+      </div>
+      <div class="ind-card">
+        <div class="ind-icon ret">🛒</div>
+        <div class="ind-name">零售 / 消费</div>
+        <div class="ind-scenes">
+          <div class="ind-scene">· 多平台舆情自动汇聚</div>
+          <div class="ind-scene">· 差评预警 + 回复建议</div>
+          <div class="ind-scene">· 营销文案批量生成</div>
+          <div class="ind-scene">· 会员行为洞察报告</div>
+        </div>
+      </div>
+      <div class="ind-card">
+        <div class="ind-icon sea">🌐</div>
+        <div class="ind-name">出海企业</div>
+        <div class="ind-scenes">
+          <div class="ind-scene">· 多语言客服智能应答</div>
+          <div class="ind-scene">· 邮件智能分类起草</div>
+          <div class="ind-scene">· 合同提案专业翻译</div>
+          <div class="ind-scene">· 海外市场情报汇总</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROOF -->
+    <div class="sec-title">我们能带来的变化</div>
+    <div class="proof-row">
+      <div class="proof-card">
+        <div class="proof-num">5–10×</div>
+        <div class="proof-label">效率提升幅度</div>
+        <div class="proof-desc">AI处理重复性任务后，人工处理时间通常降低80%以上</div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-num">2天</div>
+        <div class="proof-label">数据接入时间</div>
+        <div class="proof-desc">预置的行业数据管道模板，ERP/CRM对接从2周压缩到2天</div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-num">Day 5</div>
+        <div class="proof-label">看到真实结果</div>
+        <div class="proof-desc">不是PPT，是你们自己业务数据跑出来的实测对比数字</div>
+      </div>
+    </div>
+
+    <!-- GUARANTEE -->
+    <div class="guarantee-banner">
+      <div class="gb-icon">🔒</div>
+      <div>
+        <div class="gb-title">效果承诺 · 不满意全额退款</div>
+        <div class="gb-body">
+          Bootcamp结束后，如果你认为AI对你的业务<strong>没有实质帮助</strong>，我们全额退还Bootcamp费用，无需理由。<br>
+          我们相信，用你真实数据跑出来的结果，会替我们说话。
+        </div>
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <div class="about-row">
+      <div class="about-left">
+        <div class="about-label">关于飞凡科技</div>
+        <div class="about-title">阿里系大厂背景<br>最懂业务的AI工程团队</div>
+        <div class="about-body">
+          核心团队来自阿里巴巴、蚂蚁集团、蘑菇街，在电商中台、企业数字化、商业智能领域有超过15年落地经验。我们不只懂AI，更懂你的业务长什么样、数据卡在哪里、系统怎么连。
+        </div>
+      </div>
+      <div class="about-right">
+        <div class="about-tag">前阿里 / 蚂蚁核心团队</div>
+        <div class="about-tag">商业中台专家</div>
+        <div class="about-tag">驻场交付能力</div>
+        <div class="about-tag">Claude · GPT · 国内模型全覆盖</div>
+        <div class="about-tag">支持私有化部署</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-brand">飞凡科技 · FeiVan Tech</div>
+    <div class="footer-contact">
+      扫码预约 Bootcamp 免费诊断咨询<br>
+      <span style="color:#1A56DB;font-weight:500">contact@feivantech.com</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

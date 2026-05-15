@@ -1,0 +1,787 @@
+i<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>飞凡科技 · 行业选择论：数字化基础 × 业务标准化程度</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Mulish:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0C0E11; --ink2:#2A2F38; --ink3:#5A6170; --ink4:#9299A5; --ink5:#C4C9D2;
+  --bg:#F5F3EE; --white:#FFFFFF; --surf:#ECEAE4;
+  --blue:#1747C8; --blue-l:#EAF0FD; --blue-d:#0F2E8A;
+  --teal:#097A6B; --teal-l:#E3F5F2; --teal-d:#054D44;
+  --amber:#9A5500; --amber-l:#FDF4E3; --amber-d:#5C3200;
+  --slate:#3D4A5C; --slate-l:#EDF0F4;
+  --red:#B02020; --red-l:#FDEAEA;
+  --rule:#DEDAD2;
+  --r:8px; --rl:14px;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Mulish',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+
+/* ─── TOPBAR ─── */
+.topbar{background:var(--ink);padding:16px 52px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.tb-brand{font-family:'Playfair Display',serif;font-size:15px;color:rgba(255,255,255,.5);letter-spacing:.02em}
+.tb-nav{display:flex;gap:4px}
+.tb-link{font-size:12px;color:rgba(255,255,255,.3);padding:5px 12px;border-radius:20px;cursor:pointer;transition:.15s}
+.tb-link:hover,.tb-link.on{background:rgba(255,255,255,.1);color:rgba(255,255,255,.75)}
+
+/* ─── HERO ─── */
+.hero{background:var(--white);border-bottom:1px solid var(--rule);padding:60px 52px 52px;position:relative;overflow:hidden}
+.hero::before{content:'数字化基础 × 业务标准化';position:absolute;right:-20px;top:20px;font-family:'Playfair Display',serif;font-size:90px;color:rgba(0,0,0,.03);white-space:nowrap;pointer-events:none;line-height:1}
+.hero-kicker{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:18px}
+.hero-h{font-family:'Playfair Display',serif;font-size:42px;line-height:1.15;color:var(--ink);margin-bottom:20px;max-width:700px}
+.hero-h em{font-style:italic;color:var(--blue)}
+.hero-sub{font-size:15px;color:var(--ink3);line-height:1.8;max-width:620px;font-weight:300;margin-bottom:36px}
+.hero-insight{background:var(--ink);border-radius:var(--rl);padding:22px 28px;max-width:680px;display:flex;gap:16px;align-items:flex-start}
+.hi-bar{width:3px;background:var(--blue);border-radius:2px;flex-shrink:0;min-height:40px}
+.hi-text{font-size:14px;color:rgba(255,255,255,.75);line-height:1.8;font-weight:300}
+.hi-text strong{color:rgba(255,255,255,.95);font-weight:500}
+.hero-stats{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
+.hstat{background:var(--surf);border-radius:var(--r);padding:14px 18px}
+.hstat-num{font-family:'Playfair Display',serif;font-size:26px;color:var(--ink);line-height:1}
+.hstat-lbl{font-size:11px;color:var(--ink4);margin-top:3px;line-height:1.4}
+
+/* ─── SHELL ─── */
+.shell{max-width:980px;margin:0 auto;padding:0 0 80px}
+.section{padding:52px 52px 0}
+.sec-kicker{font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink4);margin-bottom:10px}
+.sec-title{font-family:'Playfair Display',serif;font-size:28px;color:var(--ink);margin-bottom:6px;line-height:1.25}
+.sec-title em{font-style:italic;color:var(--blue)}
+.sec-sub{font-size:14px;color:var(--ink3);line-height:1.75;margin-bottom:28px;font-weight:300;max-width:620px}
+.divider{height:1px;background:var(--rule);margin:0 52px}
+
+/* ─── MATRIX ─── */
+.matrix-wrap{position:relative;padding:0 20px 20px 36px}
+.axis-y-label{position:absolute;left:0;top:50%;transform:translateY(-50%) rotate(-90deg);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);white-space:nowrap}
+.axis-x-label{text-align:center;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);padding-top:12px}
+.matrix-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:10px;height:400px}
+.mq{border-radius:var(--rl);padding:20px;display:flex;flex-direction:column;cursor:default;transition:transform .18s,box-shadow .18s;position:relative;overflow:hidden}
+.mq:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.1)}
+.mq::after{content:'';position:absolute;bottom:0;right:0;width:80px;height:80px;border-radius:50%;opacity:.06}
+.mq-q{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.mq-name{font-family:'Playfair Display',serif;font-size:17px;margin-bottom:8px;line-height:1.25}
+.mq-industries{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.mq-ind{font-size:11px;border-radius:4px;padding:2px 8px;font-weight:500}
+.mq-score{display:flex;align-items:center;gap:6px;margin-top:auto}
+.mq-score-label{font-size:11px;font-weight:500}
+.mq-bars{display:flex;gap:3px}
+.mq-bar{width:8px;height:8px;border-radius:2px}
+
+.mq.star{background:var(--teal-l);border:1.5px solid #5DCAA5}
+.mq.star::after{background:var(--teal)}
+.mq.star .mq-q{color:var(--teal)}
+.mq.star .mq-name{color:var(--teal-d)}
+.mq.star .mq-ind{background:rgba(9,122,107,.12);color:var(--teal-d)}
+.mq.star .mq-score-label{color:var(--teal)}
+.mq.star .mq-bar.on{background:var(--teal)}
+.mq.star .mq-bar{background:rgba(9,122,107,.2)}
+
+.mq.good{background:var(--blue-l);border:1.5px solid #85B7EB}
+.mq.good::after{background:var(--blue)}
+.mq.good .mq-q{color:var(--blue)}
+.mq.good .mq-name{color:var(--blue-d)}
+.mq.good .mq-ind{background:rgba(23,71,200,.1);color:var(--blue-d)}
+.mq.good .mq-score-label{color:var(--blue)}
+.mq.good .mq-bar.on{background:var(--blue)}
+.mq.good .mq-bar{background:rgba(23,71,200,.15)}
+
+.mq.mid{background:var(--amber-l);border:1px solid #EF9F27}
+.mq.mid::after{background:var(--amber)}
+.mq.mid .mq-q{color:var(--amber)}
+.mq.mid .mq-name{color:var(--amber-d)}
+.mq.mid .mq-ind{background:rgba(154,85,0,.1);color:var(--amber-d)}
+.mq.mid .mq-score-label{color:var(--amber)}
+.mq.mid .mq-bar.on{background:var(--amber)}
+.mq.mid .mq-bar{background:rgba(154,85,0,.15)}
+
+.mq.hard{background:var(--slate-l);border:1px solid #B4B2A9}
+.mq.hard::after{background:var(--slate)}
+.mq.hard .mq-q{color:var(--slate)}
+.mq.hard .mq-name{color:var(--ink2)}
+.mq.hard .mq-ind{background:rgba(61,74,92,.1);color:var(--ink2)}
+.mq.hard .mq-score-label{color:var(--ink3)}
+.mq.hard .mq-bar.on{background:var(--slate)}
+.mq.hard .mq-bar{background:rgba(61,74,92,.15)}
+
+/* ─── CORE THEORY ─── */
+.theory-block{background:var(--white);border:1px solid var(--rule);border-radius:var(--rl);padding:32px;margin-bottom:14px}
+.tb-header{display:flex;align-items:flex-start;gap:16px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--rule)}
+.tb-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.tb-meta .tb-title{font-family:'Playfair Display',serif;font-size:20px;color:var(--ink);margin-bottom:3px}
+.tb-meta .tb-desc{font-size:13px;color:var(--ink3);line-height:1.65;font-weight:300}
+.leap-diagram{display:flex;align-items:center;gap:0;margin-bottom:16px}
+.ld-step{flex:1;text-align:center;padding:14px 10px}
+.ld-step-num{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:5px}
+.ld-step-name{font-size:13px;font-weight:500;color:var(--ink)}
+.ld-step-sub{font-size:11px;color:var(--ink4);margin-top:3px;line-height:1.4}
+.ld-arrow{color:var(--ink5);font-size:20px;flex-shrink:0;padding:0 4px}
+.ld-step.skip{background:var(--blue-l);border-radius:var(--r);border:1.5px dashed var(--blue)}
+.ld-step.skip .ld-step-num{color:var(--blue)}
+.ld-step.skip .ld-step-name{color:var(--blue-d)}
+.ld-skip-label{font-size:11px;color:var(--blue);font-weight:500;margin-top:4px}
+.ld-arrow.accent{color:var(--blue);font-size:22px;font-weight:bold}
+.body-text{font-size:14px;color:var(--ink3);line-height:1.8;font-weight:300}
+.body-text strong{color:var(--ink2);font-weight:500}
+.body-text p{margin-bottom:10px}
+.body-text p:last-child{margin-bottom:0}
+
+/* ─── SCORING TABLE ─── */
+.score-wrap{overflow:hidden;border-radius:var(--rl);border:1px solid var(--rule);margin-bottom:14px}
+.score-table{width:100%;border-collapse:collapse;background:var(--white)}
+.score-table th{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);padding:12px 16px;text-align:left;background:var(--surf);border-bottom:1px solid var(--rule)}
+.score-table td{font-size:13px;color:var(--ink2);padding:12px 16px;border-bottom:1px solid var(--rule);vertical-align:middle;line-height:1.5;font-weight:300}
+.score-table tr:last-child td{border-bottom:none}
+.score-table td:first-child{font-weight:500;color:var(--ink)}
+.score-table tr:hover td{background:var(--surf)}
+.rank-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;border-radius:5px;padding:3px 10px}
+.rank-1{background:var(--teal-l);color:var(--teal-d)}
+.rank-2{background:var(--blue-l);color:var(--blue-d)}
+.rank-3{background:var(--amber-l);color:var(--amber-d)}
+.rank-4{background:var(--slate-l);color:var(--slate)}
+.stars{display:flex;gap:2px}
+.star-on{color:#E4A500;font-size:13px}
+.star-off{color:var(--ink5);font-size:13px}
+.progress-bar{height:6px;border-radius:3px;overflow:hidden;background:var(--surf);width:80px;display:inline-block;vertical-align:middle}
+.pb-fill{height:100%;border-radius:3px}
+
+/* ─── DETAIL TABS ─── */
+.tabs-row{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.tab-btn{font-size:12px;font-weight:500;padding:7px 16px;border-radius:20px;border:1px solid var(--rule);cursor:pointer;color:var(--ink3);background:var(--white);transition:.15s}
+.tab-btn:hover{border-color:var(--ink3);color:var(--ink)}
+.tab-btn.active{background:var(--ink);color:var(--white);border-color:var(--ink)}
+.tab-panel{display:none}
+.tab-panel.show{display:block}
+
+.ind-layout{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ind-card{background:var(--white);border:1px solid var(--rule);border-radius:var(--rl);padding:20px}
+.ic-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.ic-title span{font-size:15px}
+.item-list{display:flex;flex-direction:column;gap:7px}
+.item{display:flex;gap:9px;align-items:flex-start;font-size:13px;color:var(--ink3);line-height:1.55;font-weight:300}
+.item-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:7px}
+.dot-teal{background:var(--teal)}
+.dot-blue{background:var(--blue)}
+.dot-amber{background:var(--amber)}
+.dot-red{background:var(--red)}
+.item strong{color:var(--ink2);font-weight:500}
+
+.highlight-box{border-radius:var(--r);padding:14px 16px;display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.65;font-weight:300;margin-top:10px}
+.hb-blue{background:var(--blue-l);color:var(--blue-d);border:1px solid #B5D4F4}
+.hb-teal{background:var(--teal-l);color:var(--teal-d);border:1px solid #9FE1CB}
+.hb-amber{background:var(--amber-l);color:var(--amber-d);border:1px solid #FAC775}
+.hb-red{background:var(--red-l);color:var(--red);border:1px solid #F7C1C1}
+
+.cluster-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.cluster-card{background:var(--surf);border-radius:var(--r);padding:14px}
+.cc-region{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:6px}
+.cc-name{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:4px}
+.cc-body{font-size:12px;color:var(--ink3);line-height:1.55}
+.cc-chip{display:inline-block;font-size:11px;background:var(--white);border-radius:4px;padding:2px 7px;color:var(--ink3);margin-top:6px;margin-right:3px}
+
+/* ─── PRIORITY ROADMAP ─── */
+.roadmap{position:relative;padding-left:40px}
+.roadmap::before{content:'';position:absolute;left:13px;top:0;bottom:0;width:1px;background:var(--rule)}
+.rm-item{position:relative;margin-bottom:24px}
+.rm-dot{position:absolute;left:-40px;top:3px;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600}
+.rm-dot.now{background:var(--teal);color:white}
+.rm-dot.near{background:var(--blue);color:white}
+.rm-dot.later{background:var(--surf);color:var(--ink3);border:1px solid var(--rule)}
+.rm-phase{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.rm-phase.now{color:var(--teal)}
+.rm-phase.near{color:var(--blue)}
+.rm-phase.later{color:var(--ink4)}
+.rm-title{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:5px}
+.rm-body{font-size:13px;color:var(--ink3);line-height:1.65;font-weight:300}
+.rm-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.rm-tag{font-size:11px;background:var(--surf);color:var(--ink3);border-radius:4px;padding:2px 8px}
+
+/* ─── BOTTOM SUMMARY ─── */
+.summary-strip{background:var(--ink);border-radius:var(--rl);padding:32px;margin:0 52px;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+.ss-left .ss-title{font-family:'Playfair Display',serif;font-size:22px;color:white;margin-bottom:10px;line-height:1.3}
+.ss-left .ss-body{font-size:13px;color:rgba(255,255,255,.5);line-height:1.75;font-weight:300}
+.ss-right{display:flex;flex-direction:column;gap:8px}
+.ss-item{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:rgba(255,255,255,.65);line-height:1.55;font-weight:300}
+.ss-num{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:rgba(255,255,255,.5);flex-shrink:0;margin-top:1px}
+
+/* ─── FOOTER ─── */
+.footer{padding:32px 52px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--rule);margin-top:52px}
+.f-brand{font-family:'Playfair Display',serif;font-size:14px;color:var(--ink3)}
+.f-date{font-size:12px;color:var(--ink4)}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.hero-h,.hero-sub,.hero-insight{animation:fadeUp .5s ease both}
+.hero-sub{animation-delay:.1s}
+.hero-insight{animation-delay:.2s}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="tb-brand">飞凡科技 · FeiVan Tech</div>
+  <div class="tb-nav">
+    <div class="tb-link on" onclick="scrollTo('#core')">核心理论</div>
+    <div class="tb-link" onclick="scrollTo('#matrix')">行业矩阵</div>
+    <div class="tb-link" onclick="scrollTo('#detail')">行业详解</div>
+    <div class="tb-link" onclick="scrollTo('#roadmap')">优先路径</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero" id="top">
+  <div class="hero-kicker">行业选择方法论</div>
+  <div class="hero-h">数字化基础 × 业务标准化程度<br>——行业选择的<em>真正逻辑</em></div>
+  <div class="hero-sub">选对行业，比做对事情重要十倍。AI不是万能的——它在有数据基础的地方才能释放价值。理解这个逻辑，就理解了为什么飞凡应该从制造业中小厂切入，而不是从看起来"更高端"的行业开始。</div>
+  <div class="hero-insight">
+    <div class="hi-bar"></div>
+    <div class="hi-text">
+      选制造业中小厂，<strong>不是因为它是最好的市场，而是因为它以前没有能力做全套信息化</strong>——AI可以帮它跳过传统数字化建设这一步，直接进入智能化阶段。这个"跨越感"让价值感知最强烈，决策者感受到的不是"又买了个工具"，而是"终于有人帮我解决了这个多年的问题"。
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-num">655亿</div><div class="hstat-lbl">2027年企业级AI市场规模</div></div>
+    <div class="hstat"><div class="hstat-num">60%</div><div class="hstat-lbl">企业尚未将AI纳入中长期战略</div></div>
+    <div class="hstat"><div class="hstat-num">10–100万</div><div class="hstat-lbl">深场景解决方案客单价区间</div></div>
+    <div class="hstat"><div class="hstat-num">120%</div><div class="hstat-lbl">企业级Agent年复合增长率</div></div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 1: CORE THEORY ═══ -->
+<div class="section" id="core">
+  <div class="sec-kicker">核心理论</div>
+  <div class="sec-title">为什么"跨越数字化"是最大机会</div>
+  <div class="sec-sub">传统企业数字化需要走三步：基础信息化→数据化→智能化。中小厂以前没钱、没人、没动力做第一二步。AI出现之后，这个顺序可以被打乱了。</div>
+
+  <div class="theory-block">
+    <div class="tb-header">
+      <div class="tb-icon" style="background:var(--surf)">🏗️</div>
+      <div class="tb-meta">
+        <div class="tb-title">传统路径：三步走，缺一不可</div>
+        <div class="tb-desc">传统企业数字化需要沿着固定路径升级，每一步都需要大量投入，中小厂往往在第一步就卡死了</div>
+      </div>
+    </div>
+    <div class="leap-diagram">
+      <div class="ld-step">
+        <div class="ld-step-num">第一步</div>
+        <div class="ld-step-name">基础信息化</div>
+        <div class="ld-step-sub">ERP/CRM/MES<br>部署管理软件</div>
+      </div>
+      <div class="ld-arrow">›</div>
+      <div class="ld-step">
+        <div class="ld-step-num">第二步</div>
+        <div class="ld-step-name">数据化治理</div>
+        <div class="ld-step-sub">数据仓库/BI<br>让数据可分析</div>
+      </div>
+      <div class="ld-arrow">›</div>
+      <div class="ld-step">
+        <div class="ld-step-num">第三步</div>
+        <div class="ld-step-name">智能化赋能</div>
+        <div class="ld-step-sub">AI预测/自动化<br>真正提效</div>
+      </div>
+    </div>
+    <div class="highlight-box hb-amber" style="margin-bottom:16px">
+      ⚠️ 中小厂的困境：ERP动辄几十万，实施还要半年。大多数工厂老板知道要数字化，但一算成本就放弃了。结果就是：数据在Excel里，流程靠人脑，管理凭经验。
+    </div>
+  </div>
+
+  <div class="theory-block">
+    <div class="tb-header">
+      <div class="tb-icon" style="background:var(--blue-l)">⚡</div>
+      <div class="tb-meta">
+        <div class="tb-title">AI路径：直接跨越，跳过中间两步</div>
+        <div class="tb-desc">大模型的出现让"自然语言即接口"成为可能——不需要先建数据仓库，不需要先部署BI，AI可以直接读取现有数据（Excel/ERP导出/聊天记录）并产生洞察</div>
+      </div>
+    </div>
+    <div class="leap-diagram">
+      <div class="ld-step">
+        <div class="ld-step-num">第一步</div>
+        <div class="ld-step-name">基础信息化</div>
+        <div class="ld-step-sub">已有：Excel<br>ERP部分数据</div>
+      </div>
+      <div class="ld-arrow accent">⟶</div>
+      <div class="ld-step skip">
+        <div class="ld-step-num" style="color:var(--blue)">跨越</div>
+        <div class="ld-step-name">数据化+智能化</div>
+        <div class="ld-step-sub">AI直接处理<br>原始数据产洞察</div>
+        <div class="ld-skip-label">✦ 飞凡的价值入口</div>
+      </div>
+      <div class="ld-arrow">›</div>
+      <div class="ld-step">
+        <div class="ld-step-num">结果</div>
+        <div class="ld-step-name">业务智能化</div>
+        <div class="ld-step-sub">老板看得懂<br>流程跑得通</div>
+      </div>
+    </div>
+    <div class="body-text">
+      <p><strong>这就是为什么中小制造厂的价值感知最强。</strong>一家做了15年的汽配厂，老板从来没有"数据驱动"的体验——生产靠经验，排期靠电话，报表靠手动Excel汇总。当飞凡用他自己的订单数据、生产记录给他跑出来一个可以每天自动更新、自然语言查询的生产看板，他看到的不是一个工具，而是一次认知颠覆。</p>
+      <p><strong>大企业没有这种感知。</strong>他们已经有SAP、有数据中台、有BI团队——AI对他们来说是"又一个工具的升级"，边际效益更低，替换成本更高，决策层感知更弱。</p>
+    </div>
+    <div class="highlight-box hb-teal" style="margin-top:16px">
+      ✦ 核心公式：<strong>价值感知强度 = 跨越层级数 × 痛点高频程度 × 效果可量化程度</strong>。制造业中小厂在三个维度都是满分。
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 2: MATRIX ═══ -->
+<div class="section" id="matrix" style="margin-top:40px">
+  <div class="divider" style="margin:0 0 40px"></div>
+  <div class="sec-kicker">行业选择矩阵</div>
+  <div class="sec-title">两个维度，四个象限</div>
+  <div class="sec-sub">X轴：业务标准化程度（场景越标准，AI越容易复制）。Y轴：现有数字化基础（基础越薄，AI能带来的跨越感越强）。飞凡应该聚焦在右上角——高标准化、低基础的行业。</div>
+
+  <div class="matrix-wrap">
+    <div class="axis-y-label">现有数字化基础（低→高）</div>
+    <div>
+      <div class="matrix-grid">
+        <!-- Q2: 低基础+高标准 = 星 -->
+        <div class="mq star">
+          <div>
+            <div class="mq-q">⭐ 首选象限 · 高跨越感</div>
+            <div class="mq-name">低数字化基础<br>高业务标准化</div>
+            <div class="mq-industries">
+              <span class="mq-ind">制造业中小厂</span>
+              <span class="mq-ind">汽配/童装/食品</span>
+              <span class="mq-ind">建材流通</span>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px;color:var(--teal-d);line-height:1.5;margin-bottom:8px">AI直接跨越信息化鸿沟，决策者体感最强烈。场景标准化程度高，方案可批量复制。</div>
+            <div class="mq-score">
+              <span class="mq-score-label">飞凡优先级</span>
+              <div class="mq-bars">
+                <div class="mq-bar on"></div><div class="mq-bar on"></div><div class="mq-bar on"></div><div class="mq-bar on"></div><div class="mq-bar on"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Q1: 低基础+低标准 = mid -->
+        <div class="mq mid">
+          <div>
+            <div class="mq-q">⚡ 机会象限 · 定制化高</div>
+            <div class="mq-name">低数字化基础<br>低业务标准化</div>
+            <div class="mq-industries">
+              <span class="mq-ind">传统服务业</span>
+              <span class="mq-ind">农业/养殖</span>
+              <span class="mq-ind">小型建筑</span>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px;color:var(--amber-d);line-height:1.5;margin-bottom:8px">跨越感强但场景非标，每个客户都要定制，规模化难度高。适合个案高客单价，不适合批量复制。</div>
+            <div class="mq-score">
+              <span class="mq-score-label">飞凡优先级</span>
+              <div class="mq-bars">
+                <div class="mq-bar on"></div><div class="mq-bar on"></div><div class="mq-bar"></div><div class="mq-bar"></div><div class="mq-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Q4: 高基础+高标准 = good -->
+        <div class="mq good">
+          <div>
+            <div class="mq-q">✦ 竞争象限 · 红海高门槛</div>
+            <div class="mq-name">高数字化基础<br>高业务标准化</div>
+            <div class="mq-industries">
+              <span class="mq-ind">互联网企业</span>
+              <span class="mq-ind">头部零售</span>
+              <span class="mq-ind">通信运营商</span>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px;color:var(--blue-d);line-height:1.5;margin-bottom:8px">AI价值感知低（他们已有工具），竞争对手强（BAT直接服务），决策周期长。飞凡体量暂时不适合主攻。</div>
+            <div class="mq-score">
+              <span class="mq-score-label">飞凡优先级</span>
+              <div class="mq-bars">
+                <div class="mq-bar on"></div><div class="mq-bar on"></div><div class="mq-bar"></div><div class="mq-bar"></div><div class="mq-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Q3: 高基础+低标准 = hard -->
+        <div class="mq hard">
+          <div>
+            <div class="mq-q">⚠ 谨慎象限 · 合规壁垒高</div>
+            <div class="mq-name">高数字化基础<br>低业务标准化</div>
+            <div class="mq-industries">
+              <span class="mq-ind">金融/银行</span>
+              <span class="mq-ind">医疗</span>
+              <span class="mq-ind">大型国企</span>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px;color:var(--ink3);line-height:1.5;margin-bottom:8px">合规要求极高，私有化部署是硬门槛，决策链极长。有现成线索可以跟进，但不作为主攻方向。</div>
+            <div class="mq-score">
+              <span class="mq-score-label">飞凡优先级</span>
+              <div class="mq-bars">
+                <div class="mq-bar on"></div><div class="mq-bar"></div><div class="mq-bar"></div><div class="mq-bar"></div><div class="mq-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="axis-x-label">业务标准化程度（低→高）</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 3: SCORING ═══ -->
+<div class="section" style="margin-top:40px">
+  <div class="divider" style="margin:0 0 40px"></div>
+  <div class="sec-kicker">行业评分</div>
+  <div class="sec-title">六维评分模型：哪个行业<em>现在就该做</em></div>
+  <div class="sec-sub">基于六个维度对主要行业打分，帮助飞凡做出有依据的资源分配决策。总分25分，15分以上值得主攻。</div>
+
+  <div class="score-wrap">
+    <table class="score-table">
+      <thead>
+        <tr>
+          <th>行业</th>
+          <th>数字化跨越感</th>
+          <th>场景标准化</th>
+          <th>决策链长度</th>
+          <th>客单价空间</th>
+          <th>复制速度</th>
+          <th>总分</th>
+          <th>飞凡优先级</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>制造业中小厂</td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:90%;background:var(--teal)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">9/10</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:75%;background:var(--teal)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">7.5/10</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:90%;background:var(--teal)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">短</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:70%;background:var(--teal)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">中高</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:90%;background:var(--teal)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">快</span></td>
+          <td><strong>22/25</strong></td>
+          <td><span class="rank-badge rank-1">★ 首选主攻</span></td>
+        </tr>
+        <tr>
+          <td>零售/连锁/游乐</td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:65%;background:var(--blue)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">6.5/10</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:80%;background:var(--blue)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">8/10</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:75%;background:var(--blue)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">较短</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:60%;background:var(--blue)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">中</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:80%;background:var(--blue)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">较快</span></td>
+          <td><strong>19/25</strong></td>
+          <td><span class="rank-badge rank-2">优选·有线索</span></td>
+        </tr>
+        <tr>
+          <td>外向型出海商贸</td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:55%;background:var(--blue)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">5.5/10</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:70%;background:var(--blue)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">7/10</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:80%;background:var(--blue)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">较短</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:80%;background:var(--blue)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">高</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:65%;background:var(--blue)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">中</span></td>
+          <td><strong>18/25</strong></td>
+          <td><span class="rank-badge rank-2">联动新加坡</span></td>
+        </tr>
+        <tr>
+          <td>金融/城商行</td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:40%;background:var(--amber)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">4/10</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:55%;background:var(--amber)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">5.5/10</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:20%;background:var(--amber)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">极长</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:90%;background:var(--amber)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">很高</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:30%;background:var(--amber)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">慢</span></td>
+          <td><strong>14/25</strong></td>
+          <td><span class="rank-badge rank-3">机会型·谨慎</span></td>
+        </tr>
+        <tr>
+          <td>大型国企/央企</td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:25%;background:var(--slate)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">2.5/10</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:40%;background:var(--slate)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">4/10</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:10%;background:var(--slate)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">极长</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:80%;background:var(--slate)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">高</span></td>
+          <td><div class="progress-bar"><div class="pb-fill" style="width:20%;background:var(--slate)"></div></div> <span style="font-size:12px;color:var(--ink3);margin-left:6px">极慢</span></td>
+          <td><strong>9/25</strong></td>
+          <td><span class="rank-badge rank-4">回避·除非强关系</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ SECTION 4: DETAIL ═══ -->
+<div class="section" id="detail" style="margin-top:40px">
+  <div class="divider" style="margin:0 0 40px"></div>
+  <div class="sec-kicker">行业深度拆解</div>
+  <div class="sec-title">每个行业的<em>具体打法</em></div>
+  <div class="sec-sub">点击行业切换，查看具体渗透入口、典型痛点、产业带资源和特别注意事项</div>
+
+  <div class="tabs-row">
+    <div class="tab-btn active" onclick="switchTab('mfg',this)">⭐ 制造业中小厂</div>
+    <div class="tab-btn" onclick="switchTab('ret',this)">零售/连锁/游乐</div>
+    <div class="tab-btn" onclick="switchTab('sea',this)">出海商贸</div>
+    <div class="tab-btn" onclick="switchTab('fin',this)">金融/银行</div>
+  </div>
+
+  <!-- 制造业 -->
+  <div id="tab-mfg" class="tab-panel show">
+    <div class="ind-layout">
+      <div class="ind-card">
+        <div class="ic-title"><span>🏭</span>为什么制造业是首选</div>
+        <div class="body-text">
+          <p>制造业中小厂是"数字化基础×标准化程度"矩阵里得分最高的行业。它有以下三重特质叠加：</p>
+          <p><strong>①没有信息化包袱。</strong>大多数工厂用Excel和微信管理生产，没有复杂的历史系统需要兼容，AI可以直接接入原始数据。</p>
+          <p><strong>②痛点清晰可量化。</strong>生产日报多久出、质检漏检率多少、客诉响应多少小时——这些数字在工厂里人人皆知，AI效果的对比数据天然存在。</p>
+          <p><strong>③决策权在老板手里。</strong>老板看到效果就能拍板，不需要经过采购委员会和IT部门漫长的审批。</p>
+        </div>
+      </div>
+      <div class="ind-card">
+        <div class="ic-title"><span>🎯</span>AI渗透切入口排序</div>
+        <div class="item-list">
+          <div class="item"><div class="item-dot dot-teal"></div><strong>生产数据智能化（首选）：</strong>日报自动生成+产量预测，老板每天必须看的东西，使用频率最高，黏性最强</div>
+          <div class="item"><div class="item-dot dot-teal"></div><strong>质检异常预警：</strong>出错率是老板最关心的结果指标，AI量化出来的数字让他无法忽视</div>
+          <div class="item"><div class="item-dot dot-teal"></div><strong>ERP自然语言查询：</strong>把ERP数据变成老板随时可以问的"数字分析师"，替代BI系统</div>
+          <div class="item"><div class="item-dot dot-teal"></div><strong>供应链沟通自动化：</strong>询价/跟单/催货邮件自动处理，周期从3天→1天</div>
+          <div class="item"><div class="item-dot dot-teal"></div><strong>客诉智能分类响应：</strong>响应时长可见可量化，效果数据最好收集</div>
+        </div>
+      </div>
+      <div class="ind-card" style="grid-column:1/-1">
+        <div class="ic-title"><span>🗺️</span>产业带突破地图</div>
+        <div class="cluster-row">
+          <div class="cluster-card">
+            <div class="cc-region">浙江 · 首选区域</div>
+            <div class="cc-name">湖州汽配/童装产业带</div>
+            <div class="cc-body">厂商密度高，互相熟悉，一家成功同行快速跟风。湖州童装集群超1000家，汽配零部件厂超600家。</div>
+            <span class="cc-chip">优先级最高</span><span class="cc-chip">飞凡本地资源</span>
+          </div>
+          <div class="cluster-card">
+            <div class="cc-region">浙江 · 次选区域</div>
+            <div class="cc-name">绍兴纺织/义乌小商品</div>
+            <div class="cc-body">纺织业数字化需求旺盛，义乌小商品出海需求强，与出海AI平台可联动布局。</div>
+            <span class="cc-chip">出海联动</span><span class="cc-chip">标准化高</span>
+          </div>
+          <div class="cluster-card">
+            <div class="cc-region">全国 · 机会区域</div>
+            <div class="cc-name">广东东莞/佛山制造业</div>
+            <div class="cc-body">珠三角制造业密度全国第一，但竞争也最激烈。建议等浙江标杆案例成熟后再进入。</div>
+            <span class="cc-chip">中期目标</span><span class="cc-chip">竞争激烈</span>
+          </div>
+        </div>
+        <div class="highlight-box hb-blue" style="margin-top:14px">
+          💡 产业带突破策略：锁定一个产业带里<strong>最有影响力的龙头厂商</strong>做标杆，一旦成功，同行会主动上门。比冷拜访效率高10倍以上。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 零售 -->
+  <div id="tab-ret" class="tab-panel">
+    <div class="ind-layout">
+      <div class="ind-card">
+        <div class="ic-title"><span>🛒</span>零售行业的AI机会</div>
+        <div class="body-text">
+          <p>零售和消费行业的数字化基础参差不齐——头部连锁已经很成熟，但大量中型连锁和新兴消费场所（如主题乐园、文旅景区）仍有明显的AI渗透空间。</p>
+          <p>零售业的特点是<strong>数据量大且高频</strong>——客诉、评论、销售数据每天都在产生，AI处理这些高频数据的效果非常直观，决策者很容易感受到价值。</p>
+          <p><strong>石基游乐园是现成的切入线索</strong>，舆情管理场景成熟，ROI可量化，建议立刻推进Bootcamp。</p>
+        </div>
+      </div>
+      <div class="ind-card">
+        <div class="ic-title"><span>🎯</span>AI渗透切入口排序</div>
+        <div class="item-list">
+          <div class="item"><div class="item-dot dot-blue"></div><strong>多平台舆情监控（首选）：</strong>大众点评/小红书/抖音自动汇聚，差评实时预警，响应时长从天→分钟</div>
+          <div class="item"><div class="item-dot dot-blue"></div><strong>智能客服自动应答：</strong>常见问题90%自动处理，坐席人力大幅节省</div>
+          <div class="item"><div class="item-dot dot-blue"></div><strong>营销内容批量生成：</strong>活动文案、会员推送、场景介绍自动生成，内容团队效率5-10倍提升</div>
+          <div class="item"><div class="item-dot dot-blue"></div><strong>会员行为洞察：</strong>消费记录→复购预测→个性化促销，直接拉动GMV</div>
+        </div>
+        <div class="highlight-box hb-teal" style="margin-top:12px">
+          ✦ 石基游乐园的Bootcamp重点：聚焦"多平台差评自动汇聚+分类+回复建议"这一个场景，5天内可以跑出非常清晰的效果数据。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 出海 -->
+  <div id="tab-sea" class="tab-panel">
+    <div class="ind-layout">
+      <div class="ind-card">
+        <div class="ic-title"><span>🌐</span>出海企业的独特价值</div>
+        <div class="body-text">
+          <p>出海企业是飞凡新加坡实体的核心服务对象。这类客户的特点是：<strong>愿意用国际工具、付国际价格</strong>，且对Claude/GPT等工具接受度极高。</p>
+          <p>多语言沟通成本、时区差异、合规文档处理——这些痛点是出海企业特有的，国内AI工具普遍覆盖不好，是飞凡的差异化切入点。</p>
+          <p>这类客户可以通过<strong>浙江省贸促会、义乌市场、各地跨境电商协会</strong>批量触达。</p>
+        </div>
+      </div>
+      <div class="ind-card">
+        <div class="ic-title"><span>🎯</span>AI渗透切入口排序</div>
+        <div class="item-list">
+          <div class="item"><div class="item-dot dot-teal"></div><strong>多语言客服（首选）：</strong>中英/东南亚语言智能应答，覆盖时区差异，对出海企业是刚需</div>
+          <div class="item"><div class="item-dot dot-teal"></div><strong>海外客户邮件处理：</strong>邮件智能分类+草稿自动生成，处理时长从小时→分钟</div>
+          <div class="item"><div class="item-dot dot-teal"></div><strong>合同/提案专业翻译：</strong>法律文书级别的精准翻译，替代高成本翻译服务</div>
+          <div class="item"><div class="item-dot dot-teal"></div><strong>海外市场情报汇聚：</strong>竞品动态、目标市场消费者洞察自动汇总</div>
+        </div>
+        <div class="highlight-box hb-blue" style="margin-top:12px">
+          💡 新加坡实体的价值：合规接入Claude/GPT，数据不过境，是出海企业最安心的AI服务方案。国内平台给不了这个，是飞凡的独特壁垒。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 金融 -->
+  <div id="tab-fin" class="tab-panel">
+    <div class="ind-layout">
+      <div class="ind-card">
+        <div class="ic-title"><span>🏦</span>金融行业：高价值但高门槛</div>
+        <div class="body-text">
+          <p>金融行业AI渗透率已经很高（智能客服超80%），但飞凡的机会在于：<strong>城商行和农商行这一层</strong>——他们有需求但没有大厂的IT能力，和大银行不同，决策链相对更短。</p>
+          <p><strong>核心门槛</strong>：私有化部署是硬性要求，数据不能出机房。这意味着飞凡需要提供本地化部署能力，初期工程成本较高。</p>
+          <p>盛京银行是现成线索，但要评估：等保资质是否就绪？私有化部署能力是否具备？如果都没有，建议先拿其他行业标杆，再回头谈盛京。</p>
+        </div>
+      </div>
+      <div class="ind-card">
+        <div class="ic-title"><span>⚠️</span>进入前必须确认的条件</div>
+        <div class="item-list">
+          <div class="item"><div class="item-dot dot-amber"></div><strong>等保2.0资质：</strong>金融行业AI系统上线必须，需要提前申请，周期3-6个月</div>
+          <div class="item"><div class="item-dot dot-amber"></div><strong>私有化部署能力：</strong>模型本地化部署，数据不出机房，需要专项技术准备</div>
+          <div class="item"><div class="item-dot dot-amber"></div><strong>合规伙伴背书：</strong>建议找有金融资质的合作方联合进入，不独立承担合规风险</div>
+          <div class="item"><div class="item-dot dot-amber"></div><strong>决策层直达：</strong>金融机构决策链长，必须从行长/副行长层面切入，不要从IT部门谈起</div>
+        </div>
+        <div class="highlight-box hb-amber" style="margin-top:12px">
+          ⚠️ 判断标准：如果上述4个条件有任何一个尚未就绪，盛京银行的项目应推迟推进，先投资在制造业/零售业打出标杆，再回头谈。
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 5: ROADMAP ═══ -->
+<div class="section" id="roadmap" style="margin-top:40px">
+  <div class="divider" style="margin:0 0 40px"></div>
+  <div class="sec-kicker">行动优先路径</div>
+  <div class="sec-title">接下来<em>18个月</em>的行业布局</div>
+  <div class="sec-sub">基于"数字化基础×标准化程度"矩阵的行动排序，每个阶段都要有标杆案例才能进入下一阶段</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:40px">
+    <div class="roadmap">
+      <div class="rm-item">
+        <div class="rm-dot now">M1</div>
+        <div class="rm-phase now">现在 · M1–M3</div>
+        <div class="rm-title">制造业：锁定湖州产业带</div>
+        <div class="rm-body">从现有线索中选一家制造业客户推进Bootcamp，完成第一个完整标杆案例。重点打出"5天看到真实数据"的样板。</div>
+        <div class="rm-tags"><span class="rm-tag">汽配/童装厂</span><span class="rm-tag">生产日报场景</span><span class="rm-tag">ROI量化</span></div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot now">M3</div>
+        <div class="rm-phase now">近期 · M3–M6</div>
+        <div class="rm-title">零售：激活石基游乐园</div>
+        <div class="rm-body">石基游乐园的舆情管理Bootcamp同步推进，打出零售/消费行业的第一个标杆。两个行业标杆并行，覆盖不同决策者圈子。</div>
+        <div class="rm-tags"><span class="rm-tag">石基游乐园</span><span class="rm-tag">舆情监控</span><span class="rm-tag">消费行业入口</span></div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot near">M6</div>
+        <div class="rm-phase near">中期 · M6–M12</div>
+        <div class="rm-title">制造业产业带批量复制</div>
+        <div class="rm-body">以第一个标杆为素材，在湖州产业带快速复制。接触行业协会做分享活动，批量触达20–30家潜在客户，目标签下3–5个合同。</div>
+        <div class="rm-tags"><span class="rm-tag">行业协会分享</span><span class="rm-tag">批量复制</span><span class="rm-tag">SOP沉淀</span></div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot near">M9</div>
+        <div class="rm-phase near">中期 · M9–M12</div>
+        <div class="rm-title">出海商贸：新加坡联动</div>
+        <div class="rm-body">新加坡法律实体完成后，开始触达义乌/绍兴出海企业。多语言客服+合规AI工具作为主打产品，与国内平台形成互补。</div>
+        <div class="rm-tags"><span class="rm-tag">新加坡实体</span><span class="rm-tag">多语言AI</span><span class="rm-tag">出海企业</span></div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot later">M12</div>
+        <div class="rm-phase later">远期 · M12–M18</div>
+        <div class="rm-title">金融/银行：有条件进入</div>
+        <div class="rm-body">等保资质、私有化部署能力和行业标杆都具备后，以制造/零售案例为背书进入城商行/农商行。客单价高，值得等到条件成熟。</div>
+        <div class="rm-tags"><span class="rm-tag">等保资质</span><span class="rm-tag">私有化部署</span><span class="rm-tag">城商行</span></div>
+      </div>
+    </div>
+
+    <div>
+      <div style="background:var(--white);border:1px solid var(--rule);border-radius:var(--rl);padding:24px;margin-bottom:14px">
+        <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:14px">各阶段目标客户数</div>
+        <div style="position:relative;height:200px"><canvas id="clientChart" role="img" aria-label="飞凡各阶段目标客户数量增长图">M1-M3：2个，M3-M6：4个，M6-M12：8个，M12-M18：15个</canvas></div>
+      </div>
+      <div style="background:var(--ink);border-radius:var(--rl);padding:24px">
+        <div style="font-size:13px;font-weight:500;color:rgba(255,255,255,.8);margin-bottom:14px">行业进入的护城河积累</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(255,255,255,.5);flex-shrink:0;margin-top:1px">1</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.55;font-weight:300">每个行业的<strong style="color:rgba(255,255,255,.85)">Prompt库和数据模板</strong>沉淀，下一个同行业客户交付成本下降50%</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(255,255,255,.5);flex-shrink:0;margin-top:1px">2</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.55;font-weight:300"><strong style="color:rgba(255,255,255,.85)">ROI数据库</strong>建立，告诉潜在客户"同行业XX厂节省了XX万"，说服力远超任何PPT</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(255,255,255,.5);flex-shrink:0;margin-top:1px">3</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.55;font-weight:300"><strong style="color:rgba(255,255,255,.85)">客户数据飞轮</strong>：平台上积累的行业知识越多，模型越懂这个行业，新客户体验越好，竞争对手越难复制</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SUMMARY ─── -->
+<div class="summary-strip" id="summary">
+  <div class="ss-left">
+    <div class="ss-title">一句话记住这个逻辑</div>
+    <div class="ss-body">不要选"看起来最高端"的行业，要选"AI能带来最大跨越感"的行业。跨越感 = 客户以前无法承受的事情，现在AI帮他做到了——这就是飞凡在制造业中小厂的机会所在。</div>
+  </div>
+  <div class="ss-right">
+    <div class="ss-item"><div class="ss-num">1</div>制造业中小厂是矩阵高分区，数字化基础薄弱正是AI最大的渗透空间</div>
+    <div class="ss-item"><div class="ss-num">2</div>行业选择先选标准化程度高的，场景可复制才能规模化</div>
+    <div class="ss-item"><div class="ss-num">3</div>每进入一个行业，就系统性沉淀该行业的数据模板和ROI案例</div>
+    <div class="ss-item"><div class="ss-num">4</div>金融/国企不是不能做，是在条件具备之前优先级靠后</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="f-brand">飞凡科技 · FeiVan Tech · 行业选择方法论</div>
+  <div class="f-date">2025–2026 战略规划</div>
+</div>
+
+</div><!-- /shell -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+function scrollTo(id){document.querySelector(id).scrollIntoView({behavior:'smooth'})}
+
+function switchTab(id,el){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('show'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('show');
+  el.classList.add('active');
+}
+
+document.querySelectorAll('.tb-link').forEach(l=>{
+  l.addEventListener('click',function(){
+    document.querySelectorAll('.tb-link').forEach(x=>x.classList.remove('on'));
+    this.classList.add('on');
+  });
+});
+
+new Chart(document.getElementById('clientChart'),{
+  type:'bar',
+  data:{
+    labels:['M1–M3','M3–M6','M6–M12','M12–M18'],
+    datasets:[{
+      label:'累计客户数',
+      data:[2,4,8,15],
+      backgroundColor:['#0F6E56','#0F6E56','#1747C8','#1747C8'],
+      borderRadius:6,
+      borderSkipped:false
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{
+      y:{beginAtZero:true,ticks:{color:'#9299A5',font:{size:11}},grid:{color:'rgba(0,0,0,0.05)'}},
+      x:{ticks:{color:'#9299A5',font:{size:11}},grid:{display:false}}
+    }
+  }
+});
+</script>
+</body>
+</html>

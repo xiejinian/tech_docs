@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEO 客户筛选框架 · 飞凡科技</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+:root {
+  --bg:       #faf9f7;
+  --white:    #ffffff;
+  --surf:     #f4f2ed;
+  --ink:      #18170f;
+  --ink2:     #2a2920;
+  --muted:    #6a6860;
+  --dim:      #b0ad a5;
+  --dim:      #aeab a3;
+  --dim:      #b8b5ae;
+  --border:   #e5e2da;
+  --border2:  #d0cdc5;
+
+  /* tier colors */
+  --t-green:  #1a5c38;
+  --t-green-l:#22c55e;
+  --t-green-bg:#f0fdf4;
+  --t-green-b:#bbf7d0;
+
+  --t-amber:  #92400e;
+  --t-amber-l:#f59e0b;
+  --t-amber-bg:#fffbeb;
+  --t-amber-b:#fde68a;
+
+  --t-red:    #991b1b;
+  --t-red-l:  #ef4444;
+  --t-red-bg: #fef2f2;
+  --t-red-b:  #fecaca;
+
+  --t-blue:   #1e3a5f;
+  --t-blue-l: #3b82f6;
+  --t-blue-bg:#eff6ff;
+  --t-blue-b: #bfdbfe;
+
+  --t-purple: #4c1d95;
+  --t-purple-l:#8b5cf6;
+  --t-purple-bg:#f5f3ff;
+  --t-purple-b:#ddd6fe;
+
+  --t-teal:   #134e4a;
+  --t-teal-l: #14b8a6;
+  --t-teal-bg:#f0fdfa;
+  --t-teal-b: #99f6e4;
+
+  --r: 10px;
+  --r-sm: 7px;
+  --sh: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  --sh2: 0 2px 8px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.05);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.65;
+  padding: 52px 52px 72px;
+}
+
+/* ── PAGE HEADER ── */
+.page-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 52px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+.page-hdr h1 {
+  font-family: 'Lora', serif;
+  font-size: clamp(26px, 3.5vw, 40px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.page-hdr h1 em { font-style: italic; color: var(--muted); }
+.page-hdr-right { text-align: right; }
+.page-hdr-meta {
+  font-family: 'Fira Code', monospace;
+  font-size: 11px;
+  color: var(--dim);
+  letter-spacing: 0.5px;
+  line-height: 2;
+}
+.page-hdr-sub {
+  font-size: 13px;
+  color: var(--muted);
+  max-width: 520px;
+  margin-top: 10px;
+  line-height: 1.7;
+}
+
+/* ── SECTION ── */
+.section { margin-bottom: 56px; }
+.sec-label {
+  font-family: 'Fira Code', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sec-label::after { content: ''; flex: 1; max-width: 48px; height: 1px; background: var(--border2); }
+.sec-title {
+  font-family: 'Lora', serif;
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.sec-desc { font-size: 13px; color: var(--muted); max-width: 680px; line-height: 1.7; margin-bottom: 28px; }
+
+/* ── TWO / THREE COL ── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+.g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 22px;
+  box-shadow: var(--sh);
+  transition: box-shadow 0.15s;
+}
+.card:hover { box-shadow: var(--sh2); }
+
+.lbl {
+  font-family: 'Fira Code', monospace;
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.lbl.green  { color: var(--t-green); border-color: var(--t-green-b); }
+.lbl.amber  { color: var(--t-amber); border-color: var(--t-amber-b); }
+.lbl.red    { color: var(--t-red);   border-color: var(--t-red-b);   }
+.lbl.blue   { color: var(--t-blue);  border-color: var(--t-blue-b);  }
+.lbl.purple { color: var(--t-purple);border-color: var(--t-purple-b);}
+.lbl.teal   { color: var(--t-teal);  border-color: var(--t-teal-b);  }
+
+/* ── LISTS ── */
+.nlist, .clist, .xlist {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.nlist li, .clist li, .xlist li {
+  font-size: 13px; color: #374151;
+  padding-left: 18px; position: relative; line-height: 1.55;
+}
+.nlist li::before { content:'›'; position:absolute; left:0; font-size:14px; font-weight:700; color:var(--dim); }
+.clist li::before { content:'✓'; position:absolute; left:0; font-size:11px; top:2px; color:var(--t-green-l); font-weight:700; }
+.xlist li::before { content:'✕'; position:absolute; left:0; font-size:11px; top:2px; color:var(--t-red-l); }
+li strong { color: var(--ink); }
+
+/* ── INDUSTRY GRID ── */
+.ind-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.ind-card {
+  border-radius: var(--r);
+  padding: 20px;
+  border: 1px solid;
+  position: relative;
+  overflow: hidden;
+}
+.ind-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: var(--r) var(--r) 0 0;
+}
+.ind-card.tier-s  { background: var(--t-green-bg);  border-color: var(--t-green-b);  }
+.ind-card.tier-s::before  { background: var(--t-green-l);  }
+.ind-card.tier-a  { background: var(--t-blue-bg);   border-color: var(--t-blue-b);   }
+.ind-card.tier-a::before  { background: var(--t-blue-l);   }
+.ind-card.tier-b  { background: var(--t-amber-bg);  border-color: var(--t-amber-b);  }
+.ind-card.tier-b::before  { background: var(--t-amber-l);  }
+.ind-card.tier-c  { background: var(--t-red-bg);    border-color: var(--t-red-b);    }
+.ind-card.tier-c::before  { background: var(--t-red-l);    }
+
+.ind-tier {
+  font-family: 'Fira Code', monospace;
+  font-size: 9px; letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 6px;
+}
+.tier-s .ind-tier  { color: var(--t-green); }
+.tier-a .ind-tier  { color: var(--t-blue);  }
+.tier-b .ind-tier  { color: var(--t-amber); }
+.tier-c .ind-tier  { color: var(--t-red);   }
+
+.ind-name {
+  font-family: 'Lora', serif;
+  font-size: 16px; font-weight: 500;
+  color: var(--ink); margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+.ind-reason {
+  font-size: 12px; color: var(--muted);
+  line-height: 1.6; margin-bottom: 10px;
+}
+.ind-examples {
+  display: flex; flex-wrap: wrap; gap: 4px;
+}
+.ind-tag {
+  font-family: 'Fira Code', monospace;
+  font-size: 9px; padding: 2px 7px;
+  border-radius: 4px; border: 1px solid;
+  letter-spacing: 0.3px;
+}
+.tier-s .ind-tag { background: rgba(255,255,255,0.6); border-color: var(--t-green-b); color: var(--t-green); }
+.tier-a .ind-tag { background: rgba(255,255,255,0.6); border-color: var(--t-blue-b);  color: var(--t-blue);  }
+.tier-b .ind-tag { background: rgba(255,255,255,0.6); border-color: var(--t-amber-b); color: var(--t-amber); }
+.tier-c .ind-tag { background: rgba(255,255,255,0.6); border-color: var(--t-red-b);   color: var(--t-red);   }
+
+/* ── SCORING TABLE ── */
+.score-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+.score-table thead tr { background: var(--ink2); }
+.score-table th {
+  padding: 12px 16px; text-align: left;
+  font-family: 'Fira Code', monospace;
+  font-size: 9px; letter-spacing: 2px;
+  font-weight: 500; color: rgba(255,255,255,0.6);
+}
+.score-table td {
+  padding: 12px 16px; border-bottom: 1px solid var(--border);
+  font-size: 13px; color: #374151; vertical-align: top; line-height: 1.5;
+}
+.score-table tr:hover td { background: var(--surf); }
+.score-table .dim-name { font-weight: 600; color: var(--ink); }
+.score-table .weight {
+  font-family: 'Fira Code', monospace;
+  font-size: 12px; font-weight: 600;
+  color: var(--t-blue);
+}
+.score-bar-wrap { display: flex; align-items: center; gap: 10px; min-width: 140px; }
+.score-bar {
+  flex: 1; height: 6px;
+  background: var(--border);
+  border-radius: 3px; overflow: hidden;
+}
+.score-bar-fill { height: 100%; border-radius: 3px; background: var(--t-blue-l); }
+
+/* ── SCORING DETAIL ── */
+.score-dim {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  margin-bottom: 12px;
+  box-shadow: var(--sh);
+}
+.sd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surf);
+}
+.sd-title { font-weight: 600; font-size: 14px; color: var(--ink); }
+.sd-weight {
+  font-family: 'Fira Code', monospace;
+  font-size: 11px; font-weight: 600;
+  padding: 3px 10px; border-radius: 4px;
+  background: var(--t-blue-bg);
+  color: var(--t-blue);
+  border: 1px solid var(--t-blue-b);
+}
+.sd-body { padding: 16px 20px; }
+.sd-levels { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.sd-level {
+  padding: 12px 14px;
+  border-radius: var(--r-sm);
+  border: 1px solid;
+}
+.sd-level.l3 { background: var(--t-green-bg); border-color: var(--t-green-b); }
+.sd-level.l2 { background: var(--t-amber-bg); border-color: var(--t-amber-b); }
+.sd-level.l1 { background: var(--t-red-bg);   border-color: var(--t-red-b);   }
+.sl-score {
+  font-family: 'Lora', serif;
+  font-size: 22px; font-weight: 500;
+  line-height: 1; margin-bottom: 4px;
+}
+.sd-level.l3 .sl-score { color: var(--t-green); }
+.sd-level.l2 .sl-score { color: var(--t-amber); }
+.sd-level.l1 .sl-score { color: var(--t-red);   }
+.sl-label { font-size: 11px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+.sl-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+/* ── QUALIFICATION MATRIX ── */
+.qual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.qual-card {
+  border-radius: var(--r);
+  padding: 22px;
+  border: 1px solid;
+}
+.qual-card.pass { background: var(--t-green-bg); border-color: var(--t-green-b); }
+.qual-card.warn { background: var(--t-amber-bg); border-color: var(--t-amber-b); }
+.qual-card.fail { background: var(--t-red-bg);   border-color: var(--t-red-b);   }
+.qual-card.note { background: var(--t-purple-bg);border-color: var(--t-purple-b);}
+.qc-title {
+  font-family: 'Lora', serif;
+  font-size: 15px; font-weight: 500;
+  margin-bottom: 12px; color: var(--ink);
+  display: flex; align-items: center; gap: 8px;
+}
+.qc-icon { font-size: 16px; }
+.qc-list {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 7px;
+}
+.qc-list li {
+  font-size: 13px; padding-left: 18px;
+  position: relative; line-height: 1.55;
+  color: #374151;
+}
+.pass .qc-list li::before { content:'✓'; position:absolute; left:0; color:var(--t-green-l); font-weight:700; font-size:11px; top:2px; }
+.warn .qc-list li::before { content:'△'; position:absolute; left:0; color:var(--t-amber-l); font-weight:700; font-size:11px; top:2px; }
+.fail .qc-list li::before { content:'✕'; position:absolute; left:0; color:var(--t-red-l);   font-weight:700; font-size:11px; top:2px; }
+.note .qc-list li::before { content:'›'; position:absolute; left:0; color:var(--t-purple-l);font-weight:700; font-size:13px; }
+
+/* ── DECISION FLOW ── */
+.flow-steps {
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  gap: 0;
+  position: relative;
+  margin: 24px 0;
+}
+.flow-step {
+  position: relative;
+  padding: 20px 16px 20px;
+  text-align: center;
+}
+.flow-step::after {
+  content: '→';
+  position: absolute;
+  right: -10px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--border2);
+  font-size: 18px;
+  font-weight: 300;
+  z-index: 1;
+}
+.flow-step:last-child::after { display: none; }
+.fs-num {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fira Code', monospace;
+  font-size: 12px; font-weight: 500;
+  color: var(--muted);
+  margin: 0 auto 10px;
+  background: var(--white);
+}
+.fs-num.active {
+  background: var(--ink2);
+  border-color: var(--ink2);
+  color: #fff;
+}
+.fs-name {
+  font-size: 12px; font-weight: 600;
+  color: var(--ink); margin-bottom: 4px;
+}
+.fs-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+/* ── CALLOUT ── */
+.callout {
+  border-left: 3px solid var(--cc, var(--t-blue-l));
+  background: var(--cb, var(--t-blue-bg));
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  padding: 14px 18px; margin: 16px 0;
+}
+.callout-t {
+  font-family: 'Fira Code', monospace;
+  font-size: 9px; letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--cc, var(--t-blue-l));
+  margin-bottom: 6px;
+}
+.callout p { font-size: 13px; color: #374151; line-height: 1.65; }
+.callout p strong { color: var(--ink); }
+
+/* ── SUMMARY BAND ── */
+.summary {
+  background: var(--ink2);
+  border-radius: var(--r);
+  padding: 32px 36px;
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 24px;
+}
+.sum-item {}
+.sum-num {
+  font-family: 'Lora', serif;
+  font-size: 36px; font-weight: 500;
+  color: #fbbf24; line-height: 1;
+  margin-bottom: 6px;
+}
+.sum-lbl { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.5; }
+
+/* ── FOOTER ── */
+.page-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Fira Code', monospace;
+  font-size: 10px;
+  color: var(--dim);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.section {
+  animation: fadeUp 0.4s ease both;
+}
+.section:nth-child(1) { animation-delay: 0.0s; }
+.section:nth-child(2) { animation-delay: 0.08s; }
+.section:nth-child(3) { animation-delay: 0.16s; }
+.section:nth-child(4) { animation-delay: 0.24s; }
+.section:nth-child(5) { animation-delay: 0.32s; }
+.section:nth-child(6) { animation-delay: 0.40s; }
+
+@media (max-width: 960px) {
+  body { padding: 32px 24px 56px; }
+  .page-hdr { flex-direction: column; gap: 16px; }
+  .g2,.g3,.g4,.ind-grid { grid-template-columns: 1fr; }
+  .flow-steps { grid-template-columns: 1fr; }
+  .flow-step::after { content: '↓'; right: 50%; top: auto; bottom: -14px; transform: translateX(50%); }
+  .summary { grid-template-columns: 1fr 1fr; }
+  .qual-grid { grid-template-columns: 1fr; }
+  .sd-levels { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE HEADER -->
+<div class="page-hdr">
+  <div>
+    <h1>GEO 客户筛选框架<br><em>行业选择 · 客户评估 · 优先级排序</em></h1>
+    <div class="page-hdr-sub">基于行业 GEO 适配度与客户企业具体情况的双维度筛选，识别高价值、高成功率、高续约率的目标客户。</div>
+  </div>
+  <div class="page-hdr-right">
+    <div class="page-hdr-meta">
+      飞凡科技<br>
+      2026.05 · V1.0<br>
+      商务内部使用
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     SECTION 1: 核心筛选逻辑
+══════════════════════════════ -->
+<div class="section">
+  <div class="sec-label">Section 01</div>
+  <div class="sec-title">筛选的底层逻辑：两道关卡</div>
+  <div class="sec-desc">客户筛选分两步走：先看行业，再看企业本身。行业决定 GEO 天花板，企业情况决定能否达到天花板。两道关卡都通过，才是理想客户。</div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="lbl green">第一道关卡 · 行业适配度</div>
+      <ul class="clist">
+        <li><strong>决策周期长、信息密度高：</strong>B2B 采购者会用 AI 做大量研究，GEO 能深度介入决策前期</li>
+        <li><strong>专业内容可结构化：</strong>行业知识能被 AI 理解和引用，不是靠"感觉"做决策的行业</li>
+        <li><strong>竞品尚未大规模 GEO 布局：</strong>先发优势窗口仍存在，晚进者会面临已占位的竞品</li>
+        <li><strong>AI 被真实使用于该领域：</strong>目标客户的采购者和用户确实在用 AI 搜索相关信息</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="lbl blue">第二道关卡 · 企业适配度</div>
+      <ul class="clist">
+        <li><strong>有真实知识资产可结构化：</strong>产品文档、案例、白皮书、技术规格——有料才能 GEO</li>
+        <li><strong>决策层认知到位或可教育：</strong>GEO 效果 90 天才能量化归因，客户得能等</li>
+        <li><strong>预算稳定性：</strong>GEO 是持续运营，不是一次性投入，月均 2-5 万的长周期预算</li>
+        <li><strong>内部有配合意愿：</strong>知识资产梳理需要客户配合，决定实际交付质量</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout" style="--cc:var(--t-amber); --cb:var(--t-amber-bg); margin-top:16px;">
+    <div class="callout-t">最重要的一条筛选原则</div>
+    <p><strong>GEO 不是适合所有企业的产品。</strong>高决策成本行业（ToB SaaS、工业制造、金融科技、政务科技）的客户，每个月 AI 采购查询量是消费品行业的 8-15 倍，且查询质量高（直接影响采购决策）。签错一个低适配客户，不仅效果差、难续约，还会消耗团队大量精力做低价值交付。</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     SECTION 2: 行业分级
+══════════════════════════════ -->
+<div class="section">
+  <div class="sec-label">Section 02</div>
+  <div class="sec-title">行业适配度分级 · S / A / B / C 四档</div>
+  <div class="sec-desc">基于 AI 采购查询密度、内容可结构化程度、竞品占位现状、客单价潜力四个维度综合评定。优先攻 S/A 级行业，B 级需要额外评估，C 级谨慎进入。</div>
+
+  <div class="ind-grid">
+
+    <!-- S级 -->
+    <div class="ind-card tier-s">
+      <div class="ind-tier">S 级 · 优先级最高</div>
+      <div class="ind-name">出海 ToB SaaS</div>
+      <div class="ind-reason">海外买家90%通过 AI 研究供应商；英文 GEO 竞争窗口仍宽；客单价高；内容知识密度极高；新加坡节点价值直接释放。</div>
+      <div class="ind-examples">
+        <span class="ind-tag">ERP/CRM</span><span class="ind-tag">营销自动化</span><span class="ind-tag">数据分析</span><span class="ind-tag">HR SaaS</span>
+      </div>
+    </div>
+
+    <div class="ind-card tier-s">
+      <div class="ind-tier">S 级 · 优先级最高</div>
+      <div class="ind-name">工业制造 · 精密仪器</div>
+      <div class="ind-reason">采购周期长（6-18个月），AI 研究占采购前期70%时间；技术规格文档天然结构化；DeepSeek 对工业内容权重极高；竞品 GEO 意识几乎为零。</div>
+      <div class="ind-examples">
+        <span class="ind-tag">工业软件</span><span class="ind-tag">精密仪器</span><span class="ind-tag">MES/PLM</span><span class="ind-tag">工业 AI</span>
+      </div>
+    </div>
+
+    <div class="ind-card tier-s">
+      <div class="ind-tier">S 级 · 优先级最高</div>
+      <div class="ind-name">金融科技 · 企业服务</div>
+      <div class="ind-reason">高信息密度，每次采购决策前 AI 查询量极大；合规性内容天然权威；客单价高，年框合同常见；飞凡盛京银行项目可作行业背书。</div>
+      <div class="ind-examples">
+        <span class="ind-tag">智能风控</span><span class="ind-tag">支付 SaaS</span><span class="ind-tag">企业财税</span><span class="ind-tag">银行科技</span>
+      </div>
+    </div>
+
+    <!-- A级 -->
+    <div class="ind-card tier-a">
+      <div class="ind-tier">A 级 · 推荐进入</div>
+      <div class="ind-name">政务科技 · 信创</div>
+      <div class="ind-reason">政府采购线上化，AI 辅助政策解读需求旺盛；合规要求高，与飞凡合规 GEO 路径高度契合；单项目体量大；飞凡已有相关资源积累。</div>
+      <div class="ind-examples">
+        <span class="ind-tag">政务 AI</span><span class="ind-tag">信创替代</span><span class="ind-tag">智慧城市</span><span class="ind-tag">公积金系统</span>
+      </div>
+    </div>
+
+    <div class="ind-card tier-a">
+      <div class="ind-tier">A 级 · 推荐进入</div>
+      <div class="ind-name">医疗健康科技</div>
+      <div class="ind-reason">AI 医疗查询量在所有行业中最高（AI Overview 覆盖率 48.75%）；专业内容权威性要求高，恰好是飞凡合规体系的优势；客单价高。</div>
+      <div class="ind-examples">
+        <span class="ind-tag">医疗 SaaS</span><span class="ind-tag">医疗器械</span><span class="ind-tag">数字疗法</span><span class="ind-tag">健康管理</span>
+      </div>
+    </div>
+
+    <div class="ind-card tier-a">
+      <div class="ind-tier">A 级 · 推荐进入</div>
+      <div class="ind-name">教育培训 · 职业教育</div>
+      <div class="ind-reason">AI 学习建议查询量大；K12 品牌 GEO 优化后 Top1 占比从 7.6% 飙升至 44.5%（行业案例）；内容知识密度高，可大量结构化。</div>
+      <div class="ind-examples">
+        <span class="ind-tag">职业认证</span><span class="ind-tag">企业培训</span><span class="ind-tag">K12 SaaS</span><span class="ind-tag">语言教育</span>
+      </div>
+    </div>
+
+    <!-- B级 -->
+    <div class="ind-card tier-b">
+      <div class="ind-tier">B 级 · 需评估后进入</div>
+      <div class="ind-name">消费品出海 · 跨境电商</div>
+      <div class="ind-reason">海外 AI 查询量大但转化链路长；内容偏感性，AI 引用难度高于 ToB；需要多语言 GEO 能力；效果归因更难证明，续约风险偏高。建议选有技术参数的产品类目。</div>
+      <div class="ind-examples">
+        <span class="ind-tag">消费电子</span><span class="ind-tag">智能家居</span><span class="ind-tag">运动器材</span>
+      </div>
+    </div>
+
+    <div class="ind-card tier-b">
+      <div class="ind-tier">B 级 · 需评估后进入</div>
+      <div class="ind-name">法律 · 咨询 · 专业服务</div>
+      <div class="ind-reason">知识密度高，合规性内容天然权威；但决策高度个性化，AI 引用不一定直接转化采购；需要评估该客户是否已有数字化内容积累。</div>
+      <div class="ind-examples">
+        <span class="ind-tag">律所</span><span class="ind-tag">管理咨询</span><span class="ind-tag">会计师事务所</span>
+      </div>
+    </div>
+
+    <!-- C级 -->
+    <div class="ind-card tier-c">
+      <div class="ind-tier">C 级 · 谨慎进入</div>
+      <div class="ind-name">本地生活 · 餐饮零售</div>
+      <div class="ind-reason">AI 引用本地服务的机制仍不成熟；决策基于口碑和地理位置，不依赖内容权威性；客单价低，运营成本高；GEO ROI 极难向客户证明，续约率预期极低。</div>
+      <div class="ind-examples">
+        <span class="ind-tag">餐饮</span><span class="ind-tag">零售门店</span><span class="ind-tag">美业</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     SECTION 3: 企业评分模型
+══════════════════════════════ -->
+<div class="section">
+  <div class="sec-label">Section 03</div>
+  <div class="sec-title">客户企业评分模型 · 6 维度 100 分制</div>
+  <div class="sec-desc">行业适配度通过后，对每个具体客户进行评分。总分 ≥ 70 分为理想客户，50-69 分为需协商条件，低于 50 分不建议接单。</div>
+
+  <!-- 维度权重总览 -->
+  <table class="score-table" style="margin-bottom:24px;">
+    <thead>
+      <tr>
+        <th>评分维度</th>
+        <th>权重</th>
+        <th>核心评判逻辑</th>
+        <th>分值占比</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="dim-name">知识资产质量</td>
+        <td class="weight">25%</td>
+        <td>企业有多少结构化、可引用的内容基础。这是 GEO 的原材料，决定内容工程上限。</td>
+        <td>
+          <div class="score-bar-wrap">
+            <div class="score-bar"><div class="score-bar-fill" style="width:100%"></div></div>
+            <span style="font-family:'Fira Code',monospace;font-size:11px;color:var(--muted);">25分</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="dim-name">决策层认知与配合度</td>
+        <td class="weight">20%</td>
+        <td>决策层是否理解 GEO 的效果周期（90天才归因），以及是否愿意配合知识资产整理。</td>
+        <td>
+          <div class="score-bar-wrap">
+            <div class="score-bar"><div class="score-bar-fill" style="width:80%"></div></div>
+            <span style="font-family:'Fira Code',monospace;font-size:11px;color:var(--muted);">20分</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="dim-name">预算稳定性与周期</td>
+        <td class="weight">20%</td>
+        <td>月均预算是否达 2 万以上，能否承诺 6-12 个月合作周期。GEO 是持续运营，非一次性项目。</td>
+        <td>
+          <div class="score-bar-wrap">
+            <div class="score-bar"><div class="score-bar-fill" style="width:80%"></div></div>
+            <span style="font-family:'Fira Code',monospace;font-size:11px;color:var(--muted);">20分</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="dim-name">竞品 GEO 现状</td>
+        <td class="weight">15%</td>
+        <td>主要竞品当前在目标平台的引用率。竞品越弱，先发优势越大，ROI 越容易实现。</td>
+        <td>
+          <div class="score-bar-wrap">
+            <div class="score-bar"><div class="score-bar-fill" style="width:60%;background:var(--t-amber-l);"></div></div>
+            <span style="font-family:'Fira Code',monospace;font-size:11px;color:var(--muted);">15分</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="dim-name">AI 查询密度</td>
+        <td class="weight">12%</td>
+        <td>其目标用户/采购者实际在 AI 平台查询相关信息的频率。可通过探测引擎预先探测量化。</td>
+        <td>
+          <div class="score-bar-wrap">
+            <div class="score-bar"><div class="score-bar-fill" style="width:48%;background:var(--t-amber-l);"></div></div>
+            <span style="font-family:'Fira Code',monospace;font-size:11px;color:var(--muted);">12分</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="dim-name">内部对接效率</td>
+        <td class="weight">8%</td>
+        <td>客户是否有指定对接人，素材提供是否及时，合同审批周期是否合理。影响飞凡交付成本。</td>
+        <td>
+          <div class="score-bar-wrap">
+            <div class="score-bar"><div class="score-bar-fill" style="width:32%;background:var(--t-teal-l);"></div></div>
+            <span style="font-family:'Fira Code',monospace;font-size:11px;color:var(--muted);">8分</span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 维度详细评分标准 -->
+  <div class="sec-label" style="margin-top:32px;">评分标准细则</div>
+
+  <!-- 知识资产 -->
+  <div class="score-dim">
+    <div class="sd-header">
+      <div class="sd-title">① 知识资产质量 · 最重要的维度</div>
+      <div class="sd-weight">权重 25%</div>
+    </div>
+    <div class="sd-body">
+      <div class="sd-levels">
+        <div class="sd-level l3">
+          <div class="sl-score">20-25分</div>
+          <div class="sl-label">资产丰富</div>
+          <div class="sl-desc">有完整产品白皮书、技术规格文档、客户案例（含数据）、行业研究报告、团队专业博客。文档体系完善，可直接结构化。</div>
+        </div>
+        <div class="sd-level l2">
+          <div class="sl-score">10-19分</div>
+          <div class="sl-label">资产中等</div>
+          <div class="sl-desc">有官网产品介绍、部分 FAQ，少量案例但缺乏数据支撑。需要飞凡协助进行内容补充和结构化重组。</div>
+        </div>
+        <div class="sd-level l1">
+          <div class="sl-score">0-9分</div>
+          <div class="sl-label">资产匮乏</div>
+          <div class="sl-desc">几乎没有文字内容，靠口碑或人脉获客，内容几乎为零。飞凡从零建设成本极高，效果周期极长。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 决策层认知 -->
+  <div class="score-dim">
+    <div class="sd-header">
+      <div class="sd-title">② 决策层认知与配合度</div>
+      <div class="sd-weight">权重 20%</div>
+    </div>
+    <div class="sd-body">
+      <div class="sd-levels">
+        <div class="sd-level l3">
+          <div class="sl-score">16-20分</div>
+          <div class="sl-label">主动推动</div>
+          <div class="sl-desc">CEO 或 CMO 已有 GEO 认知，主动提出需求，愿意指派专人配合。理解效果周期，接受 30/60/90 天分阶段 KPI。</div>
+        </div>
+        <div class="sd-level l2">
+          <div class="sl-score">8-15分</div>
+          <div class="sl-label">可教育</div>
+          <div class="sl-desc">决策层对 AI 营销感兴趣但尚无 GEO 概念，经过 1-2 次深度沟通后能理解接受。需要飞凡花时间做认知教育。</div>
+        </div>
+        <div class="sd-level l1">
+          <div class="sl-score">0-7分</div>
+          <div class="sl-label">认知抵触</div>
+          <div class="sl-desc">只看短期 ROI，要求"一个月见效"或"保证排名第一"。对 GEO 效果归因周期完全不接受。这类客户不要接。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 预算稳定性 -->
+  <div class="score-dim">
+    <div class="sd-header">
+      <div class="sd-title">③ 预算稳定性与合作周期</div>
+      <div class="sd-weight">权重 20%</div>
+    </div>
+    <div class="sd-body">
+      <div class="sd-levels">
+        <div class="sd-level l3">
+          <div class="sl-score">16-20分</div>
+          <div class="sl-label">年框合作</div>
+          <div class="sl-desc">接受 12 个月年框合同，月均预算 3 万+，预算来源稳定（已列入年度营销预算）。这是最理想的客户结构。</div>
+        </div>
+        <div class="sd-level l2">
+          <div class="sl-score">8-15分</div>
+          <div class="sl-label">季度滚动</div>
+          <div class="sl-desc">接受 3-6 个月合同，月均 2-3 万，预算有一定弹性。可以接，但要在合同中约定续约触发条件。</div>
+        </div>
+        <div class="sd-level l1">
+          <div class="sl-score">0-7分</div>
+          <div class="sl-label">单次项目</div>
+          <div class="sl-desc">只愿意一次性付款做"诊断+建议"，不接受持续运营。GEO 诊断报告可以卖，但不要期待转化为长期客户。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 竞品现状 -->
+  <div class="score-dim">
+    <div class="sd-header">
+      <div class="sd-title">④ 竞品 GEO 现状（可量化）</div>
+      <div class="sd-weight">权重 15%</div>
+    </div>
+    <div class="sd-body">
+      <div class="sd-levels">
+        <div class="sd-level l3">
+          <div class="sl-score">12-15分</div>
+          <div class="sl-label">竞品几乎空白</div>
+          <div class="sl-desc">行业竞品的 AI 引用率普遍低于 10%，探测引擎扫描后大量 Prompt 无品牌占位。先发优势极大，效果显著。</div>
+        </div>
+        <div class="sd-level l2">
+          <div class="sl-score">6-11分</div>
+          <div class="sl-label">竞品已有布局</div>
+          <div class="sl-desc">1-2 家竞品已有 20-40% 的引用率。飞凡可以帮助客户追赶，但需要 3-6 个月才能达到可见效果。</div>
+        </div>
+        <div class="sd-level l1">
+          <div class="sl-score">0-5分</div>
+          <div class="sl-label">竞品强势占位</div>
+          <div class="sl-desc">核心竞品 AI 引用率 60%+，行业语义空间已被占满。进入成本极高，效果周期极长，建议放弃或聚焦差异化细分词。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     SECTION 4: 通过/谨慎/拒绝标准
+══════════════════════════════ -->
+<div class="section">
+  <div class="sec-label">Section 04</div>
+  <div class="sec-title">快速判断清单 · 通过 / 谨慎 / 拒绝</div>
+  <div class="sec-desc">以下清单可在初次客户沟通后 30 分钟内完成判断，无需完整评分流程。</div>
+
+  <div class="qual-grid">
+    <div class="qual-card pass">
+      <div class="qc-title"><span class="qc-icon">✅</span>直接推进的信号</div>
+      <ul class="qc-list">
+        <li>决策层主动提 GEO 或"AI 营销"需求</li>
+        <li>企业有产品文档 / 白皮书 / 技术博客</li>
+        <li>年营收 3000 万以上，有固定营销预算</li>
+        <li>竞品在 AI 上已出现，客户有危机感</li>
+        <li>行业属于 S 或 A 级（ToB SaaS / 工业 / 金融科技）</li>
+        <li>愿意接受 6 个月以上合作周期</li>
+        <li>有专人负责对接，素材提供及时</li>
+      </ul>
+    </div>
+
+    <div class="qual-card warn">
+      <div class="qc-title"><span class="qc-icon">⚠️</span>需要谈判条件后推进</div>
+      <ul class="qc-list">
+        <li>对 GEO 认知不足但愿意学习</li>
+        <li>内容积累较少，需飞凡协助大量建设</li>
+        <li>预算 1-2 万/月，低于标准但行业价值高</li>
+        <li>要求 3 个月内见到可量化效果</li>
+        <li>行业属于 B 级（出海电商 / 专业服务）</li>
+        <li>没有专职对接人，沟通效率可能低</li>
+      </ul>
+    </div>
+
+    <div class="qual-card fail">
+      <div class="qc-title"><span class="qc-icon">🚫</span>直接婉拒的信号</div>
+      <ul class="qc-list">
+        <li>要求"保证排名第一"或"一个月见效"</li>
+        <li>没有任何文字内容积累，靠口碑获客</li>
+        <li>预算低于 1 万/月，只想做一次性项目</li>
+        <li>行业属于 C 级（本地餐饮 / 零售门店）</li>
+        <li>竞品已完全占据行业语义空间</li>
+        <li>决策层对 AI 持强烈抵触态度</li>
+        <li>要求飞凡"保证效果否则退款"</li>
+      </ul>
+    </div>
+
+    <div class="qual-card note">
+      <div class="qc-title"><span class="qc-icon">💡</span>特殊高价值场景</div>
+      <ul class="qc-list">
+        <li><strong>出海 SaaS 创业公司：</strong>预算可能不高，但行业价值极高，可做诊断报告切入，以效果换续约</li>
+        <li><strong>刚开始出海的制造企业：</strong>内容基础薄，但知识资产丰富，配合度高，是最好的从零建设场景</li>
+        <li><strong>已有 SEO 团队的企业：</strong>更容易理解 GEO 逻辑，决策周期短，但需要说清与 SEO 团队的协作边界</li>
+        <li><strong>行业头部追赶者：</strong>行业第 2-3 名，主动想超越第 1 名，GEO 是其有效弯道超车手段</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     SECTION 5: 筛选流程
+══════════════════════════════ -->
+<div class="section">
+  <div class="sec-label">Section 05</div>
+  <div class="sec-title">标准筛选流程 · 五步走</div>
+
+  <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:28px;box-shadow:var(--sh);">
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="fs-num active">01</div>
+        <div class="fs-name">行业初筛</div>
+        <div class="fs-desc">确认客户所在行业属于 S/A/B/C 哪一档。C 级直接止步，不进入后续流程。</div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-num active">02</div>
+        <div class="fs-name">AI 引用探测</div>
+        <div class="fs-desc">用探测引擎扫描客户及主要竞品在 DeepSeek、豆包、文心等平台的当前引用率，10 分钟出结果。</div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-num active">03</div>
+        <div class="fs-name">初次沟通评分</div>
+        <div class="fs-desc">按 6 维度评分模型打分，30 分钟沟通后完成。总分 ≥ 70 进入正式方案阶段。</div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-num active">04</div>
+        <div class="fs-name">知识资产摸底</div>
+        <div class="fs-desc">要求客户提供现有内容目录（官网 / 文档 / 白皮书）。确认内容基础后报价，避免低估建设成本。</div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-num active">05</div>
+        <div class="fs-name">诊断报告切入</div>
+        <div class="fs-desc">评分 50-69 分的客户，先卖诊断报告（3-8 万）。诊断数据出来后再决定是否接长期合同。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="--cc:var(--t-green); --cb:var(--t-green-bg); margin-top:20px;">
+    <div class="callout-t">第二步的关键价值</div>
+    <p>AI 引用探测是整个筛选流程中技术含量最高、也最有说服力的一步。<strong>10 分钟给客户展示当前竞品在 AI 上的引用情况，是最有效的商务破冰动作</strong>——客户看到竞品被 AI 引用而自己没有时，会产生强烈的紧迫感，也是把"认知教育"变成"数据冲击"的关键时刻。这个演示动作，本身就是最好的销售工具。</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     SUMMARY
+══════════════════════════════ -->
+<div class="summary">
+  <div class="sum-item">
+    <div class="sum-num">S/A</div>
+    <div class="sum-lbl">优先聚焦行业等级<br>出海SaaS、工业、金融科技、政务</div>
+  </div>
+  <div class="sum-item">
+    <div class="sum-num">70+</div>
+    <div class="sum-lbl">6维度评分达标线<br>满足即进入正式方案阶段</div>
+  </div>
+  <div class="sum-item">
+    <div class="sum-num">90天</div>
+    <div class="sum-lbl">向客户承诺的归因周期<br>必须在签约前对齐预期</div>
+  </div>
+  <div class="sum-item">
+    <div class="sum-num">3-8万</div>
+    <div class="sum-lbl">诊断报告切入定价<br>50-69分客户的标准路径</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="page-footer">
+  <span>飞凡科技 · GEO 客户筛选框架 · 2026.05 · V1.0</span>
+  <span>商务内部使用 · 禁止对外分享</span>
+</div>
+
+</body>
+</html>

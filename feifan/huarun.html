@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>华润电力网络运维智能体 · 需求分析与报价评估</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+  :root {
+    --bg: #f8f9fa; --surface: #ffffff; --surface-2: #f1f3f5; --border: #e5e7eb; --border-strong: #d1d5db;
+    --text-primary: #111827; --text-secondary: #6b7280; --text-muted: #9ca3af;
+    --brand: #1a56db; --brand-light: #eff6ff; --brand-mid: #3b82f6;
+    --success: #059669; --success-light: #ecfdf5; --warning: #d97706; --warning-light: #fffbeb;
+    --danger: #dc2626; --danger-light: #fef2f2; --accent: #7c3aed; --accent-light: #f5f3ff;
+    --mono: 'IBM Plex Mono', monospace; --serif: 'Noto Serif SC', serif; --sans: 'Inter', -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--sans); background: var(--bg); color: var(--text-primary); line-height: 1.6; font-size: 14px; }
+  .doc-header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 28px 0 0; }
+  .doc-header-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+  .doc-meta { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 20px; }
+  .doc-badge { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; color: var(--brand); background: var(--brand-light); border: 1px solid #bfdbfe; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.05em; margin-bottom: 8px; }
+  .doc-badge::before { content: ''; width: 6px; height: 6px; background: var(--brand-mid); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .doc-title { font-family: var(--serif); font-size: 20px; font-weight: 700; color: var(--text-primary); line-height: 1.3; }
+  .doc-subtitle { font-size: 12.5px; color: var(--text-secondary); margin-top: 4px; }
+  .doc-info { text-align: right; flex-shrink: 0; }
+  .doc-info-item { font-size: 12px; color: var(--text-secondary); margin-bottom: 2px; }
+  .doc-info-item strong { color: var(--text-primary); font-weight: 500; }
+  .doc-nav { display: flex; gap: 0; border-top: 1px solid var(--border); overflow-x: auto; }
+  .doc-nav a { display: flex; align-items: center; padding: 9px 16px; font-size: 12px; font-weight: 500; color: var(--text-secondary); text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.15s; }
+  .doc-nav a:hover { color: var(--brand); background: var(--brand-light); }
+  .main { max-width: 1100px; margin: 0 auto; padding: 32px 40px 80px; }
+  .section { margin-bottom: 48px; }
+  .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .section-num { font-family: var(--mono); font-size: 11px; color: var(--text-muted); letter-spacing: 0.08em; }
+  .section-title { font-family: var(--serif); font-size: 17px; font-weight: 700; color: var(--text-primary); }
+  .section-tag { margin-left: auto; font-size: 11px; font-family: var(--mono); padding: 3px 8px; border-radius: 3px; font-weight: 500; }
+  .tag-analysis { background: var(--accent-light); color: var(--accent); }
+  .tag-tech { background: var(--brand-light); color: var(--brand); }
+  .tag-plan { background: var(--success-light); color: var(--success); }
+  .tag-price { background: var(--warning-light); color: var(--warning); }
+  .tag-risk { background: var(--danger-light); color: var(--danger); }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 22px; margin-bottom: 12px; }
+  .card-title { font-weight: 600; font-size: 13px; color: var(--text-primary); margin-bottom: 8px; }
+  .card-body { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .kpi-strip { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 20px; }
+  .kpi-cell { background: var(--surface); padding: 18px 16px; text-align: center; }
+  .kpi-num { font-family: var(--mono); font-size: 26px; font-weight: 500; color: var(--brand); line-height: 1; margin-bottom: 6px; }
+  .kpi-num.green{color:var(--success)} .kpi-num.orange{color:var(--warning)} .kpi-num.purple{color:var(--accent)}
+  .kpi-label { font-size: 11px; color: var(--text-secondary); line-height: 1.4; }
+  .req-table { width: 100%; border-collapse: collapse; font-size: 12.5px; background: var(--surface); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+  .req-table th { background: var(--surface-2); padding: 9px 13px; text-align: left; font-weight: 600; font-size: 11.5px; color: var(--text-secondary); letter-spacing: 0.03em; border-bottom: 1px solid var(--border); }
+  .req-table td { padding: 11px 13px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6; color: var(--text-primary); }
+  .req-table tr:last-child td { border-bottom: none; }
+  .req-table tr:hover td { background: #fafafa; }
+  .complexity { display: inline-flex; align-items: center; font-size: 11px; font-family: var(--mono); padding: 2px 7px; border-radius: 3px; font-weight: 600; }
+  .c-high{background:#fee2e2;color:#b91c1c} .c-mid{background:#fef3c7;color:#92400e} .c-low{background:#d1fae5;color:#065f46}
+  .alert { border-radius: 6px; padding: 13px 16px; font-size: 13px; line-height: 1.6; margin-bottom: 12px; display: flex; gap: 11px; align-items: flex-start; }
+  .alert-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+  .alert-info{background:var(--brand-light);border:1px solid #bfdbfe;color:#1e40af}
+  .alert-warn{background:var(--warning-light);border:1px solid #fed7aa;color:#92400e}
+  .alert-danger{background:var(--danger-light);border:1px solid #fecaca;color:#991b1b}
+  .alert-success{background:var(--success-light);border:1px solid #a7f3d0;color:#065f46}
+  .infobox { background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; padding: 14px 18px; font-size: 13px; color: var(--text-secondary); margin-bottom: 14px; }
+  .infobox strong { color: var(--text-primary); }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+  .summary-box { background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%); border-radius: 10px; padding: 26px 30px; color: white; margin-bottom: 28px; }
+  .summary-box h3 { font-family: var(--serif); font-size: 15px; margin-bottom: 14px; opacity: 0.85; }
+  .summary-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+  .summary-item-label { font-size: 11px; opacity: 0.6; margin-bottom: 4px; font-family: var(--mono); letter-spacing: 0.05em; }
+  .summary-item-val { font-size: 20px; font-family: var(--mono); font-weight: 500; line-height: 1.2; }
+  .summary-item-sub { font-size: 11px; opacity: 0.55; margin-top: 2px; }
+  .score-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+  .score-label { font-size: 12px; color: var(--text-primary); width: 170px; flex-shrink: 0; }
+  .score-bar { flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 3px; background: var(--brand); }
+  .score-val { font-family: var(--mono); font-size: 11.5px; color: var(--text-secondary); width: 36px; text-align: right; }
+  .timeline { position: relative; padding-left: 26px; }
+  .timeline::before { content: ''; position: absolute; left: 8px; top: 8px; bottom: 8px; width: 1px; background: linear-gradient(to bottom, var(--brand), var(--border)); }
+  .timeline-item { position: relative; margin-bottom: 22px; }
+  .timeline-dot { position: absolute; left: -22px; top: 4px; width: 9px; height: 9px; border-radius: 50%; background: var(--brand); border: 2px solid white; box-shadow: 0 0 0 2px var(--brand); }
+  .timeline-dot.done{background:var(--success);box-shadow:0 0 0 2px var(--success)} .timeline-dot.warn{background:var(--warning);box-shadow:0 0 0 2px var(--warning)}
+  .timeline-phase { font-family: var(--mono); font-size: 11px; color: var(--text-muted); margin-bottom: 3px; }
+  .timeline-title { font-weight: 600; font-size: 13.5px; color: var(--text-primary); margin-bottom: 5px; }
+  .timeline-body { font-size: 12.5px; color: var(--text-secondary); line-height: 1.6; }
+  .timeline-deliverables { margin-top: 7px; display: flex; flex-wrap: wrap; gap: 5px; }
+  .deliverable { font-size: 11px; background: var(--surface-2); border: 1px solid var(--border); padding: 2px 9px; border-radius: 10px; color: var(--text-secondary); }
+  .price-table { width: 100%; border-collapse: collapse; font-size: 12.5px; background: var(--surface); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+  .price-table th { background: var(--text-primary); color: white; padding: 10px 14px; text-align: left; font-weight: 500; font-size: 11.5px; letter-spacing: 0.03em; }
+  .price-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; line-height: 1.5; }
+  .price-table tr:last-child td { border-bottom: none; }
+  .price-table tr:hover td { background: #fafafa; }
+  .price-table .subtotal td { background: var(--brand-light); font-weight: 600; color: var(--brand); }
+  .price-table .total td { background: var(--text-primary); color: white; font-size: 13px; font-weight: 600; }
+  .price-num { font-family: var(--mono); font-weight: 500; text-align: right; }
+  .pill-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .pill { font-size: 11.5px; padding: 3px 10px; border-radius: 16px; border: 1px solid var(--border); background: var(--surface); color: var(--text-secondary); }
+  .pill.green{background:var(--success-light);border-color:#a7f3d0;color:var(--success)} .pill.orange{background:var(--warning-light);border-color:#fed7aa;color:var(--warning)}
+  .footer-note { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 11.5px; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; }
+  @media(max-width:768px){.grid-2,.grid-3,.kpi-strip,.two-col,.summary-grid{grid-template-columns:1fr}.main{padding:18px 14px}.doc-header-inner{padding:0 14px}}
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <div class="doc-header-inner">
+    <div class="doc-meta">
+      <div>
+        <div class="doc-badge">INTERNAL · 飞凡科技 / 红熊AI</div>
+        <div class="doc-title">华润电力网络运维智能体 · 需求分析与报价评估</div>
+        <div class="doc-subtitle">基于客户需求报告（2026-05-21）的技术可行性研判 · 供内部决策参考</div>
+      </div>
+      <div class="doc-info">
+        <div class="doc-info-item">日期 <strong>2026-05-22</strong></div>
+        <div class="doc-info-item">版本 <strong>V1.0 · 内部草稿</strong></div>
+        <div class="doc-info-item">状态 <strong style="color:var(--warning)">评估中</strong></div>
+      </div>
+    </div>
+    <nav class="doc-nav">
+      <a href="#summary">执行摘要</a>
+      <a href="#requirements">需求解构</a>
+      <a href="#feasibility">技术可行性</a>
+      <a href="#scope">交付范围</a>
+      <a href="#timeline">排期计划</a>
+      <a href="#pricing">报价评估</a>
+      <a href="#risks">风险提示</a>
+    </nav>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- 00 执行摘要 -->
+  <div id="summary" class="section">
+    <div class="section-header">
+      <span class="section-num">00</span>
+      <span class="section-title">执行摘要</span>
+      <span class="section-tag tag-analysis">EXEC SUMMARY</span>
+    </div>
+    <div class="summary-box">
+      <h3>关键数字一览</h3>
+      <div class="summary-grid">
+        <div>
+          <div class="summary-item-label">推荐报价区间</div>
+          <div class="summary-item-val">85~120万</div>
+          <div class="summary-item-sub">含一年运维服务，不含私有化硬件</div>
+        </div>
+        <div>
+          <div class="summary-item-label">项目周期</div>
+          <div class="summary-item-val">5~6个月</div>
+          <div class="summary-item-sub">4阶段交付，第二阶段为关键路径</div>
+        </div>
+        <div>
+          <div class="summary-item-label">整体技术可行性</div>
+          <div class="summary-item-val">★★★★☆</div>
+          <div class="summary-item-sub">核心能力覆盖 ~85%，指令执行层需定制</div>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-info">
+      <span class="alert-icon">ℹ</span>
+      <div><strong>整体判断：</strong>需求定义清晰、场景边界合理，与红熊AI Agent 产品能力高度重叠（日志分析 / 智能问答 / 报告生成）。核心差异在于<strong>网络指令自动执行层</strong>——需要与华润网络设备建立 SSH / API / SNMP 通道，这是风险最高的定制开发部分。项目整体属于"AI+运维"垂直场景，可做，有竞争壁垒，但前期设备对接成本不低。</div>
+    </div>
+    <div class="kpi-strip">
+      <div class="kpi-cell"><div class="kpi-num">6</div><div class="kpi-label">需求模块数<br>全部有对应交付路径</div></div>
+      <div class="kpi-cell"><div class="kpi-num green">85%</div><div class="kpi-label">标品能力覆盖率<br>红熊AI现有产品</div></div>
+      <div class="kpi-cell"><div class="kpi-num orange">15%</div><div class="kpi-label">定制开发占比<br>主要为指令执行层</div></div>
+      <div class="kpi-cell"><div class="kpi-num purple">央企</div><div class="kpi-label">客户性质<br>合规与安全要求高</div></div>
+    </div>
+  </div>
+
+  <!-- 01 需求解构 -->
+  <div id="requirements" class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">需求要点解构</span>
+      <span class="section-tag tag-analysis">REQUIREMENTS</span>
+    </div>
+    <div class="infobox">客户原始需求报告共梳理出 <strong>6个核心需求模块</strong>，下表逐一拆解关键要点、交付形态与澄清优先级。</div>
+    <table class="req-table">
+      <thead>
+        <tr>
+          <th style="width:13%">模块</th>
+          <th style="width:28%">核心要点</th>
+          <th style="width:28%">交付理解</th>
+          <th style="width:12%">复杂度</th>
+          <th style="width:19%">澄清优先级</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>① 日志数据对接</strong></td>
+          <td>多品牌设备（交换机/路由器/防火墙/服务器），日均百万条，实时+定时采集，多格式解析、结构化清洗</td>
+          <td>部署日志采集 Agent（Filebeat/Fluentd 或定制），接 ES/Clickhouse 存储；依赖华润现有 Syslog/SNMP 配置</td>
+          <td><span class="complexity c-high">高</span></td>
+          <td>🔴 必须细化：设备清单和日志格式样本</td>
+        </tr>
+        <tr>
+          <td><strong>② 智能巡检告警</strong></td>
+          <td>7×24h 全网覆盖，故障三级分类（紧急/重要/一般），支持趋势分析和高频异常预警，告警推送至界面/消息通道</td>
+          <td>LLM + 规则引擎双驱动：模型识别语义异常，规则识别阈值超限；推送接飞书/钉钉/邮件</td>
+          <td><span class="complexity c-mid">中</span></td>
+          <td>🟡 确认告警推送通道和分级标准定义</td>
+        </tr>
+        <tr>
+          <td><strong>③ 日志自动清理</strong></td>
+          <td>按策略（周期/类型/大小/时间）自动清理，白名单保护核心日志，清理留痕可追溯</td>
+          <td>配置驱动的调度任务，生成清理台账；模块独立，逻辑相对简单，但审计设计需严格</td>
+          <td><span class="complexity c-low">低</span></td>
+          <td>🟢 基本清晰，细化清理策略规则即可</td>
+        </tr>
+        <tr>
+          <td><strong>④ 智能问答+指令执行</strong></td>
+          <td>自然语言→解析意图→自动执行（启动巡检/定向排查/调取日志/核查链路），任务进度实时反馈</td>
+          <td><strong>最高风险模块：</strong>Tool Calling 将意图映射为实际网络指令（SSH/API），涉及设备权限和安全管控</td>
+          <td><span class="complexity c-high">高</span></td>
+          <td>🔴 必须澄清指令执行边界与安全授权方案</td>
+        </tr>
+        <tr>
+          <td><strong>⑤ 报告自动生成</strong></td>
+          <td>日/周/月/专项报告，涵盖巡检概况/告警明细/风险分析/处置情况，支持 Word/PDF/PPT 导出</td>
+          <td>红熊标品能力；模板化生成 + RAG 汇总 + 数据填充；需提前获取华润报告格式样本</td>
+          <td><span class="complexity c-low">低</span></td>
+          <td>🟢 基本覆盖，需获取华润报告模板</td>
+        </tr>
+        <tr>
+          <td><strong>⑥ 安全合规管控</strong></td>
+          <td>等保合规，操作全程留痕，权限分级管控，适配电力行业不间断运行场景</td>
+          <td>RBAC权限体系 + 操作审计日志 + 数据加密；如私有化部署，成本大幅提升</td>
+          <td><span class="complexity c-mid">中</span></td>
+          <td>🔴 必须确认等保级别和是否私有化部署</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="margin-top:14px" class="alert alert-warn">
+      <span class="alert-icon">⚠</span>
+      <div><strong>需在售前阶段逼出的关键答案：</strong>①现有日志系统架构（有无 ELK/Syslog）；②指令执行的授权机制（能否绕过人工确认）；③私有化 vs SaaS；④等保合规级别；⑤预算区间或历史参照项目预算。</div>
+    </div>
+  </div>
+
+  <!-- 02 技术可行性 -->
+  <div id="feasibility" class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">技术可行性分析</span>
+      <span class="section-tag tag-tech">TECH FEASIBILITY</span>
+    </div>
+    <div class="two-col">
+      <div>
+        <div class="card">
+          <div class="card-title">🏗 红熊AI现有产品覆盖情况</div>
+          <div class="card-body" style="margin-bottom:12px">各模块技术覆盖评分：</div>
+          <div class="score-row"><span class="score-label">自然语言问答（NLQ）</span><div class="score-bar"><div class="score-fill" style="width:95%;background:var(--success)"></div></div><span class="score-val" style="color:var(--success)">95%</span></div>
+          <div class="score-row"><span class="score-label">报告自动生成</span><div class="score-bar"><div class="score-fill" style="width:90%;background:var(--success)"></div></div><span class="score-val" style="color:var(--success)">90%</span></div>
+          <div class="score-row"><span class="score-label">日志异常分析（LLM）</span><div class="score-bar"><div class="score-fill" style="width:80%"></div></div><span class="score-val">80%</span></div>
+          <div class="score-row"><span class="score-label">告警推送工作流</span><div class="score-bar"><div class="score-fill" style="width:85%"></div></div><span class="score-val">85%</span></div>
+          <div class="score-row"><span class="score-label">RBAC 权限+审计</span><div class="score-bar"><div class="score-fill" style="width:75%;background:var(--warning)"></div></div><span class="score-val" style="color:var(--warning)">75%</span></div>
+          <div class="score-row"><span class="score-label">网络指令执行（SSH/API）</span><div class="score-bar"><div class="score-fill" style="width:25%;background:var(--danger)"></div></div><span class="score-val" style="color:var(--danger)">25%</span></div>
+          <div class="score-row"><span class="score-label">日志采集对接层</span><div class="score-bar"><div class="score-fill" style="width:40%;background:var(--warning)"></div></div><span class="score-val" style="color:var(--warning)">40%</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-title">⚡ 技术选型建议</div>
+          <div class="card-body">
+            <div style="margin-bottom:10px"><strong style="font-size:12px;color:var(--brand)">大模型层</strong><br>推荐 DeepSeek-V3 本地化 + 红熊 Agent 框架。央企大概率要求私有部署，SaaS 接 API 作备选。</div>
+            <div style="margin-bottom:10px"><strong style="font-size:12px;color:var(--brand)">日志采集层</strong><br>Filebeat/Logstash → Elasticsearch（灵活检索） 或 Clickhouse（超大量时序分析），根据华润现有技术栈选型。</div>
+            <div style="margin-bottom:10px"><strong style="font-size:12px;color:var(--brand)">指令执行层（核心定制）</strong><br>Paramiko/Netmiko（Python SSH 库）+ Ansible Playbook 封装，LLM 生成意图后映射到安全沙箱执行，需网络侧权限授权配合。</div>
+            <div><strong style="font-size:12px;color:var(--brand)">告警通道</strong><br>飞书机器人 / Webhook / 邮件三选一为主，配置驱动可扩展。</div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:10px;border-left:3px solid var(--danger)">
+          <div class="card-title" style="color:var(--danger)">⚠ 最大技术风险点</div>
+          <div class="card-body">
+            <strong>指令自动执行</strong>是整个项目最高风险模块：<br><br>
+            1. 华润电力属于<strong>电力行业关键信息基础设施</strong>，网络设备操作受严格管控<br>
+            2. LLM 意图识别存在误操作风险，必须引入<strong>人工二次确认机制</strong><br>
+            3. 设备品牌型号不确定，指令兼容性开发量难以预估<br><br>
+            <span style="color:var(--danger);font-weight:600">建议合同中明确：指令执行层为增强项，一期以只读查询为主，写操作二期视需求再议。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-3" style="margin-top:12px">
+      <div class="card" style="border-top:3px solid var(--success)">
+        <div class="card-title">✅ 标品直接复用</div>
+        <div class="card-body">智能问答对话界面、RAG 知识库检索、报告模板生成引擎、用户权限管理框架、飞书/钉钉推送集成</div>
+        <div class="pill-list"><span class="pill green">问答引擎</span><span class="pill green">报告生成</span><span class="pill green">RAG</span><span class="pill green">告警推送</span></div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--warning)">
+        <div class="card-title">🔧 需要定制适配</div>
+        <div class="card-body">日志采集对接（设备适配）、异常分析模型调优（需喂历史日志）、网络运维专业知识库构建、报告模板定制</div>
+        <div class="pill-list"><span class="pill orange">日志对接</span><span class="pill orange">模型调优</span><span class="pill orange">知识库</span></div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--danger)">
+        <div class="card-title">🆕 全新开发</div>
+        <div class="card-body">网络指令执行引擎（SSH/API/SNMP）、故障趋势预测模型、日志清理自动化调度器、操作审计追溯系统</div>
+        <div class="pill-list"><span class="pill" style="background:#fee2e2;color:#b91c1c;border-color:#fecaca">指令执行</span><span class="pill" style="background:#fee2e2;color:#b91c1c;border-color:#fecaca">趋势预测</span><span class="pill" style="background:#fee2e2;color:#b91c1c;border-color:#fecaca">审计系统</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 交付范围 -->
+  <div id="scope" class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">建议交付范围（含取舍策略）</span>
+      <span class="section-tag tag-plan">SCOPE</span>
+    </div>
+    <div class="alert alert-info" style="margin-bottom:14px">
+      <span class="alert-icon">💡</span>
+      <div>建议采用<strong>分期交付策略</strong>：一期覆盖核心高确定性模块，验收后再立二期，避免指令执行层的不确定性拖累整体项目。</div>
+    </div>
+    <table class="req-table">
+      <thead>
+        <tr><th>模块</th><th>一期（必交付）</th><th>二期（可选扩展）</th><th>建议策略</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>日志对接</strong></td><td>对接 ≤5 类设备类型，日采集 100W+ 条，ES 存储检索</td><td>扩展更多品牌，实时流式采集优化</td><td>明确设备清单，锁定一期接入范围</td></tr>
+        <tr><td><strong>智能巡检告警</strong></td><td>定时巡检+实时日志异常告警，三级分类，飞书/邮件推送</td><td>趋势预测模型、预警提前量优化</td><td>告警准确率需 POC 后再锁定 SLA</td></tr>
+        <tr><td><strong>日志清理</strong></td><td>策略配置+自动调度+清理台账，白名单保护</td><td>——</td><td>全量一期交付，风险低</td></tr>
+        <tr><td><strong>智能问答</strong></td><td>自然语言查询日志/告警/设备状态（只读）</td><td>指令执行（写操作）：SSH 命令下发、配置变更</td><td><strong>写操作严格放二期</strong>，一期只做只读</td></tr>
+        <tr><td><strong>报告生成</strong></td><td>日/周/月报自动生成，Word+PDF 导出，华润格式模板</td><td>PPT 自动生成、自定义字段</td><td>提前获取华润现有报告模板样本</td></tr>
+        <tr><td><strong>安全合规</strong></td><td>RBAC 权限分级、操作审计日志、传输加密</td><td>等保三级测评配合、数据合规专项</td><td>提前确认是否私有化，影响报价 30~50%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 04 排期 -->
+  <div id="timeline" class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">初步排期计划</span>
+      <span class="section-tag tag-plan">TIMELINE</span>
+    </div>
+    <div class="infobox">以下排期基于：需求细化顺利、华润配合度高、无私有化硬件瓶颈。总工期 <strong>约 5~6 个月</strong>，共 4 个里程碑阶段。</div>
+    <div class="two-col">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-phase">第一阶段 · 第 1~4 周</div>
+          <div class="timeline-title">需求细化 &amp; 对接部署</div>
+          <div class="timeline-body">梳理设备清单和日志格式样本；完成日志采集环境部署；搭建智能体基础平台；确认告警规则、报告模板、指令执行边界。</div>
+          <div class="timeline-deliverables"><span class="deliverable">需求确认书</span><span class="deliverable">日志采集环境</span><span class="deliverable">测试环境上线</span></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot warn"></div>
+          <div class="timeline-phase">第二阶段 · 第 5~14 周（关键路径）</div>
+          <div class="timeline-title">核心功能开发 &amp; 模型训练</div>
+          <div class="timeline-body">日志分析引擎、自动巡检告警模块、智能问答（只读）、日志清理、报告生成引擎；结合华润历史日志做模型 Prompt 调优。</div>
+          <div class="timeline-deliverables"><span class="deliverable">各模块开发完成</span><span class="deliverable">模型调优完成</span><span class="deliverable">集成测试报告</span></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-phase">第三阶段 · 第 15~20 周</div>
+          <div class="timeline-title">测试联调 &amp; 试运行</div>
+          <div class="timeline-body">全流程功能测试；性能压测（百万日志并发）；告警准确率验证；试运行 2~4 周，收集反馈，修复问题，输出测试报告。</div>
+          <div class="timeline-deliverables"><span class="deliverable">测试报告</span><span class="deliverable">试运行验收</span></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot done"></div>
+          <div class="timeline-phase">第四阶段 · 第 21~24 周</div>
+          <div class="timeline-title">正式上线 &amp; 运维培训</div>
+          <div class="timeline-body">系统正式上线；提供操作手册；现场或远程培训运维人员；建立后期迭代机制；开始计算运维服务周期。</div>
+          <div class="timeline-deliverables"><span class="deliverable">正式上线</span><span class="deliverable">操作手册</span><span class="deliverable">培训记录</span><span class="deliverable">验收文件</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-title">👥 建议投入人力配置</div>
+          <div class="card-body">
+            <table style="width:100%;font-size:12px;border-collapse:collapse">
+              <thead><tr style="border-bottom:1px solid var(--border)"><th style="padding:5px 0;text-align:left;color:var(--text-secondary)">角色</th><th style="padding:5px 0;text-align:center;color:var(--text-secondary)">人数</th><th style="padding:5px 0;text-align:center;color:var(--text-secondary)">周期</th></tr></thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border)"><td style="padding:7px 0">项目经理 / 售前（Peter 兼）</td><td style="text-align:center">1</td><td style="text-align:center;font-family:var(--mono)">全程</td></tr>
+                <tr style="border-bottom:1px solid var(--border)"><td style="padding:7px 0">AI 工程师（Agent + LLM）</td><td style="text-align:center">2</td><td style="text-align:center;font-family:var(--mono)">P2-P4</td></tr>
+                <tr style="border-bottom:1px solid var(--border)"><td style="padding:7px 0">后端工程师（日志/接口/调度）</td><td style="text-align:center">1~2</td><td style="text-align:center;font-family:var(--mono)">P1-P3</td></tr>
+                <tr style="border-bottom:1px solid var(--border)"><td style="padding:7px 0">前端工程师（运维工作台）</td><td style="text-align:center">1</td><td style="text-align:center;font-family:var(--mono)">P2-P3</td></tr>
+                <tr style="border-bottom:1px solid var(--border)"><td style="padding:7px 0">运维/DevOps（部署&amp;测试）</td><td style="text-align:center">1</td><td style="text-align:center;font-family:var(--mono)">P1,P3-P4</td></tr>
+                <tr><td style="padding:7px 0">网络领域顾问（外聘兼职）</td><td style="text-align:center">1</td><td style="text-align:center;font-family:var(--mono)">P1-P2</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card" style="margin-top:10px;border-left:3px solid var(--warning)">
+          <div class="card-title">⏱ 排期风险因素</div>
+          <div class="card-body">
+            <div style="margin-bottom:5px">① 华润侧设备/网络权限开放速度（最大不确定项）</div>
+            <div style="margin-bottom:5px">② 历史日志数据获取时间（模型调优依赖）</div>
+            <div style="margin-bottom:5px">③ 私有化部署硬件采购周期（如需私有化额外 +4~6 周）</div>
+            <div>④ 央企审批流程（合同签署、环境开放均可能延迟）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 报价评估 -->
+  <div id="pricing" class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">报价评估</span>
+      <span class="section-tag tag-price">PRICING</span>
+    </div>
+    <div class="alert alert-warn">
+      <span class="alert-icon">⚠</span>
+      <div>以下为<strong>内部成本参考报价</strong>，非对外报价。私有化部署方案硬件成本另计不含在下表中。对外报价建议根据客户预算信号和竞争情况做调整。</div>
+    </div>
+    <div class="grid-2">
+      <div>
+        <div style="font-weight:600;font-size:12.5px;margin-bottom:8px;color:var(--text-secondary)">方案A · SaaS 云部署（低价版）</div>
+        <table class="price-table">
+          <thead><tr><th>交付项</th><th style="text-align:right">工作量（人天）</th><th style="text-align:right">估价（万元）</th></tr></thead>
+          <tbody>
+            <tr><td>日志采集对接层</td><td class="price-num">30~40</td><td class="price-num">12~16</td></tr>
+            <tr><td>智能巡检告警模块</td><td class="price-num">25~35</td><td class="price-num">10~14</td></tr>
+            <tr><td>日志自动清理模块</td><td class="price-num">10~15</td><td class="price-num">4~6</td></tr>
+            <tr><td>智能问答（只读交互）</td><td class="price-num">20~30</td><td class="price-num">8~12</td></tr>
+            <tr><td>报告自动生成模块</td><td class="price-num">15~20</td><td class="price-num">6~8</td></tr>
+            <tr><td>安全合规&amp;运维工作台</td><td class="price-num">20~30</td><td class="price-num">8~12</td></tr>
+            <tr><td>模型调优&amp;知识库建设</td><td class="price-num">15~20</td><td class="price-num">6~8</td></tr>
+            <tr><td>项目管理&amp;测试培训</td><td class="price-num">15~20</td><td class="price-num">6~8</td></tr>
+            <tr class="subtotal"><td>开发合计</td><td class="price-num">150~210 人天</td><td class="price-num">60~84</td></tr>
+            <tr><td>大模型 API 调用（年）</td><td class="price-num">—</td><td class="price-num">5~8</td></tr>
+            <tr><td>云服务器&amp;存储（年）</td><td class="price-num">—</td><td class="price-num">4~6</td></tr>
+            <tr><td>运维服务（一年）</td><td class="price-num">—</td><td class="price-num">8~12</td></tr>
+            <tr class="total"><td>SaaS版 推荐报价</td><td class="price-num">—</td><td class="price-num">85~110万</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div style="font-weight:600;font-size:12.5px;margin-bottom:8px;color:var(--text-secondary)">方案B · 私有化部署（央企推荐版）</div>
+        <table class="price-table">
+          <thead><tr><th>交付项</th><th style="text-align:right">工作量（人天）</th><th style="text-align:right">估价（万元）</th></tr></thead>
+          <tbody>
+            <tr><td>方案A 全部软件开发</td><td class="price-num">150~210</td><td class="price-num">60~84</td></tr>
+            <tr><td>私有化部署配置服务</td><td class="price-num">20~30</td><td class="price-num">8~12</td></tr>
+            <tr><td>大模型私有化（DeepSeek本地）</td><td class="price-num">—</td><td class="price-num">8~15</td></tr>
+            <tr><td>GPU 服务器（建议客户自购）</td><td class="price-num">—</td><td class="price-num">硬件另计</td></tr>
+            <tr><td>等保合规配合服务</td><td class="price-num">10~15</td><td class="price-num">5~8</td></tr>
+            <tr><td>运维服务（一年）</td><td class="price-num">—</td><td class="price-num">10~15</td></tr>
+            <tr class="total"><td>私有化版 推荐报价</td><td class="price-num">—</td><td class="price-num">100~140万</td></tr>
+          </tbody>
+        </table>
+        <div class="card" style="margin-top:10px;border-left:3px solid var(--accent)">
+          <div class="card-title" style="color:var(--accent)">📌 二期扩展价格参考</div>
+          <div class="card-body">
+            <div style="margin-bottom:5px">指令执行层（SSH/写操作）：<strong style="font-family:var(--mono)">20~35万</strong></div>
+            <div style="margin-bottom:5px">趋势预测模型（ML/时序）：<strong style="font-family:var(--mono)">15~25万</strong></div>
+            <div>多站点扩展接入：<strong style="font-family:var(--mono)">按设备数量单独报价</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-success" style="margin-top:14px">
+      <span class="alert-icon">✓</span>
+      <div><strong>报价策略建议：</strong>对外主推 <strong>私有化版 100~120万</strong>，SaaS 版 85~95万 作为低价备选。若客户预算敏感，可建议先做一期（60~70万），验收后再立二期。年度运维续费按合同总价的 <strong>15~18%</strong> 报价。</div>
+    </div>
+  </div>
+
+  <!-- 06 风险 -->
+  <div id="risks" class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-title">风险提示与建议行动</span>
+      <span class="section-tag tag-risk">RISKS &amp; ACTIONS</span>
+    </div>
+    <div class="grid-2">
+      <div class="card" style="border-top:3px solid var(--danger)">
+        <div class="card-title">🔴 高风险项</div>
+        <div class="card-body">
+          <div style="margin-bottom:10px"><strong>R1 · 指令执行安全边界</strong><br>LLM 误操作网络设备风险极高，必须引入人工确认机制或严格限定只读范围，否则可能引发合同纠纷乃至生产事故。</div>
+          <div style="margin-bottom:10px"><strong>R2 · 私有化部署不确定</strong><br>如要求完全私有化+等保三级，成本大幅增加且项目周期延长 2~3 个月，当前报价可能严重低估。</div>
+          <div><strong>R3 · 华润内部配合</strong><br>央企内部审批、设备权限开放、历史数据提供均可能严重拖期，合同中须写明华润侧配合义务。</div>
+        </div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--warning)">
+        <div class="card-title">🟡 中等风险项</div>
+        <div class="card-body">
+          <div style="margin-bottom:10px"><strong>R4 · 日志格式多样性</strong><br>不同品牌设备日志差异大，接入设备越多解析工作量越难预估，合同中建议明确"一期接入设备类型数量上限"。</div>
+          <div style="margin-bottom:10px"><strong>R5 · 告警准确率 SLA</strong><br>模型未经历史数据调优前不宜承诺具体数字，合同中写"试运行期调优后再确认"。</div>
+          <div><strong>R6 · 竞争格局</strong><br>华润央企可能邀请多家投标，大厂有资源优势，需突出红熊AI 在 Agent 落地速度上的差异化。</div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px;background:var(--surface-2)">
+      <div class="card-title">📋 建议下一步行动</div>
+      <div class="card-body">
+        <div class="grid-2" style="gap:16px">
+          <div>
+            <div style="font-weight:600;margin-bottom:7px;color:var(--brand)">售前阶段（本周~2周内）</div>
+            <div style="margin-bottom:5px">① 约华润IT负责人做需求澄清会，重点逼出：设备清单、等保要求、预算区间、是否私有化</div>
+            <div style="margin-bottom:5px">② 获取日志样本做 POC 演示（3~5种格式跑通即可）</div>
+            <div>③ 准备定制版方案PPT，突出红熊AI 同行案例交付速度</div>
+          </div>
+          <div>
+            <div style="font-weight:600;margin-bottom:7px;color:var(--success)">商务阶段（1个月内）</div>
+            <div style="margin-bottom:5px">④ 根据澄清结果修订本报价，确定 SaaS vs 私有化路线</div>
+            <div style="margin-bottom:5px">⑤ 合同中明确：交付范围分界、华润配合义务、指令执行安全边界条款</div>
+            <div>⑥ 引入网络运维领域顾问做技术背书，提升中标可信度</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <span>华润电力网络运维智能体 · 内部需求分析报告 V1.0 · 飞凡科技 / 红熊AI</span>
+    <span>2026-05-22 · 仅供内部决策参考，不对外流通</span>
+  </div>
+
+</div>
+</body>
+</html>

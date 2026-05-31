@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>康派斯房车 · AI智能化转型分析报告</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1a1a2e;
+    --accent: #0f7cf7;
+    --accent-light: #e8f4ff;
+    --accent-mid: #3d9df3;
+    --surface: #ffffff;
+    --surface-alt: #f7f9fc;
+    --surface-card: #ffffff;
+    --border: #e2e8f0;
+    --border-light: #f0f4f8;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --gradient-hero: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f4c8a 100%);
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+font-family: ‘Noto Sans SC’, sans-serif;
+background: var(–surface-alt);
+color: var(–text-primary);
+line-height: 1.7;
+font-size: 14px;
+}
+
+/* ─── HERO ─── */
+.hero {
+background: var(–gradient-hero);
+color: #fff;
+padding: 60px 48px 48px;
+position: relative;
+overflow: hidden;
+}
+.hero::before {
+content: ‘’;
+position: absolute;
+top: -80px; right: -80px;
+width: 400px; height: 400px;
+background: radial-gradient(circle, rgba(15,124,247,0.25) 0%, transparent 70%);
+border-radius: 50%;
+}
+.hero::after {
+content: ‘’;
+position: absolute;
+bottom: -40px; left: 30%;
+width: 600px; height: 200px;
+background: radial-gradient(ellipse, rgba(61,157,243,0.12) 0%, transparent 70%);
+}
+.hero-badge {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+background: rgba(15,124,247,0.2);
+border: 1px solid rgba(15,124,247,0.4);
+border-radius: 20px;
+padding: 6px 14px;
+font-size: 11px;
+font-family: ‘JetBrains Mono’, monospace;
+letter-spacing: 0.08em;
+color: #7dd3fc;
+margin-bottom: 24px;
+}
+.hero-badge::before {
+content: ‘●’;
+color: #34d399;
+animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.hero-title {
+font-family: ‘Noto Serif SC’, serif;
+font-size: 32px;
+font-weight: 700;
+line-height: 1.3;
+margin-bottom: 12px;
+color: #fff;
+}
+.hero-title span {
+color: #60a5fa;
+}
+.hero-subtitle {
+font-size: 15px;
+color: rgba(255,255,255,0.65);
+max-width: 520px;
+margin-bottom: 32px;
+font-weight: 300;
+}
+.hero-meta {
+display: flex;
+gap: 32px;
+flex-wrap: wrap;
+}
+.hero-meta-item {
+display: flex;
+flex-direction: column;
+gap: 3px;
+}
+.hero-meta-label {
+font-size: 10px;
+color: rgba(255,255,255,0.4);
+letter-spacing: 0.1em;
+text-transform: uppercase;
+font-family: ‘JetBrains Mono’, monospace;
+}
+.hero-meta-value {
+font-size: 13px;
+color: rgba(255,255,255,0.85);
+font-weight: 500;
+}
+
+/* ─── LAYOUT ─── */
+.container {
+max-width: 960px;
+margin: 0 auto;
+padding: 40px 24px;
+}
+
+/* ─── SECTION TITLE ─── */
+.section-header {
+display: flex;
+align-items: center;
+gap: 12px;
+margin-bottom: 24px;
+padding-bottom: 16px;
+border-bottom: 1px solid var(–border);
+}
+.section-icon {
+width: 36px; height: 36px;
+background: var(–accent-light);
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 16px;
+flex-shrink: 0;
+}
+.section-title {
+font-family: ‘Noto Serif SC’, serif;
+font-size: 18px;
+font-weight: 700;
+color: var(–text-primary);
+}
+.section-num {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 11px;
+color: var(–accent);
+letter-spacing: 0.05em;
+}
+
+/* ─── CARDS ─── */
+.card {
+background: var(–surface-card);
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 24px;
+margin-bottom: 16px;
+}
+.card-title {
+font-size: 14px;
+font-weight: 600;
+color: var(–text-primary);
+margin-bottom: 10px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.card p {
+font-size: 13.5px;
+color: var(–text-secondary);
+line-height: 1.8;
+}
+
+/* ─── STAT ROW ─── */
+.stat-grid {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 16px;
+margin-bottom: 32px;
+}
+.stat-card {
+background: var(–surface-card);
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 20px;
+text-align: center;
+}
+.stat-card .number {
+font-family: ‘Noto Serif SC’, serif;
+font-size: 28px;
+font-weight: 700;
+color: var(–accent);
+line-height: 1;
+margin-bottom: 6px;
+}
+.stat-card .label {
+font-size: 11px;
+color: var(–text-muted);
+letter-spacing: 0.05em;
+}
+
+/* ─── MATURITY GAUGE ─── */
+.maturity-section {
+background: var(–surface-card);
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 28px;
+margin-bottom: 32px;
+}
+.maturity-title {
+font-size: 14px;
+font-weight: 600;
+margin-bottom: 20px;
+color: var(–text-primary);
+}
+.maturity-row {
+display: flex;
+align-items: center;
+gap: 16px;
+margin-bottom: 14px;
+}
+.maturity-label {
+width: 120px;
+font-size: 12px;
+color: var(–text-secondary);
+flex-shrink: 0;
+text-align: right;
+}
+.maturity-bar-bg {
+flex: 1;
+height: 8px;
+background: var(–border-light);
+border-radius: 4px;
+overflow: hidden;
+}
+.maturity-bar {
+height: 100%;
+border-radius: 4px;
+transition: width 0.8s ease;
+}
+.maturity-score {
+width: 40px;
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 12px;
+color: var(–text-muted);
+text-align: right;
+flex-shrink: 0;
+}
+.bar-high { background: linear-gradient(90deg, #10b981, #34d399); }
+.bar-mid  { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.bar-low  { background: linear-gradient(90deg, #ef4444, #f87171); }
+.bar-acc  { background: linear-gradient(90deg, var(–accent), var(–accent-mid)); }
+
+/* ─── BUSINESS MAP ─── */
+.biz-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 14px;
+margin-bottom: 24px;
+}
+.biz-card {
+background: var(–surface-card);
+border: 1px solid var(–border);
+border-radius: 10px;
+padding: 18px;
+}
+.biz-card-head {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 10px;
+}
+.biz-icon {
+width: 32px; height: 32px;
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 14px;
+flex-shrink: 0;
+}
+.biz-name {
+font-size: 13px;
+font-weight: 600;
+color: var(–text-primary);
+}
+.biz-desc {
+font-size: 12px;
+color: var(–text-secondary);
+line-height: 1.6;
+}
+.tag {
+display: inline-block;
+font-size: 10px;
+padding: 2px 8px;
+border-radius: 10px;
+margin-top: 8px;
+font-family: ‘JetBrains Mono’, monospace;
+letter-spacing: 0.05em;
+}
+.tag-blue { background: var(–accent-light); color: var(–accent); }
+.tag-green { background: #dcfce7; color: #16a34a; }
+.tag-orange { background: #fff7ed; color: #ea580c; }
+.tag-purple { background: #f3e8ff; color: #9333ea; }
+
+/* ─── AI OPPORTUNITY TABLE ─── */
+.opp-list {
+display: flex;
+flex-direction: column;
+gap: 0;
+}
+.opp-item {
+display: grid;
+grid-template-columns: 28px 1fr 80px 80px 80px;
+gap: 16px;
+align-items: center;
+padding: 14px 20px;
+background: var(–surface-card);
+border: 1px solid var(–border);
+border-bottom: none;
+font-size: 13px;
+transition: background 0.15s;
+}
+.opp-item:first-child { border-radius: 10px 10px 0 0; }
+.opp-item:last-child { border-bottom: 1px solid var(–border); border-radius: 0 0 10px 10px; }
+.opp-item:hover { background: var(–accent-light); }
+.opp-item.header-row {
+background: var(–primary);
+color: #fff;
+font-size: 11px;
+font-weight: 600;
+letter-spacing: 0.06em;
+pointer-events: none;
+border-color: var(–primary);
+border-radius: 10px 10px 0 0 !important;
+}
+.opp-num {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 11px;
+color: var(–text-muted);
+text-align: center;
+}
+.opp-num.white { color: rgba(255,255,255,0.5); }
+.opp-name { font-weight: 500; color: var(–text-primary); }
+.opp-name.header { color: #fff; font-weight: 600; }
+.pill {
+display: inline-block;
+font-size: 10px;
+padding: 3px 10px;
+border-radius: 10px;
+font-family: ‘JetBrains Mono’, monospace;
+letter-spacing: 0.04em;
+text-align: center;
+white-space: nowrap;
+}
+.pill-high { background: #dcfce7; color: #16a34a; }
+.pill-mid  { background: #fff7ed; color: #ea580c; }
+.pill-low  { background: var(–accent-light); color: var(–accent); }
+.pill-fast { background: #fef9c3; color: #a16207; }
+.pill-mid-time { background: #ede9fe; color: #7c3aed; }
+
+/* ─── ROADMAP ─── */
+.roadmap {
+position: relative;
+padding-left: 32px;
+}
+.roadmap::before {
+content: ‘’;
+position: absolute;
+left: 11px; top: 8px; bottom: 8px;
+width: 2px;
+background: linear-gradient(to bottom, var(–accent), rgba(15,124,247,0.1));
+}
+.roadmap-item {
+position: relative;
+margin-bottom: 28px;
+}
+.roadmap-item:last-child { margin-bottom: 0; }
+.roadmap-dot {
+position: absolute;
+left: -25px; top: 4px;
+width: 14px; height: 14px;
+border-radius: 50%;
+background: var(–surface-card);
+border: 2px solid var(–accent);
+z-index: 1;
+}
+.roadmap-dot.active {
+background: var(–accent);
+box-shadow: 0 0 0 4px var(–accent-light);
+}
+.roadmap-phase {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 10px;
+color: var(–accent);
+letter-spacing: 0.08em;
+margin-bottom: 4px;
+text-transform: uppercase;
+}
+.roadmap-title {
+font-size: 14px;
+font-weight: 600;
+color: var(–text-primary);
+margin-bottom: 6px;
+}
+.roadmap-body {
+font-size: 12.5px;
+color: var(–text-secondary);
+line-height: 1.7;
+}
+.roadmap-tags {
+display: flex;
+flex-wrap: wrap;
+gap: 6px;
+margin-top: 8px;
+}
+.rtag {
+font-size: 10px;
+padding: 2px 8px;
+border-radius: 4px;
+background: var(–border-light);
+color: var(–text-muted);
+font-family: ‘JetBrains Mono’, monospace;
+}
+
+/* ─── PAIN POINTS ─── */
+.pain-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 16px;
+margin-bottom: 24px;
+}
+.pain-card {
+background: var(–surface-card);
+border: 1px solid var(–border);
+border-left: 3px solid var(–accent);
+border-radius: 8px;
+padding: 16px 18px;
+}
+.pain-card.warn { border-left-color: var(–warning); }
+.pain-card.danger { border-left-color: var(–danger); }
+.pain-card.success { border-left-color: var(–success); }
+.pain-head {
+font-size: 12px;
+font-weight: 600;
+color: var(–text-primary);
+margin-bottom: 6px;
+display: flex;
+align-items: center;
+gap: 6px;
+}
+.pain-body {
+font-size: 12px;
+color: var(–text-secondary);
+line-height: 1.7;
+}
+
+/* ─── CALLOUT ─── */
+.callout {
+background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+border: 1px solid #bfdbfe;
+border-radius: 10px;
+padding: 20px 24px;
+margin-bottom: 24px;
+}
+.callout-title {
+font-size: 13px;
+font-weight: 600;
+color: #1d4ed8;
+margin-bottom: 8px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.callout p {
+font-size: 13px;
+color: #1e3a5f;
+line-height: 1.8;
+}
+
+/* ─── FOOTER ─── */
+.report-footer {
+background: var(–primary);
+color: rgba(255,255,255,0.5);
+padding: 24px 48px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+font-size: 11px;
+font-family: ‘JetBrains Mono’, monospace;
+}
+.footer-brand {
+color: rgba(255,255,255,0.8);
+font-size: 12px;
+font-weight: 500;
+font-family: ‘Noto Sans SC’, sans-serif;
+}
+
+/* ─── SECTION SPACER ─── */
+.section { margin-bottom: 48px; }
+
+@media (max-width: 640px) {
+.hero { padding: 40px 24px 32px; }
+.hero-title { font-size: 22px; }
+.stat-grid { grid-template-columns: repeat(2, 1fr); }
+.biz-grid { grid-template-columns: 1fr 1fr; }
+.pain-grid { grid-template-columns: 1fr; }
+.opp-item { grid-template-columns: 20px 1fr 60px; }
+.opp-item .col-hide { display: none; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+
+<div class="hero">
+  <div class="hero-badge">CONFIDENTIAL · AI INTELLIGENCE REPORT · 2026.05</div>
+  <div class="hero-title">
+    荣成康派斯新能源车辆<br>
+    <span>AI 智能化转型</span> 分析报告
+  </div>
+  <div class="hero-subtitle">
+    基于企业公开信息与行业研究，由飞凡科技·企业智能化团队提供专业评估
+  </div>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <div class="hero-meta-label">客户主体</div>
+      <div class="hero-meta-value">荣成康派斯新能源车辆股份有限公司</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-label">证券代码</div>
+      <div class="hero-meta-value">872836 · 新三板</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-label">报告出具</div>
+      <div class="hero-meta-value">飞凡科技 · AI智能化事业部</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-label">报告日期</div>
+      <div class="hero-meta-value">2026年5月30日</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ═══ 01 企业画像 ═══ -->
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">🏭</div>
+      <div>
+        <div class="section-num">SECTION 01</div>
+        <div class="section-title">企业基本画像</div>
+      </div>
+    </div>
+
+```
+<div class="stat-grid">
+  <div class="stat-card">
+    <div class="number">2014</div>
+    <div class="label">成立年份</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">1500+</div>
+    <div class="label">在职员工</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">180+</div>
+    <div class="label">授权专利（含52项发明）</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">30+</div>
+    <div class="label">出口国家及地区</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">🎯 企业定位与核心竞争力</div>
+  <p>
+    荣成康派斯是中国<strong>房车行业产量与出口双料全国第一</strong>的领军企业，被认定为"国家制造业单项冠军"。
+    公司聚焦高端越野房车赛道，以奔驰底盘为基础打造自驾系列（阿洛斯K5、斯宾特T1、乌尼莫克U3），
+    同时拥有强大的拖挂式房车出口产能（年产能2万辆）。2018年挂牌新三板，已形成
+    制造、租赁、露营地、电商、保税库、海外公司的<strong>六维一体业务生态</strong>。
+    技术团队占员工比例约18%（约300人），并与海尔COSMOPlat联合入选工信部工业互联网试点示范项目，
+    具备一定的数字化基础认知。
+  </p>
+</div>
+
+<div class="biz-grid">
+  <div class="biz-card">
+    <div class="biz-card-head">
+      <div class="biz-icon" style="background:#eff6ff">🚐</div>
+      <div class="biz-name">房车制造</div>
+    </div>
+    <div class="biz-desc">核心业务，26万㎡厂区，20+智能化车间，年产自驾+拖挂超2万台</div>
+    <span class="tag tag-blue">CORE</span>
+  </div>
+  <div class="biz-card">
+    <div class="biz-card-head">
+      <div class="biz-icon" style="background:#f0fdf4">🌍</div>
+      <div class="biz-name">出口贸易</div>
+    </div>
+    <div class="biz-desc">产品出口30+国家，设海外公司与保税库，全球化布局领先</div>
+    <span class="tag tag-green">EXPORT</span>
+  </div>
+  <div class="biz-card">
+    <div class="biz-card-head">
+      <div class="biz-icon" style="background:#fff7ed">🏕</div>
+      <div class="biz-name">露营地运营</div>
+    </div>
+    <div class="biz-desc">自营营地与房车租赁服务，向消费端延伸，形成B+C双轮驱动</div>
+    <span class="tag tag-orange">B2C</span>
+  </div>
+  <div class="biz-card">
+    <div class="biz-card-head">
+      <div class="biz-icon" style="background:#fdf4ff">🛒</div>
+      <div class="biz-name">电商平台</div>
+    </div>
+    <div class="biz-desc">官方电商布局，涵盖房车本体及配件，线上线下协同</div>
+    <span class="tag tag-purple">ECOM</span>
+  </div>
+  <div class="biz-card">
+    <div class="biz-card-head">
+      <div class="biz-icon" style="background:#f0fdf4">🏪</div>
+      <div class="biz-name">保税库</div>
+    </div>
+    <div class="biz-desc">出口中转与供应链节点，降低关税成本，服务海外经销商</div>
+    <span class="tag tag-green">SUPPLY</span>
+  </div>
+  <div class="biz-card">
+    <div class="biz-card-head">
+      <div class="biz-icon" style="background:#eff6ff">🔧</div>
+      <div class="biz-name">售后服务</div>
+    </div>
+    <div class="biz-desc">全国营销网络，提供文件下载、技术支持等售后渠道</div>
+    <span class="tag tag-blue">AFTERSALES</span>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- ═══ 02 数字化现状评估 ═══ -->
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">📊</div>
+      <div>
+        <div class="section-num">SECTION 02</div>
+        <div class="section-title">数字化现状评估</div>
+      </div>
+    </div>
+
+```
+<div class="callout">
+  <div class="callout-title">💡 评估说明</div>
+  <p>
+    以下评估基于官网公开信息、业务架构及行业普遍规律，采用 1-5 分制对各维度的数字化成熟度进行推断打分。
+    1分=起步期，3分=发展期，5分=领先期。评估结论供开场交流参考，实际深度须通过调研问卷与现场访谈进一步核实。
+  </p>
+</div>
+
+<div class="maturity-section">
+  <div class="maturity-title">数字化成熟度雷达（推断评分）</div>
+
+  <div class="maturity-row">
+    <div class="maturity-label">生产智能化</div>
+    <div class="maturity-bar-bg"><div class="maturity-bar bar-mid" style="width:56%"></div></div>
+    <div class="maturity-score">2.8/5</div>
+  </div>
+  <div class="maturity-row">
+    <div class="maturity-label">销售数字化</div>
+    <div class="maturity-bar-bg"><div class="maturity-bar bar-low" style="width:36%"></div></div>
+    <div class="maturity-score">1.8/5</div>
+  </div>
+  <div class="maturity-row">
+    <div class="maturity-label">客服智能化</div>
+    <div class="maturity-bar-bg"><div class="maturity-bar bar-low" style="width:24%"></div></div>
+    <div class="maturity-score">1.2/5</div>
+  </div>
+  <div class="maturity-row">
+    <div class="maturity-label">供应链协同</div>
+    <div class="maturity-bar-bg"><div class="maturity-bar bar-mid" style="width:44%"></div></div>
+    <div class="maturity-score">2.2/5</div>
+  </div>
+  <div class="maturity-row">
+    <div class="maturity-label">海外运营管理</div>
+    <div class="maturity-bar-bg"><div class="maturity-bar bar-low" style="width:28%"></div></div>
+    <div class="maturity-score">1.4/5</div>
+  </div>
+  <div class="maturity-row">
+    <div class="maturity-label">数据治理能力</div>
+    <div class="maturity-bar-bg"><div class="maturity-bar bar-low" style="width:32%"></div></div>
+    <div class="maturity-score">1.6/5</div>
+  </div>
+  <div class="maturity-row">
+    <div class="maturity-label">营地/租赁运营</div>
+    <div class="maturity-bar-bg"><div class="maturity-bar bar-low" style="width:28%"></div></div>
+    <div class="maturity-score">1.4/5</div>
+  </div>
+</div>
+
+<div class="pain-grid">
+  <div class="pain-card">
+    <div class="pain-head">✅ 已有数字化基础</div>
+    <div class="pain-body">
+      与海尔COSMOPlat合作建设工业互联网平台，20+智能化生产车间，已具备初步的制造数据采集能力；拥有电商平台与官网双渠道；新三板上市带来基础的财务数字化要求。
+    </div>
+  </div>
+  <div class="pain-card warn">
+    <div class="pain-head">⚠️ 显著薄弱环节</div>
+    <div class="pain-body">
+      官网客服仅靠电话+邮件，无在线智能问答；营销网络分布全国但缺乏统一数字化管理工具；产品定制需求强，缺少AI辅助配置推荐体系；租赁和露营运营线上化程度低。
+    </div>
+  </div>
+  <div class="pain-card danger">
+    <div class="pain-head">🔴 核心痛点研判</div>
+    <div class="pain-body">
+      高端房车客单价极高（数十至数百万元），销售决策链长，但全程缺乏AI销售助手支撑；海外市场30+国家缺乏多语言智能服务能力；技术研发文档与知识管理分散，效率损耗明显。
+    </div>
+  </div>
+  <div class="pain-card success">
+    <div class="pain-head">🟢 AI切入有利因素</div>
+    <div class="pain-body">
+      公司已有AI化意愿（寻求合作），管理层技术敏感度较高；300人技术团队可作为内部推广力量；已与国家级平台合作，对数字化项目申报熟悉；房车行业AI应用几乎空白，先发优势大。
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- ═══ 03 AI机会识别 ═══ -->
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">🤖</div>
+      <div>
+        <div class="section-num">SECTION 03</div>
+        <div class="section-title">AI 应用机会识别矩阵</div>
+      </div>
+    </div>
+
+```
+<div class="opp-list">
+  <div class="opp-item header-row">
+    <div class="opp-num white">#</div>
+    <div class="opp-name header">应用场景</div>
+    <div style="font-size:11px;color:rgba(255,255,255,0.8)">价值潜力</div>
+    <div style="font-size:11px;color:rgba(255,255,255,0.8)">实施难度</div>
+    <div style="font-size:11px;color:rgba(255,255,255,0.8)">落地周期</div>
+  </div>
+
+  <div class="opp-item">
+    <div class="opp-num">01</div>
+    <div>
+      <div class="opp-name">智能销售助手 · AI导购机器人</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:2px">基于产品知识库，实现7×24小时在线答疑、车型推荐、配置报价初筛，引流至经销商</div>
+    </div>
+    <div><span class="pill pill-high">★★★★★</span></div>
+    <div><span class="pill pill-low">低</span></div>
+    <div><span class="pill pill-fast">1-2月</span></div>
+  </div>
+
+  <div class="opp-item">
+    <div class="opp-num">02</div>
+    <div>
+      <div class="opp-name">多语言客服 · 海外市场智能服务</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:2px">支持英、法、德、西等多语种实时响应，覆盖30+出口国经销商与终端客户咨询</div>
+    </div>
+    <div><span class="pill pill-high">★★★★★</span></div>
+    <div><span class="pill pill-low">低</span></div>
+    <div><span class="pill pill-fast">1-2月</span></div>
+  </div>
+
+  <div class="opp-item">
+    <div class="opp-num">03</div>
+    <div>
+      <div class="opp-name">营销内容生产 · AI图文/视频辅助</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:2px">自动生成产品介绍文案、展会宣传材料、抖音脚本、海外社媒帖子，大幅降低营销人力成本</div>
+    </div>
+    <div><span class="pill pill-high">★★★★☆</span></div>
+    <div><span class="pill pill-low">低</span></div>
+    <div><span class="pill pill-fast">2-4周</span></div>
+  </div>
+
+  <div class="opp-item">
+    <div class="opp-num">04</div>
+    <div>
+      <div class="opp-name">研发知识管理 · AI技术文档助手</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:2px">将300+人研发团队的图纸、标准、工艺文档结构化入库，AI快速检索与跨文档推理</div>
+    </div>
+    <div><span class="pill pill-mid">★★★★☆</span></div>
+    <div><span class="pill pill-mid">中</span></div>
+    <div><span class="pill pill-mid-time">2-3月</span></div>
+  </div>
+
+  <div class="opp-item">
+    <div class="opp-num">05</div>
+    <div>
+      <div class="opp-name">售后智能诊断 · 远程故障预判</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:2px">基于故障历史与设备手册训练诊断模型，辅助售后服务人员快速定位问题，提升客户满意度</div>
+    </div>
+    <div><span class="pill pill-mid">★★★★☆</span></div>
+    <div><span class="pill pill-mid">中</span></div>
+    <div><span class="pill pill-mid-time">3-4月</span></div>
+  </div>
+
+  <div class="opp-item">
+    <div class="opp-num">06</div>
+    <div>
+      <div class="opp-name">生产质检 · 视觉AI缺陷检测</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:2px">在现有智能化车间基础上叠加AI视觉质检模块，提升表面缺陷识别精度，降低人工成本</div>
+    </div>
+    <div><span class="pill pill-mid">★★★☆☆</span></div>
+    <div><span class="pill pill-mid">高</span></div>
+    <div><span class="pill pill-mid-time">6月+</span></div>
+  </div>
+
+  <div class="opp-item">
+    <div class="opp-num">07</div>
+    <div>
+      <div class="opp-name">露营地运营 · 智能预约与用户运营</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:2px">AI驱动的营地预订、个性化推荐、用户行为分析，形成房车购买 → 租赁 → 营地的消费闭环</div>
+    </div>
+    <div><span class="pill pill-mid">★★★☆☆</span></div>
+    <div><span class="pill pill-mid">中</span></div>
+    <div><span class="pill pill-mid-time">3-5月</span></div>
+  </div>
+
+  <div class="opp-item">
+    <div class="opp-num">08</div>
+    <div>
+      <div class="opp-name">供应链 · AI需求预测与备料优化</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:2px">基于历史订单、市场趋势预测关键物料需求，减少库存积压，提升零部件供应准时率</div>
+    </div>
+    <div><span class="pill pill-mid">★★★☆☆</span></div>
+    <div><span class="pill pill-mid">高</span></div>
+    <div><span class="pill pill-mid-time">6月+</span></div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- ═══ 04 推荐实施路径 ═══ -->
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">🗺</div>
+      <div>
+        <div class="section-num">SECTION 04</div>
+        <div class="section-title">推荐实施路径（三阶段）</div>
+      </div>
+    </div>
+
+```
+<div class="roadmap">
+  <div class="roadmap-item">
+    <div class="roadmap-dot active"></div>
+    <div class="roadmap-phase">PHASE 1 · 第1-2个月 · 快速见效</div>
+    <div class="roadmap-title">⚡ "智能名片"阶段 — 轻量化部署，即时显效</div>
+    <div class="roadmap-body">
+      优先启动 <strong>AI智能销售助手</strong> 和 <strong>多语言客服机器人</strong>，以产品手册、官网内容和FAQ为知识底座，
+      基于飞凡科技的大模型应用平台（Dify/FastGPT架构）快速构建，嵌入官网与微信公众号。
+      同步部署 <strong>AI营销内容助手</strong>，赋能市场团队每周自动生成抖音、LinkedIn等渠道内容素材。
+      本阶段投入小、见效快，可作为向决策层展示AI价值的"标杆展示项目"。
+    </div>
+    <div class="roadmap-tags">
+      <span class="rtag">AI销售问答</span>
+      <span class="rtag">多语言客服</span>
+      <span class="rtag">营销内容生产</span>
+      <span class="rtag">预算友好</span>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="roadmap-dot"></div>
+    <div class="roadmap-phase">PHASE 2 · 第3-6个月 · 深度赋能</div>
+    <div class="roadmap-title">🔗 "智能中台"阶段 — 核心业务流程AI化</div>
+    <div class="roadmap-body">
+      建立 <strong>研发知识管理系统</strong>，将技术文档、专利、工艺标准数字化入库，构建智能检索与协作平台；
+      推进 <strong>售后智能诊断</strong>，打通全国经销商服务网络；
+      启动 <strong>露营地/租赁运营平台</strong> 建设，实现从停车到消费的数字化闭环。
+      同步建立数据治理基础，为三期的深度AI决策做准备。
+    </div>
+    <div class="roadmap-tags">
+      <span class="rtag">研发知识库</span>
+      <span class="rtag">售后诊断</span>
+      <span class="rtag">营地运营平台</span>
+      <span class="rtag">数据中台</span>
+    </div>
+  </div>
+
+  <div class="roadmap-item">
+    <div class="roadmap-dot"></div>
+    <div class="roadmap-phase">PHASE 3 · 6个月以上 · 战略升级</div>
+    <div class="roadmap-title">🚀 "AI驱动"阶段 — 生产与供应链智能化</div>
+    <div class="roadmap-body">
+      在COSMOPlat工业互联网基础上叠加 <strong>AI视觉质检</strong> 和 <strong>供应链需求预测</strong>；
+      构建面向高净值客户的 <strong>个性化定制AI配置器</strong>（3D可视化+AI推荐），打造行业差异化产品体验；
+      探索申报 <strong>国家级智能制造示范项目</strong>，利用已有的工信部试点示范背景获取政策资源与资金支持。
+    </div>
+    <div class="roadmap-tags">
+      <span class="rtag">AI质检</span>
+      <span class="rtag">供应链AI</span>
+      <span class="rtag">3D定制配置器</span>
+      <span class="rtag">政策申报</span>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- ═══ 05 核心价值主张 ═══ -->
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">💎</div>
+      <div>
+        <div class="section-num">SECTION 05</div>
+        <div class="section-title">飞凡科技的核心价值主张</div>
+      </div>
+    </div>
+
+```
+<div class="callout">
+  <div class="callout-title">🎯 为什么选择飞凡科技？</div>
+  <p>
+    飞凡科技核心团队拥有阿里巴巴、蘑菇街等头部互联网企业的商业中台与技术架构实战经验，
+    深刻理解制造业向消费端延伸的数字化挑战。区别于通用软件商，我们提供从业务顾问到技术落地的一体化服务，
+    具备针对高端制造与多语言出口场景的专项AI能力，能够在2-4周内完成可演示的MVP交付。
+  </p>
+</div>
+
+<div class="pain-grid">
+  <div class="pain-card success">
+    <div class="pain-head">🏗 技术架构优势</div>
+    <div class="pain-body">自主掌握Dify、FastGPT、n8n等主流AI应用开发框架，支持私有化部署，数据安全完全可控，无需依赖单一云厂商</div>
+  </div>
+  <div class="pain-card success">
+    <div class="pain-head">⚡ 快速交付能力</div>
+    <div class="pain-body">基于标准化AI应用中台，核心场景从需求到上线仅需2-4周，先试后建，最小化初期投入风险</div>
+  </div>
+  <div class="pain-card success">
+    <div class="pain-head">🌐 多语言出海经验</div>
+    <div class="pain-body">具备面向30+国家出口企业的多语言AI服务设计经验，深度理解跨境贸易场景的沟通与文化差异</div>
+  </div>
+  <div class="pain-card success">
+    <div class="pain-head">📈 数据驱动价值衡量</div>
+    <div class="pain-body">每个项目提前定义可量化KPI（客服响应率、商机转化率等），确保AI投入与业务价值之间有清晰的数字连接</div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- ═══ 06 建议下一步 ═══ -->
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">📌</div>
+      <div>
+        <div class="section-num">SECTION 06</div>
+        <div class="section-title">建议下一步行动</div>
+      </div>
+    </div>
+
+```
+<div class="card">
+  <div class="card-title">🗓 建议工作计划（接触后1个月内）</div>
+  <p>
+    <strong>第1步（本周）：</strong>安排深度调研会议，重点访谈销售总监、售后负责人、IT负责人，了解现有系统架构与真实业务痛点。<br><br>
+    <strong>第2步（1-2周）：</strong>以"智能销售助手"为切入点，提供一个基于康派斯产品资料的<strong>免费POC演示版本</strong>，让客户直观感受AI效果，降低决策门槛。<br><br>
+    <strong>第3步（2-4周）：</strong>产出正式的实施方案与报价，明确Phase 1项目范围、交付里程碑和ROI预估，推动合同落地。<br><br>
+    <strong>长期：</strong>以Phase 1项目为起点，按阶段滚动推进，形成稳定的战略合作关系，争取覆盖康派斯整个业务生态的AI化改造。
+  </p>
+</div>
+```
+
+  </div>
+
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+
+<div class="report-footer">
+  <div class="footer-brand">飞凡科技 · AI 智能化事业部</div>
+  <div>本报告基于公开信息分析，仅供内部提案参考 · CONFIDENTIAL</div>
+  <div>REPORT-COMPAKS-2026-05</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spring Cloud 电商平台 · 双云部署架构方案 v2.0</title>
+<style>
+  :root {
+    --bg: #f8f9fb;
+    --surface: #ffffff;
+    --surface2: #f3f5f8;
+    --border: #e2e6ed;
+    --border-light: #eef1f5;
+    --text-primary: #0d1117;
+    --text-secondary: #4a5568;
+    --text-muted: #8896aa;
+    --blue-50: #eff6ff;
+    --blue-100: #dbeafe;
+    --blue-500: #3b82f6;
+    --blue-600: #2563eb;
+    --blue-700: #1d4ed8;
+    --blue-800: #1e40af;
+    --teal-50: #f0fdfa;
+    --teal-500: #14b8a6;
+    --teal-600: #0d9488;
+    --teal-700: #0f766e;
+    --orange-50: #fff7ed;
+    --orange-500: #f97316;
+    --orange-600: #ea580c;
+    --red-50: #fef2f2;
+    --red-500: #ef4444;
+    --red-600: #dc2626;
+    --green-50: #f0fdf4;
+    --green-500: #22c55e;
+    --green-600: #16a34a;
+    --purple-50: #faf5ff;
+    --purple-500: #a855f7;
+    --purple-600: #9333ea;
+    --amber-50: #fffbeb;
+    --amber-500: #f59e0b;
+    --amber-600: #d97706;
+    --ai-grad: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    --ai-blue: #4f8ef7;
+    --ai-purple: #8b5cf6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 48px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 56px;
+  }
+  .ai-badge {
+    background: var(--ai-grad);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 12px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .header-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .header-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-left: auto;
+  }
+
+  /* ── Layout ── */
+  .page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  /* ── TOC ── */
+  .toc {
+    position: sticky;
+    top: 72px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .toc-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .toc a {
+    display: block;
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 5px 8px;
+    border-radius: 5px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .toc a:hover { background: var(--blue-50); color: var(--blue-700); }
+  .toc a.sub { padding-left: 18px; font-size: 12px; color: var(--text-muted); }
+
+  /* ── Content ── */
+  .content > * + * { margin-top: 28px; }
+
+  /* ── Hero ── */
+  .hero {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .hero-top {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 60%, #162d4a 100%);
+    padding: 32px 36px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-top::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(79,142,247,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-top::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 30%;
+    width: 300px; height: 120px;
+    background: radial-gradient(ellipse, rgba(139,92,246,0.12) 0%, transparent 70%);
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(79,142,247,0.15);
+    border: 1px solid rgba(79,142,247,0.3);
+    color: #93c5fd;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+  }
+  .hero-tag::before { content: '●'; font-size: 8px; color: #60a5fa; }
+  .hero-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #f1f5f9;
+    line-height: 1.3;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-title span { color: #60a5fa; }
+  .hero-desc {
+    font-size: 13px;
+    color: #94a3b8;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-meta {
+    padding: 16px 36px;
+    display: flex;
+    gap: 32px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .meta-label { font-size: 11px; color: var(--text-muted); }
+  .meta-value { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+
+  /* ── Section ── */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .section-header {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-icon {
+    width: 28px; height: 28px;
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .section-title { font-size: 15px; font-weight: 600; }
+  .section-body { padding: 20px 24px; }
+  .section-body > * + * { margin-top: 16px; }
+
+  /* ── Review Cards ── */
+  .review-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .review-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .review-card.ok { border-left: 3px solid var(--green-500); }
+  .review-card.warn { border-left: 3px solid var(--amber-500); }
+  .review-card.fix { border-left: 3px solid var(--red-500); }
+  .review-card.new { border-left: 3px solid var(--blue-500); }
+  .review-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 10px;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+  .tag-ok { background: var(--green-50); color: var(--green-600); }
+  .tag-warn { background: var(--amber-50); color: var(--amber-600); }
+  .tag-fix { background: var(--red-50); color: var(--red-600); }
+  .tag-new { background: var(--blue-50); color: var(--blue-700); }
+  .review-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .review-card p { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+
+  /* ── Arch Diagram ── */
+  .arch-diagram {
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 24px;
+    overflow-x: auto;
+  }
+
+  svg.arch { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif; }
+
+  /* ── Layer Table ── */
+  .layer-table { width: 100%; border-collapse: collapse; }
+  .layer-table th {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    text-align: left;
+    padding: 8px 12px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .layer-table td {
+    padding: 11px 12px;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 13px;
+    vertical-align: top;
+  }
+  .layer-table tr:last-child td { border-bottom: none; }
+  .layer-table tr:hover td { background: var(--blue-50); }
+  .layer-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  code {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 11.5px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 1px 5px;
+    border-radius: 4px;
+    color: var(--blue-700);
+  }
+
+  /* ── Config Block ── */
+  .config-block {
+    background: #0f172a;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .config-header {
+    background: #1e293b;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #334155;
+  }
+  .config-header span { font-size: 11px; color: #94a3b8; font-family: monospace; }
+  .config-dots { display: flex; gap: 5px; }
+  .config-dot { width: 10px; height: 10px; border-radius: 50%; }
+  pre {
+    padding: 16px 20px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    color: #e2e8f0;
+    overflow-x: auto;
+    margin: 0;
+  }
+  .kw { color: #f472b6; }
+  .str { color: #86efac; }
+  .comment { color: #64748b; font-style: italic; }
+  .key { color: #93c5fd; }
+  .val { color: #fde68a; }
+
+  /* ── Steps ── */
+  .steps { display: flex; flex-direction: column; gap: 10px; }
+  .step {
+    display: flex;
+    gap: 14px;
+    padding: 14px 16px;
+    background: var(--surface2);
+    border-radius: 8px;
+    align-items: flex-start;
+  }
+  .step-num {
+    width: 24px; height: 24px;
+    background: var(--blue-600);
+    color: white;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .step-content h4 { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  .step-content p { font-size: 12px; color: var(--text-secondary); }
+
+  /* ── Callout ── */
+  .callout {
+    display: flex;
+    gap: 10px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+  }
+  .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .callout p { color: var(--text-secondary); line-height: 1.6; }
+  .callout strong { color: var(--text-primary); }
+  .callout.info { background: var(--blue-50); border: 1px solid #bfdbfe; }
+  .callout.warn { background: var(--amber-50); border: 1px solid #fde68a; }
+  .callout.tip { background: var(--green-50); border: 1px solid #bbf7d0; }
+
+  /* ── Tag pills ── */
+  .pill-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    background: var(--surface2);
+  }
+  .pill.blue { background: var(--blue-50); border-color: #bfdbfe; color: var(--blue-700); }
+  .pill.teal { background: var(--teal-50); border-color: #99f6e4; color: var(--teal-700); }
+  .pill.orange { background: var(--orange-50); border-color: #fed7aa; color: var(--orange-600); }
+  .pill.purple { background: var(--purple-50); border-color: #e9d5ff; color: var(--purple-600); }
+
+  /* ── Comparison ── */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .compare-col {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .compare-head {
+    padding: 10px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .compare-head.tencent { background: #eff6ff; color: var(--blue-700); }
+  .compare-head.ali { background: #fff7ed; color: var(--orange-600); }
+  .compare-body { padding: 12px 14px; }
+  .compare-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 12px;
+  }
+  .compare-row:last-child { border-bottom: none; }
+  .compare-row .label { color: var(--text-muted); }
+  .compare-row .value { font-weight: 600; }
+
+  /* ── Risk Table ── */
+  .risk-row {
+    display: grid;
+    grid-template-columns: 160px 80px 1fr;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-light);
+    align-items: start;
+  }
+  .risk-row:last-child { border-bottom: none; }
+  .risk-level {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+  .risk-high { background: var(--red-50); color: var(--red-600); }
+  .risk-mid { background: var(--amber-50); color: var(--amber-600); }
+  .risk-low { background: var(--green-50); color: var(--green-600); }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* ── AI Pulse ── */
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(79,142,247,0.25); }
+    70% { box-shadow: 0 0 0 8px rgba(79,142,247,0); }
+    100% { box-shadow: 0 0 0 0 rgba(79,142,247,0); }
+  }
+  .ai-pulse { animation: pulse-ring 2.5s ease-out infinite; }
+
+  @media (max-width: 900px) {
+    .page { grid-template-columns: 1fr; padding: 16px; }
+    .toc { display: none; }
+    .review-grid, .compare-grid { grid-template-columns: 1fr; }
+    .hero-meta { flex-wrap: wrap; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-inner">
+    <span class="ai-badge ai-pulse">AI ARCH</span>
+    <span class="header-title">Spring Cloud 双云架构方案</span>
+    <span class="header-sub">腾讯云 TKE + 阿里云 ACK · v2.0 · 2025</span>
+  </div>
+</header>
+
+<div class="page">
+
+  <!-- TOC -->
+  <nav class="toc">
+    <div class="toc-title">目录</div>
+    <a href="#review">方案 Review</a>
+    <a href="#arch">整体架构图</a>
+    <a href="#layers">分层技术选型</a>
+    <a href="#config">核心配置</a>
+    <a href="#infra">基础设施规划</a>
+    <a href="#dr">容灾与数据同步</a>
+    <a href="#cicd">CI/CD 与可观测性</a>
+    <a href="#risk">风险与迁移路径</a>
+    <a href="#impl">实施步骤</a>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="content">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-top">
+        <div class="hero-tag">生产级方案 · 双云高可用</div>
+        <h1 class="hero-title">Spring Cloud 电商平台<br><span>阿里云 + 腾讯云</span> 双云部署方案</h1>
+        <p class="hero-desc">独立双集群 · Spring Cloud Alibaba · Nacos 原生治理 · 零跨云 RPC · 入口层容灾</p>
+      </div>
+      <div class="hero-meta">
+        <div class="meta-item">
+          <span class="meta-label">核心策略</span>
+          <span class="meta-value">主备容灾</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">容灾 RTO</span>
+          <span class="meta-value">&lt; 60s</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">跨云调用</span>
+          <span class="meta-value">无</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">服务治理</span>
+          <span class="meta-value">Nacos + Sentinel</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">推荐版本</span>
+          <span class="meta-value">Spring Boot 3.x</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review -->
+    <div class="section" id="review">
+      <div class="section-header">
+        <div class="section-icon" style="background:#eff6ff; color:#2563eb;">🔍</div>
+        <span class="section-title">方案 Review — 可行性评估与修正</span>
+      </div>
+      <div class="section-body">
+
+        <div class="callout info">
+          <span class="callout-icon">ℹ️</span>
+          <p>原方案总体方向<strong>正确且可落地</strong>，核心策略（独立双集群 + Nacos + 无跨云 RPC）是当前最务实的生产方案。以下重点指出需要补充或修正的关键点。</p>
+        </div>
+
+        <div class="review-grid">
+
+          <div class="review-card ok">
+            <span class="review-tag tag-ok">✓ 保留</span>
+            <h4>独立双集群策略</h4>
+            <p>零跨云服务调用，集群内 Nacos 自治，运维复杂度最低，这是正确的。完全保留。</p>
+          </div>
+
+          <div class="review-card ok">
+            <span class="review-tag tag-ok">✓ 保留</span>
+            <h4>Spring Cloud Alibaba 统一</h4>
+            <p>Nacos + Sentinel + Seata + RocketMQ 生态统一，两云均可运行，不绑定特定云厂商 SDK。</p>
+          </div>
+
+          <div class="review-card warn">
+            <span class="review-tag tag-warn">⚠ 补充</span>
+            <h4>Spring Boot / Cloud 版本缺失</h4>
+            <p>原方案未明确版本。需锁定：<strong>Spring Boot 3.3.x + Spring Cloud 2023.0.x + SCA 2023.0.x</strong>，三者版本矩阵必须对齐，否则自动配置冲突。</p>
+          </div>
+
+          <div class="review-card warn">
+            <span class="review-tag tag-warn">⚠ 补充</span>
+            <h4>Nacos 集群规格未指定</h4>
+            <p>3 节点 Nacos 在电商高峰期会成为 SPOF。建议每云 <strong>3 节点 Nacos + MySQL 持久化</strong>，并为 Nacos 配置独立 PVC，同时设置 HPA 保护。</p>
+          </div>
+
+          <div class="review-card fix">
+            <span class="review-tag tag-fix">✗ 修正</span>
+            <h4>LoadBalancer 选型问题</h4>
+            <p>Spring Cloud LoadBalancer 默认轮询策略在 K8s 多 Pod 场景下存在<strong>连接池效率问题</strong>。应配合 <code>@LoadBalancerClient</code> 开启 zone-aware 或 weighted 策略，并关闭 Ribbon（SCA 2021+ 已默认去除，注意老版本迁移）。</p>
+          </div>
+
+          <div class="review-card fix">
+            <span class="review-tag tag-fix">✗ 修正</span>
+            <h4>分布式事务方案过于简化</h4>
+            <p>原方案将 Seata 标注为"可选"。电商场景的<strong>订单-库存-支付</strong>强一致性链路不可省略。建议明确：AT 模式用于订单主链路，TCC 模式用于跨服务补偿，Saga 用于长流程。</p>
+          </div>
+
+          <div class="review-card fix">
+            <span class="review-tag tag-fix">✗ 修正</span>
+            <h4>数据同步方案风险</h4>
+            <p>原方案提到"双写 + 最终一致性"，这在高并发电商场景极易引发<strong>库存超卖、订单重复</strong>。建议改为：主库单写 + DTS 异步同步到备云，备云只读，容灾切换后 RPO 以秒计。</p>
+          </div>
+
+          <div class="review-card new">
+            <span class="review-tag tag-new">+ 新增</span>
+            <h4>网关层安全强化</h4>
+            <p>原方案 Gateway 配置过于简单。需补充：<strong>JWT 鉴权过滤器、限流规则（基于用户/IP）、请求签名验证、灰度路由</strong>（通过 Header 或 Cookie 分流），这是电商网关的必备能力。</p>
+          </div>
+
+          <div class="review-card new">
+            <span class="review-tag tag-new">+ 新增</span>
+            <h4>服务网格演进路径</h4>
+            <p>当服务数量 &gt; 20 时，Feign + Sentinel 的手动治理成本上升。方案需预留<strong>向 Istio/APISIX 迁移的路径</strong>，建议从第一天就用标准 K8s Service，不直接绑定 Nacos DNS。</p>
+          </div>
+
+          <div class="review-card new">
+            <span class="review-tag tag-new">+ 新增</span>
+            <h4>多环境隔离策略</h4>
+            <p>原方案只有 prod，缺少环境规划。建议：<strong>dev → staging（单云）→ prod（双云）</strong>，通过 Nacos namespace 隔离配置，通过 K8s namespace 隔离资源，GitOps 分支对应环境。</p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Architecture Diagram -->
+    <div class="section" id="arch">
+      <div class="section-header">
+        <div class="section-icon" style="background:#f0fdfa; color:#0d9488;">🏗</div>
+        <span class="section-title">整体架构图</span>
+      </div>
+      <div class="section-body">
+
+        <div class="arch-diagram">
+          <svg class="arch" width="100%" viewBox="0 0 900 680" xmlns="http://www.w3.org/2000/svg" style="min-width:750px;">
+            <defs>
+              <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+              <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+              <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+              <marker id="arr-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="#14b8a6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+            </defs>
+
+            <!-- ══ Layer 1: Client / CDN ══ -->
+            <!-- Client -->
+            <rect x="350" y="14" width="200" height="44" rx="8" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+            <text x="450" y="34" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">用户请求</text>
+            <text x="450" y="50" text-anchor="middle" font-size="11" fill="#64748b">Web / App / Mini-Program</text>
+
+            <!-- Arrow down to CDN/DNS -->
+            <line x1="450" y1="58" x2="450" y2="88" stroke="#94a3b8" stroke-width="1" marker-end="url(#arr)"/>
+
+            <!-- DNS/CDN Layer -->
+            <rect x="200" y="88" width="500" height="44" rx="8" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+            <text x="450" y="108" text-anchor="middle" font-size="12" font-weight="700" fill="#1d4ed8">全局 DNS 智能解析层</text>
+            <text x="450" y="124" text-anchor="middle" font-size="11" fill="#3b82f6">DNSPod / 阿里云 DNS · 权重路由 · 健康检查 · 主备切换 (failover &lt;60s)</text>
+
+            <!-- two downward arrows -->
+            <line x1="320" y1="132" x2="260" y2="162" stroke="#3b82f6" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arr-blue)"/>
+            <line x1="580" y1="132" x2="640" y2="162" stroke="#ea580c" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arr-blue)"/>
+
+            <text x="260" y="158" text-anchor="middle" font-size="10" fill="#3b82f6">100%流量(主)</text>
+            <text x="640" y="158" text-anchor="middle" font-size="10" fill="#ea580c">备用/热备</text>
+
+            <!-- ══ 腾讯云 Block ══ -->
+            <rect x="20" y="172" width="400" height="450" rx="12" fill="#f8faff" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="6,3"/>
+            <text x="36" y="194" font-size="12" font-weight="700" fill="#1d4ed8">☁ 腾讯云 (主)</text>
+            <text x="36" y="210" font-size="10" fill="#3b82f6">TKE 标准托管集群 · VPC-CNI · 多 AZ</text>
+
+            <!-- WAF/CLB -->
+            <rect x="36" y="220" width="368" height="36" rx="6" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+            <text x="220" y="235" text-anchor="middle" font-size="11" font-weight="600" fill="#1d4ed8">WAF + CLB + CDN (腾讯云)</text>
+            <text x="220" y="249" text-anchor="middle" font-size="10" fill="#3b82f6">Anti-DDoS · SSL 卸载</text>
+
+            <!-- Gateway -->
+            <rect x="36" y="266" width="368" height="36" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"/>
+            <text x="220" y="281" text-anchor="middle" font-size="11" font-weight="600" fill="#1d4ed8">Spring Cloud Gateway</text>
+            <text x="220" y="295" text-anchor="middle" font-size="10" fill="#3b82f6">JWT鉴权 · 限流 · 灰度路由 · 动态规则(Nacos)</text>
+
+            <!-- Nacos Cluster -->
+            <rect x="36" y="312" width="160" height="60" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+            <text x="116" y="332" text-anchor="middle" font-size="11" font-weight="600" fill="#15803d">Nacos 集群</text>
+            <text x="116" y="346" text-anchor="middle" font-size="10" fill="#16a34a">3节点 · namespace:prod-tc</text>
+            <text x="116" y="360" text-anchor="middle" font-size="10" fill="#16a34a">服务发现 + 配置中心</text>
+
+            <!-- Sentinel -->
+            <rect x="206" y="312" width="198" height="60" rx="6" fill="#fff7ed" stroke="#fed7aa" stroke-width="1"/>
+            <text x="305" y="332" text-anchor="middle" font-size="11" font-weight="600" fill="#c2410c">Sentinel 集群</text>
+            <text x="305" y="346" text-anchor="middle" font-size="10" fill="#ea580c">熔断 · 限流 · 降级</text>
+            <text x="305" y="360" text-anchor="middle" font-size="10" fill="#ea580c">规则推送 via Nacos</text>
+
+            <!-- Services Row -->
+            <text x="36" y="394" font-size="10" font-weight="700" fill="#475569" letter-spacing="1">BUSINESS SERVICES</text>
+            <rect x="36" y="402" width="78" height="54" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+            <text x="75" y="425" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">商品服务</text>
+            <text x="75" y="440" text-anchor="middle" font-size="10" fill="#64748b">Product</text>
+            <text x="75" y="453" text-anchor="middle" font-size="9" fill="#94a3b8">3 replicas</text>
+
+            <rect x="124" y="402" width="78" height="54" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+            <text x="163" y="425" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">订单服务</text>
+            <text x="163" y="440" text-anchor="middle" font-size="10" fill="#64748b">Order</text>
+            <text x="163" y="453" text-anchor="middle" font-size="9" fill="#94a3b8">5 replicas</text>
+
+            <rect x="212" y="402" width="78" height="54" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+            <text x="251" y="425" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">支付服务</text>
+            <text x="251" y="440" text-anchor="middle" font-size="10" fill="#64748b">Payment</text>
+            <text x="251" y="453" text-anchor="middle" font-size="9" fill="#94a3b8">3 replicas</text>
+
+            <rect x="300" y="402" width="78" height="54" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+            <text x="339" y="425" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">库存服务</text>
+            <text x="339" y="440" text-anchor="middle" font-size="10" fill="#64748b">Inventory</text>
+            <text x="339" y="453" text-anchor="middle" font-size="9" fill="#94a3b8">3 replicas</text>
+
+            <!-- Infrastructure Row -->
+            <text x="36" y="474" font-size="10" font-weight="700" fill="#475569" letter-spacing="1">INFRASTRUCTURE</text>
+            <rect x="36" y="482" width="110" height="50" rx="6" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1"/>
+            <text x="91" y="504" text-anchor="middle" font-size="10" font-weight="600" fill="#7c3aed">TDSQL</text>
+            <text x="91" y="519" text-anchor="middle" font-size="10" fill="#8b5cf6">读写分离</text>
+            <text x="91" y="529" text-anchor="middle" font-size="9" fill="#a78bfa">主备多AZ</text>
+
+            <rect x="156" y="482" width="110" height="50" rx="6" fill="#fff1f2" stroke="#fecdd3" stroke-width="1"/>
+            <text x="211" y="504" text-anchor="middle" font-size="10" font-weight="600" fill="#be123c">Redis 集群</text>
+            <text x="211" y="519" text-anchor="middle" font-size="10" fill="#e11d48">分布式缓存</text>
+            <text x="211" y="529" text-anchor="middle" font-size="9" fill="#f43f5e">Cluster 模式</text>
+
+            <rect x="276" y="482" width="128" height="50" rx="6" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1"/>
+            <text x="340" y="504" text-anchor="middle" font-size="10" font-weight="600" fill="#15803d">RocketMQ</text>
+            <text x="340" y="519" text-anchor="middle" font-size="10" fill="#16a34a">消息队列</text>
+            <text x="340" y="529" text-anchor="middle" font-size="9" fill="#22c55e">云托管版</text>
+
+            <!-- Seata -->
+            <rect x="36" y="545" width="368" height="34" rx="6" fill="#fefce8" stroke="#fef08a" stroke-width="1"/>
+            <text x="220" y="560" text-anchor="middle" font-size="11" font-weight="600" fill="#a16207">Seata Server (AT + TCC 模式)</text>
+            <text x="220" y="574" text-anchor="middle" font-size="10" fill="#ca8a04">订单-库存-支付 分布式事务协调</text>
+
+            <!-- ══ 阿里云 Block ══ -->
+            <rect x="480" y="172" width="400" height="450" rx="12" fill="#fffaf0" stroke="#fed7aa" stroke-width="1.5" stroke-dasharray="6,3"/>
+            <text x="496" y="194" font-size="12" font-weight="700" fill="#c2410c">☁ 阿里云 (备)</text>
+            <text x="496" y="210" font-size="10" fill="#ea580c">ACK 托管集群 · 多可用区</text>
+
+            <!-- WAF/SLB -->
+            <rect x="496" y="220" width="368" height="36" rx="6" fill="#ffedd5" stroke="#fed7aa" stroke-width="1"/>
+            <text x="680" y="235" text-anchor="middle" font-size="11" font-weight="600" fill="#c2410c">WAF + SLB + CDN (阿里云)</text>
+            <text x="680" y="249" text-anchor="middle" font-size="10" fill="#ea580c">DDoS防护 · SSL 卸载</text>
+
+            <!-- Gateway -->
+            <rect x="496" y="266" width="368" height="36" rx="6" fill="#fff7ed" stroke="#fed7aa" stroke-width="1"/>
+            <text x="680" y="281" text-anchor="middle" font-size="11" font-weight="600" fill="#c2410c">Spring Cloud Gateway</text>
+            <text x="680" y="295" text-anchor="middle" font-size="10" fill="#ea580c">JWT鉴权 · 限流 · 灰度路由 · 动态规则(Nacos)</text>
+
+            <!-- Nacos -->
+            <rect x="496" y="312" width="160" height="60" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+            <text x="576" y="332" text-anchor="middle" font-size="11" font-weight="600" fill="#15803d">Nacos 集群</text>
+            <text x="576" y="346" text-anchor="middle" font-size="10" fill="#16a34a">3节点 · namespace:prod-ali</text>
+            <text x="576" y="360" text-anchor="middle" font-size="10" fill="#16a34a">服务发现 + 配置中心</text>
+
+            <!-- Sentinel -->
+            <rect x="666" y="312" width="198" height="60" rx="6" fill="#fff7ed" stroke="#fed7aa" stroke-width="1"/>
+            <text x="765" y="332" text-anchor="middle" font-size="11" font-weight="600" fill="#c2410c">Sentinel 集群</text>
+            <text x="765" y="346" text-anchor="middle" font-size="10" fill="#ea580c">熔断 · 限流 · 降级</text>
+            <text x="765" y="360" text-anchor="middle" font-size="10" fill="#ea580c">规则推送 via Nacos</text>
+
+            <!-- Services Row -->
+            <text x="496" y="394" font-size="10" font-weight="700" fill="#475569" letter-spacing="1">BUSINESS SERVICES</text>
+            <rect x="496" y="402" width="78" height="54" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+            <text x="535" y="425" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">商品服务</text>
+            <text x="535" y="440" text-anchor="middle" font-size="10" fill="#64748b">Product</text>
+            <text x="535" y="453" text-anchor="middle" font-size="9" fill="#94a3b8">3 replicas</text>
+
+            <rect x="584" y="402" width="78" height="54" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+            <text x="623" y="425" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">订单服务</text>
+            <text x="623" y="440" text-anchor="middle" font-size="10" fill="#64748b">Order</text>
+            <text x="623" y="453" text-anchor="middle" font-size="9" fill="#94a3b8">5 replicas</text>
+
+            <rect x="672" y="402" width="78" height="54" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+            <text x="711" y="425" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">支付服务</text>
+            <text x="711" y="440" text-anchor="middle" font-size="10" fill="#64748b">Payment</text>
+            <text x="711" y="453" text-anchor="middle" font-size="9" fill="#94a3b8">3 replicas</text>
+
+            <rect x="760" y="402" width="78" height="54" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+            <text x="799" y="425" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">库存服务</text>
+            <text x="799" y="440" text-anchor="middle" font-size="10" fill="#64748b">Inventory</text>
+            <text x="799" y="453" text-anchor="middle" font-size="9" fill="#94a3b8">3 replicas</text>
+
+            <!-- Infrastructure Row -->
+            <text x="496" y="474" font-size="10" font-weight="700" fill="#475569" letter-spacing="1">INFRASTRUCTURE</text>
+            <rect x="496" y="482" width="110" height="50" rx="6" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1"/>
+            <text x="551" y="504" text-anchor="middle" font-size="10" font-weight="600" fill="#7c3aed">PolarDB</text>
+            <text x="551" y="519" text-anchor="middle" font-size="10" fill="#8b5cf6">只读(备库)</text>
+            <text x="551" y="529" text-anchor="middle" font-size="9" fill="#a78bfa">DTS同步</text>
+
+            <rect x="616" y="482" width="110" height="50" rx="6" fill="#fff1f2" stroke="#fecdd3" stroke-width="1"/>
+            <text x="671" y="504" text-anchor="middle" font-size="10" font-weight="600" fill="#be123c">Redis 集群</text>
+            <text x="671" y="519" text-anchor="middle" font-size="10" fill="#e11d48">分布式缓存</text>
+            <text x="671" y="529" text-anchor="middle" font-size="9" fill="#f43f5e">Cluster 模式</text>
+
+            <rect x="736" y="482" width="128" height="50" rx="6" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1"/>
+            <text x="800" y="504" text-anchor="middle" font-size="10" font-weight="600" fill="#15803d">RocketMQ</text>
+            <text x="800" y="519" text-anchor="middle" font-size="10" fill="#16a34a">消息队列</text>
+            <text x="800" y="529" text-anchor="middle" font-size="9" fill="#22c55e">云托管版</text>
+
+            <!-- Seata -->
+            <rect x="496" y="545" width="368" height="34" rx="6" fill="#fefce8" stroke="#fef08a" stroke-width="1"/>
+            <text x="680" y="560" text-anchor="middle" font-size="11" font-weight="600" fill="#a16207">Seata Server (AT + TCC 模式)</text>
+            <text x="680" y="574" text-anchor="middle" font-size="10" fill="#ca8a04">主库 DTS 同步后激活</text>
+
+            <!-- ══ DTS 数据同步 ══ -->
+            <path d="M404 510 Q450 540 480 510" fill="none" stroke="#14b8a6" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-teal)"/>
+            <text x="444" y="550" text-anchor="middle" font-size="10" fill="#0d9488">DTS 异步同步</text>
+            <text x="444" y="563" text-anchor="middle" font-size="9" fill="#14b8a6">RPO &lt; 5s</text>
+
+            <!-- ══ Observability (bottom) ══ -->
+            <rect x="220" y="636" width="460" height="34" rx="8" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+            <text x="450" y="651" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">可观测性平台</text>
+            <text x="450" y="665" text-anchor="middle" font-size="10" fill="#64748b">Prometheus + Grafana · SkyWalking Tracing · CLS/SLS 日志 · ArgoCD GitOps</text>
+
+            <!-- vertical lines to observability -->
+            <line x1="220" y1="600" x2="220" y2="636" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="3,2"/>
+            <line x1="680" y1="600" x2="680" y2="636" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="3,2"/>
+
+            <!-- Legend -->
+            <rect x="20" y="636" width="190" height="34" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+            <text x="30" y="651" font-size="10" fill="#3b82f6">─ ─</text>
+            <text x="48" y="651" font-size="10" fill="#64748b">主备流量切换</text>
+            <text x="30" y="666" font-size="10" fill="#14b8a6">─ ─</text>
+            <text x="48" y="666" font-size="10" fill="#64748b">数据异步同步</text>
+
+          </svg>
+        </div>
+
+        <div class="callout tip">
+          <span class="callout-icon">💡</span>
+          <p><strong>架构核心原则：</strong>两云各自闭环，互不调用。腾讯云为主站承载 100% 流量；阿里云热备，实时接收 DTS 数据同步。容灾时 DNS 切换，业务层代码零改动。</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Tech Stack Layers -->
+    <div class="section" id="layers">
+      <div class="section-header">
+        <div class="section-icon" style="background:#faf5ff; color:#9333ea;">⚡</div>
+        <span class="section-title">分层技术选型（修订版）</span>
+      </div>
+      <div class="section-body">
+        <table class="layer-table">
+          <thead>
+            <tr>
+              <th>层级</th>
+              <th>组件</th>
+              <th>腾讯云方案</th>
+              <th>阿里云方案</th>
+              <th>备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="layer-label"><span class="dot" style="background:#3b82f6;"></span>版本基座</span></td>
+              <td>框架版本</td>
+              <td colspan="2"><code>Spring Boot 3.3.x</code> + <code>Spring Cloud 2023.0.x</code> + <code>SCA 2023.0.x</code></td>
+              <td>三者版本矩阵严格对齐</td>
+            </tr>
+            <tr>
+              <td><span class="layer-label"><span class="dot" style="background:#6366f1;"></span>容器编排</span></td>
+              <td>K8s 集群</td>
+              <td>TKE 标准托管 · VPC-CNI · 多 AZ</td>
+              <td>ACK 托管集群 · 多可用区</td>
+              <td>统一 Helm Chart + ArgoCD</td>
+            </tr>
+            <tr>
+              <td><span class="layer-label"><span class="dot" style="background:#10b981;"></span>服务治理</span></td>
+              <td>注册发现 + 配置</td>
+              <td>Nacos 3 节点集群 · <code>namespace:prod-tc</code></td>
+              <td>Nacos 3 节点集群 · <code>namespace:prod-ali</code></td>
+              <td>MySQL 持久化；独立 PVC</td>
+            </tr>
+            <tr>
+              <td><span class="layer-label"><span class="dot" style="background:#f59e0b;"></span>流量管控</span></td>
+              <td>熔断限流</td>
+              <td colspan="2">Sentinel · 规则由 Nacos 动态推送 · 配置 QPS/线程数/异常比例</td>
+              <td>避免 Hystrix（已停维）</td>
+            </tr>
+            <tr>
+              <td><span class="layer-label"><span class="dot" style="background:#f97316;"></span>API 网关</span></td>
+              <td>Spring Cloud Gateway</td>
+              <td colspan="2">JWT 鉴权 + 限流 + 灰度路由 + 动态路由（Nacos） + 请求签名</td>
+              <td>集成 Sentinel 网关规则</td>
+            </tr>
+            <tr>
+              <td><span class="layer-label"><span class="dot" style="background:#8b5cf6;"></span>服务通信</span></td>
+              <td>RPC</td>
+              <td colspan="2">OpenFeign + Spring Cloud LoadBalancer（zone-aware策略）</td>
+              <td>去除 Ribbon 依赖</td>
+            </tr>
+            <tr>
+              <td><span class="layer-label"><span class="dot" style="background:#ef4444;"></span>分布式事务</span></td>
+              <td>Seata</td>
+              <td colspan="2">AT模式（订单主链路） + TCC（跨服务补偿） + Saga（长流程）</td>
+              <td>不可设为可选项</td>
+            </tr>
+            <tr>
+              <td><span class="layer-label"><span class="dot" style="background:#7c3aed;"></span>数据层</span></td>
+              <td>主数据库</td>
+              <td>TDSQL · 主写 · 读写分离</td>
+              <td>PolarDB · 只读 (DTS 同步)</td>
+              <td>备云只读；主库单写原则</td>
+            </tr>
+            <tr>
+              <td><span class="layer-label"><span class="dot" style="background:#be123c;"></span>缓存</span></td>
+              <td>Redis</td>
+              <td>云托管 Redis · Cluster模式</td>
+              <td>云托管 Redis · Cluster模式</td>
+              <td>Lettuce 客户端；禁止双写</td>
+            </tr>
+            <tr>
+              <td><span class="layer-label"><span class="dot" style="background:#16a34a;"></span>消息队列</span></td>
+              <td>RocketMQ</td>
+              <td>TDMQ (云托管RocketMQ)</td>
+              <td>阿里云 RocketMQ 云托管</td>
+              <td>Spring Cloud Stream Binder</td>
+            </tr>
+            <tr>
+              <td><span class="layer-label"><span class="dot" style="background:#0891b2;"></span>数据同步</span></td>
+              <td>跨云同步</td>
+              <td>DTS CDC 源端</td>
+              <td>DTS 目标端 (只读)</td>
+              <td>RPO &lt; 5s；备云禁止写入</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Key Config -->
+    <div class="section" id="config">
+      <div class="section-header">
+        <div class="section-icon" style="background:#f0fdf4; color:#16a34a;">⚙️</div>
+        <span class="section-title">核心配置示例（修订版）</span>
+      </div>
+      <div class="section-body">
+
+        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:4px;">application.yml — 统一基础配置（两云差异仅通过环境变量注入）</p>
+
+        <div class="config-block">
+          <div class="config-header">
+            <div class="config-dots">
+              <span class="config-dot" style="background:#ff5f57;"></span>
+              <span class="config-dot" style="background:#febc2e;"></span>
+              <span class="config-dot" style="background:#28c840;"></span>
+            </div>
+            <span>application.yml</span>
+          </div>
+          <pre><span class="comment"># Spring Boot 3.3.x + Spring Cloud Alibaba 2023.0.x</span>
+<span class="key">spring</span>:
+  <span class="key">application</span>:
+    <span class="key">name</span>: <span class="val">${SERVICE_NAME}</span>          <span class="comment"># 通过 Helm values 注入</span>
+
+  <span class="key">cloud</span>:
+    <span class="key">nacos</span>:
+      <span class="key">discovery</span>:
+        <span class="key">server-addr</span>: <span class="val">${NACOS_ADDR:nacos-headless:8848}</span>
+        <span class="key">namespace</span>: <span class="val">${NACOS_NAMESPACE:prod-tc}</span>  <span class="comment"># prod-tc | prod-ali</span>
+        <span class="key">group</span>: <span class="val">DEFAULT_GROUP</span>
+        <span class="key">cluster-name</span>: <span class="val">${CLOUD_REGION}</span>       <span class="comment"># 用于 zone-aware LB</span>
+        <span class="key">metadata</span>:
+          <span class="key">version</span>: <span class="val">${APP_VERSION}</span>           <span class="comment"># 支持灰度路由</span>
+          <span class="key">env</span>: <span class="val">${ENV:prod}</span>
+      <span class="key">config</span>:
+        <span class="key">server-addr</span>: <span class="val">${NACOS_ADDR}</span>
+        <span class="key">file-extension</span>: <span class="val">yaml</span>
+        <span class="key">refresh-enabled</span>: <span class="val">true</span>
+        <span class="key">shared-configs</span>:
+          - <span class="key">data-id</span>: <span class="val">common.yaml</span>             <span class="comment"># 共享配置</span>
+            <span class="key">refresh</span>: <span class="val">true</span>
+          - <span class="key">data-id</span>: <span class="val">datasource.yaml</span>
+            <span class="key">refresh</span>: <span class="val">false</span>
+
+    <span class="key">loadbalancer</span>:
+      <span class="key">nacos</span>:
+        <span class="key">enabled</span>: <span class="val">true</span>                   <span class="comment"># 启用 zone-aware 优先同 AZ 调用</span>
+      <span class="key">cache</span>:
+        <span class="key">ttl</span>: <span class="val">10s</span>
+        <span class="key">capacity</span>: <span class="val">256</span>
+
+    <span class="key">sentinel</span>:
+      <span class="key">transport</span>:
+        <span class="key">dashboard</span>: <span class="val">${SENTINEL_ADDR}</span>
+      <span class="key">datasource</span>:
+        <span class="key">nacos-flow</span>:
+          <span class="key">nacos</span>:
+            <span class="key">server-addr</span>: <span class="val">${NACOS_ADDR}</span>
+            <span class="key">data-id</span>: <span class="val">${spring.application.name}-flow-rules</span>
+            <span class="key">data-type</span>: <span class="val">json</span>
+            <span class="key">rule-type</span>: <span class="val">flow</span>
+
+<span class="comment"># Seata — 分布式事务（不可省略）</span>
+<span class="key">seata</span>:
+  <span class="key">enabled</span>: <span class="val">true</span>
+  <span class="key">application-id</span>: <span class="val">${SERVICE_NAME}</span>
+  <span class="key">tx-service-group</span>: <span class="val">ecommerce_tx_group</span>
+  <span class="key">service</span>:
+    <span class="key">vgroup-mapping</span>:
+      <span class="key">ecommerce_tx_group</span>: <span class="val">default</span>
+
+<span class="comment"># 关闭 Ribbon（SCA 2021+ 已移除，老项目迁移时须显式排除）</span>
+<span class="comment"># 使用 spring-cloud-starter-loadbalancer 替代</span></pre>
+        </div>
+
+        <p style="font-size:13px;color:var(--text-secondary);margin-top:16px;margin-bottom:4px;">Gateway 关键过滤器配置</p>
+
+        <div class="config-block">
+          <div class="config-header">
+            <div class="config-dots">
+              <span class="config-dot" style="background:#ff5f57;"></span>
+              <span class="config-dot" style="background:#febc2e;"></span>
+              <span class="config-dot" style="background:#28c840;"></span>
+            </div>
+            <span>gateway-routes.yaml (via Nacos)</span>
+          </div>
+          <pre><span class="key">spring</span>:
+  <span class="key">cloud</span>:
+    <span class="key">gateway</span>:
+      <span class="key">default-filters</span>:
+        - <span class="val">JwtAuthFilter</span>              <span class="comment"># 自定义 JWT 鉴权</span>
+        - <span class="val">RequestSignatureFilter</span>     <span class="comment"># 请求签名验证</span>
+        - <span class="val">name: RequestRateLimiter</span>
+          <span class="key">args</span>:
+            <span class="key">redis-rate-limiter.replenishRate</span>: <span class="val">100</span>
+            <span class="key">redis-rate-limiter.burstCapacity</span>: <span class="val">200</span>
+            <span class="key">key-resolver</span>: <span class="val">"#{@userKeyResolver}"</span>  <span class="comment"># 基于用户 ID 限流</span>
+      <span class="key">routes</span>:
+        - <span class="key">id</span>: <span class="val">order-service</span>
+          <span class="key">uri</span>: <span class="val">lb://order-service</span>
+          <span class="key">predicates</span>:
+            - <span class="val">Path=/api/order/**</span>
+          <span class="key">filters</span>:
+            - <span class="val">StripPrefix=1</span>
+            - <span class="key">name</span>: <span class="val">GrayRouteFilter</span>       <span class="comment"># 灰度路由：Header/Cookie version 分流</span>
+              <span class="key">args</span>:
+                <span class="key">grayVersion</span>: <span class="val">v2</span>
+                <span class="key">grayWeight</span>: <span class="val">10</span>          <span class="comment"># 10% 流量到新版本</span></pre>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Infrastructure -->
+    <div class="section" id="infra">
+      <div class="section-header">
+        <div class="section-icon" style="background:#f0fdfa; color:#0d9488;">🔧</div>
+        <span class="section-title">基础设施规划（增补）</span>
+      </div>
+      <div class="section-body">
+
+        <div class="compare-grid">
+          <div class="compare-col">
+            <div class="compare-head tencent">☁ 腾讯云 TKE（主站）</div>
+            <div class="compare-body">
+              <div class="compare-row"><span class="label">集群规格</span><span class="value">TKE 标准托管</span></div>
+              <div class="compare-row"><span class="label">网络插件</span><span class="value">VPC-CNI</span></div>
+              <div class="compare-row"><span class="label">节点规格</span><span class="value">8C16G × 6节点起</span></div>
+              <div class="compare-row"><span class="label">可用区</span><span class="value">≥ 3 AZ</span></div>
+              <div class="compare-row"><span class="label">弹性伸缩</span><span class="value">HPA + CA</span></div>
+              <div class="compare-row"><span class="label">数据库</span><span class="value">TDSQL 主写</span></div>
+              <div class="compare-row"><span class="label">消息队列</span><span class="value">TDMQ (RocketMQ)</span></div>
+              <div class="compare-row"><span class="label">GitOps</span><span class="value">ArgoCD</span></div>
+            </div>
+          </div>
+          <div class="compare-col">
+            <div class="compare-head ali">☁ 阿里云 ACK（备援）</div>
+            <div class="compare-body">
+              <div class="compare-row"><span class="label">集群规格</span><span class="value">ACK 托管集群</span></div>
+              <div class="compare-row"><span class="label">网络插件</span><span class="value">Terway (VPC)</span></div>
+              <div class="compare-row"><span class="label">节点规格</span><span class="value">8C16G × 4节点</span></div>
+              <div class="compare-row"><span class="label">可用区</span><span class="value">≥ 2 AZ</span></div>
+              <div class="compare-row"><span class="label">弹性伸缩</span><span class="value">HPA + VK (Serverless)</span></div>
+              <div class="compare-row"><span class="label">数据库</span><span class="value">PolarDB 只读</span></div>
+              <div class="compare-row"><span class="label">消息队列</span><span class="value">阿里云 RocketMQ</span></div>
+              <div class="compare-row"><span class="label">GitOps</span><span class="value">ArgoCD</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout warn">
+          <span class="callout-icon">⚠️</span>
+          <p><strong>Nacos 存储注意：</strong>生产环境 Nacos 必须使用外部 MySQL（RDS）持久化，禁止使用内嵌 Derby。K8s 内部署 Nacos 时需配置独立 PVC（禁止 emptyDir），并为 Nacos Pod 配置 PodDisruptionBudget，保证滚动升级期间至少 2 节点可用。</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- DR -->
+    <div class="section" id="dr">
+      <div class="section-header">
+        <div class="section-icon" style="background:#fef2f2; color:#dc2626;">🛡</div>
+        <span class="section-title">容灾策略与数据同步（修订版）</span>
+      </div>
+      <div class="section-body">
+
+        <div class="callout warn">
+          <span class="callout-icon">🚨</span>
+          <p><strong>关键修正：</strong>原方案"双写 + 最终一致性"在电商高并发场景会导致库存超卖和订单重复。本方案改为<strong>主库单写 + DTS 异步同步</strong>模型，备云数据库<strong>严格只读</strong>，容灾切换后由 DBA 手动解除只读限制。</p>
+        </div>
+
+        <table class="layer-table">
+          <thead>
+            <tr>
+              <th>数据类型</th>
+              <th>同步方式</th>
+              <th>RPO 目标</th>
+              <th>RTO 目标</th>
+              <th>注意事项</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>订单 / 支付</td>
+              <td>DTS CDC (Binlog)</td>
+              <td>&lt; 5s</td>
+              <td>&lt; 60s</td>
+              <td>切换后需核对事务补偿</td>
+            </tr>
+            <tr>
+              <td>库存</td>
+              <td>DTS CDC + MQ 补偿</td>
+              <td>&lt; 3s</td>
+              <td>&lt; 60s</td>
+              <td>切换前锁库存防超卖</td>
+            </tr>
+            <tr>
+              <td>用户信息</td>
+              <td>DTS CDC</td>
+              <td>&lt; 10s</td>
+              <td>&lt; 60s</td>
+              <td>低写频率，延迟可接受</td>
+            </tr>
+            <tr>
+              <td>Redis 缓存</td>
+              <td>容灾切换后主动预热</td>
+              <td>不保证</td>
+              <td>5~10min</td>
+              <td>备云缓存视为冷缓存</td>
+            </tr>
+            <tr>
+              <td>消息队列</td>
+              <td>各自独立；不跨云同步</td>
+              <td>N/A</td>
+              <td>切换后新消息流向备云</td>
+              <td>历史消息由业务幂等保障</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top:14px;">
+          <p style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text-primary);">容灾切换 Runbook（简化版）</p>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <h4>触发检测</h4>
+                <p>DNS 健康检查连续 3 次失败（约 30s），或主动触发演练。监控告警推送到 On-Call。</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <h4>库存锁定</h4>
+                <p>对主云库存服务发送 "停止扣减" 信号（或自动降级），防止切换期间出现数据漂移。</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <h4>DNS 切流</h4>
+                <p>将 DNSPod 权重由"腾讯云 100% / 阿里云 0%"调整为"腾讯云 0% / 阿里云 100%"。TTL 建议提前缩短到 60s。</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <h4>备云解除只读</h4>
+                <p>DBA 操作：解除 PolarDB 只读限制；停止 DTS 同步任务（避免主库恢复后覆盖写入）。</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-content">
+                <h4>缓存预热 + 验证</h4>
+                <p>执行 Redis 缓存预热脚本（约 5~10 分钟）；运行冒烟测试验证核心链路正常。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CI/CD -->
+    <div class="section" id="cicd">
+      <div class="section-header">
+        <div class="section-icon" style="background:#f0fdf4; color:#16a34a;">🔄</div>
+        <span class="section-title">CI/CD 与可观测性（增补）</span>
+      </div>
+      <div class="section-body">
+
+        <div class="arch-diagram" style="padding:16px 20px;">
+          <svg width="100%" viewBox="0 0 800 160" xmlns="http://www.w3.org/2000/svg" style="min-width:600px;">
+            <defs>
+              <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+            </defs>
+            <!-- Pipeline boxes -->
+            <rect x="10" y="58" width="90" height="44" rx="8" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+            <text x="55" y="76" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">代码提交</text>
+            <text x="55" y="92" text-anchor="middle" font-size="10" fill="#64748b">Git Push</text>
+
+            <line x1="100" y1="80" x2="130" y2="80" stroke="#94a3b8" stroke-width="1" marker-end="url(#arr2)"/>
+
+            <rect x="130" y="58" width="90" height="44" rx="8" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"/>
+            <text x="175" y="76" text-anchor="middle" font-size="11" font-weight="600" fill="#1d4ed8">CI 构建</text>
+            <text x="175" y="92" text-anchor="middle" font-size="10" fill="#3b82f6">Build + Test</text>
+
+            <line x1="220" y1="80" x2="250" y2="80" stroke="#94a3b8" stroke-width="1" marker-end="url(#arr2)"/>
+
+            <rect x="250" y="58" width="100" height="44" rx="8" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1"/>
+            <text x="300" y="76" text-anchor="middle" font-size="11" font-weight="600" fill="#15803d">镜像构建</text>
+            <text x="300" y="92" text-anchor="middle" font-size="10" fill="#16a34a">Docker + Harbor</text>
+
+            <line x1="350" y1="80" x2="380" y2="80" stroke="#94a3b8" stroke-width="1" marker-end="url(#arr2)"/>
+
+            <rect x="380" y="58" width="100" height="44" rx="8" fill="#fff7ed" stroke="#fed7aa" stroke-width="1"/>
+            <text x="430" y="76" text-anchor="middle" font-size="11" font-weight="600" fill="#c2410c">GitOps</text>
+            <text x="430" y="92" text-anchor="middle" font-size="10" fill="#ea580c">ArgoCD Sync</text>
+
+            <!-- Split to two clouds -->
+            <line x1="480" y1="80" x2="510" y2="50" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,2" marker-end="url(#arr2)"/>
+            <line x1="480" y1="80" x2="510" y2="110" stroke="#ea580c" stroke-width="1" stroke-dasharray="4,2" marker-end="url(#arr2)"/>
+
+            <rect x="510" y="28" width="120" height="44" rx="8" fill="#eff6ff" stroke="#93c5fd" stroke-width="1"/>
+            <text x="570" y="47" text-anchor="middle" font-size="11" font-weight="600" fill="#1d4ed8">TKE (腾讯云)</text>
+            <text x="570" y="63" text-anchor="middle" font-size="10" fill="#3b82f6">主站 · 立即部署</text>
+
+            <rect x="510" y="88" width="120" height="44" rx="8" fill="#fff7ed" stroke="#fed7aa" stroke-width="1"/>
+            <text x="570" y="107" text-anchor="middle" font-size="11" font-weight="600" fill="#c2410c">ACK (阿里云)</text>
+            <text x="570" y="123" text-anchor="middle" font-size="10" fill="#ea580c">备援 · 同步部署</text>
+
+            <!-- Observability -->
+            <line x1="630" y1="50" x2="665" y2="70" stroke="#94a3b8" stroke-width="0.8" stroke-dasharray="3,2"/>
+            <line x1="630" y1="110" x2="665" y2="90" stroke="#94a3b8" stroke-width="0.8" stroke-dasharray="3,2"/>
+
+            <rect x="665" y="52" width="125" height="56" rx="8" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1"/>
+            <text x="727" y="72" text-anchor="middle" font-size="11" font-weight="600" fill="#7c3aed">可观测性</text>
+            <text x="727" y="87" text-anchor="middle" font-size="10" fill="#8b5cf6">Prometheus + Grafana</text>
+            <text x="727" y="101" text-anchor="middle" font-size="10" fill="#8b5cf6">SkyWalking + CLS/SLS</text>
+          </svg>
+        </div>
+
+        <div class="pill-row" style="margin-top:12px;">
+          <span class="pill blue">Prometheus + Grafana</span>
+          <span class="pill blue">SkyWalking Tracing</span>
+          <span class="pill blue">CLS / SLS 日志</span>
+          <span class="pill teal">ArgoCD GitOps</span>
+          <span class="pill teal">Harbor 镜像仓库</span>
+          <span class="pill orange">统一告警 → 企业微信/钉钉</span>
+          <span class="pill purple">Chaos Engineering (可选)</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Risk -->
+    <div class="section" id="risk">
+      <div class="section-header">
+        <div class="section-icon" style="background:#fef2f2; color:#dc2626;">⚠️</div>
+        <span class="section-title">风险识别与应对</span>
+      </div>
+      <div class="section-body">
+
+        <div class="risk-row">
+          <span style="font-size:13px;font-weight:600;">Nacos 单点故障</span>
+          <span class="risk-level risk-high">高</span>
+          <span style="font-size:12px;color:var(--text-secondary);">Nacos 宕机导致所有服务无法注册/发现。应对：3节点集群 + PDB + 启用 Feign 本地缓存（<code>spring.cloud.loadbalancer.cache.ttl=30s</code>），配合 K8s Readiness Probe 实现优雅感知。</span>
+        </div>
+        <div class="risk-row">
+          <span style="font-size:13px;font-weight:600;">分布式事务数据不一致</span>
+          <span class="risk-level risk-high">高</span>
+          <span style="font-size:12px;color:var(--text-secondary);">容灾切换期间 Seata 事务日志在主云，切换后备云 Seata 无法获取悬挂事务。应对：切换前确认 Seata 无 in-flight 事务；备云 Seata 以独立模式运行，切换后由业务层补偿。</span>
+        </div>
+        <div class="risk-row">
+          <span style="font-size:13px;font-weight:600;">版本矩阵不兼容</span>
+          <span class="risk-level risk-mid">中</span>
+          <span style="font-size:12px;color:var(--text-secondary);">Spring Boot 3.x + SCA 版本必须严格对齐，否则 AutoConfiguration 冲突。应对：使用 Spring Cloud Alibaba 官方版本兼容性矩阵，锁定 BOM，禁止开发者单独升级任何依赖。</span>
+        </div>
+        <div class="risk-row">
+          <span style="font-size:13px;font-weight:600;">DNS 切换延迟</span>
+          <span class="risk-level risk-mid">中</span>
+          <span style="font-size:12px;color:var(--text-secondary);">DNS TTL 过长导致切换期间流量仍流向主云。应对：正常运行时将 TTL 设为 300s，在容灾演练或预感故障前提前将 TTL 调低至 60s。</span>
+        </div>
+        <div class="risk-row">
+          <span style="font-size:13px;font-weight:600;">备云缓存冷启动</span>
+          <span class="risk-level risk-mid">中</span>
+          <span style="font-size:12px;color:var(--text-secondary);">切换后备云 Redis 为冷缓存，大量请求穿透到数据库。应对：准备缓存预热脚本（预热热门商品、用户 Session），切换后立即执行，预热期间限制并发。</span>
+        </div>
+        <div class="risk-row">
+          <span style="font-size:13px;font-weight:600;">两云配置漂移</span>
+          <span class="risk-level risk-low">低</span>
+          <span style="font-size:12px;color:var(--text-secondary);">长期运维后两云 Nacos 配置产生差异。应对：Nacos 配置变更通过 GitOps 管理（配置即代码），禁止直接在控制台修改 Nacos 配置；定期 diff 检查。</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Implementation Steps -->
+    <div class="section" id="impl">
+      <div class="section-header">
+        <div class="section-icon" style="background:#f0fdfa; color:#0d9488;">🚀</div>
+        <span class="section-title">实施步骤（完整版）</span>
+      </div>
+      <div class="section-body">
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>版本基线确认（第 1 周）</h4>
+              <p>锁定 Spring Boot 3.3.x + Spring Cloud 2023.0.x + SCA 2023.0.x 版本矩阵；统一 BOM 管理；检查所有服务是否存在 Ribbon 依赖（迁移至 LoadBalancer）；剔除已停维的 Hystrix 依赖。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>容器化 + Helm Chart 标准化（第 1-2 周）</h4>
+              <p>为所有服务编写统一 Dockerfile（多阶段构建）；设计通用 Helm Chart（支持多环境 values）；配置 Readiness/Liveness Probe；设置 resources.requests/limits；完成 ArgoCD 多目标集群配置。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h4>基础设施创建（第 2-3 周）</h4>
+              <p>创建 TKE 标准集群（多 AZ + VPC-CNI）；创建 ACK 托管集群；两云分别部署 Nacos 3 节点集群（MySQL 持久化）；部署 Seata Server；配置 DTS 跨云数据同步（源：TDSQL → 目标：PolarDB 只读）。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <h4>应用部署 + 服务验证（第 3-4 周）</h4>
+              <p>通过 ArgoCD 推送全部服务到两个集群；验证 Nacos 服务注册；验证 Feign + LoadBalancer 跨服务调用；验证 Sentinel 熔断规则生效；验证 Seata AT 模式事务。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-content">
+              <h4>网关 + 入口配置（第 4 周）</h4>
+              <p>配置 Spring Cloud Gateway（JWT 鉴权、限流、灰度路由）；配置 WAF/CLB（腾讯云）+ WAF/SLB（阿里云）；配置全局 DNS 智能解析（权重 + 健康检查）；CDN 接入；SSL 证书部署。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">6</div>
+            <div class="step-content">
+              <h4>可观测性接入（第 4-5 周）</h4>
+              <p>两云分别部署 Prometheus + Grafana；接入 SkyWalking Agent（应用 JVM 参数）；配置 CLS/SLS 日志采集；配置告警规则（推送至钉钉/企微）；制作统一监控大盘。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">7</div>
+            <div class="step-content">
+              <h4>压测 + 容灾演练（第 5-6 周）</h4>
+              <p>全链路压测（目标 QPS 的 1.5 倍）；验证 HPA 弹性伸缩；执行容灾切换演练（模拟主云宕机 → DNS 切流 → 备云接管 → 回切）；验证 RTO &lt; 60s、RPO &lt; 5s。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">8</div>
+            <div class="step-content">
+              <h4>正式上线（第 7 周）</h4>
+              <p>灰度发布（10% → 30% → 100%）；全流量切换至腾讯云主站；阿里云持续热备状态；建立容灾演练季度机制；DNS TTL 恢复至 300s。</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer note -->
+    <div class="callout tip">
+      <span class="callout-icon">🎯</span>
+      <p><strong>演进建议：</strong>当业务服务数量超过 20 个时，建议引入 APISIX 替代 Spring Cloud Gateway（支持插件生态、多协议），或逐步引入 Istio 服务网格（流量可视化、mTLS、细粒度策略）。从第一天使用标准 K8s Service DNS，不直接硬绑 Nacos，可以平滑支撑这一演进。</p>
+    </div>
+
+  </main>
+</div>
+
+<footer class="footer">
+  Spring Cloud 双云架构方案 v2.0 · 飞凡科技 · <span id="year"></span>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

@@ -3,489 +3,283 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>电商平台业务架构图 v2.0</title>
+<title>电商平台业务架构图 v4.0</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   background: #f0f2f5;
-  padding: 24px;
-  min-height: 100vh;
+  padding: 28px;
 }
 
-.page-wrap {
-  max-width: 1320px;
-  margin: 0 auto;
-}
+.page-wrap { max-width: 1400px; margin: 0 auto; }
 
-/* ── Header ── */
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 18px;
 }
-.header-left h1 {
-  font-size: 20px;
-  font-weight: 700;
-  color: #0d1117;
-  letter-spacing: -0.3px;
-}
-.header-left p {
-  font-size: 12px;
-  color: #8896aa;
-  margin-top: 3px;
-}
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.badge {
-  font-size: 11px;
-  font-weight: 600;
-  padding: 3px 9px;
-  border-radius: 12px;
-  letter-spacing: 0.4px;
-}
-.badge-ai { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; }
-.badge-v2 { background: #e8f4fd; color: #1d6fa4; border: 1px solid #bee3f8; }
+.header h1 { font-size: 19px; font-weight: 700; color: #0d1117; }
+.header p  { font-size: 12px; color: #8896aa; margin-top: 3px; }
+.badges { display: flex; gap: 6px; align-items: center; }
+.badge { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 12px; letter-spacing: 0.4px; }
+.badge-ai { background: linear-gradient(135deg,#667eea,#764ba2); color:#fff; }
+.badge-v4 { background:#e8f4fd; color:#1d6fa4; border:1px solid #bee3f8; }
 
-/* ── Canvas ── */
 .canvas {
-  background: #ffffff;
+  background: #fff;
   border: 1px solid #e2e6ed;
   border-radius: 16px;
-  padding: 28px;
-  overflow-x: auto;
+  padding: 28px 32px 24px;
 }
 
-/* ── Section Labels ── */
-.arch-label {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  color: #8896aa;
-  margin-bottom: 10px;
-  padding-left: 4px;
+.layer-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.2px;
+  text-transform: uppercase; color: #94a3b8;
+  margin-bottom: 8px; padding-left: 2px;
 }
 
-/* ── Layers ── */
-.layer { margin-bottom: 12px; }
-
-/* ── Client Layer ── */
-.client-layer {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  padding: 14px 20px;
-  background: #f8fafc;
-  border: 1px solid #e2e6ed;
-  border-radius: 10px;
+/* ── Client ── */
+.client-row {
+  display: flex; gap: 8px; justify-content: center;
+  padding: 12px 20px;
+  background: #f8fafc; border: 1px solid #e2e6ed; border-radius: 9px;
+  margin-bottom: 6px;
 }
-.client-chip {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  font-weight: 500;
-  color: #334155;
-  padding: 5px 12px;
-  background: #ffffff;
-  border: 1px solid #e2e6ed;
-  border-radius: 20px;
+.chip {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 500; color: #334155;
+  padding: 5px 12px; background: #fff;
+  border: 1px solid #e2e6ed; border-radius: 18px;
 }
-.client-chip .dot { width: 7px; height: 7px; border-radius: 50%; }
+.chip .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink:0; }
 
-/* ── Gateway Layer ── */
-.gateway-layer {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
+/* ── Gateway ── */
+.gateway-row {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
+  margin-bottom: 6px;
 }
-.gw-box {
-  padding: 10px 14px;
-  border-radius: 8px;
-  text-align: center;
-  border: 1px solid;
+.gw { padding: 11px 14px; border-radius: 9px; text-align: center; border: 1px solid; }
+.gw-t { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+.gw-s { font-size: 11px; }
+.gw.blue  { background:#eff6ff; border-color:#bfdbfe; }
+.gw.blue  .gw-t { color:#1d4ed8; } .gw.blue  .gw-s { color:#3b82f6; }
+.gw.purp  { background:#faf5ff; border-color:#e9d5ff; }
+.gw.purp  .gw-t { color:#7c3aed; } .gw.purp  .gw-s { color:#9333ea; }
+.gw.oran  { background:#fff7ed; border-color:#fed7aa; }
+.gw.oran  .gw-t { color:#c2410c; } .gw.oran  .gw-s { color:#ea580c; }
+
+.layer-div {
+  text-align: center; padding: 5px 0; font-size: 11px; color: #94a3b8; margin: 2px 0;
 }
-.gw-title { font-size: 12px; font-weight: 700; margin-bottom: 2px; }
-.gw-sub { font-size: 11px; }
 
-.gw-box.blue { background: #eff6ff; border-color: #bfdbfe; }
-.gw-box.blue .gw-title { color: #1d4ed8; }
-.gw-box.blue .gw-sub { color: #3b82f6; }
+/* ── Domain grid wrapper ── */
+.domains-wrap {
+  position: relative;
+  /* extra padding so arrows in the gap don't clip */
+  padding: 0 0 8px 0;
+}
 
-.gw-box.purple { background: #faf5ff; border-color: #e9d5ff; }
-.gw-box.purple .gw-title { color: #7c3aed; }
-.gw-box.purple .gw-sub { color: #9333ea; }
-
-.gw-box.orange { background: #fff7ed; border-color: #fed7aa; }
-.gw-box.orange .gw-title { color: #c2410c; }
-.gw-box.orange .gw-sub { color: #ea580c; }
-
-/* ── Domain Grid ── */
+/* 3-col grid with generous gap for arrow lanes */
 .domain-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-.domain-grid-2 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  /* 
+    column-gap: space between left/right cols — arrows run here 
+    row-gap:    space between row1 and row2 — arrows run here
+  */
+  column-gap: 52px;
+  row-gap: 56px;
 }
 
-/* ── Domain Card ── */
+/* ── Domain card ── */
 .domain {
-  border: 1.5px solid;
-  border-radius: 12px;
-  overflow: hidden;
-  transition: box-shadow 0.2s;
+  border: 1.5px solid; border-radius: 11px; overflow: hidden;
+  background: #fff;
+  position: relative; z-index: 2;
 }
-.domain:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-
 .domain-head {
-  padding: 8px 14px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  padding: 8px 13px; display: flex; align-items: center; gap: 6px;
 }
-.domain-icon { font-size: 13px; }
-.domain-name { font-size: 12px; font-weight: 700; }
+.domain-icon { font-size: 14px; }
+.domain-name { font-size: 13px; font-weight: 700; }
 .domain-tag {
-  margin-left: auto;
-  font-size: 10px;
-  padding: 1px 6px;
-  border-radius: 8px;
-  font-weight: 600;
+  margin-left: auto; font-size: 10px; padding: 2px 7px;
+  border-radius: 7px; font-weight: 600;
 }
-
 .domain-body { padding: 10px 12px 12px; }
-
-/* App chips row */
-.app-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-bottom: 8px;
+.app-row { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
+.ac {
+  font-size: 11px; padding: 3px 8px; border-radius: 5px;
+  font-weight: 500; border: 1px solid; white-space: nowrap;
 }
-.app-chip {
-  font-size: 11px;
-  padding: 3px 8px;
-  border-radius: 5px;
-  font-weight: 500;
-  border: 1px solid;
-  white-space: nowrap;
+.svc { padding: 7px 10px; border-radius: 7px; border: 1px solid; margin-bottom: 6px; }
+.svc-n { font-size: 12px; font-weight: 600; margin-bottom: 2px; }
+.svc-d { font-size: 11px; line-height: 1.45; }
+.db {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 500; padding: 5px 8px;
+  border-radius: 5px; border: 1px dashed;
 }
-
-/* Service box */
-.svc-box {
-  padding: 7px 10px;
-  border-radius: 7px;
-  margin-bottom: 6px;
-  border: 1px solid;
+.feign-b {
+  display: inline-block; font-size: 9px; font-weight: 600;
+  padding: 0 4px; border-radius: 4px;
+  background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; margin-left: 4px;
 }
-.svc-name { font-size: 12px; font-weight: 600; margin-bottom: 2px; }
-.svc-desc { font-size: 10px; line-height: 1.4; }
-
-/* DB row */
-.db-row {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 8px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 500;
-  border: 1px dashed;
-  margin-top: 2px;
+.new-t {
+  display: inline-block; font-size: 9px; font-weight: 700;
+  padding: 0 4px; border-radius: 5px;
+  background: #fef08a; color: #a16207; margin-left: 3px;
 }
 
-/* ── Color Themes ── */
+/* ── Color themes ── */
+.d-product { border-color:#93c5fd; }
+.d-product .domain-head { background:#eff6ff; }
+.d-product .domain-name { color:#1d4ed8; }
+.d-product .domain-tag { background:#dbeafe; color:#1d4ed8; }
+.d-product .ac   { background:#eff6ff; border-color:#bfdbfe; color:#1d4ed8; }
+.d-product .svc  { background:#f8fbff; border-color:#bfdbfe; }
+.d-product .svc-n { color:#1e40af; } .d-product .svc-d { color:#3b82f6; }
+.d-product .db   { background:#eff6ff; border-color:#93c5fd; color:#1d4ed8; }
 
-/* 商品域 — blue */
-.domain.d-product { border-color: #93c5fd; }
-.domain.d-product .domain-head { background: #eff6ff; }
-.domain.d-product .domain-name { color: #1d4ed8; }
-.domain.d-product .domain-tag { background: #dbeafe; color: #1d4ed8; }
-.domain.d-product .app-chip { background: #eff6ff; border-color: #bfdbfe; color: #1d4ed8; }
-.domain.d-product .svc-box { background: #f8fbff; border-color: #bfdbfe; }
-.domain.d-product .svc-name { color: #1e40af; }
-.domain.d-product .svc-desc { color: #3b82f6; }
-.domain.d-product .db-row { background: #eff6ff; border-color: #93c5fd; color: #1d4ed8; }
+.d-trade { border-color:#f0997b; }
+.d-trade .domain-head { background:#faece7; }
+.d-trade .domain-name { color:#993c1d; }
+.d-trade .domain-tag { background:#f5c4b3; color:#712b13; }
+.d-trade .ac   { background:#faece7; border-color:#f5c4b3; color:#993c1d; }
+.d-trade .svc  { background:#fdf6f3; border-color:#f5c4b3; }
+.d-trade .svc-n { color:#712b13; } .d-trade .svc-d { color:#993c1d; }
+.d-trade .db   { background:#faece7; border-color:#f0997b; color:#712b13; }
 
-/* 交易域 — coral */
-.domain.d-trade { border-color: #f0997b; }
-.domain.d-trade .domain-head { background: #faece7; }
-.domain.d-trade .domain-name { color: #993c1d; }
-.domain.d-trade .domain-tag { background: #f5c4b3; color: #712b13; }
-.domain.d-trade .app-chip { background: #faece7; border-color: #f5c4b3; color: #993c1d; }
-.domain.d-trade .svc-box { background: #fdf6f3; border-color: #f5c4b3; }
-.domain.d-trade .svc-name { color: #712b13; }
-.domain.d-trade .svc-desc { color: #993c1d; }
-.domain.d-trade .db-row { background: #faece7; border-color: #f0997b; color: #712b13; }
+.d-inventory { border-color:#fac775; }
+.d-inventory .domain-head { background:#faeeda; }
+.d-inventory .domain-name { color:#854f0b; }
+.d-inventory .domain-tag { background:#fac775; color:#633806; }
+.d-inventory .ac   { background:#faeeda; border-color:#fac775; color:#854f0b; }
+.d-inventory .svc  { background:#fdf9f0; border-color:#fac775; }
+.d-inventory .svc-n { color:#633806; } .d-inventory .svc-d { color:#854f0b; }
+.d-inventory .db   { background:#faeeda; border-color:#fac775; color:#633806; }
 
-/* 库存域 — amber */
-.domain.d-inventory { border-color: #fac775; }
-.domain.d-inventory .domain-head { background: #faeeda; }
-.domain.d-inventory .domain-name { color: #854f0b; }
-.domain.d-inventory .domain-tag { background: #fac775; color: #633806; }
-.domain.d-inventory .app-chip { background: #faeeda; border-color: #fac775; color: #854f0b; }
-.domain.d-inventory .svc-box { background: #fdf9f0; border-color: #fac775; }
-.domain.d-inventory .svc-name { color: #633806; }
-.domain.d-inventory .svc-desc { color: #854f0b; }
-.domain.d-inventory .db-row { background: #faeeda; border-color: #fac775; color: #633806; }
+.d-user { border-color:#5dcaa5; }
+.d-user .domain-head { background:#e1f5ee; }
+.d-user .domain-name { color:#0f6e56; }
+.d-user .domain-tag { background:#9fe1cb; color:#04342c; }
+.d-user .ac   { background:#e1f5ee; border-color:#9fe1cb; color:#0f6e56; }
+.d-user .svc  { background:#f4fdf9; border-color:#9fe1cb; }
+.d-user .svc-n { color:#085041; } .d-user .svc-d { color:#0f6e56; }
+.d-user .db   { background:#e1f5ee; border-color:#5dcaa5; color:#085041; }
 
-/* 用户域 — teal */
-.domain.d-user { border-color: #5dcaa5; }
-.domain.d-user .domain-head { background: #e1f5ee; }
-.domain.d-user .domain-name { color: #0f6e56; }
-.domain.d-user .domain-tag { background: #9fe1cb; color: #04342c; }
-.domain.d-user .app-chip { background: #e1f5ee; border-color: #9fe1cb; color: #0f6e56; }
-.domain.d-user .svc-box { background: #f4fdf9; border-color: #9fe1cb; }
-.domain.d-user .svc-name { color: #085041; }
-.domain.d-user .svc-desc { color: #0f6e56; }
-.domain.d-user .db-row { background: #e1f5ee; border-color: #5dcaa5; color: #085041; }
+.d-marketing { border-color:#ed93b1; }
+.d-marketing .domain-head { background:#fbeaf0; }
+.d-marketing .domain-name { color:#993556; }
+.d-marketing .domain-tag { background:#f4c0d1; color:#4b1528; }
+.d-marketing .ac   { background:#fbeaf0; border-color:#f4c0d1; color:#993556; }
+.d-marketing .svc  { background:#fef6f9; border-color:#f4c0d1; }
+.d-marketing .svc-n { color:#72243e; } .d-marketing .svc-d { color:#993556; }
+.d-marketing .db   { background:#fbeaf0; border-color:#ed93b1; color:#72243e; }
 
-/* 营销域 — pink */
-.domain.d-marketing { border-color: #ed93b1; }
-.domain.d-marketing .domain-head { background: #fbeaf0; }
-.domain.d-marketing .domain-name { color: #993556; }
-.domain.d-marketing .domain-tag { background: #f4c0d1; color: #4b1528; }
-.domain.d-marketing .app-chip { background: #fbeaf0; border-color: #f4c0d1; color: #993556; }
-.domain.d-marketing .svc-box { background: #fef6f9; border-color: #f4c0d1; }
-.domain.d-marketing .svc-name { color: #72243e; }
-.domain.d-marketing .svc-desc { color: #993556; }
-.domain.d-marketing .db-row { background: #fbeaf0; border-color: #ed93b1; color: #72243e; }
+.d-payment { border-color:#afa9ec; }
+.d-payment .domain-head { background:#eeedfe; }
+.d-payment .domain-name { color:#534ab7; }
+.d-payment .domain-tag { background:#cecbf6; color:#26215c; }
+.d-payment .ac   { background:#eeedfe; border-color:#cecbf6; color:#534ab7; }
+.d-payment .svc  { background:#f8f7fe; border-color:#cecbf6; }
+.d-payment .svc-n { color:#3c3489; } .d-payment .svc-d { color:#534ab7; }
+.d-payment .db   { background:#eeedfe; border-color:#afa9ec; color:#3c3489; }
 
-/* 支付域 — purple */
-.domain.d-payment { border-color: #afa9ec; }
-.domain.d-payment .domain-head { background: #eeedfe; }
-.domain.d-payment .domain-name { color: #534ab7; }
-.domain.d-payment .domain-tag { background: #cecbf6; color: #26215c; }
-.domain.d-payment .app-chip { background: #eeedfe; border-color: #cecbf6; color: #534ab7; }
-.domain.d-payment .svc-box { background: #f8f7fe; border-color: #cecbf6; }
-.domain.d-payment .svc-name { color: #3c3489; }
-.domain.d-payment .svc-desc { color: #534ab7; }
-.domain.d-payment .db-row { background: #eeedfe; border-color: #afa9ec; color: #3c3489; }
-
-/* ── Cross-domain calls ── */
-.cross-call-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 10px 14px;
-  background: #f8fafc;
-  border: 1px solid #e2e6ed;
-  border-radius: 8px;
+/* ── SVG overlay ── */
+.arrow-svg {
+  position: absolute;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 10;
+  overflow: visible;
 }
-.cross-call {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  padding: 3px 8px;
-  border-radius: 12px;
-  border: 1px solid;
-  white-space: nowrap;
-}
-.cross-from { font-weight: 600; }
-.cross-arrow { color: #94a3b8; font-size: 10px; }
-.cross-to { font-weight: 600; }
-.cross-label { color: #64748b; }
 
-.cc-trade-product { background: #fdf4ee; border-color: #f0997b; }
-.cc-trade-product .cross-from { color: #993c1d; }
-.cc-trade-product .cross-to { color: #1d4ed8; }
-
-.cc-trade-inventory { background: #fdf9ee; border-color: #fac775; }
-.cc-trade-inventory .cross-from { color: #993c1d; }
-.cc-trade-inventory .cross-to { color: #854f0b; }
-
-.cc-trade-user { background: #eef9f5; border-color: #5dcaa5; }
-.cc-trade-user .cross-from { color: #993c1d; }
-.cc-trade-user .cross-to { color: #0f6e56; }
-
-.cc-trade-marketing { background: #fdf0f5; border-color: #ed93b1; }
-.cc-trade-marketing .cross-from { color: #993c1d; }
-.cc-trade-marketing .cross-to { color: #993556; }
-
-.cc-trade-payment { background: #f3f2fe; border-color: #afa9ec; }
-.cc-trade-payment .cross-from { color: #993c1d; }
-.cc-trade-payment .cross-to { color: #534ab7; }
-
-.cc-payment-trade { background: #fdf0f5; border-color: #afa9ec; }
-.cc-payment-trade .cross-from { color: #534ab7; }
-.cc-payment-trade .cross-to { color: #993c1d; }
-
-.cc-marketing-product { background: #eef3ff; border-color: #93c5fd; }
-.cc-marketing-product .cross-from { color: #993556; }
-.cc-marketing-product .cross-to { color: #1d4ed8; }
-
-/* ── Infra Layer ── */
+/* ── Infra ── */
 .infra-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
+  display: grid; grid-template-columns: repeat(5,1fr); gap: 8px;
+  margin-bottom: 10px;
 }
-.infra-box {
-  padding: 9px 10px;
-  border-radius: 8px;
-  border: 1px solid;
-  text-align: center;
-}
-.infra-name { font-size: 12px; font-weight: 700; margin-bottom: 2px; }
-.infra-desc { font-size: 10px; line-height: 1.4; }
-
-.infra-box.mq { background: #f0fdf4; border-color: #86efac; }
-.infra-box.mq .infra-name { color: #15803d; }
-.infra-box.mq .infra-desc { color: #16a34a; }
-
-.infra-box.cache { background: #fff1f2; border-color: #fecdd3; }
-.infra-box.cache .infra-name { color: #be123c; }
-.infra-box.cache .infra-desc { color: #e11d48; }
-
-.infra-box.search { background: #fff7ed; border-color: #fed7aa; }
-.infra-box.search .infra-name { color: #c2410c; }
-.infra-box.search .infra-desc { color: #ea580c; }
-
-.infra-box.job { background: #f5f3ff; border-color: #ddd6fe; }
-.infra-box.job .infra-name { color: #7c3aed; }
-.infra-box.job .infra-desc { color: #8b5cf6; }
-
-.infra-box.file { background: #ecfeff; border-color: #a5f3fc; }
-.infra-box.file .infra-name { color: #0e7490; }
-.infra-box.file .infra-desc { color: #0891b2; }
-
-/* ── Dividers with arrows ── */
-.layer-connector {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 0;
-  color: #94a3b8;
-  font-size: 11px;
-}
-.arrow-down { color: #cbd5e1; font-size: 16px; line-height: 1; }
+.infra-box { padding: 9px 10px; border-radius: 8px; border: 1px solid; text-align: center; }
+.infra-n { font-size: 12px; font-weight: 700; margin-bottom: 2px; }
+.infra-d { font-size: 10px; line-height: 1.4; }
+.ib-mq  { background:#f0fdf4; border-color:#86efac; }
+.ib-mq  .infra-n { color:#15803d; } .ib-mq  .infra-d { color:#16a34a; }
+.ib-red { background:#fff1f2; border-color:#fecdd3; }
+.ib-red .infra-n { color:#be123c; } .ib-red .infra-d { color:#e11d48; }
+.ib-es  { background:#fff7ed; border-color:#fed7aa; }
+.ib-es  .infra-n { color:#c2410c; } .ib-es  .infra-d { color:#ea580c; }
+.ib-job { background:#f5f3ff; border-color:#ddd6fe; }
+.ib-job .infra-n { color:#7c3aed; } .ib-job .infra-d { color:#8b5cf6; }
+.ib-oss { background:#ecfeff; border-color:#a5f3fc; }
+.ib-oss .infra-n { color:#0e7490; } .ib-oss .infra-d { color:#0891b2; }
 
 /* ── Legend ── */
 .legend {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  padding: 10px 14px;
-  background: #f8fafc;
-  border-radius: 8px;
-  border: 1px solid #e2e6ed;
-  margin-top: 14px;
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+  padding: 9px 14px; background: #f8fafc;
+  border: 1px solid #e2e6ed; border-radius: 8px;
 }
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  color: #4a5568;
-}
-.legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
-.legend-line {
-  width: 20px;
-  height: 1px;
-  border-top: 1.5px dashed #94a3b8;
-  flex-shrink: 0;
-}
-
-/* ── New badge ── */
-.new-tag {
-  display: inline-block;
-  font-size: 9px;
-  font-weight: 700;
-  padding: 1px 5px;
-  border-radius: 6px;
-  background: #fef08a;
-  color: #a16207;
-  margin-left: 4px;
-  vertical-align: middle;
-  letter-spacing: 0.3px;
-}
-
-/* ── Feign tag ── */
-.feign-badge {
-  display: inline-block;
-  font-size: 9px;
-  font-weight: 600;
-  padding: 1px 5px;
-  border-radius: 5px;
-  background: #f1f5f9;
-  color: #475569;
-  border: 1px solid #cbd5e1;
-  margin-left: 3px;
-}
+.li { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #4a5568; }
+.li svg { flex-shrink: 0; }
 </style>
 </head>
 <body>
 <div class="page-wrap">
 
-  <!-- Header -->
   <div class="header">
-    <div class="header-left">
+    <div>
       <h1>电商平台业务架构图</h1>
-      <p>六域划分 · 完整跨域调用链路 · Spring Cloud Alibaba 技术栈</p>
+      <p>六域划分 · 域间箭头直连 · Spring Cloud Alibaba</p>
     </div>
-    <div class="header-right">
+    <div class="badges">
       <span class="badge badge-ai">AI ARCH</span>
-      <span class="badge badge-v2">v2.0</span>
+      <span class="badge badge-v4">v4.0</span>
     </div>
   </div>
 
   <div class="canvas">
 
-    <!-- ① 客户端层 -->
-    <div class="arch-label">接入层</div>
-    <div class="layer">
-      <div class="client-layer">
-        <div class="client-chip"><span class="dot" style="background:#3b82f6;"></span>Web 端</div>
-        <div class="client-chip"><span class="dot" style="background:#10b981;"></span>iOS / Android App</div>
-        <div class="client-chip"><span class="dot" style="background:#8b5cf6;"></span>小程序</div>
-        <div class="client-chip"><span class="dot" style="background:#f97316;"></span>开放平台 / ISV</div>
-        <div class="client-chip"><span class="dot" style="background:#ec4899;"></span>商家后台</div>
+    <!-- 接入层 -->
+    <div class="layer-label">接入层</div>
+    <div class="client-row" style="margin-bottom:8px;">
+      <div class="chip"><span class="dot" style="background:#3b82f6"></span>Web 端</div>
+      <div class="chip"><span class="dot" style="background:#10b981"></span>iOS / Android</div>
+      <div class="chip"><span class="dot" style="background:#8b5cf6"></span>小程序</div>
+      <div class="chip"><span class="dot" style="background:#f97316"></span>开放平台 / ISV</div>
+      <div class="chip"><span class="dot" style="background:#ec4899"></span>商家后台</div>
+    </div>
+
+    <div class="layer-div">↓ HTTPS</div>
+
+    <!-- 网关层 -->
+    <div class="layer-label">网关 &amp; 治理层</div>
+    <div class="gateway-row" style="margin-bottom:8px;">
+      <div class="gw blue">
+        <div class="gw-t">Spring Cloud Gateway</div>
+        <div class="gw-s">路由 · JWT鉴权 · 限流 · 灰度路由</div>
+      </div>
+      <div class="gw purp">
+        <div class="gw-t">Sentinel + Nacos</div>
+        <div class="gw-s">熔断降级 · 动态规则推送</div>
+      </div>
+      <div class="gw oran">
+        <div class="gw-t">安全防护</div>
+        <div class="gw-s">WAF · DDoS · 风控拦截</div>
       </div>
     </div>
 
-    <div class="layer-connector"><span class="arrow-down">↓</span><span>HTTPS 请求</span><span class="arrow-down">↓</span></div>
+    <div class="layer-div">↓ Feign RPC</div>
 
-    <!-- ② 网关层 -->
-    <div class="arch-label">网关 &amp; 治理层</div>
-    <div class="layer">
-      <div class="gateway-layer">
-        <div class="gw-box blue">
-          <div class="gw-title">Spring Cloud Gateway</div>
-          <div class="gw-sub">路由 · JWT鉴权 · 限流 · 灰度路由</div>
-        </div>
-        <div class="gw-box purple">
-          <div class="gw-title">Sentinel + Nacos</div>
-          <div class="gw-sub">熔断降级 · 动态规则 · 流量整形</div>
-        </div>
-        <div class="gw-box orange">
-          <div class="gw-title">安全防护</div>
-          <div class="gw-sub">WAF · DDoS防护 · 风控拦截</div>
-        </div>
-      </div>
-    </div>
+    <!-- 业务域 -->
+    <div class="layer-label">业务域层</div>
+    <div class="domains-wrap" id="domainsWrap">
 
-    <div class="layer-connector"><span class="arrow-down">↓</span><span>Feign RPC 内部调用</span><span class="arrow-down">↓</span></div>
+      <div class="domain-grid" id="domainGrid">
 
-    <!-- ③ 业务域层 Row 1 -->
-    <div class="arch-label">业务域层</div>
-    <div class="layer">
-      <div class="domain-grid">
-
-        <!-- 商品域 -->
-        <div class="domain d-product">
+        <!-- Row 1 -->
+        <div class="domain d-product" id="d-product">
           <div class="domain-head">
             <span class="domain-icon">📦</span>
             <span class="domain-name">商品域</span>
@@ -493,22 +287,18 @@ body {
           </div>
           <div class="domain-body">
             <div class="app-row">
-              <span class="app-chip">商品管理</span>
-              <span class="app-chip">商品展示</span>
-              <span class="app-chip">商品详情</span>
-              <span class="app-chip">类目管理</span>
-              <span class="app-chip">SKU管理</span>
+              <span class="ac">商品管理</span><span class="ac">商品展示</span>
+              <span class="ac">商品详情</span><span class="ac">类目管理</span><span class="ac">SKU管理</span>
             </div>
-            <div class="svc-box">
-              <div class="svc-name">商品底层服务 <span class="feign-badge">Feign</span></div>
-              <div class="svc-desc">商品 CRUD · 价格计算 · 类目树 · 品牌管理 · SPU/SKU 模型</div>
+            <div class="svc">
+              <div class="svc-n">商品底层服务<span class="feign-b">Feign</span></div>
+              <div class="svc-d">CRUD · 价格计算 · 类目树 · SPU/SKU模型</div>
             </div>
-            <div class="db-row">🗄 MySQL (商品库) + ES (商品搜索)</div>
+            <div class="db">🗄 MySQL (商品库) + ES (搜索)</div>
           </div>
         </div>
 
-        <!-- 交易域 -->
-        <div class="domain d-trade">
+        <div class="domain d-trade" id="d-trade">
           <div class="domain-head">
             <span class="domain-icon">🛒</span>
             <span class="domain-name">交易域</span>
@@ -516,75 +306,57 @@ body {
           </div>
           <div class="domain-body">
             <div class="app-row">
-              <span class="app-chip">购物车</span>
-              <span class="app-chip">正向交易</span>
-              <span class="app-chip">订单管理</span>
-              <span class="app-chip">逆向管理</span>
-              <span class="app-chip">物流跟踪</span>
+              <span class="ac">购物车</span><span class="ac">正向交易</span>
+              <span class="ac">订单管理</span><span class="ac">逆向管理</span><span class="ac">物流跟踪</span>
             </div>
-            <div class="svc-box">
-              <div class="svc-name">交易底层服务 <span class="feign-badge">Feign</span></div>
-              <div class="svc-desc">下单流程 · 订单状态机 · 退换货 · 物流对接 · 结算拆单</div>
+            <div class="svc">
+              <div class="svc-n">交易底层服务<span class="feign-b">Feign</span></div>
+              <div class="svc-d">下单流程 · 订单状态机 · 退换货 · 拆单结算</div>
             </div>
-            <div class="db-row">🗄 MySQL (订单库) + Redis (购物车)</div>
+            <div class="db">🗄 MySQL (订单库) + Redis (购物车)</div>
           </div>
         </div>
 
-        <!-- 库存域 NEW -->
-        <div class="domain d-inventory">
+        <div class="domain d-inventory" id="d-inventory">
           <div class="domain-head">
             <span class="domain-icon">📊</span>
-            <span class="domain-name">库存域<span class="new-tag">NEW</span></span>
+            <span class="domain-name">库存域<span class="new-t">NEW</span></span>
             <span class="domain-tag">Inventory</span>
           </div>
           <div class="domain-body">
             <div class="app-row">
-              <span class="app-chip">库存管理</span>
-              <span class="app-chip">库存扣减</span>
-              <span class="app-chip">预占释放</span>
-              <span class="app-chip">仓库管理</span>
+              <span class="ac">库存管理</span><span class="ac">库存扣减</span>
+              <span class="ac">预占释放</span><span class="ac">仓库管理</span>
             </div>
-            <div class="svc-box">
-              <div class="svc-name">库存底层服务 <span class="feign-badge">Feign</span></div>
-              <div class="svc-desc">实时库存 · 预占 / 扣减 / 回滚 · 多仓路由 · 超卖防护 (Redis Lua)</div>
+            <div class="svc">
+              <div class="svc-n">库存底层服务<span class="feign-b">Feign</span></div>
+              <div class="svc-d">预占/扣减/回滚 · 多仓路由 · Redis Lua超卖防护</div>
             </div>
-            <div class="db-row">🗄 MySQL (库存库) + Redis (热点库存)</div>
+            <div class="db">🗄 MySQL (库存库) + Redis (热点库存)</div>
           </div>
         </div>
 
-      </div>
-    </div>
-
-    <div style="height:10px;"></div>
-
-    <!-- ③ 业务域层 Row 2 -->
-    <div class="layer">
-      <div class="domain-grid-2">
-
-        <!-- 用户域 NEW -->
-        <div class="domain d-user">
+        <!-- Row 2 -->
+        <div class="domain d-user" id="d-user">
           <div class="domain-head">
             <span class="domain-icon">👤</span>
-            <span class="domain-name">用户域<span class="new-tag">NEW</span></span>
+            <span class="domain-name">用户域<span class="new-t">NEW</span></span>
             <span class="domain-tag">User</span>
           </div>
           <div class="domain-body">
             <div class="app-row">
-              <span class="app-chip">会员管理</span>
-              <span class="app-chip">账户中心</span>
-              <span class="app-chip">地址管理</span>
-              <span class="app-chip">积分体系</span>
+              <span class="ac">会员管理</span><span class="ac">账户中心</span>
+              <span class="ac">地址管理</span><span class="ac">积分体系</span>
             </div>
-            <div class="svc-box">
-              <div class="svc-name">用户底层服务 <span class="feign-badge">Feign</span></div>
-              <div class="svc-desc">注册/登录 · 会员等级 · 收货地址 · 积分流水 · OAuth2</div>
+            <div class="svc">
+              <div class="svc-n">用户底层服务<span class="feign-b">Feign</span></div>
+              <div class="svc-d">注册/登录 · 会员等级 · 收货地址 · OAuth2</div>
             </div>
-            <div class="db-row">🗄 MySQL (用户库) + Redis (Session)</div>
+            <div class="db">🗄 MySQL (用户库) + Redis (Session)</div>
           </div>
         </div>
 
-        <!-- 营销域 -->
-        <div class="domain d-marketing">
+        <div class="domain d-marketing" id="d-marketing">
           <div class="domain-head">
             <span class="domain-icon">🎯</span>
             <span class="domain-name">营销域</span>
@@ -592,21 +364,18 @@ body {
           </div>
           <div class="domain-body">
             <div class="app-row">
-              <span class="app-chip">营销管理</span>
-              <span class="app-chip">优惠计算</span>
-              <span class="app-chip">活动管理</span>
-              <span class="app-chip">优惠券</span>
+              <span class="ac">营销管理</span><span class="ac">优惠计算</span>
+              <span class="ac">活动管理</span><span class="ac">优惠券</span>
             </div>
-            <div class="svc-box">
-              <div class="svc-name">营销底层服务 <span class="feign-badge">Feign</span></div>
-              <div class="svc-desc">满减 · 折扣 · 优惠券核销 · 活动商品池 · 规则引擎</div>
+            <div class="svc">
+              <div class="svc-n">营销底层服务<span class="feign-b">Feign</span></div>
+              <div class="svc-d">满减/折扣 · 券核销 · 活动商品池 · 规则引擎</div>
             </div>
-            <div class="db-row">🗄 MySQL (营销库) + Redis (券/活动缓存)</div>
+            <div class="db">🗄 MySQL (营销库) + Redis (券/活动)</div>
           </div>
         </div>
 
-        <!-- 支付域 -->
-        <div class="domain d-payment">
+        <div class="domain d-payment" id="d-payment">
           <div class="domain-head">
             <span class="domain-icon">💳</span>
             <span class="domain-name">支付域</span>
@@ -614,129 +383,248 @@ body {
           </div>
           <div class="domain-body">
             <div class="app-row">
-              <span class="app-chip">支付管理</span>
-              <span class="app-chip">C端支付</span>
-              <span class="app-chip">退款管理</span>
-              <span class="app-chip">对账管理</span>
+              <span class="ac">支付管理</span><span class="ac">C端支付</span>
+              <span class="ac">退款管理</span><span class="ac">对账管理</span>
             </div>
-            <div class="svc-box">
-              <div class="svc-name">支付底层服务 <span class="feign-badge">Feign</span></div>
-              <div class="svc-desc">支付宝/微信/银行卡对接 · 退款 · 对账 · 资金流水</div>
+            <div class="svc">
+              <div class="svc-n">支付底层服务<span class="feign-b">Feign</span></div>
+              <div class="svc-d">支付宝/微信对接 · 退款 · 对账 · 资金流水</div>
             </div>
-            <div class="db-row">🗄 MySQL (支付库，独立实例)</div>
+            <div class="db">🗄 MySQL (支付库，独立实例)</div>
           </div>
         </div>
 
+      </div><!-- /domain-grid -->
+
+      <!-- SVG overlay drawn by JS -->
+      <svg class="arrow-svg" id="arrowSvg" style="width:100%;height:100%;overflow:visible;">
+        <defs>
+          <marker id="mh-coral" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M1 1.5L8.5 5L1 8.5" fill="none" stroke="#D85A30" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+          <marker id="mh-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M1 1.5L8.5 5L1 8.5" fill="none" stroke="#1D9E75" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+          <marker id="mh-purp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M1 1.5L8.5 5L1 8.5" fill="none" stroke="#7F77DD" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+          <marker id="mh-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M1 1.5L8.5 5L1 8.5" fill="none" stroke="#888780" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+          <marker id="mh-pink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M1 1.5L8.5 5L1 8.5" fill="none" stroke="#D4537E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+      </svg>
+
+    </div><!-- /domains-wrap -->
+
+    <div class="layer-div">↓ 依赖基础设施</div>
+
+    <!-- 基础设施 -->
+    <div class="layer-label">基础设施层</div>
+    <div class="infra-grid" style="margin-bottom:10px;">
+      <div class="infra-box ib-mq">
+        <div class="infra-n">RocketMQ</div>
+        <div class="infra-d">异步解耦 · 订单通知<br>库存补偿 · 积分发放</div>
       </div>
-    </div>
-
-    <!-- ④ 跨域调用关系 -->
-    <div style="height:10px;"></div>
-    <div class="arch-label">核心跨域调用链路 <span style="font-size:10px;font-weight:400;color:#94a3b8;text-transform:none;letter-spacing:0;">（Feign RPC · Sentinel 熔断保护）</span></div>
-    <div class="layer">
-      <div class="cross-call-row">
-
-        <div class="cross-call cc-trade-product">
-          <span class="cross-from">交易</span>
-          <span class="cross-arrow">→</span>
-          <span class="cross-to">商品</span>
-          <span class="cross-label">查询商品信息 / 价格</span>
-        </div>
-
-        <div class="cross-call cc-trade-inventory">
-          <span class="cross-from">交易</span>
-          <span class="cross-arrow">→</span>
-          <span class="cross-to">库存</span>
-          <span class="cross-label">预占 / 扣减库存</span>
-        </div>
-
-        <div class="cross-call cc-trade-user">
-          <span class="cross-from">交易</span>
-          <span class="cross-arrow">→</span>
-          <span class="cross-to">用户</span>
-          <span class="cross-label">获取收货地址 / 会员信息</span>
-        </div>
-
-        <div class="cross-call cc-trade-marketing">
-          <span class="cross-from">交易</span>
-          <span class="cross-arrow">→</span>
-          <span class="cross-to">营销</span>
-          <span class="cross-label">优惠计算 / 券核销</span>
-        </div>
-
-        <div class="cross-call cc-trade-payment">
-          <span class="cross-from">交易</span>
-          <span class="cross-arrow">→</span>
-          <span class="cross-to">支付</span>
-          <span class="cross-label">创建支付单</span>
-        </div>
-
-        <div class="cross-call cc-payment-trade">
-          <span class="cross-from">支付</span>
-          <span class="cross-arrow">→</span>
-          <span class="cross-to">交易</span>
-          <span class="cross-label">支付回调 / 更新订单状态</span>
-        </div>
-
-        <div class="cross-call cc-marketing-product">
-          <span class="cross-from">营销</span>
-          <span class="cross-arrow">→</span>
-          <span class="cross-to">商品</span>
-          <span class="cross-label">活动商品池关联</span>
-        </div>
-
+      <div class="infra-box ib-red">
+        <div class="infra-n">Redis Cluster</div>
+        <div class="infra-d">热点缓存 · 库存预占<br>购物车 · 限流令牌桶</div>
       </div>
-    </div>
-
-    <div class="layer-connector"><span class="arrow-down">↓</span><span>依赖基础设施</span><span class="arrow-down">↓</span></div>
-
-    <!-- ⑤ 基础设施层 -->
-    <div class="arch-label">基础设施层<span class="new-tag">新增</span></div>
-    <div class="layer">
-      <div class="infra-grid">
-
-        <div class="infra-box mq">
-          <div class="infra-name">RocketMQ</div>
-          <div class="infra-desc">异步解耦 · 订单状态通知<br>库存扣减补偿 · 积分发放</div>
-        </div>
-
-        <div class="infra-box cache">
-          <div class="infra-name">Redis Cluster</div>
-          <div class="infra-desc">热点商品缓存 · 库存预占<br>购物车 · 限流令牌桶</div>
-        </div>
-
-        <div class="infra-box search">
-          <div class="infra-name">Elasticsearch</div>
-          <div class="infra-desc">商品全文搜索 · 聚合筛选<br>订单查询 · 日志分析</div>
-        </div>
-
-        <div class="infra-box job">
-          <div class="infra-name">XXL-JOB</div>
-          <div class="infra-desc">订单超时关闭 · 对账任务<br>优惠券过期清理 · 数据同步</div>
-        </div>
-
-        <div class="infra-box file">
-          <div class="infra-name">OSS / CDN</div>
-          <div class="infra-desc">商品图片存储<br>静态资源加速分发</div>
-        </div>
-
+      <div class="infra-box ib-es">
+        <div class="infra-n">Elasticsearch</div>
+        <div class="infra-d">商品全文搜索<br>订单查询 · 日志分析</div>
+      </div>
+      <div class="infra-box ib-job">
+        <div class="infra-n">XXL-JOB</div>
+        <div class="infra-d">订单超时关闭<br>对账 · 数据同步</div>
+      </div>
+      <div class="infra-box ib-oss">
+        <div class="infra-n">OSS / CDN</div>
+        <div class="infra-d">商品图片存储<br>静态资源加速</div>
       </div>
     </div>
 
     <!-- Legend -->
     <div class="legend">
-      <span style="font-size:11px;font-weight:700;color:#334155;">图例：</span>
-      <div class="legend-item"><span class="legend-dot" style="background:#eff6ff;border:1px solid #93c5fd;"></span>商品域</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#faece7;border:1px solid #f0997b;"></span>交易域</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#faeeda;border:1px solid #fac775;"></span>库存域（新增）</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#e1f5ee;border:1px solid #5dcaa5;"></span>用户域（新增）</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#fbeaf0;border:1px solid #ed93b1;"></span>营销域</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#eeedfe;border:1px solid #afa9ec;"></span>支付域</div>
-      <div class="legend-item"><span class="legend-line"></span>Feign RPC 跨域调用</div>
-      <div class="legend-item"><span class="new-tag" style="margin-left:0;">NEW</span>原图缺失，本版新增</div>
+      <span style="font-size:11px;font-weight:700;color:#334155;">调用方向：</span>
+      <div class="li">
+        <svg width="32" height="12"><line x1="2" y1="6" x2="22" y2="6" stroke="#D85A30" stroke-width="1.8" stroke-dasharray="5,3"/><polygon points="22,3 29,6 22,9" fill="#D85A30"/></svg>
+        交易域调用
+      </div>
+      <div class="li">
+        <svg width="32" height="12"><line x1="2" y1="6" x2="22" y2="6" stroke="#888780" stroke-width="1.8" stroke-dasharray="5,3"/><polygon points="22,3 29,6 22,9" fill="#888780"/></svg>
+        支付回调交易
+      </div>
+      <div class="li">
+        <svg width="32" height="12"><line x1="2" y1="6" x2="22" y2="6" stroke="#D4537E" stroke-width="1.8" stroke-dasharray="5,3"/><polygon points="22,3 29,6 22,9" fill="#D4537E"/></svg>
+        营销→商品
+      </div>
+      <div class="li"><span class="new-t" style="margin-left:0">NEW</span>原图新增域</div>
     </div>
 
   </div>
 </div>
+
+<script>
+// ── arrow drawing ──────────────────────────────────────────
+function drawArrows() {
+  const wrap = document.getElementById('domainsWrap');
+  const svg  = document.getElementById('arrowSvg');
+
+  // clear previous paths (keep <defs>)
+  Array.from(svg.children).forEach(c => { if (c.tagName !== 'defs') svg.removeChild(c); });
+
+  const wR = wrap.getBoundingClientRect();
+  svg.setAttribute('width',  wrap.offsetWidth  + 'px');
+  svg.setAttribute('height', wrap.offsetHeight + 'px');
+
+  function box(id) {
+    const b = document.getElementById(id).getBoundingClientRect();
+    const x = b.left - wR.left, y = b.top - wR.top;
+    return { x, y, w: b.width, h: b.height,
+      cx: x + b.width/2, cy: y + b.height/2,
+      t: y, b: y + b.height, l: x, r: x + b.width };
+  }
+
+  // Shorthand draw helpers
+  function line(x1,y1,x2,y2,color,mid){
+    return mkPath(`M${x1} ${y1} L${x2} ${y2}`, color, mid, (x1+x2)/2, (y1+y2)/2);
+  }
+  function bend(x1,y1, mx,my, x2,y2, color, mid, lx,ly){
+    return mkPath(`M${x1} ${y1} L${mx} ${my} L${x2} ${y2}`, color, mid, lx??mx, ly??my);
+  }
+
+  function mkPath(d, color, label, lx, ly) {
+    const markerId = {
+      '#D85A30':'mh-coral','#1D9E75':'mh-teal',
+      '#7F77DD':'mh-purp', '#888780':'mh-gray','#D4537E':'mh-pink'
+    }[color];
+
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d', d);
+    path.setAttribute('fill','none');
+    path.setAttribute('stroke', color);
+    path.setAttribute('stroke-width','1.8');
+    path.setAttribute('stroke-dasharray','5,3');
+    path.setAttribute('stroke-linecap','round');
+    path.setAttribute('marker-end', `url(#${markerId})`);
+    g.appendChild(path);
+
+    if (label) {
+      const approxW = label.length * 7.4 + 14;
+      const bg = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      bg.setAttribute('x', lx - approxW/2); bg.setAttribute('y', ly - 10);
+      bg.setAttribute('width', approxW);    bg.setAttribute('height', 16);
+      bg.setAttribute('rx', 5);
+      bg.setAttribute('fill','#fff');
+      bg.setAttribute('stroke', color); bg.setAttribute('stroke-width','0.8');
+      g.appendChild(bg);
+
+      const txt = document.createElementNS('http://www.w3.org/2000/svg','text');
+      txt.setAttribute('x', lx); txt.setAttribute('y', ly + 1);
+      txt.setAttribute('text-anchor','middle');
+      txt.setAttribute('dominant-baseline','central');
+      txt.setAttribute('font-size','10');
+      txt.setAttribute('font-family',"-apple-system,'PingFang SC',sans-serif");
+      txt.setAttribute('fill', color); txt.setAttribute('font-weight','600');
+      txt.textContent = label;
+      g.appendChild(txt);
+    }
+    svg.appendChild(g);
+  }
+
+  const P = box('d-product'),  T = box('d-trade'),   I = box('d-inventory');
+  const U = box('d-user'),     M = box('d-marketing'), Y = box('d-payment');
+
+  // The column gap center x values (midpoints between cards)
+  const gapL = (P.r + T.l) / 2;   // between product & trade
+  const gapR = (T.r + I.l) / 2;   // between trade & inventory
+  // The row gap center y value
+  const gapV = (P.b + U.t) / 2;   // between row1 & row2
+
+  // ── 1. 交易 → 商品  (horizontal, runs through left column-gap)
+  // from trade left edge (upper quarter) → product right edge (upper quarter)
+  bend(
+    T.l, T.t + T.h*0.30,
+    gapL, T.t + T.h*0.30,
+    P.r,  P.t + P.h*0.30,
+    '#D85A30', '查询商品/价格',
+    gapL, T.t + T.h*0.30 - 14
+  );
+
+  // ── 2. 交易 → 库存  (horizontal, runs through right column-gap)
+  bend(
+    T.r, T.t + T.h*0.30,
+    gapR, T.t + T.h*0.30,
+    I.l,  I.t + I.h*0.30,
+    '#D85A30', '预占/扣减库存',
+    gapR, T.t + T.h*0.30 - 14
+  );
+
+  // ── 3. 交易 → 营销  (vertical straight down through row-gap, same col)
+  bend(
+    T.cx - 16, T.b,
+    T.cx - 16, gapV,
+    M.cx - 16, M.t,
+    '#D85A30', '优惠计算/券核销',
+    T.cx - 16, gapV
+  );
+
+  // ── 4. 交易 → 用户  (L-bend: down through row-gap, left through gap)
+  // go down from trade left area, pivot in gap, arrive at user right edge
+  {
+    const x1 = T.l + T.w*0.22, y1 = T.b;
+    const x2 = U.r - U.w*0.22, y2 = U.t;
+    mkPath(
+      `M${x1} ${y1} L${x1} ${gapV} L${x2} ${gapV} L${x2} ${y2}`,
+      '#1D9E75', '收货地址/会员',
+      (x1+x2)/2, gapV
+    );
+  }
+
+  // ── 5. 交易 → 支付  (L-bend: down + right pivot)
+  {
+    const x1 = T.r - T.w*0.22, y1 = T.b;
+    const x2 = Y.cx + Y.w*0.18, y2 = Y.t;
+    mkPath(
+      `M${x1} ${y1} L${x1} ${gapV} L${x2} ${gapV} L${x2} ${y2}`,
+      '#7F77DD', '创建支付单',
+      (x1+x2)/2 + 18, gapV
+    );
+  }
+
+  // ── 6. 支付 → 交易  (reverse, offset to avoid overlap)
+  {
+    const x1 = Y.cx - Y.w*0.18, y1 = Y.t;
+    const x2 = T.r - T.w*0.08, y2 = T.b;
+    const midY = gapV + 14;   // offset slightly below arrow 5
+    mkPath(
+      `M${x1} ${y1} L${x1} ${midY} L${x2} ${midY} L${x2} ${y2}`,
+      '#888780', '支付回调',
+      (x1+x2)/2 - 16, midY
+    );
+  }
+
+  // ── 7. 营销 → 商品  (L-bend: up from marketing, left to product)
+  {
+    const x1 = M.l + M.w*0.22, y1 = M.t;
+    const x2 = P.cx, y2 = P.b;
+    const midY = gapV - 14;
+    mkPath(
+      `M${x1} ${y1} L${x1} ${midY} L${x2} ${midY} L${x2} ${y2}`,
+      '#D4537E', '活动商品池',
+      (x1+x2)/2, midY
+    );
+  }
+}
+
+// Initial draw + redraw on resize
+window.addEventListener('load', drawArrows);
+window.addEventListener('resize', drawArrows);
+</script>
 </body>
 </html>

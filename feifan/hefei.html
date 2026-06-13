@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>合肥高铁 Agent 项目 · 可行性分析（实在智能技术方案）</title>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --border: #e8eaed;
+    --blue-dark: #1a56db;
+    --blue-mid: #3b82f6;
+    --blue-light: #eff6ff;
+    --blue-accent: #dbeafe;
+    --green: #059669;
+    --green-light: #ecfdf5;
+    --orange: #d97706;
+    --orange-light: #fffbeb;
+    --red: #dc2626;
+    --red-light: #fef2f2;
+    --purple: #7c3aed;
+    --purple-light: #f5f3ff;
+    --teal: #0891b2;
+    --teal-light: #ecfeff;
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.04);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* TOP BAR */
+  .topbar {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topbar-brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; }
+  .topbar-brand .dot {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, #1a56db, #60a5fa);
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .topbar-meta { font-size: 12px; color: var(--text-muted); display: flex; gap: 20px; }
+
+  /* LAYOUT */
+  .layout { display: flex; min-height: calc(100vh - 56px); }
+  .sidenav {
+    width: 220px; min-width: 220px;
+    background: white;
+    border-right: 1px solid var(--border);
+    padding: 24px 0;
+    position: sticky;
+    top: 56px;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+  }
+  .sidenav-section { padding: 0 16px 16px; }
+  .sidenav-label {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+    color: var(--text-muted); text-transform: uppercase;
+    padding: 0 12px; margin-bottom: 6px;
+  }
+  .sidenav a {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 12px; border-radius: 6px;
+    font-size: 13px; color: var(--text-secondary);
+    text-decoration: none; transition: all 0.15s;
+  }
+  .sidenav a:hover { background: var(--bg); color: var(--text-primary); }
+  .sidenav a.active { background: var(--blue-light); color: var(--blue-dark); font-weight: 500; }
+  .badge {
+    margin-left: auto; font-size: 10px;
+    padding: 2px 6px; border-radius: 10px; font-weight: 600;
+  }
+  .badge-green { background: var(--green-light); color: var(--green); }
+  .badge-orange { background: var(--orange-light); color: var(--orange); }
+  .badge-red { background: var(--red-light); color: var(--red); }
+  .badge-blue { background: var(--blue-accent); color: var(--blue-dark); }
+  .badge-teal { background: var(--teal-light); color: var(--teal); }
+
+  /* MAIN */
+  .main { flex: 1; padding: 32px; max-width: 960px; }
+
+  /* PAGE HEADER */
+  .page-header { margin-bottom: 32px; }
+  .page-header .eyebrow {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
+    color: var(--blue-dark); text-transform: uppercase;
+    margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+  }
+  .page-header h1 {
+    font-size: 26px; font-weight: 700;
+    letter-spacing: -0.3px; line-height: 1.3; margin-bottom: 12px;
+  }
+  .page-header .desc { color: var(--text-secondary); font-size: 14px; max-width: 660px; line-height: 1.7; }
+
+  /* VERDICT */
+  .verdict {
+    background: linear-gradient(135deg, #1e40af 0%, #1a56db 60%, #2563eb 100%);
+    border-radius: var(--radius); padding: 24px 28px; color: white;
+    margin-bottom: 32px;
+    display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center;
+  }
+  .verdict-title { font-size: 13px; font-weight: 600; opacity: 0.8; margin-bottom: 6px; letter-spacing: 0.04em; }
+  .verdict-text { font-size: 17px; font-weight: 700; line-height: 1.4; margin-bottom: 10px; }
+  .verdict-sub { font-size: 13px; opacity: 0.75; line-height: 1.6; }
+  .verdict-score { text-align: center; background: rgba(255,255,255,0.12); border-radius: 10px; padding: 16px 24px; min-width: 120px; }
+  .verdict-score .num { font-size: 36px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .verdict-score .label { font-size: 12px; opacity: 0.75; }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-size: 16px; font-weight: 700; color: var(--text-primary);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* CARD */
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px; margin-bottom: 16px;
+    box-shadow: var(--shadow);
+  }
+  .card-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+  .card-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 16px;
+  }
+  .icon-blue { background: var(--blue-light); }
+  .icon-green { background: var(--green-light); }
+  .icon-orange { background: var(--orange-light); }
+  .icon-red { background: var(--red-light); }
+  .icon-purple { background: var(--purple-light); }
+  .icon-teal { background: var(--teal-light); }
+  .card-title { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+  .card-subtitle { font-size: 12px; color: var(--text-muted); }
+
+  /* GRIDS */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 16px; }
+
+  /* KPI */
+  .kpi { background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; box-shadow: var(--shadow); }
+  .kpi-label { font-size: 11px; color: var(--text-muted); font-weight: 500; margin-bottom: 6px; }
+  .kpi-value { font-size: 22px; font-weight: 800; color: var(--text-primary); line-height: 1; margin-bottom: 4px; }
+  .kpi-sub { font-size: 12px; color: var(--text-secondary); }
+
+  /* CHECK LIST */
+  .check-list { list-style: none; }
+  .check-list li {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 13px; line-height: 1.6; padding: 5px 0;
+  }
+  .check-list li .ico { font-size: 14px; margin-top: 1px; flex-shrink: 0; width: 18px; text-align: center; }
+  .ico.plus { color: var(--green); }
+  .ico.minus { color: var(--red); }
+  .ico.warn { color: var(--orange); }
+  .ico.note { color: var(--blue-dark); }
+
+  /* TAGS */
+  .tag {
+    display: inline-block; font-size: 11px; font-weight: 500;
+    padding: 2px 7px; border-radius: 10px; margin: 2px 2px 2px 0;
+  }
+  .tag-blue { background: var(--blue-accent); color: var(--blue-dark); }
+  .tag-green { background: var(--green-light); color: var(--green); }
+  .tag-orange { background: var(--orange-light); color: var(--orange); }
+  .tag-purple { background: var(--purple-light); color: var(--purple); }
+  .tag-teal { background: var(--teal-light); color: var(--teal); }
+  .tag-gray { background: var(--bg); color: var(--text-secondary); border: 1px solid var(--border); }
+
+  /* HIGHLIGHT */
+  .highlight {
+    border-radius: var(--radius-sm); padding: 12px 16px;
+    font-size: 13px; line-height: 1.7; margin-bottom: 12px;
+  }
+  .highlight.blue { background: var(--blue-light); border-left: 3px solid var(--blue-dark); }
+  .highlight.orange { background: var(--orange-light); border-left: 3px solid var(--orange); }
+  .highlight.red { background: var(--red-light); border-left: 3px solid var(--red); }
+  .highlight.green { background: var(--green-light); border-left: 3px solid var(--green); }
+  .highlight.teal { background: var(--teal-light); border-left: 3px solid var(--teal); }
+
+  /* PRODUCT MAPPING TABLE */
+  .mapping-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .mapping-table th {
+    background: var(--bg); font-size: 11px; font-weight: 600;
+    color: var(--text-muted); text-transform: uppercase;
+    letter-spacing: 0.05em; padding: 8px 12px;
+    text-align: left; border-bottom: 1px solid var(--border);
+  }
+  .mapping-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .mapping-table tr:last-child td { border-bottom: none; }
+  .mapping-table tr:hover td { background: var(--bg); }
+  .mapping-table .req-col { font-weight: 600; font-size: 13px; }
+  .mapping-table .prod-col { }
+  .mapping-table .fit-col { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 10px; white-space: nowrap; display: inline-block; }
+  .fit-high { background: var(--green-light); color: var(--green); }
+  .fit-mid { background: var(--orange-light); color: var(--orange); }
+  .fit-custom { background: var(--purple-light); color: var(--purple); }
+
+  /* WORKLOAD TABLE */
+  .wl-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .wl-table th {
+    background: var(--bg); font-size: 11px; font-weight: 600;
+    color: var(--text-muted); text-transform: uppercase;
+    letter-spacing: 0.05em; padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border);
+  }
+  .wl-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .wl-table tr:last-child td { border-bottom: none; }
+  .wl-table tr:hover td { background: var(--bg); }
+  .wl-phase { font-weight: 600; }
+  .wl-days { font-weight: 700; color: var(--blue-dark); white-space: nowrap; }
+  .wl-total td { background: var(--blue-light); font-weight: 700; color: var(--blue-dark); border-top: 2px solid var(--blue-mid); }
+  .note-row td { background: var(--orange-light); font-size: 12px; color: var(--orange); font-style: italic; }
+
+  /* RISK ROWS */
+  .risk-row {
+    display: grid; grid-template-columns: 28px 1fr auto 200px;
+    gap: 12px; align-items: start;
+    padding: 12px 0; border-bottom: 1px solid var(--border);
+  }
+  .risk-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .risk-row:first-child { padding-top: 0; }
+  .risk-num { font-size: 11px; font-weight: 700; color: var(--text-muted); padding-top: 2px; }
+  .risk-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .risk-detail { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+  .risk-mitigation { font-size: 12px; color: var(--text-secondary); background: var(--bg); border-radius: 6px; padding: 8px 10px; line-height: 1.6; }
+  .risk-mitigation strong { color: var(--text-primary); display: block; margin-bottom: 3px; font-size: 11px; }
+
+  /* PRODUCT CARD */
+  .prod-card {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    overflow: hidden; margin-bottom: 12px;
+  }
+  .prod-card-header {
+    padding: 12px 16px; font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; gap: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .prod-card-header.blue { background: var(--blue-light); color: var(--blue-dark); }
+  .prod-card-header.green { background: var(--green-light); color: var(--green); }
+  .prod-card-header.teal { background: var(--teal-light); color: var(--teal); }
+  .prod-card-header.purple { background: var(--purple-light); color: var(--purple); }
+  .prod-card-header.orange { background: var(--orange-light); color: var(--orange); }
+  .prod-card-body { padding: 14px 16px; background: white; font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+  .prod-card-body ul { padding-left: 16px; }
+  .prod-card-body li { margin-bottom: 4px; }
+
+  /* SCENARIO BLOCK */
+  .scenario { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 16px; }
+  .scenario-header { padding: 14px 20px; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .scenario-header.blue { background: var(--blue-light); color: var(--blue-dark); border-bottom: 1px solid var(--blue-accent); }
+  .scenario-header.green { background: var(--green-light); color: var(--green); border-bottom: 1px solid #a7f3d0; }
+  .scenario-body { padding: 16px 20px; background: white; }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 24px; }
+  .timeline::before { content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: var(--border); }
+  .tl-item { position: relative; padding-bottom: 20px; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-dot { position: absolute; left: -20px; top: 4px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid white; }
+  .tl-dot.blue { background: var(--blue-dark); box-shadow: 0 0 0 2px #bfdbfe; }
+  .tl-dot.green { background: var(--green); box-shadow: 0 0 0 2px #a7f3d0; }
+  .tl-dot.orange { background: var(--orange); box-shadow: 0 0 0 2px #fde68a; }
+  .tl-phase { font-size: 12px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px; }
+  .tl-weeks { font-size: 11px; color: var(--blue-dark); font-weight: 600; margin-bottom: 4px; }
+  .tl-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+
+  /* PRICE */
+  .price-card { border: 2px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 16px; }
+  .price-card.highlight-card { border-color: var(--blue-dark); }
+  .price-card-header { background: var(--bg); padding: 14px 20px; font-size: 13px; font-weight: 700; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
+  .price-card.highlight-card .price-card-header { background: var(--blue-dark); color: white; }
+  .price-card-body { padding: 16px 20px; background: white; }
+  .price-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px dashed var(--border); font-size: 13px; }
+  .price-row:last-child { border-bottom: none; }
+  .price-row .item { color: var(--text-secondary); }
+  .price-row .val { font-weight: 600; color: var(--text-primary); }
+  .price-total { display: flex; justify-content: space-between; align-items: center; padding: 10px 0 0; font-size: 15px; font-weight: 800; }
+  .price-total .val { color: var(--blue-dark); }
+
+  section { margin-bottom: 40px; scroll-margin-top: 72px; }
+
+  /* COMPARE ARROW */
+  .vs-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .vs-left, .vs-right { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 14px; font-size: 12px; line-height: 1.6; }
+  .vs-arrow { color: var(--blue-dark); font-size: 20px; flex-shrink: 0; }
+  .vs-left strong, .vs-right strong { display: block; margin-bottom: 4px; font-size: 13px; }
+  .vs-left strong { color: var(--orange); }
+  .vs-right strong { color: var(--green); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">
+    <div class="dot">🤖</div>
+    合肥高铁 Agent · 可行性分析（实在智能产品方案）
+  </div>
+  <div class="topbar-meta">
+    <span>📅 2026年6月</span>
+    <span>🏗 基于实在智能全栈产品</span>
+    <span>✅ POC 已验证</span>
+  </div>
+</div>
+
+<div class="layout">
+
+<nav class="sidenav">
+  <div class="sidenav-section">
+    <div class="sidenav-label">核心分析</div>
+    <a href="#verdict" class="active">📊 综合结论</a>
+    <a href="#rzhi-products">🔧 实在智能产品体系</a>
+    <a href="#mapping">🗺 需求→产品映射</a>
+  </div>
+  <div class="sidenav-section">
+    <div class="sidenav-label">场景方案</div>
+    <a href="#scene1">📚 场景一：知识问答 <span class="badge badge-green">高适配</span></a>
+    <a href="#scene2">📝 场景二：工作票审核 <span class="badge badge-orange">需定制</span></a>
+  </div>
+  <div class="sidenav-section">
+    <div class="sidenav-label">交付规划</div>
+    <a href="#delta">⚡ 与自研方案差异</a>
+    <a href="#risks">⚠️ 风险清单 <span class="badge badge-red">5项</span></a>
+    <a href="#workload">⏱ 工作量估算</a>
+    <a href="#pricing">💰 报价建议</a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <div class="page-header">
+    <div class="eyebrow">🔍 技术选型更新 · 基于实在智能产品体系重新评估</div>
+    <h1>合肥高铁 Agent 系统<br>实在智能产品方案分析</h1>
+    <p class="desc">
+      在前版分析基础上，引入实在智能作为底层产品平台（实在Agent + 企业大脑 + IDP + 实在信创RPA）。本报告重点评估产品适配度、定制开发边界、工期与报价调整，以及与纯自研方案相比的核心差异。
+    </p>
+  </div>
+
+  <!-- VERDICT -->
+  <div id="verdict" class="verdict">
+    <div>
+      <div class="verdict-title">综合可行性结论（实在智能方案）</div>
+      <div class="verdict-text">产品覆盖度高，开发周期可压缩约30%<br>信创适配是最大加分项，规则引擎仍需定制</div>
+      <div class="verdict-sub">
+        实在智能的企业大脑（RAG知识库）+ IDP文档审阅 + 信创RPA，对合肥高铁两大场景的覆盖度达到约70%，剩余30%为工作票规则引擎的深度定制。相比纯自研，核心优势在于信创生态已获55+认证、无需从零搭建RAG框架，主要风险在于私有化部署成本和产品授权费。
+      </div>
+    </div>
+    <div class="verdict-score">
+      <div class="num">91</div>
+      <div class="label">可行性得分<br>/ 100</div>
+    </div>
+  </div>
+
+  <div class="grid-4">
+    <div class="kpi">
+      <div class="kpi-label">产品信创认证</div>
+      <div class="kpi-value">55+</div>
+      <div class="kpi-sub">鲲鹏/麒麟/统信等</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">企业客户基础</div>
+      <div class="kpi-value">4000+</div>
+      <div class="kpi-sub">含央企/国企/政府</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">预计总工期</div>
+      <div class="kpi-value">10周</div>
+      <div class="kpi-sub">较自研压缩约4周</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">建议报价范围</div>
+      <div class="kpi-value">70–90万</div>
+      <div class="kpi-sub">含产品授权+集成定制</div>
+    </div>
+  </div>
+
+  <!-- ── 实在智能产品体系 ── -->
+  <section id="rzhi-products">
+    <div class="section-title">🔧 实在智能产品体系速览</div>
+
+    <div class="highlight teal">
+      <strong>公司背景：</strong>浙江实在智能科技有限公司，国家高新技术企业，2025年3月完成近2亿元C轮融资。核心定位：AI × RPA 超自动化，自研 TARS 大模型 + ISSUT 屏幕语义理解技术，是国内信创RPA生态覆盖最全面的厂商之一。
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <div class="prod-card">
+          <div class="prod-card-header blue">🧠 实在Agent + 企业大脑</div>
+          <div class="prod-card-body">
+            核心通用智能体平台，2025年3月最新升级版本。包含：
+            <ul>
+              <li><strong>专属知识库RAG</strong>：将企业文档/数据沉淀为可检索知识资产</li>
+              <li><strong>业务流程数字孪生</strong>：可视化智能体画布，拖拽搭建自动化流程</li>
+              <li><strong>多模型接入</strong>：TARS / DeepSeek / 智谱AI / GPT 按需切换</li>
+              <li><strong>私有化部署</strong>：支持账号授权、角色管理、国产化适配</li>
+            </ul>
+            <div style="margin-top:8px;">
+              <span class="tag tag-blue">知识问答</span>
+              <span class="tag tag-blue">RAG检索</span>
+              <span class="tag tag-teal">私有化</span>
+              <span class="tag tag-green">信创</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-card">
+          <div class="prod-card-header teal">📄 IDP 智能文档审阅（含Chat-IDP）</div>
+          <div class="prod-card-body">
+            基于大模型的文档理解平台，核心能力：
+            <ul>
+              <li>兼容Word、PDF、Excel、扫描件多格式</li>
+              <li>关键信息抽取、内容风险审查、智能归档</li>
+              <li>Chat-IDP：文档级对话问答，划选原文即可提问</li>
+              <li>从文档输入到解析完成仅需数秒</li>
+            </ul>
+            <div style="margin-top:8px;">
+              <span class="tag tag-teal">文档解析</span>
+              <span class="tag tag-teal">字段抽取</span>
+              <span class="tag tag-blue">OCR</span>
+              <span class="tag tag-green">合规审核</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="prod-card">
+          <div class="prod-card-header green">🤖 实在信创RPA（IPA模式）</div>
+          <div class="prod-card-body">
+            国内信创适配最全面的RPA产品，三代技术演进：
+            <ul>
+              <li><strong>RPA设计器</strong>：500+组件，拖拽搭建，零代码上手</li>
+              <li><strong>RPA机器人</strong>：可靠的机器人终端，7×24执行</li>
+              <li><strong>RPA控制器</strong>：统一调度，2000+并发机器人管理</li>
+              <li>兼容鲲鹏/海光/飞腾/兆芯等国产芯片，麒麟/统信/中科红旗等国产OS</li>
+              <li>ISSUT技术：分辨率自适应，界面变化不中断任务</li>
+            </ul>
+            <div style="margin-top:8px;">
+              <span class="tag tag-green">文件夹监听</span>
+              <span class="tag tag-green">自动触发</span>
+              <span class="tag tag-green">跨系统</span>
+              <span class="tag tag-orange">信创认证55+</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="prod-card">
+          <div class="prod-card-header purple">📊 TARS 大模型</div>
+          <div class="prod-card-body">
+            实在智能自研垂直大模型系列：
+            <ul>
+              <li>TARS-VL：多模态视觉语言模型，屏幕元素理解</li>
+              <li>支持本地私有化部署，不依赖外部API</li>
+              <li>可灵活切换为DeepSeek本地化版本（更适合低成本私有化）</li>
+              <li>在步骤拆解、通用理解上与SOTA模型持平</li>
+            </ul>
+            <div style="margin-top:8px;">
+              <span class="tag tag-purple">本地部署</span>
+              <span class="tag tag-purple">多模态</span>
+              <span class="tag tag-blue">可替换LLM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 需求→产品映射 ── -->
+  <section id="mapping">
+    <div class="section-title">🗺 客户需求 → 实在智能产品 映射分析</div>
+
+    <table class="mapping-table">
+      <thead>
+        <tr>
+          <th>客户需求点</th>
+          <th>对应实在智能产品/能力</th>
+          <th>适配度</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="req-col">Word/PDF/扫描件 多格式解析</td>
+          <td><span class="tag tag-teal">IDP文档审阅</span></td>
+          <td><span class="fit-col fit-high">✅ 高度匹配</span></td>
+          <td style="font-size:12px;color:var(--text-secondary);">IDP原生支持，扫描件OCR已集成，秒级处理</td>
+        </tr>
+        <tr>
+          <td class="req-col">10000+文档批量入库 & 自动分类</td>
+          <td><span class="tag tag-green">实在RPA</span> <span class="tag tag-blue">企业大脑RAG</span></td>
+          <td><span class="fit-col fit-high">✅ 高度匹配</span></td>
+          <td style="font-size:12px;color:var(--text-secondary);">RPA负责文件夹监听/批量触发，企业大脑负责自动向量化入库</td>
+        </tr>
+        <tr>
+          <td class="req-col">专属知识库 RAG 检索问答</td>
+          <td><span class="tag tag-blue">企业大脑-知识库RAG</span></td>
+          <td><span class="fit-col fit-high">✅ 高度匹配</span></td>
+          <td style="font-size:12px;color:var(--text-secondary);">核心产品能力，支持多轮对话、知识溯源、来源标注</td>
+        </tr>
+        <tr>
+          <td class="req-col">私有化部署 + 信创/Windows兼容</td>
+          <td><span class="tag tag-green">实在信创RPA</span> <span class="tag tag-teal">私有化部署方案</span></td>
+          <td><span class="fit-col fit-high">✅ 高度匹配</span></td>
+          <td style="font-size:12px;color:var(--text-secondary);">55+信创认证，华为Atlas GPU已测试支持，Windows同样兼容</td>
+        </tr>
+        <tr>
+          <td class="req-col">权限管控 + 操作留痕</td>
+          <td><span class="tag tag-blue">企业大脑管理平台</span></td>
+          <td><span class="fit-col fit-high">✅ 高度匹配</span></td>
+          <td style="font-size:12px;color:var(--text-secondary);">原生支持账号授权、角色管理、操作审计</td>
+        </tr>
+        <tr>
+          <td class="req-col">工作票 Word/Excel 字段自动提取</td>
+          <td><span class="tag tag-teal">IDP + Chat-IDP</span></td>
+          <td><span class="fit-col fit-mid">⚡ 中度匹配</span></td>
+          <td style="font-size:12px;color:var(--text-secondary);">IDP可做关键字段抽取，但需针对3类工作票模板做专项配置</td>
+        </tr>
+        <tr>
+          <td class="req-col">工作票审核规则引擎（10条/类）</td>
+          <td><span class="tag tag-purple">定制规则引擎</span> <span class="tag tag-blue">企业大脑RAG</span></td>
+          <td><span class="fit-col fit-custom">🔧 需定制开发</span></td>
+          <td style="font-size:12px;color:var(--text-secondary);">实在产品无原生规则引擎，需在IDP基础上叠加定制校验逻辑</td>
+        </tr>
+        <tr>
+          <td class="req-col">违规定位 + 整改建议生成</td>
+          <td><span class="tag tag-purple">LLM定制Prompt</span> <span class="tag tag-blue">TARS/DeepSeek</span></td>
+          <td><span class="fit-col fit-custom">🔧 需定制开发</span></td>
+          <td style="font-size:12px;color:var(--text-secondary);">可基于企业大脑的模型接入能力实现，需设计专项Prompt链</td>
+        </tr>
+        <tr>
+          <td class="req-col">多模型接入（可切换DeepSeek）</td>
+          <td><span class="tag tag-blue">企业大脑模型沙箱</span></td>
+          <td><span class="fit-col fit-high">✅ 高度匹配</span></td>
+          <td style="font-size:12px;color:var(--text-secondary);">原生支持TARS/DeepSeek/智谱AI等切换，私有化场景推荐DeepSeek本地化</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="highlight blue" style="margin-top:16px;">
+      <strong>映射结论：</strong>9个需求点中，5个高度匹配（可直接产品化交付），2个中度匹配（需配置），2个需定制开发（工作票规则引擎）。<strong>实在智能产品覆盖约70%的交付内容</strong>，剩余30%是飞凡科技的定制开发价值所在。
+    </div>
+  </section>
+
+  <!-- ── 场景一 ── -->
+  <section id="scene1">
+    <div class="section-title">📚 场景一：智能知识问答 · 实在智能方案</div>
+
+    <div class="scenario">
+      <div class="scenario-header blue">📊 实在智能方案适配度：极高（95分）— 开箱即用，重点在知识治理</div>
+      <div class="scenario-body">
+
+        <div class="highlight green">
+          <strong>核心判断：</strong>企业大脑的知识库RAG + IDP文档审阅，完整覆盖"知识问答场景"的全部技术需求。81条问答样本中涵盖的标准规范、作业指导书、会议纪要等文档类型，均在IDP的原生支持范围内。<strong>这个场景几乎不需要额外自研，重点工作转为知识治理与系统配置。</strong>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:10px;color:var(--text-secondary);">实在产品 → 功能对应</div>
+            <ul class="check-list">
+              <li><span class="ico plus">▸</span><strong>IDP平台</strong>：承接Word/PDF/扫描件解析，包括OCR，秒级完成</li>
+              <li><span class="ico plus">▸</span><strong>企业大脑RAG</strong>：构建合肥高铁专属知识库，自动向量化、分类存储</li>
+              <li><span class="ico plus">▸</span><strong>实在RPA</strong>：实现文件夹自动监听，新增文档自动触发入库流程，无人干预</li>
+              <li><span class="ico plus">▸</span><strong>Chat-IDP</strong>：支持自然语言问答，多轮对话，划选原文追问</li>
+              <li><span class="ico plus">▸</span><strong>权限管控</strong>：企业大脑管理平台原生支持知识库级别权限设置</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:10px;color:var(--text-secondary);">飞凡科技定制工作</div>
+            <ul class="check-list">
+              <li><span class="ico note">▸</span><strong>知识分类配置</strong>：按合肥高铁实际业务建立"标准规范/红头文件/作业指导书"分类体系</li>
+              <li><span class="ico note">▸</span><strong>铁路专有名词词典</strong>：6C/2C/3C/5C/HMVP等专业缩写的同义词扩展配置</li>
+              <li><span class="ico note">▸</span><strong>切片策略调优</strong>：按铁路规范文档特点（条款编号体系）定制切片逻辑</li>
+              <li><span class="ico warn">▸</span><strong>扫描件质检</strong>：需要对10000份文档抽样，确认OCR质量，异常文档需人工处理</li>
+              <li><span class="ico note">▸</span><strong>FAQ库初始化</strong>：将81条样本题库导入FAQ，作为高频问答优先响应</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="highlight blue">
+          <strong>工期变化：</strong>原自研方案知识库构建需4周（含框架搭建），使用实在产品后<strong>压缩至2周</strong>（仅含配置+知识治理+调优），节省约2周开发时间。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 场景二 ── -->
+  <section id="scene2">
+    <div class="section-title">📝 场景二：工作票智能审核 · 实在智能方案</div>
+
+    <div class="scenario">
+      <div class="scenario-header" style="background:#fffbeb;color:#d97706;border-bottom:1px solid #fde68a;">⚡ 实在产品适配度：中等（70分）— IDP承接解析，规则引擎需定制叠加</div>
+      <div class="scenario-body">
+
+        <div class="highlight teal">
+          <strong>技术路径：</strong>工作票审核分两层——<strong>第一层</strong>由IDP承接（字段解析、格式识别、结构化提取），<strong>第二层</strong>由飞凡科技定制规则引擎（基于提取的结构化数据进行合规校验），两层通过API串联。实在产品原生不提供规则引擎，这是定制开发的核心部分。
+        </div>
+
+        <div class="vs-row">
+          <div class="vs-left">
+            <strong>⚡ 实在产品原生覆盖</strong>
+            · IDP自动识别票种、解析版式<br>
+            · 关键字段抽取（票号/时间/地点/人员）<br>
+            · 支持Word/Excel固定模板解析<br>
+            · 实在RPA批量上传工作票触发审核
+          </div>
+          <div class="vs-arrow">→</div>
+          <div class="vs-right">
+            <strong>🔧 飞凡科技定制叠加</strong>
+            · 规则引擎：5大类审核规则代码化<br>
+            · 安全等级数据库对接<br>
+            · 违规字段精准标注逻辑<br>
+            · 整改建议生成（Prompt工程）<br>
+            · 审核报告模板渲染
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:10px;color:var(--text-secondary);">实在产品承接的部分（省工）</div>
+            <ul class="check-list">
+              <li><span class="ico plus">▸</span>IDP模板适配：3类工作票格式识别，无需从零开发解析器</li>
+              <li><span class="ico plus">▸</span>字段抽取：时间、地点、人员等结构化信息自动提取</li>
+              <li><span class="ico plus">▸</span>Chat-IDP：工作票内容问答（辅助人工审核时快速查询原文）</li>
+              <li><span class="ico plus">▸</span>TARS/DeepSeek："安全措施上下文无冲突"判断，直接调用LLM语义理解</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:10px;color:var(--text-secondary);">必须自研的定制部分（仍需工作）</div>
+            <ul class="check-list">
+              <li><span class="ico warn">▸</span>规则引擎代码：5条审核规则转化为可执行判断逻辑</li>
+              <li><span class="ico warn">▸</span>数据库对接：安全等级人员数据库查询接口</li>
+              <li><span class="ico warn">▸</span>违规报告生成：审核结果结构化展示界面</li>
+              <li><span class="ico minus">▸</span>地点合规校验：区段/支柱号匹配需路网数据库，实在产品无法覆盖</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="highlight red">
+          <strong>⚠️ 不变的核心警示：</strong>即使使用实在产品，"安全措施上下文无冲突"语义判断的误判风险依然存在。合同中<strong>必须明确本系统为辅助审核工具</strong>，最终责任由人工承担，这一条款与技术方案无关，是保护飞凡科技的法律边界。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 与自研方案差异 ── -->
+  <section id="delta">
+    <div class="section-title">⚡ 与纯自研方案核心差异对比</div>
+
+    <table class="mapping-table">
+      <thead>
+        <tr>
+          <th>维度</th>
+          <th>纯自研方案</th>
+          <th>实在智能方案</th>
+          <th>结论</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;">总工期</td>
+          <td>14 周</td>
+          <td><strong style="color:var(--green);">10 周</strong></td>
+          <td style="font-size:12px;color:var(--text-secondary);">节省约4周，主要来自RAG框架和IDP解析层无需自研</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">信创适配风险</td>
+          <td>中（需自行适配华为Atlas）</td>
+          <td><strong style="color:var(--green);">低（实在已有55+认证）</strong></td>
+          <td style="font-size:12px;color:var(--text-secondary);">实在信创RPA已在央企/国企信创环境中稳定运行</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">OCR处理能力</td>
+          <td>需集成PaddleOCR并调优</td>
+          <td><strong style="color:var(--green);">IDP原生支持，秒级</strong></td>
+          <td style="font-size:12px;color:var(--text-secondary);">节省约1周OCR集成工作</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">RAG框架</td>
+          <td>自建（BGE-M3 + 向量库）</td>
+          <td><strong style="color:var(--green);">企业大脑原生，配置即用</strong></td>
+          <td style="font-size:12px;color:var(--text-secondary);">节省约2周框架搭建工作</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">工作票规则引擎</td>
+          <td>全定制开发</td>
+          <td>IDP解析层 + 规则引擎定制</td>
+          <td style="font-size:12px;color:var(--text-secondary);">解析层由实在承接，规则层仍需定制，工期持平</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">产品授权成本</td>
+          <td>无（纯自研）</td>
+          <td><strong style="color:var(--orange);">需支付实在智能产品授权费</strong></td>
+          <td style="font-size:12px;color:var(--text-secondary);">需向实在智能采购，建议争取合作伙伴折扣，该成本转嫁客户</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">可维护性</td>
+          <td>完全自主，灵活但维护成本高</td>
+          <td><strong style="color:var(--green);">产品化，维护成本低</strong></td>
+          <td style="font-size:12px;color:var(--text-secondary);">实在官方提供产品迭代，核心能力持续升级</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;">对外说服力</td>
+          <td>需自证技术能力</td>
+          <td><strong style="color:var(--green);">实在智能4000+客户背书</strong></td>
+          <td style="font-size:12px;color:var(--text-secondary);">对铁路系统甲方，有知名厂商背书可降低采购风险感知</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ── RISKS ── -->
+  <section id="risks">
+    <div class="section-title">⚠️ 风险清单（实在智能方案版）</div>
+
+    <div class="card">
+      <div class="risk-row" style="font-size:11px;font-weight:700;color:var(--text-muted);padding-top:0;letter-spacing:0.05em;">
+        <div>#</div><div>风险描述</div><div>等级</div><div>应对策略</div>
+      </div>
+
+      <div class="risk-row">
+        <div class="risk-num">R1</div>
+        <div>
+          <div class="risk-name">实在智能产品授权费用未知</div>
+          <div class="risk-detail">企业大脑 + IDP + 实在RPA的私有化授权费用尚未公开报价，若采购成本过高（如超15万），会压缩项目利润空间。</div>
+        </div>
+        <div><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;background:var(--red-light);color:var(--red);white-space:nowrap;margin-top:2px;">🔴 高</span></div>
+        <div class="risk-mitigation">
+          <strong>📌 应对措施</strong>
+          立即与实在智能商务对接，争取以合作伙伴/集成商身份获取折扣价；合同中将产品授权费单列，由客户采购，避免飞凡科技垫资风险。
+        </div>
+      </div>
+
+      <div class="risk-row">
+        <div class="risk-num">R2</div>
+        <div>
+          <div class="risk-name">工作票规则成文程度（不变风险）</div>
+          <div class="risk-detail">即使使用实在产品，规则引擎仍需定制开发，而规则文本是否成文仍是最大外部依赖。未成文则规则调研时间不可压缩。</div>
+        </div>
+        <div><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;background:var(--red-light);color:var(--red);white-space:nowrap;margin-top:2px;">🔴 高</span></div>
+        <div class="risk-mitigation">
+          <strong>📌 应对措施</strong>
+          合同中将规则文档交付设为里程碑，未交付则暂停规则引擎开发阶段，对应工期顺延，避免飞凡科技空等。
+        </div>
+      </div>
+
+      <div class="risk-row">
+        <div class="risk-num">R3</div>
+        <div>
+          <div class="risk-name">实在产品私有化部署版本与云版本差异</div>
+          <div class="risk-detail">实在智能部分新功能（如2025年3月最新企业大脑功能）可能仅在云版本稳定，私有化版本存在功能滞后风险，信创环境下更需提前验证。</div>
+        </div>
+        <div><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;background:var(--orange-light);color:var(--orange);white-space:nowrap;margin-top:2px;">🟠 中</span></div>
+        <div class="risk-mitigation">
+          <strong>📌 应对措施</strong>
+          合同签订前要求实在智能提供私有化版本功能清单，并在华为Atlas GPU环境完成POC环境验证（与飞凡的合肥高铁POC合并）。
+        </div>
+      </div>
+
+      <div class="risk-row">
+        <div class="risk-num">R4</div>
+        <div>
+          <div class="risk-name">客户对"第三方产品"的采购合规问题</div>
+          <div class="risk-detail">铁路系统SOE采购对引入第三方商业软件有严格程序，实在智能产品可能需要单独走采购审批，延长立项周期。</div>
+        </div>
+        <div><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;background:var(--orange-light);color:var(--orange);white-space:nowrap;margin-top:2px;">🟠 中</span></div>
+        <div class="risk-mitigation">
+          <strong>📌 应对措施</strong>
+          建议将实在智能产品授权费纳入飞凡总合同报价（而非客户单独采购），减少客户侧采购流程；方案中强调实在智能的信创认证资质，降低合规审查压力。
+        </div>
+      </div>
+
+      <div class="risk-row">
+        <div class="risk-num">R5</div>
+        <div>
+          <div class="risk-name">问答准确率验收（不变风险）</div>
+          <div class="risk-detail">使用实在产品的RAG引擎同样无法保证答案逐字匹配，验收标准争议风险不因选型改变而消除。</div>
+        </div>
+        <div><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;background:var(--blue-accent);color:var(--blue-dark);white-space:nowrap;margin-top:2px;">🔵 低</span></div>
+        <div class="risk-mitigation">
+          <strong>📌 应对措施</strong>
+          验收标准采用"语义覆盖率≥80% + 81条样本人工盲测"方式，提前在合同中锁定，与技术方案解耦。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WORKLOAD ── -->
+  <section id="workload">
+    <div class="section-title">⏱ 工作量估算（实在智能方案，建议工期：10周）</div>
+
+    <div class="highlight green">
+      <strong>工期压缩原理：</strong>相比纯自研14周，实在方案节省约4周：RAG框架搭建（−2周）+ OCR/IDP集成（−1周）+ 文件夹监听自动化开发（−0.5周）+ 向量数据库配置（−0.5周）。工作票规则引擎定制工期基本不变。
+    </div>
+
+    <table class="wl-table">
+      <thead>
+        <tr>
+          <th>阶段</th>
+          <th>核心任务</th>
+          <th>实在产品角色</th>
+          <th>工期</th>
+          <th>人天</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="wl-phase">① 需求调研 & 产品对接</td>
+          <td>
+            文档库抽样、规则收集<br>
+            与实在智能商务对接（授权/部署）<br>
+            验收标准对齐、服务器确认
+          </td>
+          <td><span class="tag tag-gray">实在商务协助</span></td>
+          <td class="wl-days">1.5 周</td>
+          <td>8 人天</td>
+        </tr>
+        <tr>
+          <td class="wl-phase">② 实在产品部署 & 信创验证</td>
+          <td>
+            私有化部署实在Agent平台<br>
+            企业大脑 + IDP + RPA初始化<br>
+            华为Atlas GPU适配验证<br>
+            基础知识库配置
+          </td>
+          <td><span class="tag tag-blue">实在提供部署支持</span></td>
+          <td class="wl-days">2 周</td>
+          <td>10 人天</td>
+        </tr>
+        <tr class="note-row">
+          <td colspan="5">↑ 相比自研方案，此阶段无需自建RAG框架/向量库，节省约1.5周工期</td>
+        </tr>
+        <tr>
+          <td class="wl-phase">③ 知识库配置 & 知识治理</td>
+          <td>
+            10000份文档批量入库（RPA自动化触发）<br>
+            铁路专有名词词典配置<br>
+            切片策略调优（按条款编号）<br>
+            FAQ库初始化（81条样本导入）<br>
+            检索效果调优
+          </td>
+          <td>
+            <span class="tag tag-green">实在RPA：文件夹监听</span>
+            <span class="tag tag-blue">企业大脑：自动入库</span>
+            <span class="tag tag-teal">IDP：文档解析</span>
+          </td>
+          <td class="wl-days">2 周</td>
+          <td>14 人天</td>
+        </tr>
+        <tr class="note-row">
+          <td colspan="5">↑ 相比自研方案节省约2周（无需自建Pipeline和向量化逻辑）</td>
+        </tr>
+        <tr>
+          <td class="wl-phase">④ 工作票审核定制开发</td>
+          <td>
+            IDP配置：3类工作票模板适配<br>
+            规则引擎定制：5类审核规则代码化<br>
+            安全等级数据库对接<br>
+            违规标注 + 整改建议Prompt工程<br>
+            审核报告生成模板
+          </td>
+          <td>
+            <span class="tag tag-teal">IDP：字段解析层</span>
+            <span class="tag tag-purple">飞凡：规则引擎层</span>
+          </td>
+          <td class="wl-days">3.5 周</td>
+          <td>28 人天</td>
+        </tr>
+        <tr>
+          <td class="wl-phase">⑤ 前端集成 & 测试优化</td>
+          <td>
+            统一操作界面开发（问答 + 审核 + 管理）<br>
+            81条题库验收测试<br>
+            工作票审核案例测试<br>
+            性能优化、用户培训
+          </td>
+          <td><span class="tag tag-gray">全定制</span></td>
+          <td class="wl-days">1 周</td>
+          <td>8 人天</td>
+        </tr>
+        <tr class="wl-total">
+          <td colspan="3"><strong>合计</strong></td>
+          <td><strong>10 周</strong></td>
+          <td><strong>68 人天</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:16px;">
+      <div class="section-title" style="font-size:14px;">📅 实施时间线（10周）</div>
+      <div class="card">
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot blue"></div>
+            <div class="tl-phase">第 1–1.5 周：需求调研 + 实在商务对接</div>
+            <div class="tl-weeks">里程碑：产品授权确认、规则文档交付、服务器型号确认</div>
+            <div class="tl-desc">同步推进客户需求访谈和实在智能商务洽谈，争取合作伙伴价格；确认私有化版本功能清单，规避版本差异风险。</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot blue"></div>
+            <div class="tl-phase">第 2–3.5 周：实在产品私有化部署 & 信创验证</div>
+            <div class="tl-weeks">里程碑：企业大脑/IDP/RPA可用，华为Atlas适配验证通过</div>
+            <div class="tl-desc">实在智能提供部署支持，飞凡负责华为Atlas GPU层面的适配验证和铁路专用配置；完成单文档问答冒烟测试。</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot blue"></div>
+            <div class="tl-phase">第 3.5–5.5 周：知识库配置 & 10000份文档入库</div>
+            <div class="tl-weeks">里程碑：知识库就绪，RAG问答命中率≥75%</div>
+            <div class="tl-desc">RPA自动化批量处理文档，IDP负责扫描件OCR，企业大脑自动入库。飞凡负责铁路专业知识分类标注和检索调优。</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot orange"></div>
+            <div class="tl-phase">第 5.5–9 周：工作票审核定制开发</div>
+            <div class="tl-weeks">里程碑：3类工作票审核功能完整，完成内部联调</div>
+            <div class="tl-desc">基于IDP解析层输出的结构化数据，定制开发规则引擎、违规标注、整改建议生成；同步开发统一操作界面。</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot green"></div>
+            <div class="tl-phase">第 9–10 周：测试验收 + 上线培训</div>
+            <div class="tl-weeks">里程碑：验收测试通过，系统正式上线</div>
+            <div class="tl-desc">以81条题库为基准验收测试；工作票审核用历史样本测试；完成操作培训，移交运维文档，签署验收确认书。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PRICING ── -->
+  <section id="pricing">
+    <div class="section-title">💰 报价建议（实在智能方案）</div>
+
+    <div class="grid-2">
+      <div class="price-card">
+        <div class="price-card-header">📋 成本构成参考（内部）</div>
+        <div class="price-card-body">
+          <div class="price-row"><span class="item">实在智能产品授权（企业大脑+IDP+信创RPA）</span><span class="val">待询价*</span></div>
+          <div class="price-row"><span class="item">AI工程师（68人天 × 均摊约25%）</span><span class="val">约 17 人天</span></div>
+          <div class="price-row"><span class="item">后端工程师（规则引擎+集成）</span><span class="val">约 35 人天</span></div>
+          <div class="price-row"><span class="item">前端工程师</span><span class="val">约 10 人天</span></div>
+          <div class="price-row"><span class="item">项目管理 / 知识治理协调</span><span class="val">约 6 人天</span></div>
+          <div class="price-row"><span class="item">GPU服务器（客户自备）</span><span class="val">不含</span></div>
+          <div style="margin-top:8px;font-size:11px;color:var(--text-muted);">*产品授权费建议转嫁客户，不进入成本核算</div>
+        </div>
+      </div>
+      <div class="price-card highlight-card">
+        <div class="price-card-header">💡 对外报价建议（客户可见）</div>
+        <div class="price-card-body">
+          <div class="price-row"><span class="item">知识问答 Agent 系统（含实在产品授权）</span><span class="val">约 30万</span></div>
+          <div class="price-row"><span class="item">工作票审核 Agent 系统（定制开发）</span><span class="val">约 22万</span></div>
+          <div class="price-row"><span class="item">10000份文档自动化入库 Pipeline</span><span class="val">约 8万</span></div>
+          <div class="price-row"><span class="item">系统集成 + 权限管控 + 前端界面</span><span class="val">约 5万</span></div>
+          <div class="price-row"><span class="item">实在智能产品授权（一年）</span><span class="val">约 8万（单列）</span></div>
+          <div class="price-row"><span class="item">一年运维保障（可选）</span><span class="val">+ 5万/年</span></div>
+          <div class="price-total">
+            <span>开口报价（含产品授权，不含运维）</span>
+            <span class="val">70–90万</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight orange">
+      <strong>⚠️ 报价策略关键点：</strong>
+      1）产品授权费单列展示，体现采购了知名厂商产品，提升客户信任感；
+      2）对外强调"实在智能4000+企业客户 + 55+信创认证"背书，降低采购风险感知；
+      3）相比纯自研方案，报价略高（多出产品授权费），但可用"厂商级稳定性 + 持续迭代升级"作为溢价理由；
+      4）付款建议：合同签订30%（覆盖产品采购）+ 知识库上线40% + 验收30%。
+    </div>
+
+    <div class="highlight green">
+      <strong>✅ 实在智能方案的竞争优势叙事：</strong>
+      "本方案基于实在智能企业级通用智能体平台（国内首款通用Agent，C轮融资近2亿，4000+企业客户，铁路/央企信创环境稳定运行）进行行业定制，结合飞凡科技在铁路运维领域的需求调研与规则工程能力，为合肥高铁量身打造专属AI运维助手。相比纯定制开发，产品化平台确保核心能力持续升级，客户无需反复投入维护成本。"
+    </div>
+  </section>
+
+  <div style="border-top:1px solid var(--border);padding-top:20px;margin-top:40px;color:var(--text-muted);font-size:12px;line-height:1.7;">
+    <strong style="color:var(--text-secondary);">飞凡科技 · 技术顾问评估（V2.0 实在智能版）</strong> &nbsp;|&nbsp; 本报告在前版基础上更新，引入实在智能产品体系后的重新评估。<br>
+    产品授权费用以实在智能官方报价为准，本报告不含授权谈判结果。&nbsp;|&nbsp; 报告日期：2026年6月 &nbsp;|&nbsp; 评估人：Peter Xie（CTO）
+  </div>
+
+</main>
+</div>
+
+<script>
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('.sidenav a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.sidenav a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-56px 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

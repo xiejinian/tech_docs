@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>商品域物理部署架构与应用划分规范</title>
+<style>
+:root {
+  --ink:#0d1117; --ink2:#334155; --ink3:#64748b; --ink4:#94a3b8;
+  --surface:#fff; --s2:#f8fafc; --s3:#f1f5f9;
+  --border:#e2e6ed; --border2:#eef1f5;
+  --blue:#2563eb; --blue-l:#eff6ff; --blue-b:#bfdbfe;
+  --teal:#0d9488; --teal-l:#f0fdfa; --teal-b:#99f6e4;
+  --orange:#ea580c; --orange-l:#fff7ed; --orange-b:#fed7aa;
+  --red:#dc2626; --red-l:#fef2f2; --red-b:#fecaca;
+  --green:#16a34a; --green-l:#f0fdf4; --green-b:#bbf7d0;
+  --purple:#7c3aed; --purple-l:#faf5ff; --purple-b:#ddd6fe;
+  --amber:#d97706; --amber-l:#fffbeb; --amber-b:#fde68a;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;background:#f0f2f5;color:var(--ink);font-size:14px;line-height:1.7;}
+
+.nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);height:50px;display:flex;align-items:center;padding:0 36px;gap:5px;overflow-x:auto;}
+.nav-brand{font-size:13px;font-weight:800;margin-right:8px;white-space:nowrap;}
+.nav-ai{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;margin-right:8px;white-space:nowrap;}
+.nav a{font-size:11.5px;color:var(--ink3);text-decoration:none;padding:3px 7px;border-radius:5px;white-space:nowrap;}
+.nav a:hover{background:var(--blue-l);color:var(--blue);}
+
+.page{max-width:1180px;margin:0 auto;padding:30px 36px 70px;}
+.content>*+*{margin-top:24px;}
+
+.hero{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.hero-top{background:linear-gradient(135deg,#0f172a,#1e3a5f 55%,#162d4a);padding:32px 36px 26px;position:relative;overflow:hidden;}
+.hero-top::before{content:'';position:absolute;top:-70px;right:-70px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(79,142,247,.18),transparent 70%);}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;background:rgba(79,142,247,.15);border:1px solid rgba(79,142,247,.3);color:#93c5fd;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;margin-bottom:12px;position:relative;z-index:1;}
+.hero-eyebrow::before{content:'●';font-size:8px;color:#60a5fa;}
+.hero-title{font-size:25px;font-weight:800;color:#f1f5f9;line-height:1.3;position:relative;z-index:1;}
+.hero-title em{color:#60a5fa;font-style:normal;}
+.hero-sub{font-size:12.5px;color:#94a3b8;margin-top:6px;position:relative;z-index:1;}
+.hero-meta{padding:13px 36px;display:flex;gap:26px;flex-wrap:wrap;border-bottom:1px solid var(--border2);}
+.mi{display:flex;flex-direction:column;gap:1px;}
+.mi-l{font-size:10px;color:var(--ink4);}
+.mi-v{font-size:12.5px;font-weight:700;}
+
+.chapter{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:9px;border-bottom:2px solid var(--border);}
+.chapter-num{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:800;flex-shrink:0;}
+.chapter-title{font-size:16px;font-weight:800;}
+
+.sec{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.sec-head{padding:12px 18px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:9px;}
+.sec-icon{width:25px;height:25px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12.5px;flex-shrink:0;}
+.sec-title{font-size:13.5px;font-weight:700;}
+.sec-body{padding:16px 18px;}
+.sec-body>*+*{margin-top:13px;}
+
+p.prose{font-size:13px;color:var(--ink2);line-height:1.75;}
+h4.sub{font-size:13px;font-weight:700;margin-bottom:6px;}
+
+.callout{display:flex;gap:9px;padding:10px 13px;border-radius:8px;font-size:12.5px;}
+.ci{font-size:15px;flex-shrink:0;margin-top:1px;}
+.callout p{color:var(--ink2);line-height:1.6;}
+.callout strong{color:var(--ink);}
+.callout.info{background:var(--blue-l);border:1px solid var(--blue-b);}
+.callout.warn{background:var(--amber-l);border:1px solid var(--amber-b);}
+.callout.red{background:var(--red-l);border:1px solid var(--red-b);}
+.callout.tip{background:var(--green-l);border:1px solid var(--green-b);}
+
+.t{width:100%;border-collapse:collapse;}
+.t th{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);text-align:left;padding:7px 10px;background:var(--s2);border-bottom:1px solid var(--border);}
+.t td{padding:9px 10px;border-bottom:1px solid var(--border2);font-size:12.5px;vertical-align:top;}
+.t tr:last-child td{border-bottom:none;}
+.t tr:hover td{background:var(--blue-l);}
+code{font-family:'SF Mono','Fira Code',monospace;font-size:11px;background:var(--s3);border:1px solid var(--border);padding:1px 5px;border-radius:4px;color:var(--blue);}
+
+/* ── 争议卡片 ── */
+.dispute{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:10px;}
+.dispute-q{background:var(--red-l);border-bottom:1px solid var(--red-b);padding:11px 16px;display:flex;align-items:flex-start;gap:8px;}
+.dispute-q-tag{font-size:10px;font-weight:700;color:#fff;background:var(--red);padding:2px 8px;border-radius:6px;flex-shrink:0;margin-top:1px;white-space:nowrap;}
+.dispute-q-text{font-size:13px;font-weight:700;color:#7f1d1d;}
+.dispute-body{padding:13px 16px;}
+.dispute-verdict{display:flex;gap:8px;padding:9px 12px;background:var(--green-l);border:1px solid var(--green-b);border-radius:7px;margin-bottom:10px;}
+.dispute-verdict-tag{font-size:10px;font-weight:700;color:#fff;background:var(--green);padding:2px 8px;border-radius:6px;flex-shrink:0;height:fit-content;white-space:nowrap;}
+.dispute-verdict p{font-size:12.5px;color:#14532d;font-weight:600;line-height:1.6;}
+.dispute-reason{font-size:12.5px;color:var(--ink2);line-height:1.7;}
+.dispute-reason strong{color:var(--ink);}
+
+/* ── 应用清单 ── */
+.app-table-wrap{overflow-x:auto;}
+
+/* ── Port/Deploy grid ── */
+.deploy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;}
+.deploy-card{background:var(--s2);border:1px solid var(--border);border-radius:9px;padding:11px 13px;}
+.deploy-card h5{font-size:12px;font-weight:700;margin-bottom:5px;}
+.deploy-card ul{padding-left:14px;}
+.deploy-card li{font-size:11.5px;color:var(--ink2);line-height:1.6;}
+
+/* ── ownership matrix ── */
+.own-grid{display:grid;grid-template-columns:140px 1fr;gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.own-row{display:contents;}
+.own-label{background:var(--s2);padding:9px 12px;font-size:12px;font-weight:700;border-bottom:1px solid var(--border2);border-right:1px solid var(--border2);display:flex;align-items:center;}
+.own-value{padding:9px 12px;font-size:12px;border-bottom:1px solid var(--border2);color:var(--ink2);display:flex;align-items:center;}
+.own-row:last-child .own-label,.own-row:last-child .own-value{border-bottom:none;}
+
+/* pills */
+.pills{display:flex;flex-wrap:wrap;gap:6px;}
+.pill{font-size:10.5px;padding:3px 9px;border-radius:11px;border:1px solid var(--border);color:var(--ink3);background:var(--s2);}
+.pill.blue{background:var(--blue-l);border-color:var(--blue-b);color:var(--blue);}
+.pill.orange{background:var(--orange-l);border-color:var(--orange-b);color:var(--orange);}
+.pill.green{background:var(--green-l);border-color:var(--green-b);color:var(--green);}
+.pill.red{background:var(--red-l);border-color:var(--red-b);color:var(--red);}
+.pill.purple{background:var(--purple-l);border-color:var(--purple-b);color:var(--purple);}
+
+/* arch diagram */
+.arch-wrap{background:#f8fafc;border-radius:10px;padding:18px;overflow-x:auto;}
+
+@media(max-width:860px){
+  .deploy-grid,.own-grid{display:block;}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav-brand">商品域部署规范</span>
+  <span class="nav-ai">AI ARCH</span>
+  <a href="#ch1">划分原则</a>
+  <a href="#ch2">应用清单</a>
+  <a href="#ch3">争议裁决</a>
+  <a href="#ch4">归属矩阵</a>
+  <a href="#ch5">物理部署</a>
+  <a href="#ch6">通信规范</a>
+</nav>
+
+<div class="page">
+<main class="content">
+
+  <div class="hero">
+    <div class="hero-top">
+      <div class="hero-eyebrow">架构治理文档 · 应用边界裁决</div>
+      <h1 class="hero-title">商品域<em>物理部署架构</em>与应用划分规范</h1>
+      <p class="hero-sub">明确每个应用的边界、归属与争议裁决标准，作为团队协作时的唯一依据</p>
+    </div>
+    <div class="hero-meta">
+      <div class="mi"><span class="mi-l">划分单位</span><span class="mi-v">5 个独立应用</span></div>
+      <div class="mi"><span class="mi-l">归属原则</span><span class="mi-v">数据所有权 + 变更频率</span></div>
+      <div class="mi"><span class="mi-l">通信方式</span><span class="mi-v">Dubbo直连 + MQ异步</span></div>
+      <div class="mi"><span class="mi-l">争议条款</span><span class="mi-v">6 条已裁决</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════════ CH1 划分原则 ══════════════ -->
+  <div id="ch1">
+    <div class="chapter">
+      <div class="chapter-num" style="background:var(--blue-l);color:var(--blue);">01</div>
+      <span class="chapter-title">应用划分原则</span>
+    </div>
+    <div class="sec">
+      <div class="sec-head"><div class="sec-icon" style="background:var(--blue-l);color:var(--blue);">📐</div><span class="sec-title">四条裁决原则（按优先级排序，冲突时高优先级原则胜出）</span></div>
+      <div class="sec-body">
+        <table class="t">
+          <thead><tr><th width="40">序</th><th>原则</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1</strong></td><td>数据所有权唯一</td><td>一张表只能有一个应用拥有写权限，其他应用只能通过该应用的接口访问，禁止跨应用直连数据库</td></tr>
+            <tr><td><strong>2</strong></td><td>变更频率隔离</td><td>变更频繁的能力（如审核规则、营销联动逻辑）不应该和稳定的核心模型（如 SPU 主数据）耦合在同一个发布单元</td></tr>
+            <tr><td><strong>3</strong></td><td>故障域隔离</td><td>高风险操作（批量导入、审核工作流）必须与核心读链路（商品详情、搜索）物理隔离，避免拖垮主链路</td></tr>
+            <tr><td><strong>4</strong></td><td>团队边界对齐</td><td>应用边界尽量对齐负责团队边界，跨团队共同维护一个应用是协作成本的主要来源，能拆则拆</td></tr>
+          </tbody>
+        </table>
+        <div class="callout warn" style="margin-top:10px;">
+          <span class="ci">⚠️</span>
+          <p><strong>这份文档存在的目的：</strong>把"这个功能该放哪"的争论提前解决掉。后续任何新功能要落地时，先看第三章是否已有裁决条款，没有的话提交新争议点，按四条原则裁决后写入本文档，禁止口头约定。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ CH2 应用清单 ══════════════ -->
+  <div id="ch2">
+    <div class="chapter">
+      <div class="chapter-num" style="background:var(--teal-l);color:var(--teal);">02</div>
+      <span class="chapter-title">应用清单（物理部署单元）</span>
+    </div>
+    <div class="sec">
+      <div class="sec-head"><div class="sec-icon" style="background:var(--teal-l);color:var(--teal);">📦</div><span class="sec-title">商品域共 5 个独立部署应用</span></div>
+      <div class="sec-body app-table-wrap">
+        <table class="t">
+          <thead><tr><th>应用</th><th>角色</th><th>拥有的数据</th><th>对外暴露方式</th><th>负责团队</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>product-core-service</code></td>
+              <td>核心域服务（聚合根）</td>
+              <td>product / product_sku / category / brand</td>
+              <td>Dubbo RPC（仅内网）</td>
+              <td>商品中台组</td>
+            </tr>
+            <tr>
+              <td><code>product-facade</code></td>
+              <td>BFF 门面</td>
+              <td>无（不持有数据）</td>
+              <td>HTTP REST（经Gateway）</td>
+              <td>商品中台组</td>
+            </tr>
+            <tr>
+              <td><code>product-audit-service</code></td>
+              <td>审核工作流</td>
+              <td>audit_task / audit_record</td>
+              <td>Dubbo RPC + 控制台前端</td>
+              <td>风控合规组</td>
+            </tr>
+            <tr>
+              <td><code>product-search-indexer</code></td>
+              <td>搜索索引同步</td>
+              <td>无（ES索引非关系数据）</td>
+              <td>纯消费者，无对外接口</td>
+              <td>搜索中台组</td>
+            </tr>
+            <tr>
+              <td><code>product-admin-web</code></td>
+              <td>运营管理后台</td>
+              <td>无（不持有数据）</td>
+              <td>前端页面 + BFF</td>
+              <td>商品中台组</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="callout info" style="margin-top:10px;">
+          <span class="ci">ℹ️</span>
+          <p><strong>为什么审核要单独拆出 <code>product-audit-service</code></strong>：审核工作流变更频率高（规则经常调整），且涉及人工介入和长流程，与商品详情这种高频稳定读链路完全不是一个迭代节奏，拆开后互不影响发布。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ CH3 争议裁决 ══════════════ -->
+  <div id="ch3">
+    <div class="chapter">
+      <div class="chapter-num" style="background:var(--red-l);color:var(--red);">03</div>
+      <span class="chapter-title">争议点裁决（团队最容易吵起来的 6 个问题）</span>
+    </div>
+
+    <div class="dispute">
+      <div class="dispute-q"><span class="dispute-q-tag">争议01</span><span class="dispute-q-text">商品价格变更，算商品域的事还是营销域的事？</span></div>
+      <div class="dispute-body">
+        <div class="dispute-verdict"><span class="dispute-verdict-tag">裁决</span><p>基础价（原价/标准售价）归商品域；活动价/折扣价归营销域，二者是叠加关系不是覆盖关系</p></div>
+        <p class="dispute-reason"><strong>理由：</strong>按原则1（数据所有权），<code>product.sale_price</code> 字段的写权限只能属于商品域。营销活动价不应该回写这张表，而应该由营销域自己存储"商品ID+活动ID+活动价"的映射，前端展示时两者叠加计算。如果让营销域写商品表，价格字段会出现两个写入方，数据所有权立刻混乱。</p>
+      </div>
+    </div>
+
+    <div class="dispute">
+      <div class="dispute-q"><span class="dispute-q-tag">争议02</span><span class="dispute-q-text">商品库存字段该不该放在商品域的表里？</span></div>
+      <div class="dispute-body">
+        <div class="dispute-verdict"><span class="dispute-verdict-tag">裁决</span><p>商品域表中的 stock 字段仅作展示冗余，权威数据在库存域，商品域不可直接修改</p></div>
+        <p class="dispute-reason"><strong>理由：</strong>库存是高频写、强一致性要求的数据，和商品信息（低频写）的访问模式完全不同（参照本文档配套的"商品域业务架构"中库存域独立拆分的理由）。商品表里允许保留 <code>stock</code> 冗余字段用于列表页展示，但这个字段由库存域通过 MQ 事件异步回写，商品域自己的写接口禁止修改它。</p>
+      </div>
+    </div>
+
+    <div class="dispute">
+      <div class="dispute-q"><span class="dispute-q-tag">争议03</span><span class="dispute-q-text">商品搜索索引同步逻辑，应该写在商品域里还是搜索中台自己处理？</span></div>
+      <div class="dispute-body">
+        <div class="dispute-verdict"><span class="dispute-verdict-tag">裁决</span><p>商品域只负责发布"商品变更事件"，索引同步逻辑归 <code>product-search-indexer</code>，由搜索中台组维护</p></div>
+        <p class="dispute-reason"><strong>理由：</strong>按原则4（团队边界对齐），ES Mapping 设计、分词策略、搜索排序规则是搜索中台的专业领域，商品域团队不应该被迫理解这些细节。商品域的职责边界止于"我的数据变了，我广播一个事件"，事件之后怎么处理是订阅方的事，这也是事件驱动架构的标准做法。</p>
+      </div>
+    </div>
+
+    <div class="dispute">
+      <div class="dispute-q"><span class="dispute-q-tag">争议04</span><span class="dispute-q-text">商品图片/视频的上传与存储，算商品域还是单独的媒体中心？</span></div>
+      <div class="dispute-body">
+        <div class="dispute-verdict"><span class="dispute-verdict-tag">裁决</span><p>媒体文件存储归共享中台能力（媒体中心），商品域只存储媒体文件的 URL 引用</p></div>
+        <p class="dispute-reason"><strong>理由：</strong>图片/视频上传、压缩、CDN分发是典型的可复用能力，交易域的售后凭证、营销域的活动海报都需要类似能力。如果让商品域自己实现一套上传逻辑，未来其他域必然重复造轮子。商品域表中只存 <code>main_image_url</code> 这样的 URL 字段，上传接口调用媒体中心提供的能力。</p>
+      </div>
+    </div>
+
+    <div class="dispute">
+      <div class="dispute-q"><span class="dispute-q-tag">争议05</span><span class="dispute-q-text">商品批量导入功能，能不能直接复用 product-core-service 的创建接口？</span></div>
+      <div class="dispute-body">
+        <div class="dispute-verdict"><span class="dispute-verdict-tag">裁决</span><p>不能复用，批量导入必须走独立的异步任务通道，不能直接同步调用创建接口</p></div>
+        <p class="dispute-reason"><strong>理由：</strong>按原则3（故障域隔离），批量导入动辄上万条数据，如果直接同步循环调用 <code>createProduct</code> 接口，会瞬间占满 Dubbo 线程池，拖垮商品详情这种核心读链路的可用性。批量导入应该走"上传文件 → 落 MQ → 异步逐条处理 → 失败重试"的标准异步任务模式，与核心服务的实时调用通道完全隔离。</p>
+      </div>
+    </div>
+
+    <div class="dispute">
+      <div class="dispute-q"><span class="dispute-q-tag">争议06</span><span class="dispute-q-text">运营后台（product-admin-web）要不要直接连数据库查数据，做报表更快？</span></div>
+      <div class="dispute-body">
+        <div class="dispute-verdict"><span class="dispute-verdict-tag">裁决</span><p>禁止。运营后台必须通过 BFF 调用领域服务接口，复杂报表场景走独立的数据中台/BI系统，不直连业务数据库</p></div>
+        <p class="dispute-reason"><strong>理由：</strong>这是最容易被"图省事"突破的一条红线。直连数据库意味着运营后台和核心服务共享了数据库连接池，一旦报表查询写出慢SQL或者全表扫描，会直接拖慢商品详情页的响应，且数据库表结构变更时还要额外通知运营后台team，等于变相打破了原则1的数据所有权边界。复杂分析报表应该走数仓/BI链路（如离线同步到数据仓库后查询），不应该影响在线业务库。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ CH4 归属矩阵 ══════════════ -->
+  <div id="ch4">
+    <div class="chapter">
+      <div class="chapter-num" style="background:var(--purple-l);color:var(--purple);">04</div>
+      <span class="chapter-title">能力归属矩阵（速查表）</span>
+    </div>
+    <div class="sec">
+      <div class="sec-head"><div class="sec-icon" style="background:var(--purple-l);color:var(--purple);">🗂</div><span class="sec-title">遇到新功能时，先查此表判断归属</span></div>
+      <div class="sec-body">
+        <table class="t">
+          <thead><tr><th>能力/数据</th><th>归属应用</th><th>其他应用访问方式</th></tr></thead>
+          <tbody>
+            <tr><td>SPU/SKU 基础信息</td><td><code>product-core-service</code></td><td>Dubbo RPC 查询，禁止直连DB</td></tr>
+            <tr><td>类目树 / 品牌</td><td><code>product-core-service</code></td><td>Dubbo RPC 查询</td></tr>
+            <tr><td>基础价格</td><td><code>product-core-service</code></td><td>Dubbo RPC 查询</td></tr>
+            <tr><td>活动价格/折扣</td><td>营销域</td><td>商品域不持有，前端聚合展示</td></tr>
+            <tr><td>实时库存</td><td>库存域</td><td>商品域只存冗余展示字段</td></tr>
+            <tr><td>审核流程与记录</td><td><code>product-audit-service</code></td><td>Dubbo RPC 查询审核状态</td></tr>
+            <tr><td>搜索索引与排序</td><td><code>product-search-indexer</code></td><td>订阅商品变更事件，外部不直接调用</td></tr>
+            <tr><td>图片/视频文件</td><td>共享媒体中心（非商品域）</td><td>商品域存URL引用</td></tr>
+            <tr><td>批量导入任务</td><td><code>product-core-service</code>（异步任务模块）</td><td>独立队列通道，与同步接口隔离</td></tr>
+            <tr><td>运营报表/数据分析</td><td>数据中台/BI（非商品域）</td><td>离线同步，不查询在线库</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ CH5 物理部署 ══════════════ -->
+  <div id="ch5">
+    <div class="chapter">
+      <div class="chapter-num" style="background:var(--orange-l);color:var(--orange);">05</div>
+      <span class="chapter-title">物理部署架构</span>
+    </div>
+    <div class="sec">
+      <div class="sec-head"><div class="sec-icon" style="background:var(--orange-l);color:var(--orange);">🏗</div><span class="sec-title">部署拓扑图</span></div>
+      <div class="sec-body">
+        <div class="arch-wrap">
+          <svg width="100%" viewBox="0 0 860 480" xmlns="http://www.w3.org/2000/svg" style="min-width:700px;font-family:-apple-system,'PingFang SC',sans-serif;">
+            <defs>
+              <marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1.5L8.5 5L1 8.5" fill="none" stroke="#64748b" stroke-width="1.5" stroke-linecap="round"/></marker>
+              <marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1.5L8.5 5L1 8.5" fill="none" stroke="#ea580c" stroke-width="1.5" stroke-linecap="round"/></marker>
+              <marker id="a3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1.5L8.5 5L1 8.5" fill="none" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round"/></marker>
+            </defs>
+
+            <!-- 用户/运营入口 -->
+            <rect x="20" y="14" width="120" height="36" rx="7" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/><text x="80" y="36" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">C端用户</text>
+            <rect x="730" y="14" width="120" height="36" rx="7" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/><text x="790" y="36" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">运营人员</text>
+
+            <line x1="80" y1="50" x2="80" y2="68" stroke="#64748b" stroke-width="1.2" marker-end="url(#a1)"/>
+            <line x1="790" y1="50" x2="790" y2="68" stroke="#64748b" stroke-width="1.2" marker-end="url(#a1)"/>
+
+            <!-- Gateway -->
+            <rect x="30" y="68" width="100" height="34" rx="7" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/><text x="80" y="89" text-anchor="middle" font-size="10" font-weight="700" fill="#1d4ed8">Gateway</text>
+            <rect x="740" y="68" width="100" height="34" rx="7" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/><text x="790" y="89" text-anchor="middle" font-size="10" font-weight="700" fill="#1d4ed8">Gateway</text>
+
+            <line x1="80" y1="102" x2="80" y2="118" stroke="#64748b" stroke-width="1.2" marker-end="url(#a1)"/>
+            <line x1="790" y1="102" x2="790" y2="118" stroke="#64748b" stroke-width="1.2" marker-end="url(#a1)"/>
+
+            <!-- BFF层 -->
+            <rect x="20" y="118" width="120" height="40" rx="7" fill="#f8fbff" stroke="#bfdbfe" stroke-width="1"/>
+            <text x="80" y="136" text-anchor="middle" font-size="10" font-weight="700" fill="#1e40af">product-facade</text>
+            <text x="80" y="149" text-anchor="middle" font-size="9" fill="#3b82f6">BFF · 无状态</text>
+
+            <rect x="730" y="118" width="120" height="40" rx="7" fill="#fdf6f3" stroke="#f5c4b3" stroke-width="1"/>
+            <text x="790" y="136" text-anchor="middle" font-size="10" font-weight="700" fill="#712b13">product-admin-web</text>
+            <text x="790" y="149" text-anchor="middle" font-size="9" fill="#993c1d">运营后台 BFF</text>
+
+            <line x1="80" y1="158" x2="80" y2="178" stroke="#64748b" stroke-width="1.2" marker-end="url(#a1)"/>
+            <line x1="790" y1="158" x2="790" y2="178" stroke="#64748b" stroke-width="1.2" marker-end="url(#a1)"/>
+
+            <!-- 核心域服务 -->
+            <rect x="280" y="178" width="300" height="68" rx="10" fill="#fdf9f7" stroke="#D85A30" stroke-width="2"/>
+            <text x="430" y="198" text-anchor="middle" font-size="12" font-weight="800" fill="#993c1d">product-core-service</text>
+            <text x="430" y="213" text-anchor="middle" font-size="10" fill="#c2602f">Dubbo Provider · 商品聚合根</text>
+            <text x="430" y="228" text-anchor="middle" font-size="9" fill="#993c1d">独立部署 · 多副本 · 仅内网 Dubbo 端口</text>
+
+            <line x1="80" y1="178" x2="280" y2="200" stroke="#64748b" stroke-width="1.2" marker-end="url(#a1)"/>
+            <line x1="790" y1="178" x2="580" y2="200" stroke="#64748b" stroke-width="1.2" marker-end="url(#a1)"/>
+
+            <!-- 审核服务（独立） -->
+            <rect x="20" y="270" width="170" height="60" rx="9" fill="#fff7ed" stroke="#fac775" stroke-width="1.5"/>
+            <text x="105" y="288" text-anchor="middle" font-size="10.5" font-weight="700" fill="#854f0b">product-audit-service</text>
+            <text x="105" y="302" text-anchor="middle" font-size="9" fill="#854f0b">独立发布单元</text>
+            <text x="105" y="315" text-anchor="middle" font-size="9" fill="#854f0b">变更频率高 · 与核心隔离</text>
+
+            <path d="M280 220 L190 290" fill="none" stroke="#ea580c" stroke-width="1.2" stroke-dasharray="4,2" marker-end="url(#a2)"/>
+            <text x="225" y="265" text-anchor="middle" font-size="9" fill="#ea580c">Dubbo调用</text>
+
+            <!-- 索引同步（独立） -->
+            <rect x="670" y="270" width="170" height="60" rx="9" fill="#f4fdf9" stroke="#5dcaa5" stroke-width="1.5"/>
+            <text x="755" y="288" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0f6e56">product-search-indexer</text>
+            <text x="755" y="302" text-anchor="middle" font-size="9" fill="#0f6e56">纯消费者，无对外接口</text>
+            <text x="755" y="315" text-anchor="middle" font-size="9" fill="#0f6e56">独立发布单元</text>
+
+            <path d="M580 220 L700 290" fill="none" stroke="#16a34a" stroke-width="1.2" stroke-dasharray="4,2" marker-end="url(#a3)"/>
+            <text x="660" y="265" text-anchor="middle" font-size="9" fill="#16a34a">MQ事件订阅</text>
+
+            <!-- 数据层 -->
+            <rect x="280" y="270" width="300" height="60" rx="9" fill="#f8fafc" stroke="#e2e6ed" stroke-width="1" stroke-dasharray="5,3"/>
+            <text x="430" y="288" text-anchor="middle" font-size="10" font-weight="700" fill="#475569">数据层（仅 product-core-service 可写）</text>
+            <text x="430" y="304" text-anchor="middle" font-size="9" fill="#64748b">MySQL（商品/SKU/类目/品牌） + Redis（热点缓存）</text>
+            <text x="430" y="318" text-anchor="middle" font-size="9" fill="#94a3b8">其余应用严禁直连此数据库</text>
+
+            <line x1="430" y1="246" x2="430" y2="270" stroke="#64748b" stroke-width="1.2" marker-end="url(#a1)"/>
+
+            <!-- 基础设施 -->
+            <rect x="40" y="370" width="780" height="80" rx="10" fill="#f1f5f9" stroke="#e2e6ed" stroke-width="1"/>
+            <text x="430" y="390" text-anchor="middle" font-size="11" font-weight="700" fill="#334155">共享基础设施</text>
+            <rect x="60" y="400" width="140" height="36" rx="6" fill="#fff" stroke="#e2e6ed" stroke-width="1"/><text x="130" y="421" text-anchor="middle" font-size="10" fill="#475569">Nacos 注册配置</text>
+            <rect x="220" y="400" width="140" height="36" rx="6" fill="#fff" stroke="#e2e6ed" stroke-width="1"/><text x="290" y="421" text-anchor="middle" font-size="10" fill="#475569">RocketMQ 事件总线</text>
+            <rect x="380" y="400" width="140" height="36" rx="6" fill="#fff" stroke="#e2e6ed" stroke-width="1"/><text x="450" y="421" text-anchor="middle" font-size="10" fill="#475569">Sentinel 限流熔断</text>
+            <rect x="540" y="400" width="140" height="36" rx="6" fill="#fff" stroke="#e2e6ed" stroke-width="1"/><text x="610" y="421" text-anchor="middle" font-size="10" fill="#475569">媒体中心 OSS/CDN</text>
+            <rect x="690" y="400" width="110" height="36" rx="6" fill="#fff" stroke="#e2e6ed" stroke-width="1"/><text x="745" y="421" text-anchor="middle" font-size="10" fill="#475569">Elasticsearch</text>
+
+            <line x1="430" y1="330" x2="430" y2="370" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,2"/>
+            <line x1="105" y1="330" x2="105" y2="370" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,2"/>
+            <line x1="755" y1="330" x2="755" y2="370" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,2"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec" style="margin-top:14px;">
+      <div class="sec-head"><div class="sec-icon" style="background:var(--orange-l);color:var(--orange);">🚀</div><span class="sec-title">部署规格建议</span></div>
+      <div class="sec-body">
+        <div class="deploy-grid">
+          <div class="deploy-card">
+            <h5>product-core-service</h5>
+            <ul><li>多副本（≥3），核心读链路</li><li>独立连接池，禁止与审核共享</li><li>HPA 按 QPS 自动扩容</li></ul>
+          </div>
+          <div class="deploy-card">
+            <h5>product-facade</h5>
+            <ul><li>无状态，可任意扩容</li><li>不持有数据，重启无感知</li><li>与 Gateway 同 AZ 部署降低延迟</li></ul>
+          </div>
+          <div class="deploy-card">
+            <h5>product-audit-service</h5>
+            <ul><li>2 副本即可，非高频访问</li><li>独立数据库实例</li><li>可接受较高发布频率</li></ul>
+          </div>
+          <div class="deploy-card">
+            <h5>product-search-indexer</h5>
+            <ul><li>2 副本，消费者组天然支持扩容</li><li>无状态，故障重启自动重新消费</li><li>与 ES 集群网络延迟敏感，建议同机房</li></ul>
+          </div>
+          <div class="deploy-card">
+            <h5>product-admin-web</h5>
+            <ul><li>低频访问，1-2 副本足够</li><li>可与公网隔离，仅内网/VPN访问</li><li>需要审计日志记录所有操作</li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ CH6 通信规范 ══════════════ -->
+  <div id="ch6">
+    <div class="chapter">
+      <div class="chapter-num" style="background:var(--green-l);color:var(--green);">06</div>
+      <span class="chapter-title">跨应用通信规范</span>
+    </div>
+    <div class="sec">
+      <div class="sec-head"><div class="sec-icon" style="background:var(--green-l);color:var(--green);">🔌</div><span class="sec-title">5 条硬性规则</span></div>
+      <div class="sec-body">
+        <div class="own-grid">
+          <div class="own-row">
+            <div class="own-label">规则 1</div>
+            <div class="own-value">任何应用读取商品数据，必须通过 <code>product-core-service</code> 的 Dubbo 接口，<strong>禁止直连商品数据库</strong>，无例外。</div>
+          </div>
+          <div class="own-row">
+            <div class="own-label">规则 2</div>
+            <div class="own-value">商品数据变更后的通知，统一通过 RocketMQ 商品变更事件广播，<strong>禁止应用间相互硬编码调用</strong>来通知数据变化。</div>
+          </div>
+          <div class="own-row">
+            <div class="own-label">规则 3</div>
+            <div class="own-value">审核服务、索引同步服务对核心服务的调用一律走 <strong>Dubbo 直连</strong>，不经过 Gateway（Gateway 只处理外部流量）。</div>
+          </div>
+          <div class="own-row">
+            <div class="own-label">规则 4</div>
+            <div class="own-value">批量/异步任务（如批量导入）<strong>不得占用与同步查询相同的 Dubbo 线程池</strong>，需配置独立的服务分组（group）和限流规则。</div>
+          </div>
+          <div class="own-row">
+            <div class="own-label">规则 5</div>
+            <div class="own-value">运营后台所有写操作必须经过 <code>product-core-service</code> 的接口校验，<strong>禁止运营后台自己实现业务规则校验后直接写库</strong>。</div>
+          </div>
+        </div>
+
+        <div class="callout tip" style="margin-top:12px;">
+          <span class="ci">✅</span>
+          <p><strong>验收标准：</strong>任何 Code Review 中发现违反以上规则的代码，应直接拒绝合并，并引导提交方在第三章补充对应的争议裁决条款（如果确实存在合理的特殊场景）。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+</body>
+</html>

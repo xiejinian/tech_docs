@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>商品域业务架构 · 对标阿里中台体系</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  background: #f0f2f5;
+  padding: 28px;
+}
+.wrap { max-width: 1280px; margin: 0 auto; }
+
+.header { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
+.header h1 { font-size:19px; font-weight:700; color:#0d1117; }
+.header p { font-size:12px; color:#8896aa; margin-top:3px; }
+.badges { display:flex; gap:6px; align-items:center; }
+.badge { font-size:11px; font-weight:600; padding:3px 9px; border-radius:12px; letter-spacing:.4px; }
+.badge-ai { background:linear-gradient(135deg,#667eea,#764ba2); color:#fff; }
+.badge-v { background:#e8f4fd; color:#1d6fa4; border:1px solid #bee3f8; }
+
+.canvas { background:#fff; border:1px solid #e2e6ed; border-radius:16px; padding:26px 30px; }
+
+.layer-label {
+  font-size:10px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase;
+  color:#94a3b8; margin-bottom:9px; padding-left:2px;
+  display:flex; align-items:center; gap:8px;
+}
+.layer-label::after { content:''; flex:1; height:1px; background:#eef1f5; }
+
+/* ── 应用层（前台/中台/后台） ── */
+.app-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:18px; }
+.app-card { border-radius:10px; border:1.5px solid; padding:12px 14px; }
+.app-card h4 { font-size:12px; font-weight:700; margin-bottom:7px; display:flex; align-items:center; gap:5px; }
+.app-chips { display:flex; flex-wrap:wrap; gap:5px; }
+.ac { font-size:10.5px; padding:3px 8px; border-radius:5px; font-weight:500; border:1px solid; }
+
+.app-c2c { background:#eff6ff; border-color:#93c5fd; }
+.app-c2c h4 { color:#1d4ed8; }
+.app-c2c .ac { background:#dbeafe; border-color:#bfdbfe; color:#1d4ed8; }
+
+.app-mid { background:#fff7ed; border-color:#fac775; }
+.app-mid h4 { color:#854f0b; }
+.app-mid .ac { background:#faeeda; border-color:#fde9c8; color:#854f0b; }
+
+.app-b2b { background:#f4fdf9; border-color:#5dcaa5; }
+.app-b2b h4 { color:#0f6e56; }
+.app-b2b .ac { background:#e1f5ee; border-color:#9fe1cb; color:#0f6e56; }
+
+/* ── connector ── */
+.connector { text-align:center; padding:4px 0; font-size:10px; color:#94a3b8; }
+
+/* ── 领域服务层主容器 ── */
+.domain-shell {
+  border:2px solid #f0997b; border-radius:14px; padding:16px 18px 18px;
+  background:#fdf9f7; margin-bottom:16px; position:relative;
+}
+.domain-shell-title {
+  position:absolute; top:-11px; left:18px; background:#fdf9f7;
+  padding:0 8px; font-size:11px; font-weight:700; color:#993c1d;
+}
+
+/* 聚合根 */
+.aggregate-row { display:flex; justify-content:center; margin-bottom:14px; }
+.aggregate {
+  background:#fff; border:2px solid #D85A30; border-radius:10px;
+  padding:10px 24px; text-align:center; box-shadow:0 2px 8px rgba(216,90,48,.12);
+}
+.aggregate-t { font-size:13px; font-weight:800; color:#993c1d; }
+.aggregate-s { font-size:10px; color:#c2602f; margin-top:2px; }
+
+/* 能力域网格 */
+.cap-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.cap-card {
+  background:#fff; border:1px solid #e2e6ed; border-radius:9px; padding:11px 12px;
+  border-left:3px solid;
+}
+.cap-card h5 { font-size:11.5px; font-weight:700; margin-bottom:6px; display:flex; align-items:center; gap:5px; }
+.cap-card ul { padding-left:14px; }
+.cap-card li { font-size:10.5px; color:#475569; line-height:1.6; }
+
+.cap-1 { border-left-color:#3b82f6; }
+.cap-1 h5 { color:#1d4ed8; }
+.cap-2 { border-left-color:#16a34a; }
+.cap-2 h5 { color:#15803d; }
+.cap-3 { border-left-color:#d97706; }
+.cap-3 h5 { color:#92400e; }
+.cap-4 { border-left-color:#7c3aed; }
+.cap-4 h5 { color:#6d28d9; }
+.cap-5 { border-left-color:#db2777; }
+.cap-5 h5 { color:#be185d; }
+.cap-6 { border-left-color:#0891b2; }
+.cap-6 h5 { color:#0e7490; }
+.cap-7 { border-left-color:#ea580c; }
+.cap-7 h5 { color:#c2410c; }
+.cap-8 { border-left-color:#65a30d; }
+.cap-8 h5 { color:#4d7c0f; }
+
+/* ── 共享能力层（横向中台能力） ── */
+.shared-row { display:grid; grid-template-columns:repeat(5,1fr); gap:9px; margin-bottom:16px; }
+.shared-card {
+  background:#faf5ff; border:1px solid #e9d5ff; border-radius:9px; padding:10px 11px; text-align:center;
+}
+.shared-card h5 { font-size:11px; font-weight:700; color:#7c3aed; margin-bottom:3px; }
+.shared-card p { font-size:9.5px; color:#8b5cf6; line-height:1.4; }
+
+/* ── 跨域协同 ── */
+.collab-row { display:flex; flex-wrap:wrap; gap:7px; padding:11px 14px; background:#f8fafc; border:1px solid #e2e6ed; border-radius:9px; margin-bottom:16px; }
+.collab-item { display:flex; align-items:center; gap:4px; font-size:10.5px; padding:3px 9px; border-radius:11px; border:1px solid; white-space:nowrap; }
+.cf { font-weight:600; }
+.ca { color:#94a3b8; font-size:9px; }
+.ct { font-weight:600; }
+.collab-out { background:#fdf4ee; border-color:#f0997b; }
+.collab-out .cf { color:#993c1d; }
+.collab-out .ct { color:#993c1d; }
+.collab-in { background:#eff6ff; border-color:#93c5fd; }
+.collab-in .cf { color:#1d4ed8; }
+.collab-in .ct { color:#1d4ed8; }
+
+/* ── 数据与基础设施层 ── */
+.infra-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:8px; }
+.infra-box { padding:9px 8px; border-radius:8px; border:1px solid; text-align:center; }
+.infra-n { font-size:10.5px; font-weight:700; margin-bottom:2px; }
+.infra-d { font-size:9px; line-height:1.3; }
+
+.ib-1 { background:#eff6ff; border-color:#bfdbfe; } .ib-1 .infra-n{color:#1d4ed8;} .ib-1 .infra-d{color:#3b82f6;}
+.ib-2 { background:#fff1f2; border-color:#fecdd3; } .ib-2 .infra-n{color:#be123c;} .ib-2 .infra-d{color:#e11d48;}
+.ib-3 { background:#fff7ed; border-color:#fed7aa; } .ib-3 .infra-n{color:#c2410c;} .ib-3 .infra-d{color:#ea580c;}
+.ib-4 { background:#f0fdf4; border-color:#86efac; } .ib-4 .infra-n{color:#15803d;} .ib-4 .infra-d{color:#16a34a;}
+.ib-5 { background:#fefce8; border-color:#fef08a; } .ib-5 .infra-n{color:#a16207;} .ib-5 .infra-d{color:#ca8a04;}
+.ib-6 { background:#f5f3ff; border-color:#ddd6fe; } .ib-6 .infra-n{color:#7c3aed;} .ib-6 .infra-d{color:#8b5cf6;}
+
+/* legend */
+.legend { display:flex; flex-wrap:wrap; gap:14px; align-items:center; padding:9px 14px; background:#f8fafc; border:1px solid #e2e6ed; border-radius:8px; margin-top:14px; }
+.li { display:flex; align-items:center; gap:5px; font-size:10.5px; color:#4a5568; }
+.li-dot { width:9px; height:9px; border-radius:3px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div>
+      <h1>商品域业务架构</h1>
+      <p>对标阿里中台体系：前中后台分层 · 聚合根驱动 DDD · 共享能力下沉</p>
+    </div>
+    <div class="badges">
+      <span class="badge badge-ai">AI ARCH</span>
+      <span class="badge badge-v">v1.0</span>
+    </div>
+  </div>
+
+  <div class="canvas">
+
+    <!-- ① 应用层：前台/中台/后台 -->
+    <div class="layer-label">应用层 · 多端复用同一套领域服务</div>
+    <div class="app-row">
+      <div class="app-card app-c2c">
+        <h4>🛍 前台应用（C端）</h4>
+        <div class="app-chips">
+          <span class="ac">商品详情页</span><span class="ac">搜索结果页</span>
+          <span class="ac">店铺主页</span><span class="ac">小程序商品</span>
+        </div>
+      </div>
+      <div class="app-card app-mid">
+        <h4>⚙️ 中台运营应用</h4>
+        <div class="app-chips">
+          <span class="ac">商品发布工作台</span><span class="ac">类目运营</span>
+          <span class="ac">商品审核</span><span class="ac">营销选品</span>
+        </div>
+      </div>
+      <div class="app-card app-b2b">
+        <h4>🏢 后台/开放平台</h4>
+        <div class="app-chips">
+          <span class="ac">商家中心</span><span class="ac">开放平台API</span>
+          <span class="ac">ISV对接</span><span class="ac">数据报表</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector">↓ 统一通过领域服务接口调用（Dubbo），前中后台不重复开发业务逻辑 ↓</div>
+
+    <!-- ② 领域服务层（核心） -->
+    <div class="domain-shell">
+      <span class="domain-shell-title">商品域 · 领域服务层（Domain Service）</span>
+
+      <div class="aggregate-row">
+        <div class="aggregate">
+          <div class="aggregate-t">商品聚合根 Product Aggregate</div>
+          <div class="aggregate-s">SPU + SKU + 类目 + 品牌 · 一致性边界</div>
+        </div>
+      </div>
+
+      <div class="cap-grid">
+        <div class="cap-card cap-1">
+          <h5>📝 商品信息管理</h5>
+          <ul><li>SPU/SKU 创建编辑</li><li>类目属性管理</li><li>多渠道发布</li></ul>
+        </div>
+        <div class="cap-card cap-2">
+          <h5>✅ 商品审核</h5>
+          <ul><li>合规审核流</li><li>类目资质校验</li><li>图文风控对接</li></ul>
+        </div>
+        <div class="cap-card cap-3">
+          <h5>💰 价格管理</h5>
+          <ul><li>基础价/渠道价</li><li>价格变更记录</li><li>价保策略</li></ul>
+        </div>
+        <div class="cap-card cap-4">
+          <h5>🔍 商品搜索</h5>
+          <ul><li>ES 全文检索</li><li>类目/属性过滤</li><li>排序策略</li></ul>
+        </div>
+        <div class="cap-card cap-5">
+          <h5>🏷 类目与属性</h5>
+          <ul><li>类目树管理</li><li>属性模板</li><li>类目预测</li></ul>
+        </div>
+        <div class="cap-card cap-6">
+          <h5>📊 商品状态机</h5>
+          <ul><li>上架/下架/草稿</li><li>状态流转校验</li><li>定时上下架</li></ul>
+        </div>
+        <div class="cap-card cap-7">
+          <h5>🖼 媒体资源管理</h5>
+          <ul><li>主图/详情图</li><li>视频/3D模型</li><li>CDN分发</li></ul>
+        </div>
+        <div class="cap-card cap-8">
+          <h5>📈 商品数据洞察</h5>
+          <ul><li>浏览/转化统计</li><li>动销分析</li><li>选品建议</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ③ 共享能力层 -->
+    <div class="layer-label">共享能力层 · 跨域复用的中台能力（非商品域独有，下沉共享）</div>
+    <div class="shared-row">
+      <div class="shared-card"><h5>统一审核中心</h5><p>多业务线复用审核流引擎</p></div>
+      <div class="shared-card"><h5>统一搜索引擎</h5><p>ES集群多业务共享索引能力</p></div>
+      <div class="shared-card"><h5>统一媒体中心</h5><p>图片/视频存储与CDN下发</p></div>
+      <div class="shared-card"><h5>规则引擎</h5><p>价格策略/状态流转规则配置</p></div>
+      <div class="shared-card"><h5>开放能力网关</h5><p>对外API统一鉴权与限流</p></div>
+    </div>
+
+    <!-- ④ 跨域协同 -->
+    <div class="layer-label">跨域协同 · 商品域与其他域的依赖关系</div>
+    <div class="collab-row">
+      <div class="collab-item collab-out"><span class="cf">商品域</span><span class="ca">→</span><span class="ct">库存域</span><span style="color:#993c1d;">查询实时库存</span></div>
+      <div class="collab-item collab-out"><span class="cf">商品域</span><span class="ca">→</span><span class="ct">营销域</span><span style="color:#993c1d;">活动商品池关联</span></div>
+      <div class="collab-item collab-in"><span class="cf">交易域</span><span class="ca">→</span><span class="ct">商品域</span><span style="color:#1d4ed8;">下单查商品/价格</span></div>
+      <div class="collab-item collab-in"><span class="cf">营销域</span><span class="ca">→</span><span class="ct">商品域</span><span style="color:#1d4ed8;">活动选品校验</span></div>
+      <div class="collab-item collab-in"><span class="cf">搜索中台</span><span class="ca">→</span><span class="ct">商品域</span><span style="color:#1d4ed8;">索引数据订阅</span></div>
+    </div>
+
+    <!-- ⑤ 数据与基础设施层 -->
+    <div class="layer-label">数据与基础设施层</div>
+    <div class="infra-grid">
+      <div class="infra-box ib-1"><div class="infra-n">MySQL</div><div class="infra-d">商品/SKU主存储</div></div>
+      <div class="infra-box ib-2"><div class="infra-n">Redis Cluster</div><div class="infra-d">热点缓存</div></div>
+      <div class="infra-box ib-3"><div class="infra-n">Elasticsearch</div><div class="infra-d">搜索引擎</div></div>
+      <div class="infra-box ib-4"><div class="infra-n">RocketMQ</div><div class="infra-d">变更事件广播</div></div>
+      <div class="infra-box ib-5"><div class="infra-n">Nacos</div><div class="infra-d">注册配置中心</div></div>
+      <div class="infra-box ib-6"><div class="infra-n">OSS/CDN</div><div class="infra-d">媒体资源存储</div></div>
+    </div>
+
+    <div class="legend">
+      <span style="font-size:10.5px;font-weight:700;color:#334155;">图例：</span>
+      <div class="li"><span class="li-dot" style="background:#eff6ff;border:1px solid #93c5fd;"></span>前台应用</div>
+      <div class="li"><span class="li-dot" style="background:#fff7ed;border:1px solid #fac775;"></span>中台运营</div>
+      <div class="li"><span class="li-dot" style="background:#f4fdf9;border:1px solid #5dcaa5;"></span>后台/开放平台</div>
+      <div class="li"><span class="li-dot" style="background:#fdf9f7;border:2px solid #D85A30;"></span>商品域聚合根与能力</div>
+      <div class="li"><span class="li-dot" style="background:#faf5ff;border:1px solid #e9d5ff;"></span>共享中台能力</div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

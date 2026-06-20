@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>飞凡科技 Boss 直聘项目获客方案</title>
+  <style>
+    :root{
+      --bg:#f7f3ed;
+      --card:#fffaf3;
+      --card2:#ffffff;
+      --ink:#2f2a24;
+      --muted:#6f665c;
+      --line:#e6ddd2;
+      --brand:#c76642;
+      --brand2:#8e4f36;
+      --soft:#efe4d6;
+      --green:#59735d;
+      --blue:#536b82;
+      --yellow:#a97831;
+      --shadow:0 18px 45px rgba(70, 48, 28, .10);
+      --radius:24px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;
+      background:radial-gradient(circle at 20% 0%, #fff8ec 0, #f7f3ed 34%, #f4efe7 100%);
+      color:var(--ink);
+      line-height:1.65;
+    }
+    .wrap{max-width:1180px;margin:0 auto;padding:48px 24px 80px}
+    header{
+      padding:54px 48px;
+      border:1px solid var(--line);
+      background:linear-gradient(135deg, rgba(255,250,243,.95), rgba(239,228,214,.76));
+      border-radius:32px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    header:after{
+      content:"";position:absolute;right:-90px;top:-90px;width:300px;height:300px;border-radius:50%;
+      background:rgba(199,102,66,.12);filter:blur(2px)
+    }
+    .eyebrow{font-size:14px;letter-spacing:.12em;color:var(--brand2);font-weight:700;text-transform:uppercase;margin-bottom:12px}
+    h1{font-size:48px;line-height:1.12;margin:0 0 18px;font-weight:760;letter-spacing:-.04em;max-width:850px}
+    .subtitle{font-size:20px;color:var(--muted);max-width:860px;margin:0}
+    .meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+    .pill{border:1px solid var(--line);background:rgba(255,255,255,.55);border-radius:999px;padding:8px 14px;font-size:14px;color:var(--muted)}
+    .grid{display:grid;gap:22px;margin-top:24px}
+    .g3{grid-template-columns:repeat(3,1fr)}
+    .g2{grid-template-columns:repeat(2,1fr)}
+    .g4{grid-template-columns:repeat(4,1fr)}
+    section{margin-top:34px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px;box-shadow:0 10px 30px rgba(70,48,28,.06)}
+    .white{background:rgba(255,255,255,.72)}
+    h2{font-size:30px;line-height:1.2;margin:0 0 18px;letter-spacing:-.03em}
+    h3{font-size:20px;margin:0 0 10px;letter-spacing:-.02em}
+    p{margin:0 0 12px}.muted{color:var(--muted)}
+    .num{font-size:38px;font-weight:760;color:var(--brand);line-height:1;margin-bottom:10px}
+    .kpi{font-size:14px;color:var(--muted)}
+    .flow{display:grid;grid-template-columns:repeat(9,1fr);gap:10px;align-items:stretch}
+    .step{background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:18px;padding:16px 12px;text-align:center;font-size:14px;min-height:88px;display:flex;align-items:center;justify-content:center;font-weight:650}
+    .arrow{display:none}
+    .tag{display:inline-block;border-radius:10px;background:var(--soft);color:var(--brand2);padding:4px 8px;font-size:12px;font-weight:700;margin-bottom:10px}
+    ul{margin:10px 0 0;padding-left:18px}li{margin:5px 0;color:var(--muted)}
+    .role{border-left:4px solid var(--brand);padding-left:18px}
+    .role.blue{border-color:var(--blue)}.role.green{border-color:var(--green)}.role.yellow{border-color:var(--yellow)}
+    table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:rgba(255,255,255,.68)}
+    th,td{padding:14px 16px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:14px}
+    th{background:#f0e6da;color:#51483f;font-weight:760}tr:last-child td{border-bottom:none}
+    .score{display:flex;gap:12px;flex-wrap:wrap}.score div{flex:1;min-width:150px;background:rgba(255,255,255,.72);border:1px solid var(--line);border-radius:18px;padding:18px}.score b{font-size:24px;color:var(--brand)}
+    .script{background:#2f2a24;color:#fff7ed;border-radius:22px;padding:24px;font-size:15px}.script strong{color:#ffd7c2}.script p{margin-bottom:14px}.script code{font-family:inherit;color:#ffd7c2}
+    .timeline{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}.day{background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:20px;padding:18px}.day b{color:var(--brand2)}
+    footer{margin-top:34px;text-align:center;color:var(--muted);font-size:13px}
+    @media(max-width:900px){h1{font-size:36px}.g3,.g2,.g4,.flow,.timeline{grid-template-columns:1fr}header{padding:36px 26px}.wrap{padding:24px 14px 48px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">Feifan Technology · BOSS Acquisition Playbook</div>
+      <h1>飞凡科技基于 Boss 直聘的项目合作获客方案</h1>
+      <p class="subtitle">将招聘平台转化为企业级项目线索池：以 CTO / GM 级专业背书切入，以标准化线索发掘、需求诊断、方案转化和商务闭环实现持续获客。</p>
+      <div class="meta">
+        <span class="pill">适用主体：飞凡科技</span>
+        <span class="pill">执行角色：CTO / 架构师 / 产品 / 交付 / 商务</span>
+        <span class="pill">目标方向：远程 · 兼职 · 项目外包 · 高级岗位转合作</span>
+      </div>
+    </header>
+
+    <section class="grid g3">
+      <div class="card"><div class="num">200+</div><h3>月新增线索</h3><p class="kpi">通过多账号矩阵覆盖 AI、技术管理、创业团队和数字化岗位。</p></div>
+      <div class="card"><div class="num">30</div><h3>深度需求沟通</h3><p class="kpi">筛选具备预算、决策权和上线时间的真实商机。</p></div>
+      <div class="card"><div class="num">1-2</div><h3>月签约目标</h3><p class="kpi">以 5-30 万级轻量项目作为初期突破，逐步沉淀长期客户。</p></div>
+    </section>
+
+    <section class="card white">
+      <h2>一、战略定位</h2>
+      <div class="grid g2">
+        <div>
+          <span class="tag">核心判断</span>
+          <h3>招聘需求背后通常是业务问题</h3>
+          <p class="muted">企业在 Boss 上发布 AI 工程师、架构师、CTO、技术总监、产品经理等岗位，往往意味着其正在推进某类项目，但内部缺少技术判断、交付能力或短期资源。</p>
+        </div>
+        <div>
+          <span class="tag">转化逻辑</span>
+          <h3>从“招一个人”转向“解决一个项目”</h3>
+          <p class="muted">飞凡科技不以普通候选人身份切入，而是以 CTO 顾问、AI 解决方案负责人、项目交付团队身份提供更快、更确定的替代方案。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>二、获客主流程</h2>
+      <div class="flow">
+        <div class="step">岗位发现</div><div class="step">主动沟通</div><div class="step">获得回复</div><div class="step">需求诊断</div><div class="step">商机评级</div><div class="step">方案输出</div><div class="step">POC验证</div><div class="step">商务报价</div><div class="step">签约交付</div>
+      </div>
+    </section>
+
+    <section class="grid g2">
+      <div class="card">
+        <h2>三、线索分类</h2>
+        <table>
+          <thead><tr><th>类别</th><th>典型岗位/关键词</th><th>目标动作</th></tr></thead>
+          <tbody>
+            <tr><td>A类：直接项目</td><td>AI Agent、大模型、RAG、智能客服、数字人、AI应用</td><td>24小时内接管，推进需求会</td></tr>
+            <tr><td>B类：技术招聘</td><td>Java架构师、AI工程师、CTO、技术总监、研发经理</td><td>挖掘招聘背后的项目目标</td></tr>
+            <tr><td>C类：创业团队</td><td>技术合伙人、联合创始人、CTO合伙人</td><td>判断客户、融资、首单和预算</td></tr>
+            <tr><td>D类：长期培育</td><td>数字化转型、CRM、OA、数据中台、AI中台</td><td>进入长期商机池，定期触达</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h2>四、商机评分模型</h2>
+        <div class="score">
+          <div><b>30</b><br/>需求明确度</div>
+          <div><b>20</b><br/>预算明确度</div>
+          <div><b>20</b><br/>决策权</div>
+          <div><b>15</b><br/>上线时间</div>
+          <div><b>15</b><br/>行业匹配</div>
+        </div>
+        <p class="muted" style="margin-top:16px">80分以上为A类商机，60-80分为B类商机，40-60分为C类线索，40分以下进入培育池。</p>
+      </div>
+    </section>
+
+    <section class="card white">
+      <h2>五、分角色 SOP</h2>
+      <div class="grid g2">
+        <div class="role">
+          <h3>角色一：战略破冰人｜CTO / GM</h3>
+          <p class="muted">负责高价值岗位破冰，例如 CTO、技术总监、AI负责人、创业合伙人。</p>
+          <ul><li>每天筛选20个高价值岗位</li><li>使用大厂背景与AI交付经验建立信任</li><li>对回复线索发起首次诊断</li><li>重点推进A类和B类商机</li></ul>
+        </div>
+        <div class="role blue">
+          <h3>角色二：项目猎手｜商务 / 产品助理</h3>
+          <p class="muted">负责规模化搜索、打招呼、记录和初筛。</p>
+          <ul><li>每天浏览100个岗位</li><li>发起50次沟通</li><li>记录公司、岗位、联系人、关键词</li><li>将有效回复同步至线索表</li></ul>
+        </div>
+        <div class="role green">
+          <h3>角色三：需求诊断师｜架构师 / 解决方案</h3>
+          <p class="muted">负责把招聘需求转化为项目需求。</p>
+          <ul><li>判断项目阶段：想法、POC、开发、上线</li><li>确认客户为什么招聘</li><li>识别技术难点和风险</li><li>输出《需求诊断记录》</li></ul>
+        </div>
+        <div class="role yellow">
+          <h3>角色四：成交推进人｜商务负责人</h3>
+          <p class="muted">负责报价、合同、付款和排期闭环。</p>
+          <ul><li>推进NDA、会议、方案评审</li><li>组织报价与付款节点设计</li><li>管理CRM状态</li><li>推动POC转正式项目</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid g2">
+      <div class="card script">
+        <h2 style="color:#fff7ed">六、Boss 破冰话术</h2>
+        <p><strong>CTO / GM 高价值版：</strong><br/>您好，我是飞凡科技CTO，同时负责红熊AI业务。本人阿里、有赞背景，20+年研发及团队管理经验，近两年专注AI Agent、RAG知识库、智能客服等项目落地。看到贵司需求较匹配，希望交流项目合作可能。</p>
+        <p><strong>项目合作版：</strong><br/>您好，我们专注企业AI应用和软件项目交付，支持Agent、知识库RAG、智能客服、Java后台及SaaS平台建设。可从需求分析、POC到上线交付全程负责，方便了解下项目阶段吗？</p>
+        <p><strong>追问句：</strong><br/><code>目前项目处于想法、POC、开发还是上线阶段？贵司是更希望招人自研，还是也接受项目合作/顾问支持？</code></p>
+      </div>
+      <div class="card">
+        <h2>七、重点搜索关键词</h2>
+        <table>
+          <thead><tr><th>优先级</th><th>关键词</th><th>适配产品</th></tr></thead>
+          <tbody>
+            <tr><td>P0</td><td>AI Agent、大模型、RAG、知识库、AI应用</td><td>Agent平台、RAG知识库、AI中台</td></tr>
+            <tr><td>P1</td><td>智能客服、客服中心、呼叫中心、外呼、12345</td><td>智能客服、AI外呼、工单系统</td></tr>
+            <tr><td>P2</td><td>Java架构师、技术总监、CTO、研发负责人</td><td>技术顾问、架构设计、项目交付</td></tr>
+            <tr><td>P3</td><td>CRM、数字化转型、SaaS、数据中台</td><td>CRM、业务系统、企业数字化平台</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card white">
+      <h2>八、周度运营节奏</h2>
+      <div class="timeline">
+        <div class="day"><b>周一</b><p class="muted">复盘上周线索，更新A/B/C/D商机池。</p></div>
+        <div class="day"><b>周二</b><p class="muted">集中触达AI、Agent、RAG相关岗位。</p></div>
+        <div class="day"><b>周三</b><p class="muted">CTO/架构师接管高潜线索，完成需求诊断。</p></div>
+        <div class="day"><b>周四</b><p class="muted">输出轻方案、排期和初步报价。</p></div>
+        <div class="day"><b>周五</b><p class="muted">推进会议、POC、合同与下周跟进计划。</p></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>九、线索表字段</h2>
+      <table>
+        <thead><tr><th>字段</th><th>说明</th><th>示例</th></tr></thead>
+        <tbody>
+          <tr><td>公司 / 联系人</td><td>公司名称、联系人职位、Boss链接</td><td>XX科技 / CEO</td></tr>
+          <tr><td>岗位关键词</td><td>触发搜索的岗位或关键词</td><td>AI Agent产品负责人</td></tr>
+          <tr><td>需求判断</td><td>招聘背后的项目目标</td><td>企业知识库POC</td></tr>
+          <tr><td>项目阶段</td><td>想法、POC、开发、上线、运维</td><td>POC阶段</td></tr>
+          <tr><td>预算 / 时间</td><td>预算范围、上线时间、付款能力</td><td>10-30万 / 2个月</td></tr>
+          <tr><td>评分 / 状态</td><td>商机得分和当前推进状态</td><td>82分 / 已约需求会</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card white">
+      <h2>十、执行原则</h2>
+      <div class="grid g3">
+        <div><h3>不以求职者身份沟通</h3><p class="muted">对外定位是技术负责人、解决方案顾问、项目交付团队，而不是普通候选人。</p></div>
+        <div><h3>不急于发简历</h3><p class="muted">先判断项目阶段、预算、决策权和上线时间，再决定是否发方案或安排会议。</p></div>
+        <div><h3>不做低价值人力外包</h3><p class="muted">优先承接可沉淀产品能力、行业案例和长期服务关系的项目。</p></div>
+      </div>
+    </section>
+
+    <footer>飞凡科技 · Boss 直聘项目合作获客方案 · 内部执行版</footer>
+  </div>
+</body>
+</html>

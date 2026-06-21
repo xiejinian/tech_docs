@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GEO 战略沟通材料 · 2026.05 · 合伙人版</title>
+<title>GEO 战略沟通材料 · 2026.05 · V4.0 · 合伙人版</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700;900&family=Instrument+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
 
 :root {
   --paper:  #faf8f3;
@@ -18,487 +17,259 @@
   --border: #e0d8cc;
   --border2:#c8bfb0;
   --surf:   #f3f0ea;
-
-  --red:    #b91c1c;
-  --red-bg: #fef2f2;
-  --amber:  #92400e;
-  --amber-l:#b45309;
-  --amber-bg:#fffbeb;
-  --green:  #14532d;
-  --green-l:#15803d;
-  --green-bg:#f0fdf4;
-  --blue:   #1e3a8a;
-  --blue-l: #1d4ed8;
-  --blue-bg:#eff6ff;
-  --purple: #581c87;
-  --purple-l:#7e22ce;
-  --purple-bg:#faf5ff;
-  --teal:   #134e4a;
-  --teal-l: #0f766e;
-  --teal-bg:#f0fdfa;
-
+  --red:    #b91c1c; --red-bg: #fef2f2;
+  --amber:  #92400e; --amber-l:#b45309; --amber-bg:#fffbeb;
+  --green:  #14532d; --green-l:#15803d; --green-bg:#f0fdf4;
+  --blue:   #1e3a8a; --blue-l: #1d4ed8; --blue-bg:#eff6ff;
+  --purple: #581c87; --purple-l:#7e22ce; --purple-bg:#faf5ff;
+  --teal:   #134e4a; --teal-l: #0f766e; --teal-bg:#f0fdfa;
   --r: 8px;
-  --sh: 0 2px 8px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04);
+  --sh: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--paper);color:var(--ink);line-height:1.7;font-size:14px;}
 
-body {
-  font-family: 'Instrument Sans', sans-serif;
-  background: var(--paper);
-  color: var(--ink);
-  line-height: 1.7;
-  font-size: 14px;
-}
+/* COVER */
+.cover{min-height:100vh;background:var(--ink2);display:flex;flex-direction:column;justify-content:center;padding:80px;position:relative;overflow:hidden;}
+.cover-texture{position:absolute;inset:0;background:radial-gradient(ellipse 700px 400px at 90% 20%,rgba(180,83,9,.15),transparent),radial-gradient(ellipse 500px 500px at 10% 80%,rgba(29,78,216,.1),transparent),repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(255,255,255,.012) 60px,rgba(255,255,255,.012) 61px),repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,255,255,.008) 60px,rgba(255,255,255,.008) 61px);pointer-events:none;}
+.cover-label{font-family:'Courier New','Menlo','Monaco',monospace;font-size:10px;letter-spacing:4px;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:40px;display:flex;align-items:center;gap:14px;}
+.cover-label::before{content:'';width:40px;height:1px;background:rgba(255,255,255,.2);}
+.cover-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,166,35,.2);border:1px solid rgba(245,166,35,.4);border-radius:4px;padding:4px 12px;font-family:'Courier New','Menlo','Monaco',monospace;font-size:10px;letter-spacing:2px;color:#fbbf24;margin-bottom:20px;}
+.cover h1{font-family:'Georgia','Noto Serif SC','SimSun',serif;font-size:clamp(36px,6vw,72px);font-weight:900;line-height:1.08;color:#fff;margin-bottom:24px;}
+.cover h1 .accent{color:#fbbf24;font-style:italic;}
+.cover-desc{font-size:16px;color:rgba(255,255,255,.45);max-width:600px;line-height:1.75;margin-bottom:60px;}
+.cover-stats{display:flex;gap:0;border:1px solid rgba(255,255,255,.1);border-radius:var(--r);overflow:hidden;max-width:900px;}
+.cs-item{flex:1;padding:24px 28px;border-right:1px solid rgba(255,255,255,.08);}
+.cs-item:last-child{border-right:none;}
+.cs-num{font-family:'Georgia','Noto Serif SC','SimSun',serif;font-size:32px;font-weight:900;color:#fbbf24;line-height:1;margin-bottom:6px;}
+.cs-label{font-size:11px;color:rgba(255,255,255,.4);line-height:1.4;}
+.cover-date{position:absolute;bottom:40px;right:80px;font-family:'Courier New','Menlo','Monaco',monospace;font-size:11px;color:rgba(255,255,255,.2);letter-spacing:2px;}
 
-/* ─── COVER ─── */
-.cover {
-  min-height: 100vh;
-  background: var(--ink2);
-  display: flex; flex-direction: column;
-  justify-content: center;
-  padding: 80px;
-  position: relative;
-  overflow: hidden;
-}
-.cover-texture {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse 700px 400px at 90% 20%, rgba(180,83,9,0.15), transparent),
-    radial-gradient(ellipse 500px 500px at 10% 80%, rgba(29,78,216,0.1), transparent),
-    repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(255,255,255,0.012) 60px, rgba(255,255,255,0.012) 61px),
-    repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(255,255,255,0.008) 60px, rgba(255,255,255,0.008) 61px);
-  pointer-events: none;
-}
-.cover-label {
-  font-family: 'Fira Code', monospace;
-  font-size: 10px; letter-spacing: 4px;
-  color: rgba(255,255,255,0.3);
-  text-transform: uppercase;
-  margin-bottom: 40px;
-  display: flex; align-items: center; gap: 14px;
-}
-.cover-label::before { content:''; width:40px; height:1px; background:rgba(255,255,255,0.2); }
-.cover h1 {
-  font-family: 'Noto Serif SC', serif;
-  font-size: clamp(36px,6vw,72px);
-  font-weight: 900;
-  line-height: 1.08;
-  color: #fff;
-  margin-bottom: 24px;
-}
-.cover h1 .accent { color: #fbbf24; font-style: italic; }
-.cover-desc {
-  font-size: 16px;
-  color: rgba(255,255,255,0.45);
-  max-width: 600px;
-  line-height: 1.75;
-  margin-bottom: 60px;
-}
-.cover-stats {
-  display: flex; gap: 0;
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: var(--r);
-  overflow: hidden;
-  max-width: 800px;
-}
-.cs-item {
-  flex: 1; padding: 24px 28px;
-  border-right: 1px solid rgba(255,255,255,0.08);
-  position: relative;
-}
-.cs-item:last-child { border-right: none; }
-.cs-num {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 32px; font-weight: 900;
-  color: #fbbf24; line-height: 1;
-  margin-bottom: 6px;
-}
-.cs-label { font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.4; }
-.cover-date {
-  position: absolute; bottom: 40px; right: 80px;
-  font-family: 'Fira Code', monospace; font-size: 11px;
-  color: rgba(255,255,255,0.2); letter-spacing: 2px;
-}
+/* WEIMOB BANNER */
+.weimob-banner{background:linear-gradient(135deg,#1a3a52,#0f2d45);border-bottom:2px solid #fbbf24;padding:20px 80px;display:flex;align-items:center;gap:20px;}
+.wb-tag{font-family:'Courier New','Menlo','Monaco',monospace;font-size:9px;letter-spacing:2px;background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.35);color:#fbbf24;padding:3px 10px;border-radius:3px;white-space:nowrap;text-transform:uppercase;}
+.wb-text{font-size:13px;color:rgba(255,255,255,.6);line-height:1.6;}
+.wb-text strong{color:rgba(255,255,255,.85);}
 
-/* ─── SECTION STRUCTURE ─── */
-.section {
-  padding: 72px 0;
-  border-bottom: 1px solid var(--border);
-}
-.wrap { max-width: 1140px; margin: 0 auto; padding: 0 80px; }
+/* SECTION */
+.section{padding:72px 0;border-bottom:1px solid var(--border);}
+.wrap{max-width:1140px;margin:0 auto;padding:0 80px;}
+.sec-head{margin-bottom:44px;}
+.sec-num{font-family:'Courier New','Menlo','Monaco',monospace;font-size:9px;letter-spacing:4px;color:var(--dim);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:12px;}
+.sec-num::after{content:'';flex:1;max-width:60px;height:1px;background:var(--border2);}
+.sec-h{font-family:'Georgia','Noto Serif SC','SimSun',serif;font-size:clamp(22px,3vw,32px);font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.2;}
+.sec-sub{font-size:14px;color:var(--muted);max-width:700px;line-height:1.7;}
 
-.sec-head { margin-bottom: 44px; }
-.sec-num {
-  font-family: 'Fira Code', monospace;
-  font-size: 9px; letter-spacing: 4px;
-  color: var(--dim); text-transform: uppercase;
-  margin-bottom: 8px;
-  display: flex; align-items: center; gap: 12px;
-}
-.sec-num::after { content:''; flex:1; max-width:60px; height:1px; background:var(--border2); }
-.sec-h {
-  font-family: 'Noto Serif SC', serif;
-  font-size: clamp(22px, 3vw, 32px);
-  font-weight: 700; color: var(--ink);
-  margin-bottom: 10px; line-height: 1.2;
-}
-.sec-sub { font-size: 14px; color: var(--muted); max-width: 700px; line-height: 1.7; }
+/* SOURCE TAG */
+.src-tag{display:inline-flex;align-items:center;gap:5px;font-family:'Courier New','Menlo','Monaco',monospace;font-size:9px;letter-spacing:1.5px;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);color:var(--amber-l);padding:2px 8px;border-radius:3px;margin-left:8px;vertical-align:middle;text-transform:uppercase;}
+.src-tag::before{content:'⊕';font-size:10px;}
 
-/* ─── GRID ─── */
-.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-.g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
 
-/* ─── CARDS ─── */
-.card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 24px;
-  box-shadow: var(--sh);
-}
-.card.accent-top { border-top: 3px solid var(--ct, var(--amber-l)); }
-.card.dark { background: var(--ink2); border-color: transparent; }
+/* CARDS */
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:24px;box-shadow:var(--sh);}
+.card.accent-top{border-top:3px solid var(--ct,var(--amber-l));}
+.card.dark{background:var(--ink2);border-color:transparent;}
 
-/* ─── TYPOGRAPHY ─── */
-.label {
-  font-family: 'Fira Code', monospace;
-  font-size: 9px; letter-spacing: 2.5px;
-  text-transform: uppercase; color: var(--dim);
-  margin-bottom: 10px; padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
-}
-.label.c-amber { color: var(--amber-l); border-color: rgba(180,83,9,0.2); }
-.label.c-blue  { color: var(--blue-l); border-color: rgba(29,78,216,0.15); }
-.label.c-green { color: var(--green-l); border-color: rgba(21,128,61,0.2); }
-.label.c-red   { color: var(--red); border-color: rgba(185,28,28,0.15); }
-.label.c-teal  { color: var(--teal-l); border-color: rgba(15,118,110,0.2); }
-.label.c-purple{ color: var(--purple-l); border-color: rgba(126,34,206,0.15); }
+.label{font-family:'Courier New','Menlo','Monaco',monospace;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--dim);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.label.c-amber{color:var(--amber-l);border-color:rgba(180,83,9,.2);}
+.label.c-blue{color:var(--blue-l);border-color:rgba(29,78,216,.15);}
+.label.c-green{color:var(--green-l);border-color:rgba(21,128,61,.2);}
+.label.c-red{color:var(--red);border-color:rgba(185,28,28,.15);}
+.label.c-teal{color:var(--teal-l);border-color:rgba(15,118,110,.2);}
+.label.c-purple{color:var(--purple-l);border-color:rgba(126,34,206,.15);}
 
-.nlist, .clist, .xlist {
-  list-style: none;
-  display: flex; flex-direction: column; gap: 8px;
-}
-.nlist li, .clist li, .xlist li {
-  font-size: 13px; color: #374151;
-  padding-left: 18px; position: relative; line-height: 1.55;
-}
-.nlist li::before { content:'›'; position:absolute; left:0; font-size:14px; font-weight:700; color:var(--dim); }
-.clist li::before { content:'✓'; position:absolute; left:0; font-size:11px; top:2px; color:var(--green-l); font-weight:700; }
-.xlist li::before { content:'✕'; position:absolute; left:0; font-size:11px; top:2px; color:var(--red); }
-li strong { color: var(--ink); }
+.nlist,.clist,.xlist{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.nlist li,.clist li,.xlist li{font-size:13px;color:#374151;padding-left:18px;position:relative;line-height:1.55;}
+.nlist li::before{content:'›';position:absolute;left:0;font-size:14px;font-weight:700;color:var(--dim);}
+.clist li::before{content:'✓';position:absolute;left:0;font-size:11px;top:2px;color:var(--green-l);font-weight:700;}
+.xlist li::before{content:'✕';position:absolute;left:0;font-size:11px;top:2px;color:var(--red);}
+li strong{color:var(--ink);}
 
-.callout {
-  border-left: 3px solid var(--cc, var(--amber-l));
-  background: var(--cb, var(--amber-bg));
-  border-radius: 0 6px 6px 0;
-  padding: 16px 20px; margin: 18px 0;
-}
-.callout-t {
-  font-family: 'Fira Code', monospace;
-  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--cc, var(--amber-l)); margin-bottom: 7px;
-}
-.callout p { font-size: 13px; color: #374151; line-height: 1.65; }
-.callout p strong { color: var(--ink); }
+.callout{border-left:3px solid var(--cc,var(--amber-l));background:var(--cb,var(--amber-bg));border-radius:0 6px 6px 0;padding:16px 20px;margin:18px 0;}
+.callout-t{font-family:'Courier New','Menlo','Monaco',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--cc,var(--amber-l));margin-bottom:7px;}
+.callout p{font-size:13px;color:#374151;line-height:1.65;}
+.callout p strong{color:var(--ink);}
 
-/* ─── PRINCIPLE EXPLAINER ─── */
-.principle-row {
-  display: grid; grid-template-columns: 1fr 48px 1fr 48px 1fr;
-  gap: 0; align-items: center; margin: 28px 0;
-}
-.pr-box {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 22px;
-  box-shadow: var(--sh);
-}
-.pr-box.active {
-  border-color: var(--amber-l);
-  background: var(--amber-bg);
-  border-left: 3px solid var(--amber-l);
-}
-.pr-head {
-  font-family: 'Fira Code', monospace;
-  font-size: 9px; letter-spacing: 2px;
-  color: var(--dim); text-transform: uppercase;
-  margin-bottom: 8px;
-}
-.pr-head.active { color: var(--amber-l); }
-.pr-title {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 16px; font-weight: 700; margin-bottom: 8px;
-}
-.pr-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
-.pr-arrow {
-  text-align: center; font-size: 24px;
-  color: var(--border2); font-weight: 300;
-}
+/* PRINCIPLE */
+.principle-row{display:grid;grid-template-columns:1fr 48px 1fr 48px 1fr;gap:0;align-items:center;margin:28px 0;}
+.pr-box{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:22px;box-shadow:var(--sh);}
+.pr-box.active{border-color:var(--amber-l);background:var(--amber-bg);border-left:3px solid var(--amber-l);}
+.pr-head{font-family:'Courier New','Menlo','Monaco',monospace;font-size:9px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:8px;}
+.pr-head.active{color:var(--amber-l);}
+.pr-title{font-family:'Georgia','Noto Serif SC','SimSun',serif;font-size:16px;font-weight:700;margin-bottom:8px;}
+.pr-desc{font-size:12px;color:var(--muted);line-height:1.6;}
+.pr-arrow{text-align:center;font-size:24px;color:var(--border2);font-weight:300;}
 
-/* ─── HOW AI CITES ─── */
-.cite-paths {
-  display: grid; grid-template-columns: 1fr 1fr 1fr;
-  gap: 2px; background: var(--border);
-  border: 1px solid var(--border);
-  border-radius: var(--r); overflow: hidden;
-  margin: 24px 0;
-}
-.cite-path {
-  background: var(--white); padding: 26px;
-  position: relative;
-}
-.cp-pct {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 52px; font-weight: 900;
-  line-height: 1; margin-bottom: 6px;
-  color: var(--cp-c, var(--amber-l));
-}
-.cp-name { font-size: 15px; font-weight: 700; margin-bottom: 10px; color: var(--ink); }
-.cp-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
-.cp-badge {
-  display: inline-block;
-  font-family: 'Fira Code', monospace;
-  font-size: 9px; padding: 2px 8px;
-  border-radius: 3px; margin-top: 10px;
-  letter-spacing: 1px;
-}
-.cp-geo  { background: var(--green-bg); color: var(--green-l); }
-.cp-seo  { background: var(--blue-bg); color: var(--blue-l); }
-.cp-ent  { background: var(--purple-bg); color: var(--purple-l); }
+/* CITE PATHS */
+.cite-paths{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:24px 0;}
+.cite-path{background:var(--white);padding:26px;position:relative;}
+.cp-pct{font-family:'Georgia','Noto Serif SC','SimSun',serif;font-size:52px;font-weight:900;line-height:1;margin-bottom:6px;color:var(--cp-c,var(--amber-l));}
+.cp-name{font-size:15px;font-weight:700;margin-bottom:10px;color:var(--ink);}
+.cp-desc{font-size:12px;color:var(--muted);line-height:1.6;}
+.cp-badge{display:inline-block;font-family:'Courier New','Menlo','Monaco',monospace;font-size:9px;padding:2px 8px;border-radius:3px;margin-top:10px;letter-spacing:1px;}
+.cp-geo{background:var(--green-bg);color:var(--green-l);}
+.cp-seo{background:var(--blue-bg);color:var(--blue-l);}
+.cp-ent{background:var(--purple-bg);color:var(--purple-l);}
 
-/* ─── PLATFORM TABLE ─── */
-.ptbl { width:100%; border-collapse:collapse; font-size:13px; margin:24px 0; }
-.ptbl th {
-  background: var(--ink2); color: #fff;
-  padding: 11px 16px; text-align: left;
-  font-family: 'Fira Code', monospace;
-  font-size: 9px; letter-spacing: 2px; font-weight: 500;
-}
-.ptbl td {
-  padding: 12px 16px; border-bottom: 1px solid var(--border);
-  color: #374151; vertical-align: top; line-height: 1.5;
-}
-.ptbl tr:hover td { background: var(--surf); }
-.ptbl .pn { font-weight: 700; color: var(--ink); }
-.ptbl .code { font-family:'Fira Code',monospace; font-size:10px; color:var(--blue-l); }
-.ptbl .p0 { color:var(--red); font-weight:700; font-family:'Fira Code',monospace; font-size:10px; }
-.ptbl .p1 { color:var(--amber-l); font-weight:700; font-family:'Fira Code',monospace; font-size:10px; }
-.ptbl .p2 { color:var(--green-l); font-weight:700; font-family:'Fira Code',monospace; font-size:10px; }
-.new-tag {
-  display: inline-block;
-  background: var(--green-bg); color: var(--green-l);
-  border: 1px solid #86efac; border-radius: 3px;
-  padding: 1px 5px; font-size: 9px;
-  font-family: 'Fira Code',monospace; font-weight: 700; margin-left: 4px;
-}
+/* PLATFORM TABLE */
+.ptbl{width:100%;border-collapse:collapse;font-size:13px;margin:24px 0;}
+.ptbl th{background:var(--ink2);color:#fff;padding:11px 16px;text-align:left;font-family:'Courier New','Menlo','Monaco',monospace;font-size:9px;letter-spacing:2px;font-weight:500;}
+.ptbl td{padding:12px 16px;border-bottom:1px solid var(--border);color:#374151;vertical-align:top;line-height:1.5;}
+.ptbl tr:hover td{background:var(--surf);}
+.ptbl .pn{font-weight:700;color:var(--ink);}
+.ptbl .code{font-family:'Courier New','Menlo','Monaco',monospace;font-size:10px;color:var(--blue-l);}
+.ptbl .p0{color:var(--red);font-weight:700;font-family:'Courier New','Menlo','Monaco',monospace;font-size:10px;}
+.ptbl .p1{color:var(--amber-l);font-weight:700;font-family:'Courier New','Menlo','Monaco',monospace;font-size:10px;}
+.ptbl .p2{color:var(--green-l);font-weight:700;font-family:'Courier New','Menlo','Monaco',monospace;font-size:10px;}
+.new-tag{display:inline-block;background:var(--green-bg);color:var(--green-l);border:1px solid #86efac;border-radius:3px;padding:1px 5px;font-size:9px;font-family:'Courier New','Menlo','Monaco',monospace;font-weight:700;margin-left:4px;}
 
-/* ─── PHASE ROADMAP ─── */
-.phases { display: flex; gap: 12px; margin: 28px 0; }
-.phase {
-  flex: 1; background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--r); overflow: hidden;
-  box-shadow: var(--sh);
-  position: relative;
-}
-.phase::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0;
-  height: 4px;
-  background: var(--ph-c, var(--amber-l));
-}
-.phase-hdr {
-  padding: 18px 20px 14px;
-  border-bottom: 1px solid var(--border);
-}
-.phase-num {
-  font-family: 'Fira Code', monospace;
-  font-size: 9px; letter-spacing: 2px;
-  color: var(--ph-c, var(--amber-l));
-  text-transform: uppercase; margin-bottom: 4px;
-}
-.phase-name {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 15px; font-weight: 700; color: var(--ink);
-  margin-bottom: 2px;
-}
-.phase-period { font-size: 11px; color: var(--muted); font-family: 'Fira Code', monospace; }
-.phase-body { padding: 18px 20px; }
-.phase-goal {
-  font-size: 12px; color: var(--muted);
-  border-left: 2px solid var(--border);
-  padding-left: 12px; margin-bottom: 14px;
-  line-height: 1.6;
-}
-.phase-items { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-.phase-items li {
-  font-size: 12px; color: #374151;
-  padding-left: 14px; position: relative; line-height: 1.5;
-}
-.phase-items li::before {
-  content: '›'; position: absolute; left: 0;
-  color: var(--ph-c, var(--amber-l)); font-weight: 700;
-}
+/* PHASES */
+.phases{display:flex;gap:12px;margin:28px 0;}
+.phase{flex:1;background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);position:relative;}
+.phase::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--ph-c,var(--amber-l));}
+.phase-hdr{padding:18px 20px 14px;border-bottom:1px solid var(--border);}
+.phase-num{font-family:'Courier New','Menlo','Monaco',monospace;font-size:9px;letter-spacing:2px;color:var(--ph-c,var(--amber-l));text-transform:uppercase;margin-bottom:4px;}
+.phase-name{font-family:'Georgia','Noto Serif SC','SimSun',serif;font-size:15px;font-weight:700;color:var(--ink);margin-bottom:2px;}
+.phase-period{font-size:11px;color:var(--muted);font-family:'Courier New','Menlo','Monaco',monospace;}
+.phase-body{padding:18px 20px;}
+.phase-goal{font-size:12px;color:var(--muted);border-left:2px solid var(--border);padding-left:12px;margin-bottom:14px;line-height:1.6;}
+.phase-items{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.phase-items li{font-size:12px;color:#374151;padding-left:14px;position:relative;line-height:1.5;}
+.phase-items li::before{content:'›';position:absolute;left:0;color:var(--ph-c,var(--amber-l));font-weight:700;}
 
-/* ─── TECH ARCH ─── */
-.arch-dark {
-  background: var(--ink2); border-radius: var(--r);
-  padding: 28px; margin: 20px 0;
-  font-family: 'Fira Code', monospace;
-}
-.arch-t { font-size: 9px; letter-spacing: 3px; color: rgba(255,255,255,0.2); text-transform: uppercase; margin-bottom: 18px; }
-.arch-layer { display: flex; gap: 8px; margin-bottom: 8px; align-items: stretch; }
-.arch-lbl {
-  font-size: 8px; letter-spacing: 1.5px;
-  color: rgba(255,255,255,0.2);
-  writing-mode: vertical-rl; transform: rotate(180deg);
-  min-width: 22px; display: flex; align-items: center; justify-content: center;
-}
-.arch-nodes { display: flex; gap: 8px; flex: 1; flex-wrap: wrap; }
-.an {
-  flex: 1; min-width: 80px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 5px; padding: 9px 11px;
-  font-size: 10px; color: rgba(255,255,255,0.6);
-  text-align: center; line-height: 1.4;
-}
-.an small { display: block; font-size: 8px; color: rgba(255,255,255,0.3); margin-top: 2px; }
-.an.hi-a { background: rgba(180,83,9,0.25); border-color: rgba(251,191,36,0.3); color: #fde68a; }
-.an.hi-b { background: rgba(29,78,216,0.2); border-color: rgba(96,165,250,0.3); color: #93c5fd; }
-.an.hi-g { background: rgba(21,128,61,0.2); border-color: rgba(74,222,128,0.3); color: #86efac; }
-.arch-div { height: 1px; background: rgba(255,255,255,0.04); margin: 4px 0; }
+/* BUSINESS LOOP - NEW */
+.biz-loop{display:flex;align-items:stretch;gap:2px;margin:24px 0;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.bl-stage{flex:1;background:var(--white);padding:24px 20px;}
+.bl-stage.active{background:var(--amber-bg);}
+.bl-num{font-family:'Courier New','Menlo','Monaco',monospace;font-size:9px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:8px;}
+.bl-name{font-family:'Georgia','Noto Serif SC','SimSun',serif;font-size:15px;font-weight:700;color:var(--ink);margin-bottom:12px;}
+.bl-stage.active .bl-name{color:var(--amber-l);}
+.bl-steps{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.bl-steps li{font-size:12px;color:var(--muted);padding-left:16px;position:relative;line-height:1.5;}
+.bl-steps li::before{content:attr(data-n);position:absolute;left:0;font-family:'Courier New','Menlo','Monaco',monospace;font-size:10px;color:var(--border2);font-weight:600;}
+.bl-arrow{display:flex;align-items:center;justify-content:center;padding:0 8px;color:var(--dim);font-size:20px;background:var(--surf);}
 
-/* ─── COMPLIANCE ─── */
-.red-lines { display: flex; flex-direction: column; gap: 10px; margin: 24px 0; }
-.rl {
-  display: grid;
-  grid-template-columns: 32px 1fr 1fr 100px;
-  gap: 14px; align-items: center;
-  background: var(--white); border: 1px solid var(--border);
-  border-radius: var(--r); padding: 14px 18px;
-  box-shadow: var(--sh);
-}
-.rl.danger { border-left: 4px solid var(--red); background: var(--red-bg); }
-.rl.warn   { border-left: 4px solid var(--amber-l); background: var(--amber-bg); }
-.rl.ok     { border-left: 4px solid var(--green-l); background: var(--green-bg); }
-.rl-icon { font-size: 20px; text-align: center; }
-.rl-rule { font-weight: 600; font-size: 13px; color: var(--ink); }
-.rl-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
-.rl-level {
-  font-family: 'Fira Code', monospace;
-  font-size: 9px; letter-spacing: 1px;
-  padding: 4px 10px; border-radius: 4px;
-  text-align: center; font-weight: 700;
-}
-.lv-d { background: var(--red); color: #fff; }
-.lv-w { background: var(--amber-l); color: #fff; }
-.lv-g { background: var(--green-l); color: #fff; }
+/* TECH ARCH */
+.arch-dark{background:var(--ink2);border-radius:var(--r);padding:28px;margin:20px 0;font-family:'Courier New','Menlo','Monaco',monospace;}
+.arch-t{font-size:9px;letter-spacing:3px;color:rgba(255,255,255,.2);text-transform:uppercase;margin-bottom:18px;}
+.arch-layer{display:flex;gap:8px;margin-bottom:8px;align-items:stretch;}
+.arch-lbl{font-size:8px;letter-spacing:1.5px;color:rgba(255,255,255,.2);writing-mode:vertical-rl;transform:rotate(180deg);min-width:22px;display:flex;align-items:center;justify-content:center;}
+.arch-nodes{display:flex;gap:8px;flex:1;flex-wrap:wrap;}
+.an{flex:1;min-width:80px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:5px;padding:9px 11px;font-size:10px;color:rgba(255,255,255,.6);text-align:center;line-height:1.4;}
+.an small{display:block;font-size:8px;color:rgba(255,255,255,.3);margin-top:2px;}
+.an.hi-a{background:rgba(180,83,9,.25);border-color:rgba(251,191,36,.3);color:#fde68a;}
+.an.hi-b{background:rgba(29,78,216,.2);border-color:rgba(96,165,250,.3);color:#93c5fd;}
+.an.hi-g{background:rgba(21,128,61,.2);border-color:rgba(74,222,128,.3);color:#86efac;}
+.an.hi-r{background:rgba(185,28,28,.2);border-color:rgba(252,165,165,.3);color:#fca5a5;}
+.arch-div{height:1px;background:rgba(255,255,255,.04);margin:4px 0;}
 
-/* ─── ROI MODEL ─── */
-.roi-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 2px; background: var(--border);
-  border: 1px solid var(--border); border-radius: var(--r);
-  overflow: hidden; margin: 24px 0;
-}
-.roi-cell {
-  background: var(--white); padding: 24px;
-}
-.roi-cell.dark { background: var(--ink2); }
-.roi-num {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 36px; font-weight: 900;
-  color: var(--rn-c, var(--amber-l)); line-height: 1;
-  margin-bottom: 6px;
-}
-.roi-name { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-.roi-desc { font-size: 12px; color: var(--muted); line-height: 1.55; }
+/* COMPLIANCE */
+.red-lines{display:flex;flex-direction:column;gap:10px;margin:24px 0;}
+.rl{display:grid;grid-template-columns:32px 1fr 1fr 100px;gap:14px;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:14px 18px;box-shadow:var(--sh);}
+.rl.danger{border-left:4px solid var(--red);background:var(--red-bg);}
+.rl.warn{border-left:4px solid var(--amber-l);background:var(--amber-bg);}
+.rl.ok{border-left:4px solid var(--green-l);background:var(--green-bg);}
+.rl-icon{font-size:20px;text-align:center;}
+.rl-rule{font-weight:600;font-size:13px;color:var(--ink);}
+.rl-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+.rl-level{font-family:'Courier New','Menlo','Monaco',monospace;font-size:9px;letter-spacing:1px;padding:4px 10px;border-radius:4px;text-align:center;font-weight:700;}
+.lv-d{background:var(--red);color:#fff;}
+.lv-w{background:var(--amber-l);color:#fff;}
+.lv-g{background:var(--green-l);color:#fff;}
 
-/* ─── COMPARISON ─── */
-.vs-table { width:100%; border-collapse:collapse; margin:24px 0; font-size:13px; }
-.vs-table th { padding:12px 16px; font-weight:600; font-size:12px; }
-.vs-table th:first-child { color:var(--muted); background:var(--surf); }
-.vs-table th:nth-child(2) { color:var(--red); background:var(--red-bg); border-left:1px solid var(--border); }
-.vs-table th:nth-child(3) { color:var(--green-l); background:var(--green-bg); border-left:1px solid var(--border); }
-.vs-table td { padding:11px 16px; border-top:1px solid var(--border); color:#374151; vertical-align:top; line-height:1.5; }
-.vs-table td:first-child { font-family:'Fira Code',monospace; font-size:10px; color:var(--dim); background:var(--surf); }
-.vs-table td:nth-child(2) { border-left:1px solid var(--border); background:#fff9f9; }
-.vs-table td:nth-child(3) { border-left:1px solid var(--border); background:#f9fffe; }
+/* PRICING - NEW */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0;}
+.price-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);}
+.price-header{padding:20px 24px;text-align:center;}
+.price-tier{font-family:'Courier New','Menlo','Monaco',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.price-amount{font-family:'Georgia','Noto Serif SC','SimSun',serif;font-size:36px;font-weight:900;line-height:1;margin-bottom:6px;}
+.price-sub{font-size:12px;color:var(--muted);}
+.price-body{padding:16px 24px;border-top:1px solid var(--border);}
+.price-target{font-size:12px;color:var(--muted);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.price-features li{font-size:12px;color:#374151;padding-left:16px;position:relative;}
+.price-features li::before{content:'·';position:absolute;left:4px;color:var(--dim);}
+.price-card.featured{border-color:var(--amber-l);border-width:2px;}
+.price-card.featured .price-header{background:var(--amber-bg);}
+.price-card.featured .price-tier{color:var(--amber-l);}
+.price-card.featured .price-amount{color:var(--amber);}
 
-/* ─── TIMELINE ─── */
-.tl { padding: 8px 0; }
-.tl-item {
-  display: grid; grid-template-columns: 100px 1fr;
-  gap: 24px; align-items: start;
-  margin-bottom: 16px; position: relative;
-}
-.tl-item::before {
-  content: ''; position: absolute;
-  left: 49px; top: 24px;
-  width: 1px; height: calc(100% + 16px);
-  background: var(--border);
-}
-.tl-item:last-child::before { display: none; }
-.tl-mark { display: flex; flex-direction: column; align-items: center; gap: 6px; padding-top: 4px; }
-.tl-dot {
-  width: 18px; height: 18px; border-radius: 50%;
-  border: 3px solid var(--td-c, var(--border));
-  background: var(--white); flex-shrink: 0;
-}
-.tl-dot.filled { background: var(--td-c, var(--amber-l)); border-color: var(--td-c); }
-.tl-period {
-  font-family: 'Fira Code', monospace; font-size: 9px;
-  color: var(--dim); text-align: center; line-height: 1.3;
-  letter-spacing: 1px;
-}
-.tl-card {
-  background: var(--white); border: 1px solid var(--border);
-  border-radius: var(--r); padding: 18px 22px; box-shadow: var(--sh);
-}
-.tl-card h4 { font-weight: 700; font-size: 14px; color: var(--ink); margin-bottom: 10px; }
-.tl-card p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+/* ROI */
+.roi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:24px 0;}
+.roi-cell{background:var(--white);padding:24px;}
+.roi-num{font-family:'Georgia','Noto Serif SC','SimSun',serif;font-size:36px;font-weight:900;color:var(--rn-c,var(--amber-l));line-height:1;margin-bottom:6px;}
+.roi-name{font-size:13px;font-weight:600;margin-bottom:6px;}
+.roi-desc{font-size:12px;color:var(--muted);line-height:1.55;}
 
-/* ─── FOOTER ─── */
-.footer {
-  background: var(--ink2); color: rgba(255,255,255,0.3);
-  padding: 28px 80px;
-  display: flex; justify-content: space-between; align-items: center;
-  font-size: 11px; font-family: 'Fira Code', monospace;
-}
+/* VS TABLE */
+.vs-table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13px;}
+.vs-table th{padding:12px 16px;font-weight:600;font-size:12px;}
+.vs-table th:first-child{color:var(--muted);background:var(--surf);}
+.vs-table th:nth-child(2){color:var(--red);background:var(--red-bg);border-left:1px solid var(--border);}
+.vs-table th:nth-child(3){color:var(--green-l);background:var(--green-bg);border-left:1px solid var(--border);}
+.vs-table td{padding:11px 16px;border-top:1px solid var(--border);color:#374151;vertical-align:top;line-height:1.5;}
+.vs-table td:first-child{font-family:'Courier New','Menlo','Monaco',monospace;font-size:10px;color:var(--dim);background:var(--surf);}
+.vs-table td:nth-child(2){border-left:1px solid var(--border);background:#fff9f9;}
+.vs-table td:nth-child(3){border-left:1px solid var(--border);background:#f9fffe;}
 
-@media (max-width: 900px) {
-  .cover { padding: 40px 24px; min-height: auto; }
-  .cover-stats { flex-wrap: wrap; }
-  .footer { padding: 24px; flex-direction: column; gap: 10px; }
-  .wrap { padding: 0 24px; }
-  .g2,.g3,.g4,.phases { grid-template-columns: 1fr; flex-direction: column; }
-  .principle-row { grid-template-columns: 1fr; }
-  .pr-arrow { transform: rotate(90deg); }
-  .cite-paths { grid-template-columns: 1fr; }
-  .roi-grid { grid-template-columns: 1fr; }
-  .rl { grid-template-columns: 1fr; }
-  .vs-table td:first-child { display: none; }
-  .arch-layer { flex-direction: column; }
+/* SEO AUX - NEW */
+.aux-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0;}
+.aux-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;border-left:3px solid var(--ac,var(--amber-l));}
+.aux-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+.aux-desc{font-size:12px;color:var(--muted);line-height:1.6;}
+
+/* TIMELINE */
+.tl{padding:8px 0;}
+.tl-item{display:grid;grid-template-columns:100px 1fr;gap:24px;align-items:start;margin-bottom:16px;position:relative;}
+.tl-item::before{content:'';position:absolute;left:49px;top:24px;width:1px;height:calc(100% + 16px);background:var(--border);}
+.tl-item:last-child::before{display:none;}
+.tl-mark{display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:4px;}
+.tl-dot{width:18px;height:18px;border-radius:50%;border:3px solid var(--td-c,var(--border));background:var(--white);flex-shrink:0;}
+.tl-dot.filled{background:var(--td-c,var(--amber-l));border-color:var(--td-c);}
+.tl-period{font-family:'Courier New','Menlo','Monaco',monospace;font-size:9px;color:var(--dim);text-align:center;line-height:1.3;letter-spacing:1px;}
+.tl-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:18px 22px;box-shadow:var(--sh);}
+.tl-card h4{font-weight:700;font-size:14px;color:var(--ink);margin-bottom:10px;}
+.tl-card p{font-size:12px;color:var(--muted);line-height:1.6;}
+
+/* FOOTER */
+.footer{background:var(--ink2);color:rgba(255,255,255,.3);padding:28px 80px;display:flex;justify-content:space-between;align-items:center;font-size:11px;font-family:'Courier New','Menlo','Monaco',monospace;}
+
+@media(max-width:900px){
+  .cover,.footer{padding:40px 24px;}
+  .cover-stats{flex-wrap:wrap;}
+  .wrap{padding:0 24px;}
+  .g2,.g3,.g4,.phases,.biz-loop,.price-grid,.aux-grid{grid-template-columns:1fr;flex-direction:column;}
+  .principle-row{grid-template-columns:1fr;}
+  .pr-arrow{transform:rotate(90deg);}
+  .cite-paths,.roi-grid{grid-template-columns:1fr;}
+  .rl{grid-template-columns:1fr;}
+  .vs-table td:first-child{display:none;}
+  .arch-layer{flex-direction:column;}
+  .biz-loop{flex-direction:column;}
+  .weimob-banner{padding:16px 24px;}
 }
 </style>
 </head>
 <body>
 
-<!-- ══════════════ COVER ══════════════ -->
+<!-- COVER -->
 <div class="cover">
   <div class="cover-texture"></div>
   <div class="cover-label">飞凡科技 · 合伙人沟通材料 · CONFIDENTIAL</div>
+  <div class="cover-badge">⊕ 微盟 GEO 团队实战经验 · 已整合</div>
   <h1>
     GEO<br>
     <span class="accent">生成式引擎优化</span><br>
-    战略全景
+    战略全景 V4.0
   </h1>
   <div class="cover-desc">
-    原理 · 市场现状 · 国内外平台格局 · 落地步骤 · 技术实现 · 合规红线<br>
-    基于最新行业数据与监管动态，结合飞凡科技执行路径
+    原理 · 市场现状 · 国内外平台格局 · 业务闭环 · 落地步骤 · 定价体系 · 技术实现 · 合规红线<br>
+    基于最新行业数据、监管动态及微盟规模化实施经验，结合飞凡科技执行路径
   </div>
   <div class="cover-stats">
     <div class="cs-item">
@@ -510,18 +281,28 @@ li strong { color: var(--ink); }
       <div class="cs-label">ChatGPT 周活用户<br>2026年初突破</div>
     </div>
     <div class="cs-item">
-      <div class="cs-num">35×</div>
-      <div class="cs-label">中国GEO市场规模<br>2027 vs 2025</div>
+      <div class="cs-num">67%</div>
+      <div class="cs-label">微盟客户 AI 可见度<br>6个月平均提升</div>
     </div>
     <div class="cs-item">
-      <div class="cs-num">4.4×</div>
-      <div class="cs-label">AI引用访客转化率<br>vs 传统搜索</div>
+      <div class="cs-num">300+</div>
+      <div class="cs-label">微盟 GEO 垂直<br>行业客户服务量</div>
+    </div>
+    <div class="cs-item">
+      <div class="cs-num">85%</div>
+      <div class="cs-label">微盟客户<br>年度续约率</div>
     </div>
   </div>
-  <div class="cover-date">2026.05 · V3.0 FINAL</div>
+  <div class="cover-date">2026.05 · V4.0 · 含微盟经验增强版</div>
 </div>
 
-<!-- ══════════════ SECTION 1: WHY NOW ══════════════ -->
+<!-- WEIMOB INSIGHTS BANNER -->
+<div class="weimob-banner">
+  <span class="wb-tag">微盟实战经验</span>
+  <div class="wb-text">本版新增内容来自微盟 GEO 团队实施经验：<strong>完整业务闭环流程</strong>、<strong>SEO 辅助动作细节</strong>、<strong>年框定价体系（10-100万）</strong>、<strong>B2C 消费品场景</strong>。微盟已服务 300+ 客户，6个月 AI 可见度平均提升 67%，是目前国内最具代表性的规模化 GEO 实施经验。</div>
+</div>
+
+<!-- SECTION 1: WHY NOW -->
 <div class="section">
 <div class="wrap">
   <div class="sec-head">
@@ -529,40 +310,38 @@ li strong { color: var(--ink); }
     <div class="sec-h">搜索行为正在发生结构性迁移</div>
     <div class="sec-sub">这不是一次工具升级，而是用户信息获取方式的范式转变。错过这个窗口期，代价不是排名下降，而是从 AI 的认知世界中消失。</div>
   </div>
-
   <div class="g2">
     <div>
-      <div class="card accent-top" style="--ct: var(--red);">
+      <div class="card accent-top" style="--ct:var(--red);">
         <div class="label c-red">传统搜索的衰退</div>
         <ul class="nlist">
-          <li><strong>用户行为变了：</strong>专业人士用 ChatGPT 看行业报告，学生用 Perplexity 做研究，开发者用 Claude 解释技术概念——每次交互都是品牌曝光机会</li>
+          <li><strong>用户行为变了：</strong>专业人士用 ChatGPT 看行业报告，消费者问 AI "给孩子买 T 恤选哪个品牌"，每次 AI 交互都是品牌曝光机会</li>
           <li><strong>流量结构变了：</strong>出版商报告因 AI Overview 主导屏幕，流量损失高达 40%</li>
-          <li><strong>竞争逻辑变了：</strong>传统搜索有10个蓝链，AI 每次回答平均只引用 2-7 个域名，竞争烈度呈数量级增加</li>
-          <li><strong>5.6%：</strong>2025年中期，美国已有5.6%的搜索通过 AI 工具完成；2026年初，这个数字正在快速攀升</li>
+          <li><strong>竞争逻辑变了：</strong>传统搜索有10个蓝链，AI 每次回答平均只引用 2-7 个域名，竞争烈度数量级增加</li>
+          <li><strong>5.6%：</strong>2025年中期美国已有5.6%的搜索通过 AI 工具完成，2026年持续快速攀升</li>
         </ul>
       </div>
     </div>
     <div>
-      <div class="card accent-top" style="--ct: var(--green-l);">
+      <div class="card accent-top" style="--ct:var(--green-l);">
         <div class="label c-green">GEO 的战略窗口</div>
         <ul class="clist">
-          <li><strong>先发优势可持续：</strong>AI 模型存在"来源偏好"——一旦某来源被反复引用证明可靠，模型会在相关查询中偏好该来源。现在建立的引用护城河，竞争对手很难追赶</li>
-          <li><strong>竞争密度极低：</strong>目前 GEO 仍是早期阶段，大多数竞争对手尚未开始，这在传统 SEO 已几乎不可能出现</li>
-          <li><strong>复利效应：</strong>一篇被良好引用的文章可以在数千次 AI 对话中持续影响用户，且会随模型更新被持续巩固</li>
-          <li><strong>80%+：</strong>企业营销人员预计在2026年底前单独设立 GEO 预算（Gartner）</li>
+          <li><strong>先发优势可持续：</strong>AI 存在"来源偏好"——一旦某来源被反复引用证明可靠，模型会持续偏好该来源，竞争对手很难追赶</li>
+          <li><strong>竞争密度仍极低：</strong>GEO 仍是早期阶段，大多数竞争对手尚未开始，这在传统 SEO 已几乎不可能出现</li>
+          <li><strong>复利效应：</strong>一篇被良好引用的文章可以在数千次 AI 对话中持续影响用户，随模型更新被持续巩固</li>
+          <li><strong>B2C 场景爆发：</strong>消费品、教育、健康等行业 AI 查询量已超 ToB，微盟实证：6个月可见度提升 67%</li>
         </ul>
       </div>
     </div>
   </div>
-
   <div class="callout" style="--cc:var(--amber-l);--cb:var(--amber-bg);">
     <div class="callout-t">行业共识数据</div>
-    <p>来自对 10万+ AI 引用事件的实证研究：<strong>约25%的 AI 引用</strong>由 Google 前30名控制（等同于传统 SEO 逻辑）；<strong>约17%</strong>来自不参与排名、但通过 GEO 优化反复被引用的页面；<strong>剩余58%</strong>是随机噪声，无法人为干预。合规 GEO 的核心是对准前两类。</p>
+    <p>来自对 10万+ AI 引用事件的实证研究：<strong>约25%的 AI 引用</strong>由 Google 前30名控制；<strong>约17%</strong>来自通过 GEO 优化反复被引用的页面；<strong>剩余58%</strong>是随机噪声，无法人为干预。合规 GEO 的核心是对准前两类。微盟数据补充：TOP1 AI 引用率从 7.6% 可提升至 44.5%，市场头部地位可被重新定义。</p>
   </div>
 </div>
 </div>
 
-<!-- ══════════════ SECTION 2: PRINCIPLE ══════════════ -->
+<!-- SECTION 2: PRINCIPLE -->
 <div class="section">
 <div class="wrap">
   <div class="sec-head">
@@ -570,28 +349,26 @@ li strong { color: var(--ink); }
     <div class="sec-h">AI 如何引用你——三条机制，三套策略</div>
     <div class="sec-sub">GEO 不是一套策略，而是三套完全不同机制的组合。大多数市场上的 GEO 服务商只在做第二条，飞凡的差异化在第三条。</div>
   </div>
-
   <div class="cite-paths">
     <div class="cite-path">
-      <div class="cp-pct" style="--cp-c: var(--blue-l);">①</div>
+      <div class="cp-pct" style="--cp-c:var(--blue-l);">①</div>
       <div class="cp-name">训练数据渗透</div>
-      <div class="cp-desc">AI 的基础知识来自训练数据。在高权威媒体、Wikipedia、学术来源上长期建立品牌提及，慢慢渗入模型的知识基础。效果稳定持久，但周期长（6-18个月），且无法直接量化。</div>
+      <div class="cp-desc">在高权威媒体、Wikipedia、学术来源上长期建立品牌提及，渗入模型知识基础。效果稳定持久，但周期长（6-18个月），且无法直接量化。</div>
       <span class="cp-badge cp-seo">SEO + PR 逻辑</span>
     </div>
     <div class="cite-path" style="background:var(--amber-bg);">
-      <div class="cp-pct" style="--cp-c: var(--amber-l);">②</div>
+      <div class="cp-pct" style="--cp-c:var(--amber-l);">②</div>
       <div class="cp-name">实时 RAG 检索</div>
-      <div class="cp-desc">Perplexity、必应 AI、豆包等平台在回答时实时爬取互联网内容，选择结构化、权威、新鲜的页面引用。内容发布3-7天可见效果，但需持续更新（7-14天刷新周期），是当前市场上90%的 GEO 服务所做的事。</div>
+      <div class="cp-desc">Perplexity、豆包等平台回答时实时爬取互联网，选择结构化、权威、新鲜的页面引用。内容发布3-7天可见效果，需7-14天刷新周期维持。<strong>这是当前90%的 GEO 服务在做的事，也是微盟的主要战场。</strong></div>
       <span class="cp-badge cp-geo">GEO 主战场</span>
     </div>
     <div class="cite-path">
-      <div class="cp-pct" style="--cp-c: var(--green-l);">③</div>
+      <div class="cp-pct" style="--cp-c:var(--green-l);">③</div>
       <div class="cp-name">上下文直接注入</div>
-      <div class="cp-desc">企业知识库直连 AI 推理层——如阿里百炼平台、企业 RAG 系统。AI 在回答时直接从企业知识库检索，是最可靠、最可控的 GEO 路径。这是绝大多数 GEO 公司做不到的，也是飞凡的核心护城河。</div>
+      <div class="cp-desc">企业知识库直连 AI 推理层——如阿里百炼平台、企业 RAG 系统。最可靠、最可控的 GEO 路径。<strong>这是绝大多数 GEO 公司做不到的，也是飞凡的核心护城河。</strong></div>
       <span class="cp-badge cp-ent">飞凡核心差异化</span>
     </div>
   </div>
-
   <div class="principle-row">
     <div class="pr-box">
       <div class="pr-head">传统 SEO</div>
@@ -600,7 +377,7 @@ li strong { color: var(--ink); }
     </div>
     <div class="pr-arrow">→</div>
     <div class="pr-box active">
-      <div class="pr-head active">GEO（当下）</div>
+      <div class="pr-head active">GEO（当下窗口期）</div>
       <div class="pr-title">让 AI 引用你</div>
       <div class="pr-desc">当用户问 AI 时，AI 选择引用你的内容作为答案依据——不再是排名竞争，是信任竞争</div>
     </div>
@@ -608,371 +385,302 @@ li strong { color: var(--ink); }
     <div class="pr-box">
       <div class="pr-head">AIBE（未来）</div>
       <div class="pr-title">让 AI 推荐你</div>
-      <div class="pr-desc">AI Agent 代理用户完成采购、比较、决策时，主动将你纳入推荐清单——AI 成为新采购入口</div>
+      <div class="pr-desc">AI Agent 代理采购决策时主动推荐你——AI 成为新的采购入口</div>
+    </div>
+  </div>
+  <div class="callout" style="--cc:var(--blue-l);--cb:var(--blue-bg);">
+    <div class="callout-t">关键反常识发现（有数据）</div>
+    <p><strong>AI 不引用你的官网。</strong>对6.8亿次 AI 引用事件的分析显示，品牌自有产品页面引用占比不足 3%——微盟实践同样验证：80%以上有效 GEO 内容来自第三方权威平台（知乎、百家号、小红书、行业媒体），而非企业官网。</p>
+  </div>
+</div>
+</div>
+
+<!-- SECTION 3: BUSINESS LOOP (NEW FROM WEIMOB) -->
+<div class="section">
+<div class="wrap">
+  <div class="sec-head">
+    <div class="sec-num">03 · GEO 业务闭环 <span class="src-tag">微盟实战经验</span></div>
+    <div class="sec-h">完整三阶段业务闭环——数据驱动的持续优化</div>
+    <div class="sec-sub">GEO 不是一次性投入，而是一个"投放→监测→调整→再投放"的持续闭环。微盟将此流程标准化后，实现了300+客户的规模化交付。</div>
+  </div>
+  <div class="biz-loop">
+    <div class="bl-stage">
+      <div class="bl-num">第一阶段</div>
+      <div class="bl-name">策略与生成</div>
+      <ul class="bl-steps">
+        <li data-n="1.">品牌方输入关键词与核心卖点</li>
+        <li data-n="2.">GEO 系统分析竞品与 AI 偏好（爬虫数据）</li>
+        <li data-n="3.">生成高权重结构化内容（清单式、FAQ 式、数据化）</li>
+      </ul>
+    </div>
+    <div class="bl-arrow">→</div>
+    <div class="bl-stage active">
+      <div class="bl-num">第二阶段</div>
+      <div class="bl-name">分发与索引</div>
+      <ul class="bl-steps">
+        <li data-n="4.">多平台自动化分发（API + RPA）</li>
+        <li data-n="5.">内容平台收录与索引</li>
+        <li data-n="6.">SEO 辅助动作：模拟真实用户行为（转载/访问），保持内容"鲜活"，避免被判为死链</li>
+      </ul>
+    </div>
+    <div class="bl-arrow">→</div>
+    <div class="bl-stage">
+      <div class="bl-num">第三阶段</div>
+      <div class="bl-name">AI 交互与归因</div>
+      <ul class="bl-steps">
+        <li data-n="7.">用户向生成式 AI 引擎提问</li>
+        <li data-n="8.">AI 引擎检索高相关性、高权威内容</li>
+        <li data-n="9.">AI 生成回答并引用品牌内容</li>
+        <li data-n="10.">GEO 系统监测 AI 回答结果，输出归因报告（曝光/引用率）</li>
+      </ul>
     </div>
   </div>
 
-  <div class="callout" style="--cc:var(--blue-l);--cb:var(--blue-bg);">
-    <div class="callout-t">关键反常识发现（有数据）</div>
-    <p><strong>AI 不引用你的官网。</strong>对6.8亿次 AI 引用事件的分析显示，品牌自有产品页面的引用占比不足 3%——80%以上的 GEO 预算投在官网优化上是在浪费资金。真正有效的路径是在第三方权威平台（知乎、百家号、行业媒体、Wikipedia）建立内容存在。</p>
+  <!-- SEO 辅助动作 -->
+  <div class="label c-amber" style="margin-top:28px;">SEO 辅助动作详解 <span class="src-tag">微盟独家细节</span></div>
+  <div class="aux-grid">
+    <div class="aux-card" style="--ac:var(--amber-l);">
+      <div class="aux-title">内容鲜活度维护</div>
+      <div class="aux-desc">模拟真实用户的转载、访问行为，确保内容在互联网上保持活跃状态。AI 实时检索偏好"新鲜内容"（7-14天内），超过90天未更新的内容引用率下降幅度是 SEO 排名衰减的3倍。</div>
+    </div>
+    <div class="aux-card" style="--ac:var(--blue-l);">
+      <div class="aux-title">动态模板调优</div>
+      <div class="aux-desc">根据爬虫分析结果自动调整内容生成模板。例如：监测发现 DeepSeek 更偏好"清单式"回答，则将该品牌所有新增内容模板调整为清单格式，并对历史内容进行格式重构。</div>
+    </div>
+    <div class="aux-card" style="--ac:var(--green-l);">
+      <div class="aux-title">竞品内容对标</div>
+      <div class="aux-desc">持续分析竞争对手被 AI 引用的内容来源和格式，实时调整自身投放策略。发现竞品引用率提升时触发即时告警，48小时内完成策略响应。</div>
+    </div>
+    <div class="aux-card" style="--ac:var(--purple-l);">
+      <div class="aux-title">平台偏好适配</div>
+      <div class="aux-desc">不同 AI 平台对内容来源偏好不同（ChatGPT 偏 Wikipedia，豆包偏头条号，DeepSeek 偏技术文档），动态匹配各平台的内容来源偏好，实现精准投放。</div>
+    </div>
+  </div>
+
+  <div class="callout" style="--cc:var(--teal-l);--cb:var(--teal-bg);">
+    <div class="callout-t">微盟关键成功因素</div>
+    <p><strong>数据驱动是核心：</strong>"投放→监测 AI 反馈→调整策略→再投放"的闭环不能中断。微盟的规模化成功正是建立在这套标准化闭环流程上，而非依赖个别内容的爆发。<strong>内容真实性底线：</strong>即便在 AI 时代，高质量、真实的内容依然是核心——系统需要识别和生成高可信度内容（引用权威数据、真实体验）。</p>
   </div>
 </div>
 </div>
 
-<!-- ══════════════ SECTION 3: PLATFORMS ══════════════ -->
+<!-- SECTION 4: PLATFORMS -->
 <div class="section">
 <div class="wrap">
   <div class="sec-head">
-    <div class="sec-num">03 · 目标平台全景</div>
+    <div class="sec-num">04 · 目标平台全景</div>
     <div class="sec-h">国内7 + 海外4 = 11大 AI 平台，策略完全不同</div>
-    <div class="sec-sub">最重要的认知：国内外平台的引用机制是两套完全不同的逻辑，不能用一套策略打通。必须分开设计内容和监测方案。</div>
+    <div class="sec-sub">最重要的认知：国内外平台的引用机制是两套完全不同的逻辑，必须分开设计内容和监测方案。</div>
   </div>
-
   <table class="ptbl">
     <thead>
-      <tr>
-        <th>平台</th><th>用户规模</th><th>引用核心机制</th><th>GEO 最有效路径</th><th>API接入</th><th>飞凡优先级</th>
-      </tr>
+      <tr><th>平台</th><th>规模</th><th>引用核心机制</th><th>GEO 最有效路径</th><th>飞凡优先级</th></tr>
     </thead>
     <tbody>
-      <tr>
-        <td class="pn">DeepSeek</td>
-        <td>4000万日活</td>
-        <td>强推理+联网，技术/行业文档权重极高</td>
-        <td>技术白皮书、CSDN、行业报告</td>
-        <td class="code">官方 API ✓</td>
-        <td class="p0">P0</td>
-      </tr>
-      <tr>
-        <td class="pn">字节豆包</td>
-        <td>1.5亿月活</td>
-        <td>实时爬取+抖音/头条生态，时效性优先</td>
-        <td>头条号深度文章、抖音图文</td>
-        <td class="code">火山引擎 ✓</td>
-        <td class="p0">P0</td>
-      </tr>
-      <tr>
-        <td class="pn">百度文心</td>
-        <td>2亿月活</td>
-        <td>深度绑定百度搜索，百家号/百科优先</td>
-        <td>百家号发文、百度百科词条建设</td>
-        <td class="code">千帆平台 ✓</td>
-        <td class="p0">P0</td>
-      </tr>
-      <tr style="background:#f0fdf4;">
-        <td class="pn">通义千问<span class="new-tag">关键</span></td>
-        <td>阿里全生态</td>
-        <td>百炼 RAG 直连，电商/企业服务内容优先</td>
-        <td><strong>百炼知识库直连</strong>（唯一官方 GEO 直接通道）</td>
-        <td class="code">百炼平台 ✓</td>
-        <td class="p0">P0</td>
-      </tr>
-      <tr>
-        <td class="pn">Kimi</td>
-        <td>4000万月活</td>
-        <td>长上下文优势，深度分析内容权重高</td>
-        <td>深度行业研究报告、完整产品手册</td>
-        <td class="code">官方 API ✓</td>
-        <td class="p1">P1</td>
-      </tr>
-      <tr>
-        <td class="pn">腾讯元宝</td>
-        <td>微信生态</td>
-        <td>公众号/知乎/小红书优先</td>
-        <td>微信公众号深度文章、知乎专业回答</td>
-        <td class="code">腾讯云 ✓</td>
-        <td class="p1">P1</td>
-      </tr>
-      <tr>
-        <td class="pn">秘塔搜索</td>
-        <td>纯 AI 搜索</td>
-        <td>类 Perplexity，实时联网，ToB 用户为主</td>
-        <td>行业媒体投稿、结构化数据页</td>
-        <td class="code">暂无官方 API</td>
-        <td class="p1">P1</td>
-      </tr>
-      <tr style="border-top: 2px solid var(--border2);">
-        <td class="pn">ChatGPT</td>
-        <td>9亿周活</td>
-        <td>Wikipedia 占主导（47.9%），权威媒体次之</td>
-        <td>Wikipedia 词条、权威英文媒体报道</td>
-        <td class="code">OpenAI ✓</td>
-        <td class="p0">P0（出海）</td>
-      </tr>
-      <tr>
-        <td class="pn">Perplexity</td>
-        <td>7.8亿次/月</td>
-        <td>Reddit 权重高，实时爬取，引用显示 URL</td>
-        <td>Reddit 专业社区、行业论坛、权威博客</td>
-        <td class="code">PPLX API ✓</td>
-        <td class="p0">P0（出海）</td>
-      </tr>
-      <tr>
-        <td class="pn">Gemini</td>
-        <td>Google 生态</td>
-        <td>Google AI Overviews，47%搜索出现</td>
-        <td>YouTube 内容、Google News、Schema</td>
-        <td class="code">Gemini API ✓</td>
-        <td class="p1">P1（出海）</td>
-      </tr>
-      <tr>
-        <td class="pn">Claude</td>
-        <td>企业场景</td>
-        <td>权威学术/企业博客、GitHub、高质量技术文档</td>
-        <td>技术博客、GitHub 文档</td>
-        <td class="code">Anthropic ✓</td>
-        <td class="p2">P2（出海）</td>
-      </tr>
+      <tr><td class="pn">DeepSeek</td><td>4000万日活</td><td>强推理+联网，技术/行业文档权重极高</td><td>技术白皮书、CSDN、行业报告</td><td class="p0">P0</td></tr>
+      <tr><td class="pn">字节豆包</td><td>1.5亿月活</td><td>实时爬取+抖音/头条生态，时效性优先</td><td>头条号深度文章、抖音图文</td><td class="p0">P0</td></tr>
+      <tr><td class="pn">百度文心</td><td>2亿月活</td><td>深度绑定百度搜索，百家号/百科优先</td><td>百家号发文、百度百科词条建设</td><td class="p0">P0</td></tr>
+      <tr><td class="pn">通义千问<span class="new-tag">关键</span></td><td>阿里全生态</td><td>百炼 RAG 直连，国内唯一官方 GEO 通道</td><td>百炼知识库直连（最直接路径）</td><td class="p0">P0</td></tr>
+      <tr><td class="pn">Kimi</td><td>4000万月活</td><td>长上下文，深度分析内容权重高</td><td>深度行业研究报告、完整产品手册</td><td class="p1">P1</td></tr>
+      <tr><td class="pn">腾讯元宝</td><td>微信生态</td><td>公众号/知乎/小红书优先</td><td>微信公众号深度文章</td><td class="p1">P1</td></tr>
+      <tr><td class="pn">秘塔搜索</td><td>纯AI搜索</td><td>类Perplexity，实时联网，ToB用户为主</td><td>行业媒体投稿、结构化数据页</td><td class="p1">P1</td></tr>
+      <tr style="border-top:2px solid var(--border2);"><td class="pn">ChatGPT</td><td>9亿周活</td><td>Wikipedia 占主导（47.9%），权威媒体次之</td><td>Wikipedia 词条、权威英文媒体</td><td class="p0">P0（出海）</td></tr>
+      <tr><td class="pn">Perplexity</td><td>7.8亿次/月</td><td>Reddit 权重高，实时爬取，引用显示 URL</td><td>Reddit 专业社区、行业论坛</td><td class="p0">P0（出海）</td></tr>
+      <tr><td class="pn">Gemini</td><td>Google 生态</td><td>AI Overviews，47%搜索出现</td><td>YouTube 内容、Google News</td><td class="p1">P1（出海）</td></tr>
+      <tr><td class="pn">Claude</td><td>企业场景</td><td>权威学术/企业博客、GitHub</td><td>技术博客、GitHub 文档</td><td class="p2">P2（出海）</td></tr>
     </tbody>
   </table>
 </div>
 </div>
 
-<!-- ══════════════ SECTION 4: VS SEO ══════════════ -->
+<!-- SECTION 5: GEO vs 传统 -->
 <div class="section">
 <div class="wrap">
   <div class="sec-head">
-    <div class="sec-num">04 · GEO vs 传统业务</div>
-    <div class="sec-h">GEO 与 SEO / 内容营销的本质区别</div>
+    <div class="sec-num">05 · GEO vs 传统业务</div>
+    <div class="sec-h">合规 GEO 与黑帽 GEO 的本质区别</div>
   </div>
-
   <table class="vs-table">
-    <thead>
-      <tr><th>维度</th><th>❌ 黑帽 GEO（市场乱象）</th><th>✓ 合规 GEO（飞凡路径）</th></tr>
-    </thead>
+    <thead><tr><th>维度</th><th>❌ 黑帽 GEO（市场乱象）</th><th>✓ 合规 GEO（飞凡 + 微盟路径）</th></tr></thead>
     <tbody>
-      <tr><td>本质定义</td><td>向 AI 投喂垃圾内容，人为干预推荐结果</td><td>让企业真实知识成为 AI 可信的推理数据源</td></tr>
-      <tr><td>内容策略</td><td>批量生成低质同质化内容，关键词堆砌，语料轰炸</td><td>高质量、有数据支撑、可溯源的结构化内容，E-E-A-T 标准</td></tr>
-      <tr><td>目标</td><td>短期刷高品牌提及率，操纵 AI 排名</td><td>长期成为行业权威数据源，被 AI 持续信任引用</td></tr>
-      <tr><td>合规风险</td><td>已被监管点名（2026年全国广告监管工作要点），面临联合惩戒</td><td>符合国信办生成式 AI 管理办法，E-E-A-T 是明确标准</td></tr>
+      <tr><td>本质</td><td>向 AI 投喂垃圾内容，人为操纵推荐结果</td><td>让企业真实知识成为 AI 可信推理数据源</td></tr>
+      <tr><td>内容策略</td><td>批量低质同质化内容，关键词堆砌，语料轰炸</td><td>高质量、有数据支撑、可溯源的结构化内容，E-E-A-T 标准</td></tr>
+      <tr><td>合规风险</td><td>2026年集中整治重点，面临联合惩戒（16家机构黑名单）</td><td>符合网信办管理办法，E-E-A-T 是明确标准</td></tr>
       <tr><td>可持续性</td><td>极低——模型更新即失效，监管打击即归零</td><td>高——权威内容资产长期有效，被平台认可</td></tr>
-      <tr><td>与 SEO 关系</td><td>完全割裂，甚至相互干扰</td><td>协同——Google 前30排名与 GEO 引用高度相关，25%的 AI 引用来自高排名页面</td></tr>
+      <tr><td>微盟验证</td><td>（微盟明确拒绝）合规风险导致账号封禁，损失客户信任</td><td>合规路径：300+客户，续约率 85%，平均 67% 可见度提升</td></tr>
     </tbody>
   </table>
-
-  <div class="callout" style="--cc:var(--red);--cb:var(--red-bg);">
-    <div class="callout-t">监管最新动态 · 2026.03</div>
-    <p><strong>《2026年全国广告监管工作要点》</strong>明确将 AI 生成广告（主指 GEO）列为集中整治重点。<strong>新华社评价</strong>黑帽 GEO "本质上是一种数据污染行为"。2026年3月14日，16家单位共同签署<strong>《GEO 行业自律公约》</strong>（中宣部主管单位指导），明确"黑帽 GEO 负面清单"和联合惩戒机制。行业监管窗口正在快速收窄，现在建立合规壁垒是差异化竞争的关键。</p>
-  </div>
 </div>
 </div>
 
-<!-- ══════════════ SECTION 5: IMPLEMENTATION ══════════════ -->
+<!-- SECTION 6: IMPLEMENTATION -->
 <div class="section">
 <div class="wrap">
   <div class="sec-head">
-    <div class="sec-num">05 · 落地步骤</div>
-    <div class="sec-h">四阶段落地路径 · 每阶段独立变现</div>
-    <div class="sec-sub">整体路径遵循"先卖诊断、再建内容引擎、后做知识中台"的节奏。每阶段都有独立的商业价值，不需要等平台全部建成才能赚钱。</div>
+    <div class="sec-num">06 · 落地步骤</div>
+    <div class="sec-h">四阶段落地路径 · 对标微盟三阶段 MVP 节点</div>
+    <div class="sec-sub">整体路径遵循"先卖诊断、再建内容引擎、后做知识中台"的节奏。微盟验证了1-3个月可完成基础 MVP，飞凡在技术深度上有超越空间。</div>
   </div>
-
   <div class="phases">
-    <div class="phase" style="--ph-c: #1d4ed8;">
+    <div class="phase" style="--ph-c:#1d4ed8;">
       <div class="phase-hdr">
         <div class="phase-num">PHASE 01</div>
         <div class="phase-name">AI 可见性诊断</div>
         <div class="phase-period">Month 1–2 · 立即可售</div>
       </div>
       <div class="phase-body">
-        <div class="phase-goal">快速变现 + 市场验证。无需完整平台，2周内可交付第一份报告。客单价 3-8 万元。</div>
+        <div class="phase-goal">快速变现 + 市场验证。无需完整平台，2周内可交付。客单价 3-8 万元。对标微盟：1-3个月完成基础架构与核心内容生成。</div>
         <ul class="phase-items">
           <li>11平台 × 行业 Top-50 Prompt 探测</li>
           <li>竞品语义地图（引用份额对比）</li>
           <li>Prompt 空白机会清单</li>
-          <li>优先级行动建议（Top 10，按 ROI 排序）</li>
-          <li>技术工具：Fork Sovereign AEO Tracker + LiteLLM 多模型路由</li>
+          <li>优先级行动建议 Top 10</li>
+          <li>探测引擎：Fork Sovereign AEO + LiteLLM</li>
         </ul>
       </div>
     </div>
-    <div class="phase" style="--ph-c: #92400e;">
+    <div class="phase" style="--ph-c:#92400e;">
       <div class="phase-hdr">
         <div class="phase-num">PHASE 02</div>
         <div class="phase-name">双轨内容引擎</div>
         <div class="phase-period">Month 2–5 · SaaS 订阅</div>
       </div>
       <div class="phase-body">
-        <div class="phase-goal">批量生产 GEO Native 内容。GEOFlow 快速验证 + Dify 复杂编排，共享基础设施。</div>
+        <div class="phase-goal">批量生产 GEO Native 内容，打通完整闭环流程。GEOFlow 快速验证 + Dify 复杂编排。对标微盟：3-6个月完善策略分析引擎与数据看板。</div>
         <ul class="phase-items">
-          <li>Track A：GEOFlow（Fork 改造）10分钟部署，3天出首批内容</li>
-          <li>Track B：Dify 工作流处理白皮书、竞品对比等复杂内容</li>
-          <li>共享：foglift-scan 质量门禁（GEO 评分 ≥70）</li>
-          <li>llms.txt 动态生成，百炼知识库同步（千问直连 GEO）</li>
-          <li>n8n 自动分发国内7平台 + 海外4渠道</li>
+          <li>GEOFlow（Fork）10分钟部署，3天出首批内容</li>
+          <li>Dify 工作流处理白皮书、竞品对比</li>
+          <li>foglift-scan 质量门禁（GEO 评分 ≥70）</li>
+          <li>llms.txt 动态生成 + 百炼知识库同步</li>
+          <li>SEO 辅助动作：内容鲜活度维护机制</li>
+          <li>n8n 自动分发 + 竞品监测告警</li>
         </ul>
       </div>
     </div>
-    <div class="phase" style="--ph-c: #6d28d9;">
+    <div class="phase" style="--ph-c:#6d28d9;">
       <div class="phase-hdr">
         <div class="phase-num">PHASE 03</div>
         <div class="phase-name">企业知识中台</div>
         <div class="phase-period">Month 5–9 · 核心护城河</div>
       </div>
       <div class="phase-body">
-        <div class="phase-goal">最难被复制的差异化能力。让企业知识结构化，成为 AI 推理的可信数据源节点。</div>
+        <div class="phase-goal">超越微盟的差异化能力。知识本体化让企业成为 AI 推理的可信数据源节点——这是微盟目前不具备的。对标微盟：6-12个月引入机器学习与智能优化。</div>
         <ul class="phase-items">
-          <li>Mem0 记忆层 + Neo4j 知识图谱 + Milvus 向量检索</li>
-          <li>企业知识结构化：产品/场景/案例/资质实体图谱</li>
-          <li>合规审核引擎：幻觉率 &lt;1%，事实溯源 100%</li>
-          <li>私有化部署版本 + 新加坡节点（出海场景）</li>
+          <li>Mem0 + Neo4j + Milvus 三层知识中台</li>
+          <li>企业知识结构化：产品/场景/案例/资质图谱</li>
+          <li>合规审核引擎：幻觉率 &lt;1%</li>
+          <li>私有化部署版本 + 新加坡节点（出海）</li>
         </ul>
       </div>
     </div>
-    <div class="phase" style="--ph-c: #0f766e;">
+    <div class="phase" style="--ph-c:#0f766e;">
       <div class="phase-hdr">
         <div class="phase-num">PHASE 04</div>
         <div class="phase-name">AIBE 完整平台</div>
         <div class="phase-period">Month 9–18 · 平台年框</div>
       </div>
       <div class="phase-body">
-        <div class="phase-goal">AI 品牌工程基础设施。ROI 归因闭环 + 企业 Agent 矩阵，从工具到基础设施跃升。</div>
+        <div class="phase-goal">AI 品牌工程基础设施。ROI 归因闭环 + 企业 Agent 矩阵，从工具到基础设施跃升。微盟开放 API 接口对应此阶段。</div>
         <ul class="phase-items">
-          <li>三层归因：直接流量 → 品牌词搜索 → CRM 商机闭环</li>
-          <li>企业 Agent 工厂：品牌/产品/方案/招投标 Agent</li>
-          <li>合作伙伴生态，出海 SaaS 订阅模式上线</li>
-          <li>新加坡法律实体落地，PDPA 合规完成</li>
+          <li>三层归因：直接流量→品牌词→CRM 商机</li>
+          <li>企业 Agent 工厂（品牌/产品/招投标）</li>
+          <li>行业模板库 + API 开放接口</li>
+          <li>新加坡法律实体 + 合作伙伴生态</li>
         </ul>
       </div>
     </div>
   </div>
-
-  <!-- 业务流 -->
-  <div class="callout" style="--cc:var(--teal-l);--cb:var(--teal-bg);">
-    <div class="callout-t">第一步最重要的原则</div>
-    <p><strong>先卖诊断，再建平台。</strong>诊断报告是真正的市场验证，3天可交付，3-8万客单价，没有平台风险。前3个诊断客户的数据会告诉你哪个行业最有需求、哪些 Prompt 最有商业价值——这比任何假设都更可靠。拿到这3个客户数据，再决定 Phase 2 的重点方向。</p>
-  </div>
 </div>
 </div>
 
-<!-- ══════════════ SECTION 6: TECH ══════════════ -->
+<!-- SECTION 7: TECH -->
 <div class="section">
 <div class="wrap">
   <div class="sec-head">
-    <div class="sec-num">06 · 技术实现</div>
-    <div class="sec-h">开源优先架构 · 无厂商锁定 · 私有化部署</div>
-    <div class="sec-sub">所有核心模块均有开源替代方案，关键选型决策如下。</div>
+    <div class="sec-num">07 · 技术实现</div>
+    <div class="sec-h">开源优先架构 · 对标微盟技术栈</div>
   </div>
-
   <div class="arch-dark">
-    <div class="arch-t">飞凡 GEO 平台 · 完整技术架构 · 开源优先版</div>
+    <div class="arch-t">飞凡 GEO 平台 · 完整技术架构 · 对标微盟功能层</div>
     <div class="arch-layer">
-      <div class="arch-lbl">L5 展示</div>
+      <div class="arch-lbl">用户层</div>
       <div class="arch-nodes">
-        <div class="an hi-b">客户 Dashboard<small>Next.js · 归因看板</small></div>
-        <div class="an hi-b">诊断报告<small>Jinja2 + WeasyPrint</small></div>
-        <div class="an hi-b">GEOFlow 前台<small>文章站 · 客户演示</small></div>
+        <div class="an hi-b">客户 Dashboard<small>归因看板</small></div>
+        <div class="an hi-b">GEO 可视化看板<small>微盟同等能力</small></div>
+        <div class="an hi-b">诊断报告<small>PDF 自动生成</small></div>
         <div class="an hi-b">管理后台<small>运营配置</small></div>
       </div>
     </div>
     <div class="arch-div"></div>
     <div class="arch-layer">
-      <div class="arch-lbl">L4 业务</div>
+      <div class="arch-lbl">业务中台</div>
       <div class="arch-nodes">
-        <div class="an hi-a">探测引擎<small>Fork: Sovereign AEO</small></div>
-        <div class="an hi-a">GEOFlow 内容<small>批量标准内容</small></div>
-        <div class="an hi-a">Dify 工作流<small>复杂内容编排</small></div>
-        <div class="an hi-a">foglift-scan<small>GEO 评分 ≥70</small></div>
-        <div class="an hi-a">n8n 分发<small>11平台自动化</small></div>
-        <div class="an hi-a">归因引擎<small>三层 ROI 追踪</small></div>
+        <div class="an hi-a">策略中心<small>Fork: Sovereign AEO</small></div>
+        <div class="an hi-a">内容工厂<small>GEOFlow + Dify</small></div>
+        <div class="an hi-a">分发引擎<small>n8n 自托管</small></div>
+        <div class="an hi-a">监控与归因<small>三层归因体系</small></div>
+        <div class="an hi-r">SEO辅助<small>鲜活度维护</small></div>
+        <div class="an hi-r">合规审核<small>foglift-scan</small></div>
       </div>
     </div>
     <div class="arch-div"></div>
     <div class="arch-layer">
-      <div class="arch-lbl">L3 智能</div>
+      <div class="arch-lbl">数据模型</div>
       <div class="arch-nodes">
-        <div class="an hi-g">Mem0<small>记忆层 · Apache 2.0</small></div>
-        <div class="an hi-g">Neo4j Community<small>企业知识图谱</small></div>
-        <div class="an hi-g">Milvus / PGVector<small>向量检索</small></div>
-        <div class="an hi-g">LiteLLM<small>11模型统一网关</small></div>
+        <div class="an hi-g">向量数据库<small>Milvus / PGVector</small></div>
+        <div class="an hi-g">知识图谱<small>Neo4j（飞凡超越点）</small></div>
+        <div class="an hi-g">LLM 网关<small>LiteLLM → Bifrost</small></div>
+        <div class="an hi-g">记忆引擎<small>Mem0（飞凡超越点）</small></div>
         <div class="an hi-g">百炼知识库<small>千问直连 GEO</small></div>
       </div>
     </div>
     <div class="arch-div"></div>
     <div class="arch-layer">
-      <div class="arch-lbl">L2 数据</div>
+      <div class="arch-lbl">外部生态</div>
       <div class="arch-nodes">
-        <div class="an">PostgreSQL<small>业务主库（共享）</small></div>
-        <div class="an">ClickHouse<small>引用率时序分析</small></div>
-        <div class="an">Redis<small>任务队列 + 缓存</small></div>
-        <div class="an">MongoDB<small>原始 AI 响应存储</small></div>
-      </div>
-    </div>
-    <div class="arch-div"></div>
-    <div class="arch-layer">
-      <div class="arch-lbl">L1 基础</div>
-      <div class="arch-nodes">
-        <div class="an">阿里云（国内）<small>ECS · RDS · OSS</small></div>
-        <div class="an">新加坡节点<small>出海部署</small></div>
-        <div class="an">Docker + K8s<small>私有化容器化</small></div>
-        <div class="an">Prometheus<small>监控告警</small></div>
+        <div class="an">内容平台<small>知乎/小红书/百家号/头条号</small></div>
+        <div class="an">生成式引擎<small>DeepSeek/豆包/文心/千问/Kimi</small></div>
+        <div class="an">海外引擎<small>ChatGPT/Perplexity/Gemini</small></div>
+        <div class="an">全网爬虫<small>Playwright + Crawl4AI</small></div>
       </div>
     </div>
   </div>
-
-  <div class="g3" style="margin-top:24px;">
-    <div class="card accent-top" style="--ct: var(--amber-l);">
-      <div class="label c-amber">核心开源工具选型</div>
-      <ul class="nlist">
-        <li><strong>探测引擎：</strong>Fork Sovereign AEO Tracker，节省 60% 开发工时，补充国内7模型适配</li>
-        <li><strong>LLM 网关：</strong>LiteLLM（开发期）→ Bifrost（生产期），11模型统一入口，无厂商锁定</li>
-        <li><strong>内容快轨：</strong>GEOFlow（PHP + PostgreSQL，Docker 即跑）</li>
-        <li><strong>内容精轨：</strong>Dify（可视化 AI 工作流 + RAG + Agent）</li>
-        <li><strong>质量审核：</strong>foglift-scan（GEO 专属 CLI，92条规则）</li>
-        <li><strong>记忆引擎：</strong>Mem0（Apache 2.0，替代内部产品）</li>
-      </ul>
-    </div>
-    <div class="card accent-top" style="--ct: var(--blue-l);">
-      <div class="label c-blue">GEOFlow 复用价值</div>
-      <ul class="clist">
-        <li>素材库系统（标题库/关键词库/提示词）直接用</li>
-        <li>任务调度器 + Worker 生命周期管理直接用</li>
-        <li>草稿→审核→发布三段式流程直接用</li>
-        <li>前台 SEO 输出层（文章站）直接用于客户演示</li>
-        <li>llms.txt 和 llms-full.txt 文件生成（GEO 核心文件，已内置）</li>
-      </ul>
-    </div>
-    <div class="card accent-top" style="--ct: var(--green-l);">
-      <div class="label c-green">llms.txt · 不能遗漏</div>
-      <ul class="nlist">
-        <li><strong>是什么：</strong>AI 时代的 robots.txt，告诉 AI 爬虫"我的网站有什么"</li>
-        <li><strong>谁在读：</strong>Perplexity、Kimi、Claude 已在支持；百炼平台作为索引入口</li>
-        <li><strong>飞凡方案：</strong>GEOFlow 已内置，改造为按客户域名动态生成，每次内容更新后自动刷新</li>
-        <li><strong>交付标准：</strong>每个客户上线时，llms.txt + llms-full.txt 是标准交付物必检项</li>
-      </ul>
-    </div>
+  <div class="callout" style="--cc:var(--green-l);--cb:var(--green-bg);">
+    <div class="callout-t">飞凡 vs 微盟技术差异化</div>
+    <p>微盟的技术优势在于<strong>规模化内容分发</strong>和<strong>多平台适配</strong>（已验证 300+ 客户）。飞凡的超越点在于：<strong>知识图谱（Neo4j）+ 记忆引擎（Mem0）= 企业知识本体化</strong>，这是微盟目前不具备的深度能力，也是 ToB 大客户年框合同的核心卖点。</p>
   </div>
 </div>
 </div>
 
-<!-- ══════════════ SECTION 7: COMPLIANCE ══════════════ -->
+<!-- SECTION 8: COMPLIANCE -->
 <div class="section">
 <div class="wrap">
   <div class="sec-head">
-    <div class="sec-num">07 · 合规红线</div>
+    <div class="sec-num">08 · 合规红线</div>
     <div class="sec-h">监管全景与运营边界 · 合规是差异化竞争力</div>
-    <div class="sec-sub">2026年是 GEO 监管元年。合规不只是风险控制，而是建立客户信任、形成竞争壁垒的核心手段——市场上80%的 GEO 服务商都在打擦边球，合规意味着差异化。</div>
+    <div class="sec-sub">2026年是 GEO 监管元年。微盟特别强调合规性是其规模化成功的前提条件——在进行爬虫和自动化投放时，遵守各平台 Robots 协议和法律法规。</div>
   </div>
-
-  <div class="g2" style="margin-bottom:24px;">
+  <div class="g2">
     <div>
       <div class="label c-red">绝对红线 · 触碰即违法</div>
       <div class="red-lines">
         <div class="rl danger">
           <div class="rl-icon">🚫</div>
           <div class="rl-rule">AI 投毒 / 语料轰炸</div>
-          <div class="rl-desc">批量向 AI 训练数据投放虚假信息、伪造权威来源、编造专家观点。新华社定性为"数据污染"，已被列入联合惩戒清单</div>
+          <div class="rl-desc">批量投放虚假信息、伪造来源。新华社定性"数据污染"，已入联合惩戒清单。微盟明确拒绝此类服务。</div>
           <div class="rl-level lv-d">刑事风险</div>
         </div>
         <div class="rl danger">
           <div class="rl-icon">🚫</div>
           <div class="rl-rule">AI 生成内容不标注</div>
-          <div class="rl-desc">《AI 生成合成内容标识办法》2025.9.1 施行：AI 生成内容必须添加显式标识（文字标注）+ 隐式标识（文件元数据水印），违反触发多部门联合监管</div>
+          <div class="rl-desc">《AI 生成合成内容标识办法》2025.9.1 施行：必须添加显式标识+隐式水印。微盟在系统层面已内置合规标注。</div>
           <div class="rl-level lv-d">行政处罚</div>
         </div>
         <div class="rl danger">
           <div class="rl-icon">🚫</div>
-          <div class="rl-rule">商业推广不标注"广告"</div>
-          <div class="rl-desc">通过 GEO 实现的 AI 推荐若有明显商业目的，必须标注"广告""推广"字样，否则侵犯消费者知情权，2026年集中整治重点</div>
-          <div class="rl-level lv-d">行政处罚</div>
+          <div class="rl-rule">违反平台 Robots 协议</div>
+          <div class="rl-desc">微盟特别指出：过度爬虫和自动化投放如违反平台规则，导致账号封禁，直接损害客户利益和服务商信誉。</div>
+          <div class="rl-level lv-d">平台封禁</div>
         </div>
       </div>
     </div>
@@ -981,117 +689,132 @@ li strong { color: var(--ink); }
       <div class="red-lines">
         <div class="rl warn">
           <div class="rl-icon">⚠️</div>
-          <div class="rl-rule">虚假宣传 / 幻觉内容</div>
-          <div class="rl-desc">网信办要求 AI 生成内容幻觉检测准确率 ≥99%。所有发布内容必须通过事实核查和幻觉检测，不可溯源的数据不得使用。飞凡通过独立审核模型实现</div>
+          <div class="rl-rule">内容质量不稳定 / 幻觉</div>
+          <div class="rl-desc">网信办要求幻觉检测准确率 ≥99%。微盟方案：人工审核 + AI 质检双重保障。飞凡：foglift-scan + 独立审核模型。</div>
           <div class="rl-level lv-w">合规必建</div>
         </div>
         <div class="rl warn">
           <div class="rl-icon">⚠️</div>
-          <div class="rl-rule">竞品攻击 / 不正当竞争</div>
-          <div class="rl-desc">通过 GEO 技术人为压低竞品曝光率，或发布攻击性竞品对比内容，涉嫌不正当竞争，已有案例被查处</div>
-          <div class="rl-level lv-w">法律风险</div>
+          <div class="rl-rule">发布频率控制</div>
+          <div class="rl-desc">微盟明确指出：控制发布频率是规避平台封禁的关键。过度营销内容会被平台检测为机器生成垃圾内容。</div>
+          <div class="rl-level lv-w">运营必控</div>
         </div>
         <div class="rl warn">
           <div class="rl-icon">⚠️</div>
-          <div class="rl-rule">数据跨境 / 个人信息</div>
-          <div class="rl-desc">新加坡部署需符合 PDPA，海外 API 调用需评估数据出境合规（《数据安全法》《个人信息保护法》），客户企业数据不得未授权处理</div>
+          <div class="rl-rule">数据隐私 / 跨境合规</div>
+          <div class="rl-desc">新加坡部署需符合 PDPA，客户数据处理需符合《个人信息保护法》。严格数据加密，合规处理。</div>
           <div class="rl-level lv-w">合规必评</div>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="label c-green">合规 GEO 的正确打开方式 · 《GEO 行业自律公约》六大承诺（2026.03 行业共识）</div>
-  <div class="g2" style="margin-top:14px;">
-    <ul class="clist">
-      <li><strong>数据合规：</strong>来源合法、用途明确、保障安全、防范歧视</li>
-      <li><strong>内容质量：</strong>拒绝语料轰炸、拒绝关键词堆砌、提升语义质量，以 E-E-A-T 为标准</li>
-      <li><strong>黑帽治理：</strong>不注入虚假数据、不嵌入隐藏指令、不伪造地域信号、不刷量造假</li>
-    </ul>
-    <ul class="clist">
-      <li><strong>正向优化：</strong>让内容成为 AI 真正认可的优质信源，而不是操纵算法结果</li>
-      <li><strong>用户权益：</strong>对 AI 生成内容添加标识，建立投诉处理机制</li>
-      <li><strong>行业共建：</strong>参与标准制定、开展合规培训，飞凡可考虑作为标准参与方建立品牌</li>
-    </ul>
-  </div>
-
-  <div class="callout" style="--cc:var(--green-l);--cb:var(--green-bg);">
-    <div class="callout-t">合规是商业策略，不只是风险控制</div>
-    <p>监管层将 AI 内容引用处于"灰区"状态——<strong>一旦信源治理政策收紧，强制标注商业内容，黑帽 GEO"可能一夜归零"</strong>（中国经营报）。而合规路径建立的权威内容资产，在任何监管情景下都有效。合规 GEO 做的事情——创造真实有价值的高质量内容——这件事永远不会被监管禁止。这是飞凡向客户传递信任的核心论点。</p>
-  </div>
 </div>
 </div>
 
-<!-- ══════════════ SECTION 8: ROI ══════════════ -->
+<!-- SECTION 9: PRICING (NEW FROM WEIMOB) -->
 <div class="section">
 <div class="wrap">
   <div class="sec-head">
-    <div class="sec-num">08 · 商业模型</div>
-    <div class="sec-h">分阶段收入模型 · 每阶段独立 ROI</div>
+    <div class="sec-num">09 · 定价体系 <span class="src-tag">微盟市场验证</span></div>
+    <div class="sec-h">年框定价模型 · 基于微盟市场验证数据</div>
+    <div class="sec-sub">微盟与头部 KA 品牌及腰部商户的合作价格在 10-100 万元之间，验证了市场对年框 GEO 服务的付费意愿。飞凡在此基础上，针对 ToB 场景增加知识中台溢价。</div>
+  </div>
+
+  <div class="price-grid">
+    <div class="price-card">
+      <div class="price-header">
+        <div class="price-tier">基础版 · 中小企业</div>
+        <div class="price-amount" style="color:var(--blue-l);">10万</div>
+        <div class="price-sub">/ 年 · 对标微盟基础版</div>
+      </div>
+      <div class="price-body">
+        <div class="price-target">目标客户：年营收 3000 万以下，消费品牌、中小 SaaS</div>
+        <ul class="price-features">
+          <li>诊断报告（6个平台）</li>
+          <li>月产 20-30 篇 GEO 内容</li>
+          <li>3 个主要平台分发</li>
+          <li>基础监控看板</li>
+          <li>月度效果报告</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="price-card featured">
+      <div class="price-header">
+        <div class="price-tier">专业版 · 中大型企业</div>
+        <div class="price-amount">30万</div>
+        <div class="price-sub">/ 年 · 主力产品</div>
+      </div>
+      <div class="price-body">
+        <div class="price-target">目标客户：年营收 3000 万-3 亿，ToB SaaS、工业制造、金融科技</div>
+        <ul class="price-features">
+          <li>全平台诊断（11个平台）</li>
+          <li>月产 50-80 篇内容 + Dify 工作流</li>
+          <li>全平台分发 + llms.txt 部署</li>
+          <li>企业知识结构化（基础版）</li>
+          <li>归因看板 + 竞品告警</li>
+          <li>双周效果复盘</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="price-card">
+      <div class="price-header">
+        <div class="price-tier">旗舰版 · 头部品牌</div>
+        <div class="price-amount" style="color:var(--teal-l);">100万</div>
+        <div class="price-sub">/ 年 · 对标微盟旗舰版</div>
+      </div>
+      <div class="price-body">
+        <div class="price-target">目标客户：大型集团、出海头部品牌、需要私有化部署</div>
+        <ul class="price-features">
+          <li>全平台 GEO 深度布局</li>
+          <li>企业知识中台（Neo4j + Milvus）</li>
+          <li>私有化部署 + 新加坡节点</li>
+          <li>Agent 工厂定制</li>
+          <li>专属技术团队驻场</li>
+          <li>ROI 闭环 + 效果对赌选项</li>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <div class="roi-grid">
     <div class="roi-cell">
-      <div class="roi-num" style="--rn-c: var(--blue-l);">3-8万</div>
+      <div class="roi-num" style="--rn-c:var(--blue-l);">3-8万</div>
       <div class="roi-name">诊断报告客单价</div>
-      <div class="roi-desc">标准交付周期3工作日，人工成本约2人天，毛利率 80%+。一个BD + 一个工程师可以同时服务5个客户。</div>
+      <div class="roi-desc">标准交付3工作日，毛利率 80%+。一个BD + 一个工程师可同时服务5个客户。所有年框客户均从诊断报告开始。</div>
     </div>
     <div class="roi-cell">
-      <div class="roi-num" style="--rn-c: var(--amber-l);">2-5万</div>
-      <div class="roi-name">月度内容运营费</div>
-      <div class="roi-desc">Phase 2 SaaS 订阅，按月收取，包含内容生产 + 分发 + 月度效果报告。目标是每客户服务周期 ≥12个月。</div>
+      <div class="roi-num" style="--rn-c:var(--amber-l);">85%</div>
+      <div class="roi-name">微盟客户年度续约率</div>
+      <div class="roi-desc">微盟服务超6个月的客户，AI 搜索可见度平均提升 67%，AI 驱动网站自然流量平均增长 42%，销售机会成本降低约 30%。</div>
     </div>
     <div class="roi-cell">
-      <div class="roi-num" style="--rn-c: var(--purple-l);">20-50万</div>
-      <div class="roi-name">企业知识中台年框</div>
-      <div class="roi-desc">Phase 3 私有化部署 + 年度服务框架。含知识图谱建设、Agent 工厂、归因闭环系统，面向大型 ToB 客户。</div>
-    </div>
-  </div>
-
-  <div class="g2">
-    <div>
-      <div class="label c-blue">目标客户画像 · 最快出单的场景</div>
-      <ul class="nlist">
-        <li><strong>出海 SaaS 企业：</strong>需要在 ChatGPT/Perplexity 建立海外认知，决策层已有 GEO 认知，付费意愿强</li>
-        <li><strong>工业软件 / AI 平台：</strong>专业内容积累深，技术文档 DeepSeek 引用价值高，知识本体化需求强</li>
-        <li><strong>金融科技 / 银行科技：</strong>监管合规要求高（与我们合规路径完全契合），客单价高</li>
-        <li><strong>已有 GEO 焦虑的营销团队：</strong>看到竞品被 AI 引用、自己没有的企业，紧迫性最强</li>
-      </ul>
-    </div>
-    <div>
-      <div class="label c-amber">ROI 向客户证明的路径（最难的问题）</div>
-      <ul class="nlist">
-        <li><strong>30天 KPI：</strong>品牌提及率（可量化）、各平台 SRO 评分变化（可展示）</li>
-        <li><strong>60天 KPI：</strong>品牌词搜索量增量（AI 引用→品牌搜索的滞后效应）</li>
-        <li><strong>90天 KPI：</strong>CRM 中 AI 渠道来源询盘数量（通过销售问卷收集）</li>
-        <li><strong>关键设计：</strong>归因体系必须在第一个客户上线时就部署，不能等 Phase 4——没有归因数据就没有续约</li>
-      </ul>
+      <div class="roi-num" style="--rn-c:var(--green-l);">90天</div>
+      <div class="roi-name">ROI 归因可见周期</div>
+      <div class="roi-desc">30天看品牌提及率，60天看品牌词搜索增量，90天看 CRM 商机归因。这个节奏必须在签约前与客户对齐。</div>
     </div>
   </div>
 </div>
 </div>
 
-<!-- ══════════════ SECTION 9: TIMELINE ══════════════ -->
+<!-- SECTION 10: TIMELINE -->
 <div class="section">
 <div class="wrap">
   <div class="sec-head">
-    <div class="sec-num">09 · 执行时间线</div>
-    <div class="sec-h">18个月全局时序</div>
+    <div class="sec-num">10 · 执行时间线</div>
+    <div class="sec-h">18个月全局时序 · 对标微盟 MVP 节点</div>
   </div>
-
   <div class="tl">
     <div class="tl-item">
-      <div class="tl-mark">
-        <div class="tl-dot filled" style="--td-c: var(--blue-l);"></div>
-        <div class="tl-period">Month 1-2</div>
-      </div>
+      <div class="tl-mark"><div class="tl-dot filled" style="--td-c:var(--blue-l);"></div><div class="tl-period">Month 1-2</div></div>
       <div class="tl-card">
-        <h4>🔍 Phase 1 · 探测引擎 + 诊断产品上线</h4>
+        <h4>🔍 Phase 1 · 探测引擎 + 诊断产品（对标微盟：基础架构搭建）</h4>
         <div class="g2">
           <ul class="clist" style="font-size:12px;">
-            <li>Fork Sovereign AEO Tracker，接入 LiteLLM，11模型全覆盖</li>
+            <li>Fork Sovereign AEO，接入 LiteLLM，11模型全覆盖</li>
             <li>行业 Prompt 矩阵建设（首批每行业50条）</li>
-            <li>诊断报告半自动化流程打通</li>
+            <li>诊断报告半自动化流程打通，3天交付</li>
           </ul>
           <ul class="clist" style="font-size:12px;">
             <li>签下第1-3个诊断客户（3-8万/份）</li>
@@ -1101,69 +824,56 @@ li strong { color: var(--ink); }
         </div>
       </div>
     </div>
-
     <div class="tl-item">
-      <div class="tl-mark">
-        <div class="tl-dot filled" style="--td-c: var(--amber-l);"></div>
-        <div class="tl-period">Month 2-5</div>
-      </div>
+      <div class="tl-mark"><div class="tl-dot filled" style="--td-c:var(--amber-l);"></div><div class="tl-period">Month 2-5</div></div>
       <div class="tl-card">
-        <h4>⚙️ Phase 2 · 双轨内容引擎上线</h4>
+        <h4>⚙️ Phase 2 · 双轨内容引擎（对标微盟：接入2-3个主要平台 + 完善分析引擎）</h4>
         <div class="g2">
           <ul class="clist" style="font-size:12px;">
-            <li>Track A：GEOFlow Fork 改造 + Docker 部署，第1客户3天出首批内容</li>
-            <li>foglift-scan 集成进审核钩子，llms.txt 动态生成</li>
-            <li>n8n 分发工作流：头条号、百家号、知乎、百炼知识库</li>
+            <li>GEOFlow 改造 + Docker 部署，3天出首批内容</li>
+            <li>SEO 辅助动作：内容鲜活度维护机制上线</li>
+            <li>n8n 分发 + 竞品动态监测告警系统</li>
           </ul>
           <ul class="clist" style="font-size:12px;">
-            <li>Track B：Dify 部署，白皮书 + 竞品对比 Workflow 上线</li>
-            <li>≥3个月度订阅客户（2-5万/月）</li>
-            <li>探测引擎回流数据接通，效果闭环初步建立</li>
+            <li>Dify 复杂工作流上线（白皮书 + 竞品对比）</li>
+            <li>llms.txt 动态生成 + 百炼知识库同步</li>
+            <li>≥3个月度订阅客户（10-30万/年框）</li>
           </ul>
         </div>
       </div>
     </div>
-
     <div class="tl-item">
-      <div class="tl-mark">
-        <div class="tl-dot filled" style="--td-c: var(--purple-l);"></div>
-        <div class="tl-period">Month 5-9</div>
-      </div>
+      <div class="tl-mark"><div class="tl-dot filled" style="--td-c:var(--purple-l);"></div><div class="tl-period">Month 5-9</div></div>
       <div class="tl-card">
-        <h4>🧠 Phase 3 · 企业知识中台上线</h4>
+        <h4>🧠 Phase 3 · 企业知识中台（飞凡超越微盟的差异化能力）</h4>
         <div class="g2">
           <ul class="clist" style="font-size:12px;">
             <li>Mem0 + Neo4j + Milvus 三层知识中台部署</li>
             <li>第1个企业级客户知识本体化项目交付</li>
-            <li>私有化部署版本完成，可向大型企业销售</li>
+            <li>私有化部署版本完成，向大型企业销售</li>
           </ul>
           <ul class="clist" style="font-size:12px;">
             <li>新加坡节点上线（出海 GEO 数据合规）</li>
             <li>合规审核引擎：幻觉率 &lt;1% 达标</li>
-            <li>企业年框合同首签（20-50万）</li>
+            <li>旗舰版年框合同首签（50-100万）</li>
           </ul>
         </div>
       </div>
     </div>
-
     <div class="tl-item">
-      <div class="tl-mark">
-        <div class="tl-dot" style="--td-c: var(--teal-l);"></div>
-        <div class="tl-period">Month 9-18</div>
-      </div>
+      <div class="tl-mark"><div class="tl-dot" style="--td-c:var(--teal-l);"></div><div class="tl-period">Month 9-18</div></div>
       <div class="tl-card">
-        <h4>🌐 Phase 4 · AIBE 完整平台 + 生态建设</h4>
-        <p>三层归因闭环系统上线；企业 Agent 工厂（品牌/产品/招投标 Agent）；新加坡法律实体完成；合作伙伴生态建立；出海 SaaS 订阅模式运转。目标：<strong>月度经常性收入（MRR）达到50万+</strong>。</p>
+        <h4>🌐 Phase 4 · AIBE 完整平台（对标微盟：开放 API 接口 + 行业模板库）</h4>
+        <p>三层归因闭环系统；企业 Agent 工厂；行业模板库 + API 开放接口；新加坡法律实体完成；合作伙伴生态建立；目标 MRR 达到 50万+。</p>
       </div>
     </div>
   </div>
 </div>
 </div>
 
-<!-- ══════════════ FOOTER ══════════════ -->
 <div class="footer">
-  <span>飞凡科技 · GEO 战略沟通材料 · 合伙人版 · 2026.05</span>
-  <span>CONFIDENTIAL · 禁止外传 · V3.0 FINAL</span>
+  <span>飞凡科技 · GEO 战略沟通材料 · V4.0 · 含微盟实战经验 · 2026.05</span>
+  <span>CONFIDENTIAL · 禁止外传</span>
 </div>
 
 </body>

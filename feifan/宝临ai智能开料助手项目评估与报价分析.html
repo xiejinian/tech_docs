@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宝临AI智能开料助手 · 项目评估与报价分析</title>
+<style>
+  :root{
+    --bg:#FAF9F6;
+    --surface:#FFFFFF;
+    --surface-soft:#F4F0E8;
+    --ink:#2B2823;
+    --ink-soft:#6B6557;
+    --line:#E8E2D6;
+    --primary:#CC785C;
+    --primary-dark:#AF5A40;
+    --primary-soft:#F3E3DA;
+    --accent-blue:#5B7C99;
+    --accent-blue-soft:#E6EDF1;
+    --risk-high:#C0492F;
+    --risk-high-bg:#FBEAE5;
+    --risk-mid:#C2872A;
+    --risk-mid-bg:#FBF1DF;
+    --risk-low:#5C8A72;
+    --risk-low-bg:#E9F2EC;
+    --radius:14px;
+    --radius-sm:8px;
+    --shadow:0 1px 2px rgba(43,40,35,0.04), 0 4px 16px rgba(43,40,35,0.05);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.65;
+    font-size:15px;
+  }
+  .bg-deco{
+    position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;
+  }
+  .bg-deco svg{position:absolute; opacity:.5;}
+
+  /* Sticky nav */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(250,249,246,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    display:flex; align-items:center; gap:4px;
+    padding:0 28px; height:56px;
+    overflow-x:auto;
+  }
+  .nav .brand{
+    font-weight:700; font-size:14px; color:var(--primary-dark);
+    margin-right:18px; white-space:nowrap; display:flex; align-items:center; gap:8px;
+  }
+  .nav .brand .dot{width:7px;height:7px;border-radius:50%;background:var(--primary);box-shadow:0 0 0 3px var(--primary-soft);}
+  .nav a{
+    color:var(--ink-soft); text-decoration:none; font-size:13px;
+    padding:8px 12px; border-radius:999px; white-space:nowrap;
+    transition:all .15s;
+  }
+  .nav a:hover{background:var(--surface-soft); color:var(--ink);}
+
+  .wrap{max-width:1080px; margin:0 auto; padding:0 28px 100px; position:relative; z-index:1;}
+
+  /* Hero */
+  .hero{
+    padding:56px 0 34px;
+  }
+  .hero .tag{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:12px; color:var(--primary-dark); background:var(--primary-soft);
+    padding:5px 12px; border-radius:999px; font-weight:600; letter-spacing:.02em;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:34px; margin:0 0 10px; font-weight:700; letter-spacing:-0.01em;
+    color:var(--ink);
+  }
+  .hero .sub{font-size:15.5px; color:var(--ink-soft); max-width:680px; margin:0;}
+  .hero .meta{
+    display:flex; gap:22px; margin-top:22px; font-size:12.5px; color:var(--ink-soft);
+    flex-wrap:wrap;
+  }
+  .hero .meta b{color:var(--ink); font-weight:600;}
+
+  /* KPI grid */
+  .kpi-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin:8px 0 44px;
+  }
+  .kpi{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:18px 18px 16px; box-shadow:var(--shadow); position:relative; overflow:hidden;
+  }
+  .kpi::before{
+    content:""; position:absolute; top:0; left:0; width:100%; height:3px;
+    background:linear-gradient(90deg,var(--primary),var(--accent-blue));
+  }
+  .kpi .label{font-size:12px; color:var(--ink-soft); font-weight:600; margin-bottom:8px;}
+  .kpi .value{font-size:23px; font-weight:700; color:var(--ink); letter-spacing:-0.01em;}
+  .kpi .note{font-size:11.5px; color:var(--ink-soft); margin-top:6px;}
+
+  /* Section */
+  section{margin-bottom:54px;}
+  .section-head{display:flex; align-items:baseline; gap:10px; margin-bottom:6px;}
+  .section-num{
+    font-size:12px; font-weight:700; color:var(--primary-dark); background:var(--primary-soft);
+    border-radius:6px; padding:2px 8px;
+  }
+  h2{font-size:21px; margin:0; font-weight:700; color:var(--ink);}
+  .section-desc{color:var(--ink-soft); font-size:13.5px; margin:8px 0 22px; max-width:760px;}
+
+  .card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:24px; box-shadow:var(--shadow); margin-bottom:16px;
+  }
+  .card h3{font-size:15px; margin:0 0 12px; font-weight:700; color:var(--ink);}
+  .card p{margin:0 0 10px; color:var(--ink); font-size:14px;}
+  .card p.soft{color:var(--ink-soft);}
+
+  .callout{
+    border-left:3px solid var(--primary); background:var(--primary-soft);
+    border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+    padding:16px 18px; margin:18px 0; font-size:14px;
+  }
+  .callout b{color:var(--primary-dark);}
+  .callout.blue{border-left-color:var(--accent-blue); background:var(--accent-blue-soft);}
+  .callout.blue b{color:var(--accent-blue);}
+
+  /* Risk table */
+  table{width:100%; border-collapse:collapse; font-size:13px;}
+  th{
+    text-align:left; font-size:11.5px; color:var(--ink-soft); font-weight:700;
+    text-transform:uppercase; letter-spacing:.04em; padding:10px 12px;
+    border-bottom:2px solid var(--line);
+  }
+  td{padding:12px 12px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink);}
+  tr:last-child td{border-bottom:none;}
+  .sev{
+    display:inline-block; font-size:11px; font-weight:700; padding:3px 9px; border-radius:999px;
+    white-space:nowrap;
+  }
+  .sev-high{background:var(--risk-high-bg); color:var(--risk-high);}
+  .sev-mid{background:var(--risk-mid-bg); color:var(--risk-mid);}
+  .sev-low{background:var(--risk-low-bg); color:var(--risk-low);}
+  .ref{font-size:11.5px; color:var(--ink-soft); white-space:nowrap;}
+
+  /* Compare cards */
+  .compare-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .plan-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:22px; box-shadow:var(--shadow); position:relative;
+  }
+  .plan-card.b{border-color:var(--primary); box-shadow:0 0 0 1px var(--primary), var(--shadow);}
+  .plan-badge{
+    font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px;
+    background:var(--surface-soft); color:var(--ink-soft); display:inline-block; margin-bottom:10px;
+  }
+  .plan-card.b .plan-badge{background:var(--primary-soft); color:var(--primary-dark);}
+  .plan-card h3{font-size:16px; margin:0 0 4px;}
+  .plan-card .days{font-size:28px; font-weight:700; color:var(--ink); margin:10px 0 2px;}
+  .plan-card .days span{font-size:13px; font-weight:600; color:var(--ink-soft);}
+  .plan-card ul{margin:14px 0; padding-left:0; list-style:none; font-size:13px;}
+  .plan-card li{padding:6px 0 6px 20px; position:relative; color:var(--ink);}
+  .plan-card li::before{content:"·"; position:absolute; left:4px; color:var(--primary); font-weight:900; font-size:18px; top:2px;}
+  .plan-card .verdict{font-size:12.5px; color:var(--ink-soft); margin-top:14px; padding-top:14px; border-top:1px solid var(--line);}
+
+  /* Workload table */
+  .module-table td.num{text-align:right; font-weight:600; font-variant-numeric:tabular-nums;}
+  .module-table th.num{text-align:right;}
+  .module-table tr.total td{border-top:2px solid var(--ink); font-weight:700; padding-top:14px;}
+
+  /* Timeline */
+  .timeline{display:flex; gap:0; margin:28px 0 8px; position:relative;}
+  .tl-item{flex:1; position:relative; padding:0 6px;}
+  .tl-bar{
+    height:8px; border-radius:4px; background:var(--surface-soft); position:relative; margin-bottom:10px;
+  }
+  .tl-bar .fill{position:absolute; top:0; left:0; height:100%; border-radius:4px;}
+  .tl-item .m{font-size:12px; font-weight:700; color:var(--ink);}
+  .tl-item .d{font-size:11px; color:var(--ink-soft); margin-top:2px;}
+  .tl-item .warn{
+    display:inline-block; margin-top:6px; font-size:10.5px; font-weight:700; color:var(--risk-high);
+    background:var(--risk-high-bg); padding:2px 7px; border-radius:6px;
+  }
+
+  /* Pricing calculator */
+  .calc-box{
+    background:linear-gradient(135deg, var(--surface) 0%, var(--surface-soft) 100%);
+    border:1px solid var(--line); border-radius:var(--radius); padding:26px;
+    box-shadow:var(--shadow);
+  }
+  .calc-controls{display:flex; gap:24px; margin-bottom:24px; flex-wrap:wrap;}
+  .calc-field{flex:1; min-width:200px;}
+  .calc-field label{font-size:12px; font-weight:700; color:var(--ink-soft); display:block; margin-bottom:8px;}
+  .calc-field .row{display:flex; align-items:center; gap:10px;}
+  .calc-field input[type=range]{flex:1; accent-color:var(--primary);}
+  .calc-field .val{font-size:14px; font-weight:700; color:var(--primary-dark); min-width:64px; text-align:right; font-variant-numeric:tabular-nums;}
+  .calc-results{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .calc-result{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-sm); padding:16px 18px;
+  }
+  .calc-result.highlight{border-color:var(--primary); background:var(--primary-soft);}
+  .calc-result .name{font-size:12px; color:var(--ink-soft); font-weight:600; margin-bottom:6px;}
+  .calc-result .price{font-size:22px; font-weight:700; color:var(--ink); font-variant-numeric:tabular-nums;}
+  .calc-result .sub{font-size:11.5px; color:var(--ink-soft); margin-top:4px;}
+
+  .pay-flow{display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;}
+  .pay-step{
+    flex:1; min-width:130px; background:var(--surface); border:1px solid var(--line);
+    border-radius:var(--radius-sm); padding:14px; text-align:center;
+  }
+  .pay-step .pct{font-size:20px; font-weight:700; color:var(--primary-dark);}
+  .pay-step .lbl{font-size:11.5px; color:var(--ink-soft); margin-top:4px;}
+  .pay-arrow{display:flex; align-items:center; color:var(--ink-soft); font-size:14px;}
+
+  /* checklist */
+  .checklist{list-style:none; margin:0; padding:0;}
+  .checklist li{
+    display:flex; gap:12px; padding:13px 0; border-bottom:1px solid var(--line); font-size:13.5px;
+  }
+  .checklist li:last-child{border-bottom:none;}
+  .checklist .chk{
+    flex-shrink:0; width:20px; height:20px; border-radius:6px; border:2px solid var(--primary);
+    margin-top:1px;
+  }
+  .checklist b{color:var(--ink);}
+
+  footer{
+    text-align:center; padding:36px 0 10px; color:var(--ink-soft); font-size:12px;
+    border-top:1px solid var(--line); margin-top:20px;
+  }
+
+  @media (max-width: 760px){
+    .kpi-grid{grid-template-columns:1fr 1fr;}
+    .compare-grid{grid-template-columns:1fr;}
+    .calc-results{grid-template-columns:1fr;}
+    .timeline{flex-direction:column; gap:14px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-deco">
+  <svg width="600" height="600" style="top:-200px; right:-200px;">
+    <circle cx="300" cy="300" r="280" fill="none" stroke="#CC785C" stroke-width="1" opacity="0.15"/>
+    <circle cx="300" cy="300" r="200" fill="none" stroke="#5B7C99" stroke-width="1" opacity="0.12"/>
+    <g opacity="0.18">
+      <circle cx="180" cy="180" r="3" fill="#CC785C"/>
+      <circle cx="380" cy="220" r="3" fill="#5B7C99"/>
+      <circle cx="280" cy="380" r="3" fill="#CC785C"/>
+      <line x1="180" y1="180" x2="380" y2="220" stroke="#CC785C" stroke-width="1"/>
+      <line x1="380" y1="220" x2="280" y2="380" stroke="#5B7C99" stroke-width="1"/>
+      <line x1="180" y1="180" x2="280" y2="380" stroke="#CC785C" stroke-width="1"/>
+    </g>
+  </svg>
+</div>
+
+<nav class="nav">
+  <div class="brand"><span class="dot"></span>宝临AI开料助手 · 评估</div>
+  <a href="#essence">① 项目本质判断</a>
+  <a href="#risk">② 范围与风险</a>
+  <a href="#route">③ 技术路线对比</a>
+  <a href="#workload">④ 工作量拆解</a>
+  <a href="#pricing">⑤ 初步报价</a>
+  <a href="#protect">⑥ 合同保护建议</a>
+  <a href="#next">⑦ 下一步</a>
+</nav>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="tag">● 内部评审材料 · 非客户交付物</div>
+    <h1>宝临AI智能开料助手 — 项目评估与报价分析</h1>
+    <p class="sub">基于客户SOW V1.0（2026-06-09）与交付经理原型V1.1的交叉评审。结论先行：这是一个二维矩形下料/排版优化问题，核心难度在算法工程而非"AI Agent"叙事本身——这个判断决定了后续工作量分级与报价结构。</p>
+    <div class="meta">
+      <span>评估对象：<b>飞凡科技 / 红熊AI</b></span>
+      <span>客户：<b>宝临</b></span>
+      <span>预计签约：<b>2026年7月</b></span>
+      <span>参考文件：<b>SOW V1.0、系统原型V1.1</b></span>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="label">建议总人天（区间）</div>
+      <div class="value">67 – 84 人天</div>
+      <div class="note">取决于自研 / 开源选型两条技术路线</div>
+    </div>
+    <div class="kpi">
+      <div class="label">初步报价（区间）</div>
+      <div class="value">¥12.1 – 17.0 万</div>
+      <div class="note">基准¥1,800/人天，算法岗建议上浮</div>
+    </div>
+    <div class="kpi">
+      <div class="label">高/中高severity风险项</div>
+      <div class="value">3 项</div>
+      <div class="note">均集中在S04核心匹配引擎</div>
+    </div>
+    <div class="kpi">
+      <div class="label">M3阶段工期压力</div>
+      <div class="value">缺口明显</div>
+      <div class="note">31自然日 vs 实测34人天核心算法量</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <section id="essence">
+    <div class="section-head"><span class="section-num">01</span><h2>项目本质判断</h2></div>
+    <p class="section-desc">在拆工作量之前，先校准一件事：这个项目卖给客户的名字是"AI智能开料助手"，但工程内核是什么。</p>
+
+    <div class="card">
+      <h3>核心结论：这是一个二维矩形下料/排版优化问题（NP-hard组合优化），不是传统意义上的LLM/Agent推理任务</h3>
+      <p>SOW第4章描述的核心流程——料号筛选→整料排版计算→利用率评估→分级→边料匹配→方案排序——本质上是经典的<b>2D Cutting Stock / Bin Packing</b>问题，叠加了"边料池优先消耗"这一行业特有的业务规则层。这类问题在运筹优化（OR）领域有成熟的算法范式（guillotine cut、MaxRects、shelf algorithm等），核心挑战在<b>几何排布的搜索效率与利用率最优性</b>，而不在语言理解或开放域推理。</p>
+      <p class="soft">这对项目有两个直接影响：①真正的技术风险集中在S04排版算法本体，而不是"接入大模型"这种工作——后者反而是这个项目里最不需要担心的部分；②客户对"AI"二字可能存在期待错位（期待系统能像人一样灵活判断特殊情况），需要在交付沟通中管理这个预期，把"AI"定位为"智能化决策辅助引擎"而非"自主智能体"。</p>
+    </div>
+
+    <div class="callout">
+      <b>对工作量评估的意义：</b>原型V1.1中的 <code>drawCuttingChart()</code> 函数只画了2个矩形+1条分割虚线，是用于演示交互逻辑的Mock，<b>不代表真实排版算法的复杂度</b>。真实场景下一张整料板可能需要排布多个不同尺寸的需求件，且需要在"最大化利用率"与"保留可复用边料形状"之间做权衡——这才是S04真正要交付的东西。评估工作量必须以此为基准，而不是参照原型的演示效果。
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section id="risk">
+    <div class="section-head"><span class="section-num">02</span><h2>范围与风险评估</h2></div>
+    <p class="section-desc">逐条对照SOW条款与原型实现，按严重度分级标注。引用页码/章节均对应客户SOW V1.0原文。</p>
+
+    <div class="card" style="padding:0; overflow:hidden;">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:54px;">编号</th>
+            <th>风险点</th>
+            <th style="width:64px;">严重度</th>
+            <th style="width:120px;">SOW引用</th>
+            <th>建议处理</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>R1</b></td>
+            <td>M3阶段（T+14~T+45，31个自然日）同时承载"排版优化算法、匹配引擎、边料池管理、方案排序生成"四大模块，时间预算与S04实际算法工作量不匹配（详见④工作量拆解）</td>
+            <td><span class="sev sev-high">高</span></td>
+            <td class="ref">第6页 / M3里程碑</td>
+            <td>算法岗按1.5–2人力并行配置，或采纳③方案B（开源库选型），或与客户协商将M3拆为"算法验证"与"工程集成"两个子里程碑</td>
+          </tr>
+          <tr>
+            <td><b>R2</b></td>
+            <td>"尺寸数量匹配率"阈值标注为"待定（需客户确认）"，但该参数直接决定S08匹配判定边界，是核心算法的输入而非可后补的UI选项</td>
+            <td><span class="sev sev-high">高</span></td>
+            <td class="ref">第4页 / 4.5节</td>
+            <td>列为M1需求确认阶段的<b>强制书面交付物</b>，未确认不进入M3；避免算法开发中途变更判定逻辑导致返工</td>
+          </tr>
+          <tr>
+            <td><b>R3</b></td>
+            <td>"91%利用率"在7.1节被表述为可预期的成效提升指标，但在4.2节又是方案分级的内部标记阈值——两种语义容易被客户读成"逐单验收硬指标"，而利用率实际取决于订单尺寸与库存板材规格的几何吻合度，非算法单方面可保证</td>
+            <td><span class="sev sev-mid">中高</span></td>
+            <td class="ref">第6页7.1 / 第4页4.2</td>
+            <td>合同条款明确区分"方案分级标记阈值"（算法内部规则）与"预期年度均值效益"（统计层面预测），避免逐单验收纠纷</td>
+          </tr>
+          <tr>
+            <td><b>R4</b></td>
+            <td>多操作员并发确认方案时可能同时选中同一边料（如原型中的EDG-0098），原型与SOW均未体现并发锁机制</td>
+            <td><span class="sev sev-mid">中</span></td>
+            <td class="ref">原型订单页 / 4.5边料出库规则</td>
+            <td>设计"方案锁定"状态机+乐观锁校验，纳入S04/S05工作量（已计入④拆解）</td>
+          </tr>
+          <tr>
+            <td><b>R5</b></td>
+            <td>D02/D03标注接口"✔提供"，但第7页角色职责仍列"IT对接人员：API接口开发配合"，暗示客户侧接口可能尚未真正就绪</td>
+            <td><span class="sev sev-mid">中</span></td>
+            <td class="ref">第3页D02/D03 / 第7页角色表</td>
+            <td>M1阶段增加"客户接口环境联调就位确认"作为M2启动的前置条件，写入合同里程碑触发条件</td>
+          </tr>
+          <tr>
+            <td><b>R6</b></td>
+            <td>边料池数字状态与仓库实物状态的一致性依赖操作员严格执行"裁切后贴签上下架"，系统无法独立校验实物</td>
+            <td><span class="sev sev-low">中低</span></td>
+            <td class="ref">第4页4.5边料池运作规则</td>
+            <td>非开发缺陷；建议在验收材料中书面提示该假设前提，降低运营期数据漂移被归因为系统问题的风险</td>
+          </tr>
+          <tr>
+            <td><b>R7</b></td>
+            <td>里程碑表列出M1/M2/M3/M4/M6，缺M5，疑似文档编号笔误</td>
+            <td><span class="sev sev-low">低</span></td>
+            <td class="ref">第6页里程碑表</td>
+            <td>签约前与客户文档责任人核对，避免后续合同附件引用错位</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section id="route">
+    <div class="section-head"><span class="section-num">03</span><h2>技术路线对比：自研排版算法 vs 开源库选型集成</h2></div>
+    <p class="section-desc">这是影响总工作量与项目风险最大的一个技术决策，建议作为内部立项讨论的核心议题，而非默认走自研。</p>
+
+    <div class="compare-grid">
+      <div class="plan-card">
+        <span class="plan-badge">方案 A</span>
+        <h3>全自研排版算法</h3>
+        <div class="days">84<span>人天</span></div>
+        <ul>
+          <li>排版算法逐行实现，定制自由度最高</li>
+          <li>核心IP完全自有，无第三方依赖与许可问题</li>
+          <li>算法本体工作量约34人天，风险与工期压力最大</li>
+          <li>适合后续要做深度二次开发/对外产品化的场景</li>
+        </ul>
+        <div class="verdict">建议仅在团队已有2D排版算法经验积累，或客户愿意为定制化付费时选择。</div>
+      </div>
+      <div class="plan-card b">
+        <span class="plan-badge">方案 B（推荐）</span>
+        <h3>开源2D排版库选型 + 业务规则封装</h3>
+        <div class="days">67<span>人天</span></div>
+        <ul>
+          <li>基于成熟开源矩形排版算法（如MaxRects系思路）做底层，自研部分收窄为业务规则层</li>
+          <li>核心算法工作量压缩至约20人天（含选型验证）</li>
+          <li>M3阶段工期压力显著缓解，联调风险更低</li>
+          <li>需提前2-3天做开源库的License与性能基准验证</li>
+        </ul>
+        <div class="verdict">建议作为默认路线对客户报价，工期更可控，毛利结构更健康。</div>
+      </div>
+    </div>
+
+    <div class="callout blue">
+      <b>建议动作：</b>在与客户正式签约前，安排1-2天做开源2D排版库的选型验证（License合规性、性能基准、是否支持90°旋转与同料号约束的二次封装），把这个验证产出作为M1阶段的内部前置任务——不对客户计费，但作为后续M3排期承诺的依据。这也是上次合肥高铁项目"自研版 vs 借力实在智能产品版"判断逻辑的同构应用。
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section id="workload">
+    <div class="section-head"><span class="section-num">04</span><h2>工作量拆解</h2></div>
+    <p class="section-desc">按SOW范围条目（S01-S08）映射到工作量，并与里程碑（M1-M6）时间预算交叉校验。下表为方案A（全自研）口径，方案B在S04行单独标注压缩后数值。</p>
+
+    <div class="card" style="padding:0; overflow:hidden;">
+      <table class="module-table">
+        <thead>
+          <tr>
+            <th style="width:70px;">范围编号</th>
+            <th>工作内容</th>
+            <th style="width:90px;">工作类型</th>
+            <th class="num" style="width:90px;">方案A人天</th>
+            <th class="num" style="width:90px;">方案B人天</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>M1</td><td>需求确认、阈值参数书面澄清（含R2处理）</td><td>需求/管理</td><td class="num">5</td><td class="num">5</td></tr>
+          <tr><td>S01</td><td>板材与物料基础档案管理（CRUD）</td><td>开发</td><td class="num">3</td><td class="num">3</td></tr>
+          <tr><td>S02</td><td>订单数据API接入与校验</td><td>集成</td><td class="num">4</td><td class="num">4</td></tr>
+          <tr><td>S03</td><td>原料库存数据API接入</td><td>集成</td><td class="num">3</td><td class="num">3</td></tr>
+          <tr><td>S04</td><td>智能匹配引擎（排版算法本体+匹配+分级+排序+并发锁，含R1/R4处理）</td><td>核心算法</td><td class="num">34</td><td class="num">20</td></tr>
+          <tr><td>S05</td><td>边料池管理（状态机/合并/失效/阈值配置）</td><td>开发</td><td class="num">8</td><td class="num">8</td></tr>
+          <tr><td>S06</td><td>多方案推荐界面（含真实排版可视化，非演示级）</td><td>开发</td><td class="num">8</td><td class="num">7</td></tr>
+          <tr><td>S07/S08</td><td>裁剪排版约束执行与阈值规则引擎</td><td>开发</td><td class="num">5</td><td class="num">4</td></tr>
+          <tr><td>M4</td><td>集成测试、联调测试、性能测试、异常场景处理</td><td>测试</td><td class="num">8</td><td class="num">7</td></tr>
+          <tr><td>M6</td><td>部署上线、试运行跟踪、性能调优、用户培训</td><td>实施</td><td class="num">6</td><td class="num">6</td></tr>
+          <tr class="total"><td colspan="3">合计</td><td class="num">84 人天</td><td class="num">67 人天</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="font-size:14px; margin:30px 0 4px;">与SOW里程碑时间预算的交叉校验</h3>
+    <p class="section-desc" style="margin-top:0;">SOW给出的是自然日（含缓冲），下方按方案A口径折算后标注压力点。</p>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-bar"><div class="fill" style="width:100%; background:var(--accent-blue);"></div></div>
+        <div class="m">M1 需求确认</div>
+        <div class="d">T+7（7自然日）</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-bar"><div class="fill" style="width:100%; background:var(--accent-blue);"></div></div>
+        <div class="m">M2 数据层开发</div>
+        <div class="d">T+14（7自然日窗口）</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-bar"><div class="fill" style="width:100%; background:var(--risk-high);"></div></div>
+        <div class="m">M3 引擎层开发</div>
+        <div class="d">T+45（31自然日）</div>
+        <span class="warn">⚠ 工期偏紧</span>
+      </div>
+      <div class="tl-item">
+        <div class="tl-bar"><div class="fill" style="width:100%; background:var(--accent-blue);"></div></div>
+        <div class="m">M4 集成联调</div>
+        <div class="d">T+50（5自然日窗口）</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-bar"><div class="fill" style="width:100%; background:var(--accent-blue);"></div></div>
+        <div class="m">M6 试运行验收</div>
+        <div class="d">T+80（30自然日窗口，主要为客户侧试运行）</div>
+      </div>
+    </div>
+    <p class="section-desc">M3阶段31个自然日约折算20-22个有效工作日；方案A口径下S04单模块即需34人天，意味着<b>单人力无法在阶段窗口内完成</b>，必须双人并行或采纳方案B压缩范围。这是R1风险在数字上的直接体现。</p>
+  </section>
+
+  <!-- SECTION 5 -->
+  <section id="pricing">
+    <div class="section-head"><span class="section-num">05</span><h2>初步报价</h2></div>
+    <p class="section-desc">采用单一可调基准日费率驱动测算，核心算法岗建议按系数上浮——避免客户用"不就是写个软件"的说法低估排版算法的稀缺技术价值（与既往"区分提取与开发定价"的原则同向延伸）。下方为可交互测算，可拖动调整费率与系数即时查看两条路线报价。</p>
+
+    <div class="calc-box">
+      <div class="calc-controls">
+        <div class="calc-field">
+          <label>基准日费率（标准实施/开发）</label>
+          <div class="row">
+            <input type="range" id="rateBase" min="1200" max="2800" step="50" value="1800">
+            <span class="val" id="rateBaseVal">¥1,800</span>
+          </div>
+        </div>
+        <div class="calc-field">
+          <label>核心算法岗上浮系数</label>
+          <div class="row">
+            <input type="range" id="rateMult" min="1.0" max="1.6" step="0.05" value="1.3">
+            <span class="val" id="rateMultVal">1.30×</span>
+          </div>
+        </div>
+      </div>
+      <div class="calc-results">
+        <div class="calc-result">
+          <div class="name">方案A · 全自研（84人天，含34算法人天）</div>
+          <div class="price" id="priceA">¥151,200</div>
+          <div class="sub" id="priceASub">基准段 ¥90,000 + 算法段 ¥61,200</div>
+        </div>
+        <div class="calc-result highlight">
+          <div class="name">方案B · 开源选型集成（67人天，含20算法人天，推荐）</div>
+          <div class="price" id="priceB">¥120,600</div>
+          <div class="sub" id="priceBSub">基准段 ¥84,600 + 算法段 ¥36,000</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px;">
+      <h3>建议付款节奏（里程碑制，前置比例较高）</h3>
+      <p class="soft" style="margin-bottom:16px;">SOW本身未给出付款条款，下方为建议方案，需在合同中补充：</p>
+      <div class="pay-flow">
+        <div class="pay-step"><div class="pct">30%</div><div class="lbl">签约启动<br>（覆盖M1+M2）</div></div>
+        <div class="pay-arrow">→</div>
+        <div class="pay-step"><div class="pct">30%</div><div class="lbl">M3完成<br>核心引擎可用</div></div>
+        <div class="pay-arrow">→</div>
+        <div class="pay-step"><div class="pct">25%</div><div class="lbl">M4联调通过<br>端到端贯通</div></div>
+        <div class="pay-arrow">→</div>
+        <div class="pay-step"><div class="pct">15%</div><div class="lbl">M6验收签字<br>试运行达标</div></div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <b>报价口径说明：</b>以上为初步测算区间，未包含差旅、客户现场驻场（若需要）及客户接口异常导致的范围外协调成本。正式投标前建议按③推荐的方案B路线，结合实际竞对信息做最终校准；当前无竞对定价参照，建议采用"先中标、再在执行中协商范围细节"的一贯策略，报价不宜过度保守。
+    </div>
+  </section>
+
+  <!-- SECTION 6 -->
+  <section id="protect">
+    <div class="section-head"><span class="section-num">06</span><h2>合同与条款保护建议</h2></div>
+    <p class="section-desc">签约前需要落地到合同文本里的具体条款，对应上文R1-R7风险项。</p>
+    <div class="card">
+      <ul class="checklist">
+        <li><span class="chk"></span><span><b>范围边界条款：</b>明确S01-S08为唯一交付范围，X01-X07排除项逐条写入合同附件，防止客户在试运行期提出"顺便接一下ERP"之类的范围外要求</span></li>
+        <li><span class="chk"></span><span><b>参数确认前置条款：</b>"尺寸数量匹配率"等待定参数须在M1阶段书面确认，未确认不触发M3启动（对应R2）</span></li>
+        <li><span class="chk"></span><span><b>验收指标定性条款：</b>91%利用率定义为"方案分级标记阈值"而非逐单验收承诺，验收以"系统功能完整性+试运行期统计均值"为准（对应R3）</span></li>
+        <li><span class="chk"></span><span><b>客户接口就位条款：</b>M2启动前提条件包含客户侧API联调环境就位确认，逾期顺延不计入实施方违约（对应R5）</span></li>
+        <li><span class="chk"></span><span><b>里程碑触发付款条款：</b>采用上文建议的30/30/25/15付款结构，避免Phase 2细节写入本期合同</span></li>
+        <li><span class="chk"></span><span><b>运营假设免责条款：</b>书面声明边料实物标签/上下架流程依赖客户操作员人工执行，系统状态与实物不一致不属于系统缺陷（对应R6）</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECTION 7 -->
+  <section id="next">
+    <div class="section-head"><span class="section-num">07</span><h2>下一步行动</h2></div>
+    <div class="card">
+      <ul class="checklist">
+        <li><span class="chk"></span><span>内部决策：方案A（自研）vs 方案B（开源选型集成）— <b>建议方案B</b>，并安排1-2天选型验证</span></li>
+        <li><span class="chk"></span><span>与客户确认"尺寸数量匹配率"阈值，纳入M1正式交付物清单</span></li>
+        <li><span class="chk"></span><span>核实客户侧订单/库存API的真实就位状态，避免M2启动后被动等待</span></li>
+        <li><span class="chk"></span><span>确定最终报价区间与付款节奏条款，准备正式合同/SOW签约版本</span></li>
+        <li><span class="chk"></span><span>核对里程碑编号缺失M5的文档笔误，与客户文档责任人对齐</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>宝临AI智能开料助手 · 内部项目评估材料 · 仅供飞凡科技/红熊AI内部决策使用，非客户交付物</footer>
+
+</div>
+
+<script>
+  const planA = { base: 50, algo: 34 }; // 方案A: 非算法人天50 + 算法人天34
+  const planB = { base: 47, algo: 20 }; // 方案B: 非算法人天47 + 算法人天20
+
+  const rateBase = document.getElementById('rateBase');
+  const rateMult = document.getElementById('rateMult');
+  const rateBaseVal = document.getElementById('rateBaseVal');
+  const rateMultVal = document.getElementById('rateMultVal');
+  const priceA = document.getElementById('priceA');
+  const priceB = document.getElementById('priceB');
+  const priceASub = document.getElementById('priceASub');
+  const priceBSub = document.getElementById('priceBSub');
+
+  function fmt(n){ return '¥' + Math.round(n).toLocaleString('zh-CN'); }
+
+  function update(){
+    const r = parseFloat(rateBase.value);
+    const m = parseFloat(rateMult.value);
+    rateBaseVal.textContent = fmt(r);
+    rateMultVal.textContent = m.toFixed(2) + '×';
+
+    const aBase = planA.base * r;
+    const aAlgo = planA.algo * r * m;
+    const bBase = planB.base * r;
+    const bAlgo = planB.algo * r * m;
+
+    priceA.textContent = fmt(aBase + aAlgo);
+    priceB.textContent = fmt(bBase + bAlgo);
+    priceASub.textContent = `基准段 ${fmt(aBase)} + 算法段 ${fmt(aAlgo)}`;
+    priceBSub.textContent = `基准段 ${fmt(bBase)} + 算法段 ${fmt(bAlgo)}`;
+  }
+
+  rateBase.addEventListener('input', update);
+  rateMult.addEventListener('input', update);
+  update();
+</script>
+
+</body>
+</html>

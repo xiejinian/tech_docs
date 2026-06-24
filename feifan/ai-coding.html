@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Coding 工程能力建设 · 应标方案 | 飞凡科技 × 红熊AI</title>
+<style>
+  :root{
+    --ink:#1A1D29;
+    --ink-soft:#4A4F5E;
+    --ink-faint:#8A8FA0;
+    --paper:#FAFAF8;
+    --panel:#FFFFFF;
+    --line:#E8E6E0;
+    --accent:#D97757;
+    --accent-soft:#FBE9E1;
+    --accent-deep:#B85C3E;
+    --teal:#3D8B7D;
+    --teal-soft:#E3F1EE;
+    --amber:#C9912B;
+    --amber-soft:#FBF1DE;
+    --red:#C0533F;
+    --red-soft:#FBE8E4;
+    --code-bg:#F4F2ED;
+    --radius:14px;
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .serif{font-family:"Noto Serif SC","Songti SC",serif;}
+  a{color:inherit;}
+
+  /* ===== Top nav ===== */
+  .topnav{
+    position:sticky; top:0; z-index:100;
+    background:rgba(250,250,248,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .topnav-inner{
+    max-width:var(--maxw); margin:0 auto;
+    display:flex; align-items:center; gap:28px;
+    padding:14px 24px;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .topnav-inner::-webkit-scrollbar{display:none;}
+  .brandmark{
+    display:flex; align-items:center; gap:8px;
+    font-weight:700; font-size:14px; letter-spacing:0.02em;
+    white-space:nowrap; flex-shrink:0;
+  }
+  .brandmark .dot{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-soft);
+  }
+  .navlinks{display:flex; gap:22px; white-space:nowrap;}
+  .navlinks a{
+    font-size:13px; color:var(--ink-faint); text-decoration:none;
+    font-weight:500; transition:color .15s;
+  }
+  .navlinks a:hover{color:var(--accent-deep);}
+
+  /* ===== Hero ===== */
+  .hero{
+    max-width:var(--maxw); margin:0 auto;
+    padding:72px 24px 56px;
+  }
+  .hero-eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:12px; font-weight:600; letter-spacing:0.08em;
+    color:var(--accent-deep); text-transform:uppercase;
+    background:var(--accent-soft);
+    padding:6px 14px; border-radius:100px;
+    margin-bottom:24px;
+  }
+  .hero h1{
+    font-size:clamp(32px,5vw,52px);
+    line-height:1.25;
+    margin:0 0 18px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 .accent{color:var(--accent-deep);}
+  .hero p.lede{
+    font-size:17px; color:var(--ink-soft);
+    max-width:640px; margin:0 0 32px;
+  }
+  .hero-meta{
+    display:flex; flex-wrap:wrap; gap:32px;
+    padding-top:28px; border-top:1px solid var(--line);
+  }
+  .hero-meta-item{}
+  .hero-meta-item .label{font-size:11px; color:var(--ink-faint); letter-spacing:0.06em; text-transform:uppercase;}
+  .hero-meta-item .value{font-size:15px; font-weight:600; margin-top:4px;}
+
+  /* ===== Section shell ===== */
+  .section{
+    max-width:var(--maxw); margin:0 auto;
+    padding:64px 24px;
+    border-top:1px solid var(--line);
+  }
+  .section-head{
+    display:flex; align-items:baseline; gap:14px;
+    margin-bottom:36px;
+  }
+  .section-num{
+    font-family:"SF Mono","JetBrains Mono",monospace;
+    font-size:13px; color:var(--accent-deep); font-weight:700;
+    background:var(--accent-soft);
+    padding:3px 9px; border-radius:7px;
+    flex-shrink:0;
+  }
+  .section-head h2{
+    font-size:26px; font-weight:700; margin:0;
+    letter-spacing:-0.01em;
+  }
+  .section-sub{
+    color:var(--ink-faint); font-size:14px; margin-top:-26px; margin-bottom:32px; margin-left:42px;
+  }
+
+  /* ===== Cards / grids ===== */
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .grid-3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px;}
+  .grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
+  @media (max-width:760px){
+    .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:24px;
+  }
+  .card h3{margin:0 0 10px; font-size:16px; font-weight:700;}
+  .card p{margin:0; font-size:13.5px; color:var(--ink-soft);}
+
+  .kpi{
+    background:var(--panel); border:1px solid var(--line);
+    border-radius:var(--radius); padding:20px;
+    text-align:left;
+  }
+  .kpi .num{font-size:28px; font-weight:800; color:var(--accent-deep); font-family:"SF Mono","JetBrains Mono",monospace; letter-spacing:-0.02em;}
+  .kpi .desc{font-size:12.5px; color:var(--ink-faint); margin-top:6px; line-height:1.5;}
+
+  /* ===== Pill / tag ===== */
+  .tag{
+    display:inline-block; font-size:11px; font-weight:700;
+    padding:2px 9px; border-radius:6px; letter-spacing:0.02em;
+  }
+  .tag-c1{background:var(--teal-soft); color:var(--teal);}
+  .tag-c2{background:#E4ECFB; color:#3158B0;}
+  .tag-c3{background:var(--amber-soft); color:var(--amber);}
+  .tag-e1{background:var(--accent-soft); color:var(--accent-deep);}
+  .tag-joint{background:#EFEAF7; color:#6646A8;}
+
+  /* ===== Quote callout ===== */
+  .callout{
+    background:var(--ink); color:#fff;
+    border-radius:var(--radius);
+    padding:32px 36px;
+    margin:28px 0;
+  }
+  .callout p{font-size:17px; line-height:1.65; margin:0; font-weight:500;}
+  .callout .by{font-size:12.5px; color:#A8ACBC; margin-top:14px;}
+
+  /* ===== Layer model (4层防线) ===== */
+  .layers{display:flex; flex-direction:column; gap:10px; margin:24px 0;}
+  .layer{
+    display:flex; align-items:center; gap:18px;
+    background:var(--panel); border:1px solid var(--line);
+    border-radius:12px; padding:16px 20px;
+    position:relative;
+  }
+  .layer .ln{
+    font-family:"SF Mono",monospace; font-weight:800; font-size:13px;
+    color:#fff; background:var(--ink);
+    width:30px; height:30px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .layer .lt{font-weight:700; font-size:14.5px; min-width:130px; flex-shrink:0;}
+  .layer .ld{font-size:13px; color:var(--ink-soft);}
+  .layer-arrow{
+    text-align:center; color:var(--ink-faint); font-size:12px;
+    margin:-4px 0;
+  }
+
+  /* ===== Tables ===== */
+  table{width:100%; border-collapse:collapse; font-size:13px;}
+  thead th{
+    text-align:left; font-size:11.5px; letter-spacing:0.03em;
+    color:var(--ink-faint); text-transform:uppercase;
+    padding:10px 12px; border-bottom:2px solid var(--ink);
+    font-weight:700;
+  }
+  tbody td{
+    padding:12px 12px; border-bottom:1px solid var(--line);
+    vertical-align:top; color:var(--ink-soft);
+  }
+  tbody tr:hover{background:#F6F5F1;}
+  tbody td.strong{color:var(--ink); font-weight:600;}
+  .table-wrap{
+    overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius);
+    background:var(--panel);
+  }
+  .table-wrap table{min-width:760px;}
+
+  /* ===== Timeline ===== */
+  .timeline{position:relative; padding-left:28px; margin:24px 0;}
+  .timeline::before{
+    content:''; position:absolute; left:9px; top:6px; bottom:6px;
+    width:2px; background:var(--line);
+  }
+  .tl-item{position:relative; margin-bottom:28px;}
+  .tl-item::before{
+    content:''; position:absolute; left:-28px; top:4px;
+    width:18px; height:18px; border-radius:50%;
+    background:var(--accent); border:3px solid var(--paper);
+  }
+  .tl-phase{font-size:11.5px; font-weight:800; color:var(--accent-deep); letter-spacing:0.04em; text-transform:uppercase;}
+  .tl-title{font-size:17px; font-weight:700; margin:4px 0 2px;}
+  .tl-week{font-size:12.5px; color:var(--ink-faint); font-family:"SF Mono",monospace; margin-bottom:10px;}
+  .tl-body ul{margin:0; padding-left:18px; font-size:13.5px; color:var(--ink-soft);}
+  .tl-body li{margin-bottom:4px;}
+  .tl-milestone{
+    display:inline-block; margin-top:10px;
+    font-size:12.5px; font-weight:700; color:var(--teal);
+    background:var(--teal-soft); padding:5px 12px; border-radius:8px;
+  }
+
+  /* ===== Risk cards ===== */
+  .risk-card{
+    border-radius:12px; padding:18px 20px;
+    border:1px solid var(--line);
+  }
+  .risk-critical{background:var(--red-soft); border-color:#EBC6BC;}
+  .risk-high{background:var(--amber-soft); border-color:#EDD9AE;}
+  .risk-mid{background:#EEF1F6; border-color:#D7DEEA;}
+  .risk-tag{font-size:11px; font-weight:800; letter-spacing:0.03em;}
+  .risk-critical .risk-tag{color:var(--red);}
+  .risk-high .risk-tag{color:var(--amber);}
+  .risk-mid .risk-tag{color:#3158B0;}
+  .risk-card p{margin:8px 0 0; font-size:13px; color:var(--ink-soft);}
+  .risk-card strong{color:var(--ink); display:block; margin-bottom:2px; font-size:14px;}
+
+  /* ===== Effort estimate ===== */
+  .effort-bar-row{display:flex; align-items:center; gap:14px; margin-bottom:16px;}
+  .effort-label{width:160px; flex-shrink:0; font-size:13.5px; font-weight:600;}
+  .effort-track{flex:1; background:#EFEDE7; border-radius:8px; height:30px; position:relative; overflow:hidden;}
+  .effort-fill{height:100%; border-radius:8px; display:flex; align-items:center; padding:0 10px; font-size:11.5px; color:#fff; font-weight:700; font-family:"SF Mono",monospace; white-space:nowrap;}
+  .effort-note{font-size:12px; color:var(--ink-faint); margin-top:24px;}
+
+  /* ===== Footer / contact ===== */
+  .footer{
+    max-width:var(--maxw); margin:0 auto;
+    padding:56px 24px 80px;
+    border-top:1px solid var(--line);
+  }
+  .footer-grid{display:flex; justify-content:space-between; gap:40px; flex-wrap:wrap;}
+  .footer h3{font-size:18px; margin:0 0 8px;}
+  .footer p{color:var(--ink-faint); font-size:13px; margin:0;}
+
+  /* ===== misc ===== */
+  .small-note{
+    font-size:12.5px; color:var(--ink-faint); background:#F2F0EA;
+    border-radius:10px; padding:12px 16px; margin-top:16px;
+    border-left:3px solid var(--accent);
+  }
+  .badge-row{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px;}
+  .person-block{display:flex; gap:20px; align-items:flex-start; margin-top:20px;}
+  .person-avatar{
+    width:64px; height:64px; border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),var(--accent-deep));
+    color:#fff; display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:22px; flex-shrink:0;
+  }
+  .person-meta h4{margin:0 0 2px; font-size:15px;}
+  .person-meta .role{font-size:12.5px; color:var(--accent-deep); font-weight:700; margin-bottom:8px;}
+  .person-meta p{font-size:13px; color:var(--ink-soft); margin:0;}
+
+  .ai-glyph{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:18px; height:18px; border-radius:5px;
+    background:var(--ink); color:var(--accent);
+    font-size:10px; font-weight:800; font-family:monospace;
+    margin-right:6px; vertical-align:-2px;
+  }
+
+  ::selection{background:var(--accent-soft);}
+</style>
+</head>
+<body>
+
+<!-- ===== TOP NAV ===== -->
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="brandmark"><span class="dot"></span>飞凡科技 × 红熊AI</div>
+    <div class="navlinks">
+      <a href="#understanding">需求理解</a>
+      <a href="#team">团队覆盖</a>
+      <a href="#method">方法论路线</a>
+      <a href="#deliverables">交付件响应</a>
+      <a href="#roadmap">实施路线</a>
+      <a href="#effort">人天估算</a>
+      <a href="#kpi">验收对齐</a>
+      <a href="#risk">风险保障</a>
+      <a href="#about">关于我们</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="hero-eyebrow"><span class="ai-glyph">AI</span>AI CODING 工程能力建设 · 应标方案</div>
+  <h1>让 AI 从"辅助工具"<br>变成团队的<span class="accent">默认工作方式</span></h1>
+  <p class="lede">
+    本方案面向贵司 AI Coding 工程能力建设项目，覆盖方法论体系（C1）、平台与知识工程（C2）、流程组织变革（C3）、试点落地（E1）四大维度，按 D01–D15 全部交付件逐条响应，目标在 26 周内实现一套真正可被团队日常使用、可被管理层量化考核的工程能力底座。
+  </p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><div class="label">投标方</div><div class="value">飞凡科技（主导）+ 红熊AI（技术伙伴）</div></div>
+    <div class="hero-meta-item"><div class="label">建设周期</div><div class="value">W1 – W26（约 6 个月，可续约）</div></div>
+    <div class="hero-meta-item"><div class="label">覆盖角色</div><div class="value">C1 / C2 / C3 / E1 全角色</div></div>
+    <div class="hero-meta-item"><div class="label">版本</div><div class="value">v1.0 · 2026年6月</div></div>
+  </div>
+</header>
+
+<!-- ===== 1. 需求理解确认 ===== -->
+<section class="section" id="understanding">
+  <div class="section-head"><span class="section-num">01</span><h2>需求理解确认</h2></div>
+  <div class="section-sub">我们如何理解这次招标的真实目标</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>表面任务</h3>
+      <p>招募 C1 方法论顾问、C2 平台工程顾问、C3 流程组织顾问，外加 E1 落地专家，在 6 个月内交付 15 项文档/平台/培训成果（D01–D15），按人天/里程碑结算。</p>
+    </div>
+    <div class="card" style="border-color:var(--accent); background:var(--accent-soft);">
+      <h3>真实目标</h3>
+      <p>把"AI 写代码"从少数极客的个人习惯，变成全公司研发流程里默认存在、可度量、可考核的一环——这是一次工程治理 + 组织变革项目，不是一次工具采购。</p>
+    </div>
+  </div>
+
+  <p style="margin-top:28px; font-size:14.5px; color:var(--ink-soft);">
+    通读交付件清单后，我们注意到一个关键信号：15 项交付件里，纯"平台/技术"类（D03–D06）只占 4 项，而"方法论规范类"（D01-D02/D07-D09）与"组织落地类"（D10-D15）合计 11 项。这说明贵司真正的瓶颈不是缺工具，而是缺一套<strong>让 AI 辅助编码可控、可信、可推广</strong>的工程方法与组织机制。我们的方案因此把 C1、C3 放在与 C2 同等甚至更靠前的优先级上。
+  </p>
+
+  <div class="callout">
+    <p>"AI Coding 能力建设"项目最常见的失败模式不是技术选型错误，而是平台上线后没人用、用了没人信、信了也没法规模复制。本方案的每一项交付，都直接对应贵司在『5.验收标准』里设定的四个硬指标——AI 占比、交付周期、试点数量、认证人数。</p>
+    <div class="by">— 方案设计原则</div>
+  </div>
+
+  <div class="grid-4" style="margin-top:8px;">
+    <div class="kpi"><div class="num">≥70%</div><div class="desc">AI 辅助代码占比目标</div></div>
+    <div class="kpi"><div class="num">↓40%</div><div class="desc">交付周期缩短目标</div></div>
+    <div class="kpi"><div class="num">≥6</div><div class="desc">试点验收通过数量</div></div>
+    <div class="kpi"><div class="num">≥40</div><div class="desc">认证人数目标</div></div>
+  </div>
+</section>
+
+<!-- ===== 2. 团队覆盖方案 ===== -->
+<section class="section" id="team">
+  <div class="section-head"><span class="section-num">02</span><h2>团队覆盖方案</h2></div>
+  <div class="section-sub">联合体结构与角色匹配理由</div>
+
+  <p style="font-size:14.5px; color:var(--ink-soft);">
+    本次应标由<strong style="color:var(--ink);">飞凡科技</strong>主导，联合长期合作伙伴<strong style="color:var(--ink);">红熊AI</strong>共同组队，对 JD 要求的 C1 / C2 / C3 / E1 四个方向实现<strong>全角色覆盖</strong>。本阶段提交的是覆盖框架与能力匹配说明；具体驻场人员名单将在中标后、合同启动前与贵司联合确认，确保人岗匹配精度。
+  </p>
+
+  <div class="grid-2" style="margin-top:24px;">
+    <div class="card">
+      <h3><span class="tag tag-c1">C1</span>&nbsp;&nbsp;<span class="tag tag-c3">C3</span>&nbsp;方法论 / 流程组织顾问</h3>
+      <p><strong style="color:var(--ink);">飞凡科技主导。</strong>核心顾问拥有阿里巴巴/蚂蚁集团多条产品线研发负责人经历，长期参与阿里交易技术委员会、钉钉技术委员会工作，并主导过蘑菇街电商中台建设——这类经验的共同点是：在大规模研发组织里，把"个体最佳实践"沉淀为"全员可复制的流程规范"。这正是 C1（Spec-Driven 方法论、工作流状态机）与 C3（角色重塑、认证体系、组织文化变革）两个方向所需要的核心能力。</p>
+    </div>
+    <div class="card">
+      <h3><span class="tag tag-c2">C2</span>&nbsp;平台工程 / 知识工程顾问</h3>
+      <p><strong style="color:var(--ink);">红熊AI主导，飞凡科技联合支撑。</strong>红熊AI 在 Agent 编排、RAG 知识库架构、MCP 工具链落地上有持续的项目实战积累，覆盖企业知识库接入、度量看板搭建、模型网关与 Token 成本治理等具体工程能力，与 D03–D06 的技术深度要求直接对应。</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px; background:var(--ink); border:none;">
+    <h3 style="color:#fff;"><span class="tag tag-e1">E1</span>&nbsp;落地专家 / 联合交付</h3>
+    <p style="color:#D5D8E2;">E1 落地专家与 D15 联合复盘报告，需要的是长期驻场陪跑能力，而非单点咨询。这部分团队将在试点选型确认后（建议 W5 前）组建，按"1名资深 + 2-3名驻场"的梯队配置，确保 9 个试点交付物（D11）有稳定的人员对接，不出现"顾问讲完方法论就离场"的常见问题。</p>
+  </div>
+
+</section>
+
+<!-- ===== 3. 方法论与技术路线 ===== -->
+<section class="section" id="method">
+  <div class="section-head"><span class="section-num">03</span><h2>方法论与技术路线</h2></div>
+  <div class="section-sub">这是方案的核心——按 C1 / C2 / C3 三个方向展开具体落地路径</div>
+
+  <!-- C1 -->
+  <h3 style="font-size:18px; margin-top:8px;"><span class="tag tag-c1">C1</span>&nbsp;方法论体系：从"个人会用 AI"到"团队有章法"</h3>
+  <p style="font-size:14px; color:var(--ink-soft); margin-top:10px;">
+    C1 的核心产出是 <strong style="color:var(--ink);">Spec-Driven Development（规范驱动开发）</strong> 与 <strong style="color:var(--ink);">Harness Engineering（AI 生成代码的安全护栏工程）</strong>。前者解决"AI 该基于什么生成代码"，后者解决"AI 生成的代码该如何被信任"。两者共同支撑工作流状态机（D02）的设计：每一次 AI 辅助编码，都从"需求转规范"开始，经过明确状态流转，而不是程序员直接对着对话框写 prompt。
+  </p>
+
+  <p style="font-size:14px; color:var(--ink-soft); margin-top:4px; margin-bottom:6px;"><strong style="color:var(--ink);">四层防线模型（D01/D02 核心内容）：</strong></p>
+  <div class="layers">
+    <div class="layer">
+      <div class="ln">1</div>
+      <div class="lt">规范层</div>
+      <div class="ld">需求转化为结构化 Spec 文档（接口定义、验收条件、边界场景），作为 AI 生成代码的唯一输入源，杜绝"自然语言随意描述"导致的歧义。</div>
+    </div>
+    <div class="layer-arrow">↓</div>
+    <div class="layer">
+      <div class="ln">2</div>
+      <div class="lt">生成层</div>
+      <div class="ld">Agent 按 Spec 生成代码、测试用例与开发日志（dev-log），生成过程全程留痕，纳入度量看板统计 AI 代码占比。</div>
+    </div>
+    <div class="layer-arrow">↓</div>
+    <div class="layer">
+      <div class="ln">3</div>
+      <div class="lt">验证层</div>
+      <div class="ld">CI/CD 质量门禁自动校验（单测覆盖率、静态扫描、Spec 一致性比对），未通过自动打回生成层，不进入人工环节浪费评审资源。</div>
+    </div>
+    <div class="layer-arrow">↓</div>
+    <div class="layer">
+      <div class="ln">4</div>
+      <div class="lt">人工复核层</div>
+      <div class="ld">人工只复核"业务逻辑是否正确"与"架构是否合理"，不再做逐行代码审查——这是交付周期能下降 40% 的关键设计，而非简单地让 AI 多写代码。</div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top:8px;">
+    <div class="card">
+      <h3 style="font-size:14.5px;">角色契约（人机分工边界）</h3>
+      <p>明确定义"AI 可独立决策的范围""AI 必须征求人工确认的范围""人工必须亲自完成的范围"三类边界，写入团队规范文档，避免"AI 写的代码出了问题该谁负责"这类组织摩擦反复发生。</p>
+    </div>
+    <div class="card">
+      <h3 style="font-size:14.5px;">工作流状态机设计</h3>
+      <p>需求 → 规范确认 → AI生成 → 自动验证 → 人工复核 → 合并，六个状态节点，每个节点有明确的进入/退出条件与责任人，可直接映射进现有的工单系统或 CI 流程。</p>
+    </div>
+  </div>
+
+  <!-- C2 -->
+  <h3 style="font-size:18px; margin-top:44px;"><span class="tag tag-c2">C2</span>&nbsp;平台与知识工程：五大能力的建设顺序</h3>
+  <p style="font-size:14px; color:var(--ink-soft); margin-top:10px;">
+    D04 提到的 Rules / Skills / MCP / Agent / Hook 五大平台能力，常见误区是同时铺开建设，导致资源分散、谁都不成熟。我们建议的建设顺序遵循"先约束、再扩展"原则：
+  </p>
+
+  <div class="table-wrap" style="margin-top:16px;">
+    <table>
+      <thead><tr><th style="width:90px;">顺序</th><th>能力</th><th>为什么先做这个</th><th>典型周期</th></tr></thead>
+      <tbody>
+        <tr><td class="strong">①</td><td>Rules</td><td>定义代码规范、安全红线、禁止模式——是后续所有能力的"宪法"，必须最先确定，否则 Agent/Skills 无据可依</td><td>W2–W4</td></tr>
+        <tr><td class="strong">②</td><td>Hook</td><td>在 CI/CD 关键节点插入自动校验钩子，把 Rules 转化为可执行的强制检查，而非贴在墙上的文档</td><td>W3–W6</td></tr>
+        <tr><td class="strong">③</td><td>Skills</td><td>把团队已验证有效的代码模式、领域知识封装成可复用单元，是知识沉淀的最小颗粒度</td><td>W4–W9</td></tr>
+        <tr><td class="strong">④</td><td>MCP</td><td>连接内部系统（代码仓、工单、知识库），让 Agent 具备"读取真实上下文"的能力，避免凭空生成</td><td>W4–W10</td></tr>
+        <tr><td class="strong">⑤</td><td>Agent</td><td>前四项就位后再编排自动化程度更高的 Agent 工作流，此时风险最低、可控性最高</td><td>W6–W12</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-2" style="margin-top:24px;">
+    <div class="card">
+      <h3 style="font-size:14.5px;">知识工程底座架构（D05）</h3>
+      <p>内部资产市场（沉淀本企业的 Skills/Rules/MCP 配置，可被各团队复用、检索、二次组合）+ 通用知识库（接入代码仓与历史文档做 RAG 检索）。两者解耦设计：前者是"团队的最佳实践库"，后者是"企业的知识记忆体"，避免混为一谈导致检索精度下降。</p>
+    </div>
+    <div class="card">
+      <h3 style="font-size:14.5px;">度量看板与 Token 成本治理（D06）</h3>
+      <p>三类核心指标：①生成层指标（AI 代码占比、采纳率）②验证层指标（自动校验通过率、人工复核耗时对比）③成本指标（按团队/项目维度的 Token 消耗与单位代码成本），三者打通才能向管理层证明"降本"而非仅"增效"。</p>
+    </div>
+  </div>
+
+  <!-- C3 -->
+  <h3 style="font-size:18px; margin-top:44px;"><span class="tag tag-c3">C3</span>&nbsp;流程组织变革：把方法论"种"进组织里</h3>
+  <p style="font-size:14px; color:var(--ink-soft); margin-top:10px;">
+    C1 解决"怎么做"，C2 解决"用什么做"，C3 解决最难的部分——"为什么大家要改变现在的做法"。这是大多数 AI Coding 项目最终流于形式的真正原因。
+  </p>
+
+  <div class="grid-3" style="margin-top:16px;">
+    <div class="card">
+      <h3 style="font-size:14px;">传统→Spec-Driven 流程映射（D07）</h3>
+      <p style="font-size:12.5px;">逐条对照现有 SDLC 节点（需求评审/技术方案/编码/测试/上线）与新流程节点的映射关系，让团队看到"不是推翻重来，是在现有流程里插入新环节"，降低变革阻力。</p>
+    </div>
+    <div class="card">
+      <h3 style="font-size:14px;">角色重塑与能力模型（D08）</h3>
+      <p style="font-size:12.5px;">定义"AI 协作工程师"等新角色画像与能力分级标准，配套认证体系（对应验收指标"认证≥40人"），让转型有清晰的个人成长路径，而非单纯的考核压力。</p>
+    </div>
+    <div class="card">
+      <h3 style="font-size:14px;">AI-First 文化与 Hackathon（D09）</h3>
+      <p style="font-size:12.5px;">W18–W24 安排团队级 Hackathon，用真实业务场景而非演示场景检验平台能力，同时是最有效的内部口碑传播机制——这比任何培训 PPT 都更能说服怀疑者。</p>
+    </div>
+</section>
+
+<!-- ===== 4. 逐项交付件响应 ===== -->
+<section class="section" id="deliverables">
+  <div class="section-head"><span class="section-num">04</span><h2>逐项交付件响应（D01–D15）</h2></div>
+  <div class="section-sub">严格按贵司原表顺序逐条对照，证明"完全理解、可执行"</div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th style="width:48px;">编号</th><th style="width:70px;">责任方</th><th>客户原始要求</th><th>我们的交付方法</th><th style="width:80px;">对应周次</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="strong">D01</td><td><span class="tag tag-c1">C1</span></td><td class="strong">AI Coding 落地蓝图与方法论白皮书</td><td>输出含四层防线模型、Spec-Driven 原理、与现有研发体系衔接方式的完整白皮书，作为后续所有交付件的纲领文档，提前预留评审会现场答辩材料</td><td>W1–W3</td></tr>
+        <tr><td class="strong">D02</td><td><span class="tag tag-c1">C1</span></td><td class="strong">工作流状态机 + 角色契约定义</td><td>六节点状态机图谱 + 人机分工边界文档，配套 1–2 个真实历史工单做沙盘演练，验证流程可落地而非纸面设计</td><td>W2–W4</td></tr>
+        <tr><td class="strong">D03</td><td><span class="tag tag-c2">C2</span></td><td class="strong">平台+知识底座架构与选型评审报告</td><td>给出 2–3 个候选技术栈的对比评审（自建 vs 开源框架 vs 现有工具增强），明确选型与贵司现有 IT 基础设施的兼容性边界</td><td>W2–W4</td></tr>
+        <tr><td class="strong">D04</td><td><span class="tag tag-c2">C2</span></td><td class="strong">平台基础能力建设指导与验收单</td><td>按 Rules→Hook→Skills→MCP→Agent 顺序提供建设指导手册 + 每项能力独立的验收检查单，避免"一次性大爆炸式"上线</td><td>W4–W9</td></tr>
+        <tr><td class="strong">D05</td><td><span class="tag tag-c2">C2</span></td><td class="strong">AI 知识工程底座</td><td>资产市场（MCPs/Skills/Rules 检索复用）+ 通用知识库（文档/代码仓 RAG 接入），两套子系统独立部署、统一入口，支持后续横向扩展</td><td>W4–W12</td></tr>
+        <tr><td class="strong">D06</td><td><span class="tag tag-c2">C2</span></td><td class="strong">度量看板+Agent可观测+Token成本监控</td><td>三类指标看板（生成层/验证层/成本）+ 调用链路追踪，看板数据直接对接验收标准里的"AI占比≥70%"量化口径</td><td>W8–W14</td></tr>
+        <tr><td class="strong">D07</td><td><span class="tag tag-c3">C3</span></td><td class="strong">传统→Spec-Driven 流程映射与重构方案</td><td>逐节点对照表 + 试点团队的"改造前/改造后"流程图，提前识别 1–2 个改造阻力最大的环节并单独设计过渡方案</td><td>W2–W5</td></tr>
+        <tr><td class="strong">D08</td><td><span class="tag tag-c3">C3</span></td><td class="strong">角色重塑+能力模型+认证标准</td><td>新角色画像、三级能力分级（入门/熟练/专家）、认证考核大纲，与培训课件（D14）共用同一套能力模型，避免两个团队各做一套标准</td><td>W4–W10</td></tr>
+        <tr><td class="strong">D09</td><td><span class="tag tag-c3">C3</span></td><td class="strong">AI-First 文化建设与 Hackathon 计划</td><td>Hackathon 赛制设计（真实业务题目而非演示题目）+ 评审标准 + 优秀案例传播机制，安排在试点已有初步成果之后举办以保证参与质量</td><td>W18–W24</td></tr>
+        <tr><td class="strong">D10</td><td><span class="tag tag-e1">E1</span></td><td class="strong">试点 AI Coding 实施指南+模板库</td><td>基于已确认的方法论与平台能力，产出可直接复制的试点操作手册 + Spec 模板/Skills 模板库，降低试点团队的启动门槛</td><td>W5–W9</td></tr>
+        <tr><td class="strong">D11</td><td><span class="tag tag-e1">E1</span></td><td class="strong">9 个试点交付物（Spec/代码/测试/dev-log）</td><td>驻场陪跑 9 个真实业务试点，每个试点产出完整四件套并通过验证层自动校验，作为后续规模化推广的"已验证案例库"</td><td>W7–W20</td></tr>
+        <tr><td class="strong">D12</td><td><span class="tag tag-e1">E1</span></td><td class="strong">可复用 Skills/Rules/MCP 沉淀</td><td>试点过程中产出的优质配置反哺进知识底座资产市场，形成"试点产出反哺平台"的正向循环，而非平台和试点各自为战</td><td>W10–W22</td></tr>
+        <tr><td class="strong">D13</td><td><span class="tag tag-e1">E1</span></td><td class="strong">典型案例集+规模化推广手册</td><td>从 9 个试点中提炼 ≥6 个可对外/对内宣传的典型案例，配套推广手册供未参与试点的团队自行启动复制</td><td>W21–W26</td></tr>
+        <tr><td class="strong">D14</td><td><span class="tag tag-e1">E1</span></td><td class="strong">培训课件+一对一辅导记录</td><td>分角色（开发/测试/架构师）设计培训内容，结合 D08 能力模型开展认证考核，全程记录辅导过程作为认证依据</td><td>全程</td></tr>
+        <tr><td class="strong">D15</td><td><span class="tag tag-joint">联合</span></td><td class="strong">项目复盘报告+规模化推广建议</td><td>四个验收指标的达成情况复盘 + 未达预期项的根因分析 + 下一阶段（W27之后）的规模化路径建议，由飞凡科技与红熊AI联合撰写并向管理层答辩</td><td>W23–W26</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</section>
+
+<!-- ===== 5. 分阶段实施路线图 ===== -->
+<section class="section" id="roadmap">
+  <div class="section-head"><span class="section-num">05</span><h2>分阶段实施路线图</h2></div>
+  <div class="section-sub">与贵司原排期完全对齐，四个阶段、交叉里程碑标注</div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-phase">Phase 0 · 启动评审期</div>
+      <div class="tl-title">方法论定稿 + 架构选型 + 试点候选名单</div>
+      <div class="tl-week">W1 – W4</div>
+      <div class="tl-body">
+        <ul>
+          <li>输出 D01 落地蓝图白皮书，组织管理层评审会</li>
+          <li>启动 D02 工作流状态机设计，D03 平台架构选型评审</li>
+          <li>启动 D07 流程映射方案，同步确定 Rules（D04①）初版</li>
+          <li>与贵司联合确定 9 个试点候选业务场景的筛选标准</li>
+        </ul>
+        <div class="tl-milestone">里程碑：蓝图与架构均通过评审，试点候选名单锁定</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-phase">Phase 1 · 平台与流程建设期</div>
+      <div class="tl-title">五大平台能力上线 + 知识底座搭建 + 流程标准发布</div>
+      <div class="tl-week">W4 – W14</div>
+      <div class="tl-body">
+        <ul>
+          <li>按 Rules→Hook→Skills→MCP→Agent 顺序完成 D04 五大能力建设</li>
+          <li>D05 知识工程底座（资产市场+通用知识库）搭建完成并可被 Agent 调用</li>
+          <li>D08 角色重塑与认证标准发布，D10 试点实施指南与模板库就位</li>
+          <li>D06 度量看板上线（W8起），开始采集首批真实数据</li>
+        </ul>
+        <div class="tl-milestone">里程碑：平台五大能力全部上线，认证标准正式发布</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-phase">Phase 2 · 试点冲刺期</div>
+      <div class="tl-title">9 个试点驻场陪跑 + 持续沉淀复用资产</div>
+      <div class="tl-week">W7 – W20</div>
+      <div class="tl-body">
+        <ul>
+          <li>D11 九个试点交付物分批启动（建议每 2-3 周启动一批，避免资源争抢）</li>
+          <li>D12 试点中产出的 Skills/Rules/MCP 持续反哺知识底座资产市场</li>
+          <li>D14 培训课件全程同步推进，一对一辅导记录积累认证依据</li>
+          <li>D06 看板进入数据验证关键期，重点观察 AI 占比是否向 70% 目标收敛</li>
+        </ul>
+        <div class="tl-milestone">里程碑：试点验收通过数量达标（≥6），看板数据可向管理层汇报</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-phase">Phase 3 · 复盘扩散期</div>
+      <div class="tl-title">案例提炼 + 文化活动 + 规模化推广建议</div>
+      <div class="tl-week">W18 – W26</div>
+      <div class="tl-body">
+        <ul>
+          <li>D09 Hackathon 在试点已有初步成果基础上举办（W18起），用真实题目检验</li>
+          <li>D13 典型案例集与规模化推广手册完成，案例数量对齐验收标准（≥6）</li>
+          <li>D14 认证考核收尾，确保认证人数达标（≥40人）</li>
+          <li>D15 联合复盘报告完成，向管理层做结项评审答辩</li>
+        </ul>
+        <div class="tl-milestone">里程碑：结项评审通过，四项硬指标全部达成或给出达成路径说明</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ===== 6. 人天工作量估算 ===== -->
+<section class="section" id="effort">
+  <div class="section-head"><span class="section-num">06</span><h2>人天工作量估算</h2></div>
+  <div class="section-sub">框架级估算，不含具体金额——团队人选确认后将出具精确人天表</div>
+
+  <p style="font-size:14px; color:var(--ink-soft);">
+    以下估算依据 JD 中"C1/C3驻场为主，C2远程为主、关键节点到场"的投入方式，以及 D01–D15 在 26 周内的交付密度推算，按五个口径给出区间：
+  </p>
+
+  <div style="margin-top:24px;">
+    <div class="effort-bar-row">
+      <div class="effort-label">C1 方法论顾问</div>
+      <div class="effort-track"><div class="effort-fill" style="width:38%; background:var(--teal);">55 – 70 人天</div></div>
+    </div>
+    <div class="effort-bar-row">
+      <div class="effort-label">C2 平台工程顾问</div>
+      <div class="effort-track"><div class="effort-fill" style="width:62%; background:#3158B0;">90 – 110 人天</div></div>
+    </div>
+    <div class="effort-bar-row">
+      <div class="effort-label">C3 流程组织顾问</div>
+      <div class="effort-track"><div class="effort-fill" style="width:32%; background:var(--amber);">45 – 60 人天</div></div>
+    </div>
+    <div class="effort-bar-row">
+      <div class="effort-label">E1 落地专家（团队）</div>
+      <div class="effort-track"><div class="effort-fill" style="width:100%; background:var(--accent-deep);">140 – 180 人天</div></div>
+    </div>
+    <div class="effort-bar-row">
+      <div class="effort-label">联合（D15等）</div>
+      <div class="effort-track"><div class="effort-fill" style="width:12%; background:#6646A8;">12 – 18 人天</div></div>
+    </div>
+  </div>
+
+  <p style="font-size:13px; color:var(--ink-faint); margin-top:8px;">总量级区间：约 <strong style="color:var(--ink);">340 – 440 人天</strong>，分布在 26 周内，非均匀投入</p>
+
+  <div class="grid-2" style="margin-top:28px;">
+    <div class="card">
+      <h3 style="font-size:14.5px;">各阶段峰值人力配置建议</h3>
+      <p>Phase 0（W1-4）：C1+C3 为主，2-3人；Phase 1（W4-14）：C2 投入最重，叠加 C1/C3 收尾，峰值 5-6人；Phase 2（W7-20）：E1 驻场团队峰值 4-5人，是全程人力投入最密集阶段；Phase 3（W18-26）：联合团队收尾，2-3人。</p>
+    </div>
+    <div class="card">
+      <h3 style="font-size:14.5px;">估算依据与边界说明</h3>
+      <p>本估算未包含贵司内部协调人员、企业现有工具链改造（如涉及）的额外工作量；E1 团队的具体人数取决于 9 个试点的业务复杂度差异，实际配置将在 Phase 0 试点候选名单确定后给出精确版本。</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ===== 7. 验收指标对齐说明 ===== -->
+<section class="section" id="kpi">
+  <div class="section-head"><span class="section-num">07</span><h2>验收指标对齐说明</h2></div>
+  <div class="section-sub">四个硬指标，逐项说明方案如何支撑达成</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>AI 占比 ≥ 70%</h3>
+      <p>四层防线模型把"生成层"明确为 AI 主导环节，人工只做业务逻辑复核（第4层），从机制上而非口号上保证 AI 承担大部分编码工作量。D06 看板从 W8 起持续采集真实数据，给管理层提供过程可见性，而非到结项才知道是否达标。</p>
+    </div>
+    <div class="card">
+      <h3>交付周期 ↓ 40%</h3>
+      <p>提速来源不是"AI写得快"，而是验证层自动校验取代了大部分人工逐行审查（详见第3节四层防线说明）。这意味着即使 AI 占比未达 70%，交付周期也能因评审环节精简而下降——两个指标互为支撑而非简单线性绑定。</p>
+    </div>
+    <div class="card">
+      <h3>试点 ≥ 6 个验收通过</h3>
+      <p>9 个试点（D11）覆盖在 W7-W20，预留约 3 个试点的失败/延期容错空间。试点选型标准在 Phase 0 阶段与贵司联合确定，优先选择"业务边界清晰、历史代码可作为对照基准"的场景，降低验收争议。</p>
+    </div>
+    <div class="card">
+      <h3>认证 ≥ 40 人</h3>
+      <p>D08 能力模型与 D14 培训课件共用同一套标准，培训全程同步而非集中在项目末期突击进行，给受训人员留出实际应用、辅导、补考的时间窗口，避免"为了凑数仓促发证"。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 8. 风险与保障机制 ===== -->
+<section class="section" id="risk">
+  <div class="section-head"><span class="section-num">08</span><h2>风险与保障机制</h2></div>
+  <div class="section-sub">分级风险识别与应对建议</div>
+
+  <div class="grid-2">
+    <div class="risk-card risk-critical">
+      <span class="risk-tag">🔴 严重风险</span>
+      <p><strong>试点选择标准缺失</strong>若试点业务场景选择不当（边界模糊、依赖外部系统过多），会直接拖累 D11/D13 的验收质量与案例可信度。建议：Phase 0 阶段（W1-4）必须产出书面试点筛选标准并经贵司业务方确认，不可凭经验口头拍板。</p>
+    </div>
+    <div class="risk-card risk-critical">
+      <span class="risk-tag">🔴 严重风险</span>
+      <p><strong>组织阻力导致"平台建成、无人使用"</strong>这是 AI Coding 类项目最常见的失败模式。建议：D09 Hackathon 不安排在项目末期走形式，而是在试点已有真实成果后举办，用内部口碑而非强制要求驱动采用率。</p>
+    </div>
+    <div class="risk-card risk-high">
+      <span class="risk-tag">🟡 高风险</span>
+      <p><strong>平台与企业现有工具链冲突</strong>D03 架构选型阶段若未充分调研现有 CI/CD、代码仓、工单系统的接口能力，后续 Hook/MCP 建设可能受阻。建议：架构评审报告（D03）必须包含与现有系统的兼容性专项章节，而非仅做技术选型对比。</p>
+    </div>
+    <div class="risk-card risk-high">
+      <span class="risk-tag">🟡 高风险</span>
+      <p><strong>人天投入与驻场强度不匹配</strong>JD 要求"前3个月连续投入、后3个月按需驻场"，若试点数量/复杂度超出预期，E1 团队投入强度可能不足。建议：第6节人天估算预留弹性区间，并在 Phase 1 结束（W14）时做一次中期资源校准。</p>
+    </div>
+    <div class="risk-card risk-mid">
+      <span class="risk-tag">🔵 中风险</span>
+      <p><strong>知识库内容质量参差</strong>D05 通用知识库若接入的历史文档/代码仓质量不一，会拉低 RAG 检索准确率，间接影响 Agent 生成质量。建议：知识接入前做一轮数据质量筛查，而非全量直接灌入。</p>
+    </div>
+    <div class="risk-card risk-mid">
+      <span class="risk-tag">🔵 中风险</span>
+      <p><strong>认证体系与实际晋升机制脱节</strong>若 D08 认证标准只是"考核"而不与岗位晋升、绩效挂钩，会削弱团队参与积极性，影响认证人数达标。建议：认证体系设计阶段即与贵司 HR/人才发展部门同步对接。</p>
+    </div>
+</section>
+
+<!-- ===== 9. 关于我们 ===== -->
+<section class="section" id="about">
+  <div class="section-head"><span class="section-num">09</span><h2>关于我们</h2></div>
+  <div class="section-sub">飞凡科技 × 红熊AI 联合体</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>飞凡科技</h3>
+      <p>专注 AI Agent 系统、企业数字化转型与定制软件交付，采用合伙人协作模式，核心成员均具备大型互联网公司技术中台与研发体系建设的一线经验，服务覆盖国企、制造业、金融机构等多类客户。</p>
+    </div>
+    <div class="card">
+      <h3>红熊AI</h3>
+      <p>专注 AI Agent 工程化落地，在 RAG 知识库架构、MCP 工具链、Agent 编排与可观测体系建设上有持续项目积累，是本方案 C2 方向的核心技术支撑伙伴。</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px;">
+    <h3 style="margin-bottom:4px;">核心顾问背景（C1/C3方向）</h3>
+    <div class="person-block">
+      <div class="person-avatar">PX</div>
+      <div class="person-meta">
+        <h4>资深技术架构师 · 公司技术委员会负责人</h4>
+        <div class="role">系统架构 · 商业中台 · 敏捷研发 · 技术委员会</div>
+        <p>
+          2003–2006 华为技术，业务与软件产品线高级工程师，参与多个电信运营支持系统开发，入选产品线专家库。<br><br>
+          2007–2015 / 2018–2023 阿里巴巴集团 & 蚂蚁集团，担任多条产品线研发负责人，长期参与阿里巴巴交易技术委员会、钉钉技术委员会工作。<br><br>
+          2015–2018 蘑菇街（美股上市），担任电商中台负责人，主导技术中台建设支撑多家子公司快速增长，并领导蘑菇街技术委员会推动公司技术发展。
+        </p>
+      </div>
+    </div>
+    <p style="font-size:12.5px; color:var(--ink-faint); margin-top:16px; padding-top:14px; border-top:1px solid var(--line);">
+      这段经历的共同主线，是在大规模研发组织里把"个体经验"转化为"团队规范"——这恰恰是 C1 方法论体系与 C3 组织变革两个方向最核心、也最难量化招募的能力，是本联合体相较纯技术型团队的差异化优势所在。
+    </p>
+  </div>
+</section>
+
+<!-- ===== 10. 后续建议 ===== -->
+<section class="section" id="next">
+  <div class="section-head"><span class="section-num">10</span><h2>后续建议</h2></div>
+  <div class="section-sub">中标后的第一步</div>
+
+  <div class="callout">
+    <p>建议在合同启动前，安排一次 W1 内的<strong>启动工作坊</strong>（半天到一天），联合确认两件事：① 9 个试点的筛选标准与候选名单 ②"四层防线"中验证层的具体质量门禁规则。这两件事如果留到 Phase 0 结束才确认，会直接压缩 D04/D05 的有效建设时间。</p>
+    <div class="by">— 启动建议</div>
+  </div>
+
+  <div class="grid-2" style="margin-top:24px;">
+    <div class="card">
+      <h3 style="font-size:14.5px;">里程碑分段确认机制</h3>
+      <p>建议采用与 D01-D15 对应的阶段验收节点逐项书面确认，而非到项目末期统一验收——既降低双方风险，也与贵司"按人天/阶段里程碑结算"的结算口径天然匹配。</p>
+    </div>
+    <div class="card">
+      <h3 style="font-size:14.5px;">人员名单与精确人天表</h3>
+      <p>中标后一周内提交：①具体驻场人员简历与到场比例 ②按第6节框架细化的精确人天表与阶段报价 ③与贵司项目负责人/研发部主管的对接机制确认。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <h3>飞凡科技 × 红熊AI</h3>
+      <p>AI Coding 工程能力建设 · 应标方案 v1.0</p>
+      <p style="margin-top:10px;">本方案为框架级提交，具体团队人选、精确人天报价将于中标后补充确认。</p>
+    </div>
+    <div style="text-align:right;">
+      <p style="color:var(--ink-faint);">© 2026 飞凡科技 · 联合体方案</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

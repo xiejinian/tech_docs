@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>林草智慧化场景需求 · 承接可行性分析</title>
+<style>
+  :root{
+    --bg: #FAF8F4;
+    --bg-card: #FFFFFF;
+    --bg-soft: #F3EFE6;
+    --ink: #2B2A26;
+    --ink-soft: #6B6A63;
+    --ink-faint: #9A988F;
+    --line: rgba(43,42,38,0.10);
+    --line-strong: rgba(43,42,38,0.18);
+    --accent: #C2693B;
+    --accent-soft: #F4E6DB;
+    --accent-deep: #8A4321;
+    --teal: #0F6E56;
+    --teal-soft: #E1F5EE;
+    --teal-deep: #085041;
+    --amber: #854F0B;
+    --amber-soft: #FAEEDA;
+    --red: #A32D2D;
+    --red-soft: #FCEBEB;
+    --blue: #185FA5;
+    --blue-soft: #E6F1FB;
+    --radius-lg: 16px;
+    --radius-md: 10px;
+    --serif: "Songti SC", "STSong", "Noto Serif SC", Georgia, serif;
+    --sans: -apple-system, "PingFang SC", "Helvetica Neue", "Segoe UI", sans-serif;
+    --mono: "SF Mono", "JetBrains Mono", Consolas, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+    -webkit-font-smoothing:antialiased; line-height:1.6;
+  }
+  .wrap{max-width:980px; margin:0 auto; padding:0 32px 80px;}
+
+  /* ===== Hero ===== */
+  .hero{
+    padding:64px 32px 48px; max-width:980px; margin:0 auto;
+    position:relative;
+  }
+  .hero-eyebrow{
+    display:flex; align-items:center; gap:10px;
+    font-size:12.5px; letter-spacing:0.08em; color:var(--accent-deep);
+    text-transform:uppercase; font-weight:500; margin-bottom:18px;
+  }
+  .hero-eyebrow::before{
+    content:""; width:7px; height:7px; border-radius:50%;
+    background:var(--accent); display:inline-block;
+    box-shadow:0 0 0 3px var(--accent-soft);
+  }
+  h1{
+    font-family:var(--serif); font-weight:600; font-size:34px; line-height:1.3;
+    margin:0 0 14px; letter-spacing:-0.01em; color:var(--ink);
+  }
+  .hero-sub{
+    font-size:15.5px; color:var(--ink-soft); max-width:680px; margin:0 0 28px;
+  }
+  .hero-meta{
+    display:flex; gap:28px; flex-wrap:wrap; padding-top:22px; border-top:1px solid var(--line);
+  }
+  .hero-meta div{font-size:12.5px; color:var(--ink-faint);}
+  .hero-meta b{display:block; font-size:14px; color:var(--ink); font-weight:500; margin-top:3px; font-family:var(--mono);}
+
+  /* ===== Section heading ===== */
+  .section{margin-top:56px;}
+  .section-head{display:flex; align-items:baseline; gap:12px; margin-bottom:22px;}
+  .section-num{
+    font-family:var(--mono); font-size:12px; color:var(--accent); border:1px solid var(--line-strong);
+    border-radius:20px; padding:3px 10px; letter-spacing:0.04em;
+  }
+  h2{font-family:var(--serif); font-size:21px; font-weight:600; margin:0; color:var(--ink);}
+  .section-desc{font-size:14px; color:var(--ink-soft); margin:0 0 24px; max-width:640px;}
+
+  /* ===== Scenario cards ===== */
+  .scenario{
+    background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-lg);
+    margin-bottom:18px; overflow:hidden;
+  }
+  .scenario-top{
+    display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
+    padding:22px 26px 18px; border-bottom:1px solid var(--line);
+  }
+  .scenario-title-row{display:flex; align-items:center; gap:12px;}
+  .scenario-id{
+    font-family:var(--mono); font-size:13px; color:var(--ink-faint); font-weight:500;
+    width:26px; height:26px; border-radius:50%; border:1px solid var(--line-strong);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .scenario-title{font-size:16.5px; font-weight:500; color:var(--ink); margin:0;}
+  .scenario-orig{font-size:12.5px; color:var(--ink-faint); margin-top:3px;}
+
+  .tag{
+    font-size:11.5px; font-weight:500; padding:5px 12px; border-radius:20px;
+    white-space:nowrap; letter-spacing:0.01em;
+  }
+  .tag-go{background:var(--teal-soft); color:var(--teal-deep);}
+  .tag-mid{background:var(--amber-soft); color:var(--amber);}
+  .tag-watch{background:var(--red-soft); color:var(--red);}
+
+  .scenario-body{padding:20px 26px 24px; display:grid; grid-template-columns: 1.3fr 1fr; gap:28px;}
+  @media (max-width: 720px){ .scenario-body{grid-template-columns:1fr;} }
+
+  .scenario-body p.desc{font-size:13.5px; color:var(--ink-soft); margin:0 0 16px; line-height:1.65;}
+  .micro-label{font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-faint); font-weight:500; margin-bottom:6px;}
+  .micro-block{margin-bottom:14px;}
+  .micro-text{font-size:13.5px; color:var(--ink); line-height:1.6;}
+
+  .gauge-row{display:flex; align-items:center; gap:10px; margin-bottom:14px;}
+  .gauge-track{flex:1; height:6px; background:var(--bg-soft); border-radius:4px; overflow:hidden;}
+  .gauge-fill{height:100%; border-radius:4px;}
+  .gauge-label{font-size:12px; color:var(--ink-soft); font-family:var(--mono); width:74px; text-align:right;}
+
+  .side-col{border-left:1px solid var(--line); padding-left:24px;}
+  @media (max-width: 720px){ .side-col{border-left:none; padding-left:0; border-top:1px solid var(--line); padding-top:16px;} }
+
+  .role-pill{
+    display:inline-flex; align-items:center; gap:7px; font-size:13px; font-weight:500;
+    padding:7px 13px; border-radius:var(--radius-md); margin-bottom:12px;
+  }
+  .role-pill .dot{width:6px; height:6px; border-radius:50%;}
+  .role-go{background:var(--teal-soft); color:var(--teal-deep);}
+  .role-go .dot{background:var(--teal);}
+  .role-mid{background:var(--amber-soft); color:var(--amber);}
+  .role-mid .dot{background:#EF9F27;}
+  .role-watch{background:var(--red-soft); color:var(--red);}
+  .role-watch .dot{background:#E24B4A;}
+
+  /* ===== Matrix table ===== */
+  .matrix{width:100%; border-collapse:collapse; background:var(--bg-card); border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--line);}
+  .matrix th, .matrix td{padding:13px 16px; text-align:left; font-size:13px; border-bottom:1px solid var(--line);}
+  .matrix th{background:var(--bg-soft); font-weight:500; color:var(--ink-soft); font-size:11.5px; text-transform:uppercase; letter-spacing:0.05em;}
+  .matrix tr:last-child td{border-bottom:none;}
+  .matrix td.name{font-weight:500; color:var(--ink);}
+  .pill-sm{display:inline-block; font-size:12px; font-weight:500; padding:3px 10px; border-radius:14px;}
+  .pill-go{background:var(--teal-soft); color:var(--teal-deep);}
+  .pill-mid{background:var(--amber-soft); color:var(--amber);}
+  .pill-watch{background:var(--red-soft); color:var(--red);}
+
+  /* ===== Strategy timeline ===== */
+  .strategy{position:relative; padding-left:28px;}
+  .strategy::before{content:""; position:absolute; left:8px; top:6px; bottom:6px; width:1px; background:var(--line-strong);}
+  .strategy-item{position:relative; padding-bottom:26px;}
+  .strategy-item:last-child{padding-bottom:0;}
+  .strategy-item::before{
+    content:""; position:absolute; left:-28px; top:3px; width:9px; height:9px; border-radius:50%;
+    background:var(--accent); box-shadow:0 0 0 4px var(--bg);
+  }
+  .strategy-title{font-size:14.5px; font-weight:500; color:var(--ink); margin:0 0 4px;}
+  .strategy-text{font-size:13.5px; color:var(--ink-soft); margin:0; max-width:620px;}
+
+  /* ===== Callout ===== */
+  .callout{
+    background:var(--accent-soft); border:1px solid rgba(194,105,59,0.25); border-radius:var(--radius-lg);
+    padding:22px 26px; margin-top:48px; display:flex; gap:16px; align-items:flex-start;
+  }
+  .callout-icon{
+    width:34px; height:34px; border-radius:50%; background:var(--accent); flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; color:#fff; font-size:15px; font-weight:600; font-family:var(--serif);
+  }
+  .callout h3{font-size:15px; font-weight:500; margin:0 0 6px; color:var(--accent-deep);}
+  .callout p{font-size:13.5px; color:#5A3018; margin:0; line-height:1.65;}
+
+  footer{margin-top:60px; padding-top:24px; border-top:1px solid var(--line); display:flex; justify-content:space-between; font-size:11.5px; color:var(--ink-faint);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-eyebrow">AI 智能分析 · 承接可行性评估</div>
+  <h1>林草智慧化场景需求<br>承接可行性分析</h1>
+  <p class="hero-sub">客户需求清单共 5 个场景，技术门槛跨度从「LLM 应用层」到「遥感测绘专业领域」差异巨大。本报告按场景拆解技术构成、飞凡科技 / 红熊AI 能力匹配度，并给出分层承接建议，供商务团队与客户沟通时参考。</p>
+  <div class="hero-meta">
+    <div>评估对象<b>林草系统 · 智慧化建设场景清单</b></div>
+    <div>当前阶段<b>意向接触前 · 内部可行性评估</b></div>
+    <div>场景数量<b>5 项</b></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2>逐场景拆解</h2>
+    </div>
+    <p class="section-desc">每个场景按「技术构成」「门槛评级」「能力匹配度」「建议角色」四个维度评估。门槛条越长代表技术专业度要求越高，越不在通用 LLM 应用层能力圈内。</p>
+
+    <!-- 场景1 -->
+    <div class="scenario">
+      <div class="scenario-top">
+        <div class="scenario-title-row">
+          <div class="scenario-id">1</div>
+          <div>
+            <p class="scenario-title">林草专业规划长文本智能编制</p>
+            <p class="scenario-orig">原始需求：5–10万字长篇规划文本智能生成，支持分章迭代、术语校验、图表自动插入</p>
+          </div>
+        </div>
+        <span class="tag tag-go">主力承接</span>
+      </div>
+      <div class="scenario-body">
+        <div>
+          <div class="micro-block">
+            <div class="micro-label">技术构成</div>
+            <div class="micro-text">LLM 长文本生成 + RAG 知识增强 + 模板化排版，与方案生成、报告生成同源方法论</div>
+          </div>
+          <div class="gauge-row">
+            <span class="gauge-label">门槛：低-中</span>
+            <div class="gauge-track"><div class="gauge-fill" style="width:32%; background:#0F6E56;"></div></div>
+          </div>
+          <div class="micro-block">
+            <div class="micro-label">关键工程坎</div>
+            <div class="micro-text">长文本上下文一致性需「大纲生成 → 分章生成 → 统一校验」工程化流程，非单次调用</div>
+          </div>
+        </div>
+        <div class="side-col">
+          <div class="role-pill role-go"><span class="dot"></span>能力匹配度：高</div>
+          <p class="micro-text" style="color:var(--ink-soft);">已有 RAG / Dify 经验、长文本生成与术语校验能力已在多个项目验证，是切入这个客户最有底气的场景。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 场景5 -->
+    <div class="scenario">
+      <div class="scenario-top">
+        <div class="scenario-title-row">
+          <div class="scenario-id">5</div>
+          <div>
+            <p class="scenario-title">AI 辅助林草规划设计编制与效果模拟</p>
+            <p class="scenario-orig">原始需求：智能方案生成 + 大数据预处理 + 实景三维效果模拟，缩短编制周期</p>
+          </div>
+        </div>
+        <span class="tag tag-mid">部分承接</span>
+      </div>
+      <div class="scenario-body">
+        <div>
+          <div class="micro-block">
+            <div class="micro-label">技术构成</div>
+            <div class="micro-text">前半段「智能方案生成」与场景1同源；后半段「实景三维模拟」是数字孪生 / 三维建模能力</div>
+          </div>
+          <div class="gauge-row">
+            <span class="gauge-label">门槛：中</span>
+            <div class="gauge-track"><div class="gauge-fill" style="width:55%; background:#EF9F27;"></div></div>
+          </div>
+          <div class="micro-block">
+            <div class="micro-label">关键工程坎</div>
+            <div class="micro-text">三维可视化与现有技术栈不重合，需明确只交付文本/方案层，三维部分另议</div>
+          </div>
+        </div>
+        <div class="side-col">
+          <div class="role-pill role-mid"><span class="dot"></span>能力匹配度：中</div>
+          <p class="micro-text" style="color:var(--ink-soft);">建议与场景1打包为「AI 辅助文本与方案生成」模块单独承接，三维模拟部分明确边界，不主动承诺。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 场景3 -->
+    <div class="scenario">
+      <div class="scenario-top">
+        <div class="scenario-title-row">
+          <div class="scenario-id">3</div>
+          <div>
+            <p class="scenario-title">AI 自动判读大模型</p>
+            <p class="scenario-orig">原始需求：开展森林、草原、湿地自动判读系统建设</p>
+          </div>
+        </div>
+        <span class="tag tag-mid">需先澄清</span>
+      </div>
+      <div class="scenario-body">
+        <div>
+          <div class="micro-block">
+            <div class="micro-label">技术构成</div>
+            <div class="micro-text">若为「应用层判读」= 调用现成视觉大模型 / 微调分类模型；若为「自建基础模型」= 工作量级差一个量级</div>
+          </div>
+          <div class="gauge-row">
+            <span class="gauge-label">门槛：中*</span>
+            <div class="gauge-track"><div class="gauge-fill" style="width:50%; background:#EF9F27;"></div></div>
+          </div>
+          <div class="micro-block">
+            <div class="micro-label">关键工程坎</div>
+            <div class="micro-text">客户表述含糊，「大模型建设」范围未明确——这是报价前必须澄清的第一项</div>
+          </div>
+        </div>
+        <div class="side-col">
+          <div class="role-pill role-mid"><span class="dot"></span>能力匹配度：待定</div>
+          <p class="micro-text" style="color:var(--ink-soft);">建议把澄清沟通本身做成可报价的预研阶段（Phase 0 模式），而非在不确定范围下直接给报价。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 场景4 -->
+    <div class="scenario">
+      <div class="scenario-top">
+        <div class="scenario-title-row">
+          <div class="scenario-id">4</div>
+          <div>
+            <p class="scenario-title">野生动植物智能保护与栖息地动态监测</p>
+            <p class="scenario-orig">原始需求：物种识别 + 栖息地监测 + 非法行为预警一体化系统</p>
+          </div>
+        </div>
+        <span class="tag tag-watch">谨慎介入</span>
+      </div>
+      <div class="scenario-body">
+        <div>
+          <div class="micro-block">
+            <div class="micro-label">技术构成</div>
+            <div class="micro-text">物种识别（视觉识别，可做）+ 时空大数据融合 + 实时预警系统（工程复杂度高）</div>
+          </div>
+          <div class="gauge-row">
+            <span class="gauge-label">门槛：中-高</span>
+            <div class="gauge-track"><div class="gauge-fill" style="width:72%; background:#D85A30;"></div></div>
+          </div>
+          <div class="micro-block">
+            <div class="micro-label">关键工程坎</div>
+            <div class="micro-text">无现成数据源/硬件合作方，多源时空数据融合与实时预警非通用 LLM 能力圈</div>
+          </div>
+        </div>
+        <div class="side-col">
+          <div class="role-pill role-watch"><span class="dot"></span>能力匹配度：中（部分）</div>
+          <p class="micro-text" style="color:var(--ink-soft);">建议只接「物种识别算法层」，明确不背栖息地监测系统的整体工程交付，避免范围失控。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 场景2 -->
+    <div class="scenario">
+      <div class="scenario-top">
+        <div class="scenario-title-row">
+          <div class="scenario-id">2</div>
+          <div>
+            <p class="scenario-title">森林资源智能监测</p>
+            <p class="scenario-orig">原始需求：遥感 + 激光雷达 + 无人机多源数据，单木分割、树种识别、蓄积量反演</p>
+          </div>
+        </div>
+        <span class="tag tag-watch">不建议主接</span>
+      </div>
+      <div class="scenario-body">
+        <div>
+          <div class="micro-block">
+            <div class="micro-label">技术构成</div>
+            <div class="micro-text">遥感影像处理 + 点云算法 + 林业专用模型（树冠分割、蓄积量反演均有行业标准算法）</div>
+          </div>
+          <div class="gauge-row">
+            <span class="gauge-label">门槛：高</span>
+            <div class="gauge-track"><div class="gauge-fill" style="width:90%; background:#A32D2D;"></div></div>
+          </div>
+          <div class="micro-block">
+            <div class="micro-label">关键工程坎</div>
+            <div class="micro-text">无遥感测绘专业团队和数据源，非「调 API」可解决，必须依赖专业供应商</div>
+          </div>
+        </div>
+        <div class="side-col">
+          <div class="role-pill role-watch"><span class="dot"></span>能力匹配度：低</div>
+          <p class="micro-text" style="color:var(--ink-soft);">若接，本质是集成商角色——需联合体分包，单独承接会导致利润和议价权被压缩、交付风险高。</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2>承接角色总览</h2>
+    </div>
+    <p class="section-desc">五个场景的能力匹配度、缺口与建议角色一览，便于商务团队与客户沟通时快速对齐口径。</p>
+    <table class="matrix">
+      <tr>
+        <th>场景</th>
+        <th>门槛</th>
+        <th>核心缺口</th>
+        <th>建议角色</th>
+      </tr>
+      <tr>
+        <td class="name">1 · 长文本智能编制</td>
+        <td><span class="pill-sm pill-go">低-中</span></td>
+        <td>无明显缺口，工程化流程需设计</td>
+        <td><span class="pill-sm pill-go">主力承接</span></td>
+      </tr>
+      <tr>
+        <td class="name">5 · 规划设计与效果模拟</td>
+        <td><span class="pill-sm pill-mid">中</span></td>
+        <td>三维可视化能力</td>
+        <td><span class="pill-sm pill-mid">承接文本层，三维另议</span></td>
+      </tr>
+      <tr>
+        <td class="name">3 · AI 自动判读大模型</td>
+        <td><span class="pill-sm pill-mid">中（范围不明）</span></td>
+        <td>客户需求表述含糊，待澄清</td>
+        <td><span class="pill-sm pill-mid">先澄清范围再报价</span></td>
+      </tr>
+      <tr>
+        <td class="name">4 · 野生动植物保护监测</td>
+        <td><span class="pill-sm pill-watch">中-高</span></td>
+        <td>时空数据融合、实时预警系统</td>
+        <td><span class="pill-sm pill-watch">只接识别算法层</span></td>
+      </tr>
+      <tr>
+        <td class="name">2 · 森林资源智能监测</td>
+        <td><span class="pill-sm pill-watch">高</span></td>
+        <td>遥感测绘专业团队、数据源</td>
+        <td><span class="pill-sm pill-watch">联合体分包，不主接</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2>建议行动顺序</h2>
+    </div>
+    <p class="section-desc">给商务同事的沟通节奏建议，避免在不确定的硬件/数据成本上提前报错价。</p>
+    <div class="strategy">
+      <div class="strategy-item">
+        <p class="strategy-title">以场景 1 + 5（文本层）作为敲门砖</p>
+        <p class="strategy-text">技术风险最低、能直接出 demo，是最适合先去接触客户、建立信任的部分。</p>
+      </div>
+      <div class="strategy-item">
+        <p class="strategy-title">场景 3 先做一次澄清性沟通</p>
+        <p class="strategy-text">问清楚「大模型建设」是自建基础模型还是应用层判读——两者报价可能差一个量级。可将澄清本身设计成一个可报价的预研阶段。</p>
+      </div>
+      <div class="strategy-item">
+        <p class="strategy-title">场景 2 / 4 涉及遥感硬件的部分，启动联合体接触</p>
+        <p class="strategy-text">寻找有遥感测绘资质和数据源的合作方，飞凡出 AI 应用层和系统集成，对方出底层数据处理算法——延续杭州公积金项目"应用层+合作方底层"的分工模式。</p>
+      </div>
+      <div class="strategy-item">
+        <p class="strategy-title">报价节奏：清晰部分先报，不确定部分标注"待技术对接确认"</p>
+        <p class="strategy-text">若 5 项打包在同一招标中，避免在尚未联系供应商的场景 2/4 上仓促给出确定性报价。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-icon">!</div>
+    <div>
+      <h3>给商务同事的提醒</h3>
+      <p>这份分析是内部技术可行性研判，不是对外报价依据。与客户接触时建议先聚焦场景 1/5，了解客户对场景 3 的真实范围预期，并留意整体项目是否要求"打包交付"——这会直接影响是否需要提前锁定遥感测绘类合作方。</p>
+    </div>
+  </div>
+
+  <footer>
+    <span>飞凡科技 · 内部可行性评估</span>
+    <span>生成日期：2026年6月</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

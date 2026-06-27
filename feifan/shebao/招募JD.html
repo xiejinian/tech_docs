@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>杭州社保公积金项目 · 招募JD</title>
+<style>
+  :root {
+    --bg: #FAF9F6;
+    --bg-card: #FFFFFF;
+    --ink: #1F1B16;
+    --ink-soft: #6B6358;
+    --line: #E8E3D9;
+    --accent: #D97757;
+    --accent-soft: #FBEEE7;
+    --teal: #2A9D8F;
+    --teal-soft: #E8F4F2;
+    --gold: #BA8B3E;
+    --gold-soft: #F7EFDF;
+    --slate: #5B6470;
+    --slate-soft: #EAEDF0;
+    --mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 980px; margin: 0 auto; padding: 64px 28px 100px; }
+
+  /* HEADER */
+  header { margin-bottom: 48px; }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; letter-spacing: 0.12em; color: var(--accent);
+    font-weight: 600; margin-bottom: 18px; text-transform: uppercase;
+  }
+  .eyebrow::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); display: inline-block;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.4;transform:scale(.7);} }
+
+  h1 {
+    font-family: Georgia, 'Songti SC', serif;
+    font-size: 40px; font-weight: 600; letter-spacing: -0.01em;
+    line-height: 1.15; margin-bottom: 14px;
+  }
+
+  .subhead { font-size: 16px; color: var(--ink-soft); max-width: 600px; }
+
+  /* PROJECT FACTS BAR */
+  .facts-bar {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line);
+  }
+  .fact-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 14px; border-radius: 99px;
+    background: var(--bg-card); border: 1px solid var(--line);
+    font-size: 12.5px; font-weight: 600; color: var(--ink-soft);
+  }
+  .fact-chip .dot { width: 6px; height: 6px; border-radius: 50%; }
+
+  /* SECTION */
+  section { margin-bottom: 40px; }
+  .section-num { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: .05em; }
+  h2 { font-family: Georgia, 'Songti SC', serif; font-size: 22px; font-weight: 600; margin: 6px 0 18px; }
+
+  /* ROLE NAV */
+  .role-nav {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    margin-bottom: 36px; padding-bottom: 28px; border-bottom: 1px solid var(--line);
+  }
+  .nav-pill {
+    padding: 9px 16px; border-radius: 99px;
+    background: var(--bg-card); border: 1px solid var(--line);
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    transition: all .2s; display: flex; align-items: center; gap: 7px;
+    text-decoration: none; color: var(--ink);
+  }
+  .nav-pill:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+  .nav-pill .nav-dot { width: 7px; height: 7px; border-radius: 50%; }
+
+  /* JD CARD */
+  .jd-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    margin-bottom: 24px;
+    overflow: hidden;
+    opacity: 0; transform: translateY(16px);
+    transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1);
+  }
+  .jd-card.visible { opacity: 1; transform: translateY(0); }
+
+  .jd-header {
+    padding: 26px 30px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 20px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .jd-header-left { display: flex; gap: 16px; align-items: flex-start; }
+
+  .jd-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+
+  .jd-title-group .jd-cat {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .07em;
+    font-weight: 700; margin-bottom: 4px;
+  }
+  .jd-title-group h3 {
+    font-family: Georgia, 'Songti SC', serif;
+    font-size: 20px; font-weight: 600;
+  }
+  .jd-title-group .jd-oneliner {
+    font-size: 13px; color: var(--ink-soft); margin-top: 4px;
+  }
+
+  .jd-comp {
+    text-align: right; flex-shrink: 0;
+  }
+  .jd-comp .comp-pct { font-family: var(--mono); font-size: 22px; font-weight: 700; }
+  .jd-comp .comp-amt { font-family: var(--mono); font-size: 12px; color: var(--ink-soft); }
+  .jd-comp .comp-tag {
+    display: inline-block; margin-top: 6px;
+    font-size: 10px; padding: 2px 8px; border-radius: 99px;
+    background: var(--slate-soft); color: var(--slate); font-weight: 600;
+  }
+
+  .jd-body { padding: 26px 30px; }
+
+  .jd-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
+  }
+  @media (max-width: 720px) { .jd-grid { grid-template-columns: 1fr; } }
+
+  .jd-block h4 {
+    font-size: 12px; text-transform: uppercase; letter-spacing: .06em;
+    color: var(--ink-soft); font-weight: 700; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .jd-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .jd-list li {
+    font-size: 13.5px; padding-left: 18px; position: relative; line-height: 1.55;
+  }
+  .jd-list li::before {
+    content: '—'; position: absolute; left: 0; color: var(--ink-soft); font-size: 12px;
+  }
+  .jd-list.musthave li::before { content: '✓'; color: var(--teal); font-weight: 700; font-size: 11px; top: 2px; }
+  .jd-list.nicetohave li::before { content: '+'; color: var(--gold); font-weight: 700; }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+  .stack-tag {
+    font-size: 11.5px; padding: 4px 10px; border-radius: 7px;
+    background: var(--slate-soft); color: var(--slate); font-weight: 600;
+    font-family: var(--mono);
+  }
+
+  .jd-footer-row {
+    margin-top: 22px; padding-top: 18px; border-top: 1px dashed var(--line);
+    display: flex; gap: 24px; flex-wrap: wrap;
+  }
+  .footer-meta { display: flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--ink-soft); }
+  .footer-meta strong { color: var(--ink); font-weight: 700; }
+
+  /* per-role colors */
+  .jd-card[data-role="partner"] .jd-icon { background: var(--accent-soft); color: var(--accent); }
+  .jd-card[data-role="partner"] .jd-cat { color: var(--accent); }
+  .jd-card[data-role="pm"] .jd-icon,
+  .jd-card[data-role="tech-lead"] .jd-icon { background: var(--gold-soft); color: var(--gold); }
+  .jd-card[data-role="pm"] .jd-cat,
+  .jd-card[data-role="tech-lead"] .jd-cat { color: var(--gold); }
+  .jd-card[data-role="frontend"] .jd-icon,
+  .jd-card[data-role="backend"] .jd-icon,
+  .jd-card[data-role="qa"] .jd-icon,
+  .jd-card[data-role="ops"] .jd-icon { background: var(--teal-soft); color: var(--teal); }
+  .jd-card[data-role="frontend"] .jd-cat,
+  .jd-card[data-role="backend"] .jd-cat,
+  .jd-card[data-role="qa"] .jd-cat,
+  .jd-card[data-role="ops"] .jd-cat { color: var(--teal); }
+
+  /* CRITICAL NOTE BANNER */
+  .critical-banner {
+    background: var(--gold-soft);
+    border: 1px solid rgba(186,139,62,0.3);
+    border-radius: 14px;
+    padding: 18px 22px;
+    display: flex; gap: 12px;
+    margin-bottom: 32px;
+    font-size: 13.5px; color: #6B4E1E;
+  }
+  .critical-banner svg { flex-shrink: 0; margin-top: 2px; }
+  .critical-banner b { font-weight: 700; }
+
+  footer {
+    margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--line);
+    font-size: 12px; color: var(--ink-soft);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">飞凡软件 · 杭州社保公积金项目</div>
+    <h1>角色招募 JD 列表</h1>
+    <p class="subhead">基于现有 Java 微服务系统的升级改造项目，覆盖 C 端服务入口与管理后台，对照分成方案的角色结构编制，用于筛选合适人选。</p>
+
+    <div class="facts-bar">
+      <div class="fact-chip"><span class="dot" style="background:var(--accent)"></span>现有系统改造，非新建</div>
+      <div class="fact-chip"><span class="dot" style="background:var(--teal)"></span>Java 微服务架构</div>
+      <div class="fact-chip"><span class="dot" style="background:var(--gold)"></span>C端 + 管理后台双场景</div>
+      <div class="fact-chip"><span class="dot" style="background:#C44545"></span>需对接政务/人社接口</div>
+      <div class="fact-chip"><span class="dot" style="background:#5B6470"></span>信创/国产化环境要求</div>
+      <div class="fact-chip"><span class="dot" style="background:#8B5CF6"></span>需驻场杭州</div>
+    </div>
+  </header>
+
+  <div class="critical-banner">
+    <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M8 1.5l7 12.5H1L8 1.5z" stroke="#BA8B3E" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 6.5v3M8 11.5h.01" stroke="#BA8B3E" stroke-width="1.4" stroke-linecap="round"/></svg>
+    <div><b>筛选硬门槛提示：</b>本项目不要求软考证书或信创认证等硬性资质，但<b>信创/国产化环境实操经验</b>与<b>驻场杭州的可行性</b>是两条必须满足的硬条件，建议在初筛阶段优先确认，再评估技术深度。</div>
+  </div>
+
+  <section>
+    <div class="role-nav" id="roleNav"></div>
+  </section>
+
+  <section id="jdContainer"></section>
+
+  <footer>
+    <span>飞凡软件 · 内部项目合伙人制 · 杭州社保公积金项目招募版</span>
+    <span>分成比例对照《杭州社保公积金项目·分成方案》</span>
+  </footer>
+
+</div>
+
+<script>
+const roles = [
+  {
+    id: 'partner',
+    cat: '合伙人角色',
+    title: '合伙人 · 商务关系对接',
+    oneliner: '对接红熊商务关系，维系上游转包合作',
+    icon: '◆',
+    comp: '5%',
+    compAmt: '¥200,100',
+    compTag: '固定不浮动',
+    headcount: '1人',
+    location: '不要求驻场',
+    must: [
+      '与红熊（上游分包方）有既有业务关系或具备快速建立信任的商务能力',
+      '理解政务信息化项目的转包/分包合作模式',
+      '能持续跟进合作关系，处理商务层面的沟通与协调'
+    ],
+    nice: [
+      '有政务类项目的转包合作历史业绩',
+      '熟悉社保/公积金行业生态'
+    ],
+    stack: ['商务关系管理', '合作协调']
+  },
+  {
+    id: 'pm',
+    cat: '管理层',
+    title: '项目负责人',
+    oneliner: '对项目交付结果负总责，统筹进度与客户对接',
+    icon: '▲',
+    comp: '12.5%',
+    compAmt: '¥500,250',
+    compTag: '固定 · 可±5浮动',
+    headcount: '1人',
+    location: '需驻场杭州',
+    must: [
+      '5年以上软件项目管理经验，至少主导过1个百万级以上信息化项目交付',
+      '有政务/国企类项目管理经验，熟悉验收流程和甲方沟通节奏',
+      '能统筹前后端、测试、运维多角色协作，把控里程碑节点',
+      '具备风险识别能力，能在驻场环境下快速响应客户和团队问题'
+    ],
+    nice: [
+      '有社保/公积金或类似民生服务系统的项目经验',
+      '熟悉政府采购类项目的合同与验收规范',
+      '具备PMP或同等项目管理方法论背景（非强制）'
+    ],
+    stack: ['项目管理', '甲方对接', '里程碑统筹', '风险把控']
+  },
+  {
+    id: 'tech-lead',
+    cat: '管理层',
+    title: '技术负责人',
+    oneliner: '主导技术架构改造方案，把控代码质量与技术风险',
+    icon: '▲',
+    comp: '12.5%',
+    compAmt: '¥500,250',
+    compTag: '固定 · 可±5浮动',
+    headcount: '1人',
+    location: '需驻场杭州',
+    must: [
+      '精通 Java 微服务架构（Spring Cloud / Spring Boot），有存量系统改造经验',
+      '有信创环境适配实操经验（国产数据库、国产中间件迁移或兼容性改造）',
+      '能设计政务接口对接方案（人社/社保数据接口、加密传输、数据安全合规）',
+      '具备跨角色技术把关能力，能评审前端、后端、测试方案'
+    ],
+    nice: [
+      '熟悉达梦、人大金仓、OceanBase等国产数据库的迁移经验',
+      '有全国人社部或省级社保接口对接经验',
+      '了解信创操作系统（统信UOS、麒麟等）部署要求'
+    ],
+    stack: ['Spring Cloud', 'Java', '信创适配', '架构评审', '接口安全']
+  },
+  {
+    id: 'frontend',
+    cat: '执行层',
+    title: '前端开发工程师',
+    oneliner: '负责C端服务入口与管理后台两套界面开发',
+    icon: '●',
+    comp: '15.6%',
+    compAmt: '¥622,533',
+    compTag: '占位 · 待人数校准',
+    headcount: '待定（多人时按工作量分配）',
+    location: '需驻场杭州',
+    must: [
+      '熟练掌握 Vue/React 任一框架，有政务或金融类C端项目经验',
+      '能同时承接C端（市民/企业服务入口）和管理后台两套不同体验标准的开发',
+      '有基于现有系统做兼容性改造的经验，而非纯新建项目经验',
+      '熟悉国产浏览器/适老化/无障碍访问等政务项目常见前端适配要求'
+    ],
+    nice: [
+      '有社保、公积金、医保等民生服务类项目经验',
+      '熟悉信创终端环境下的前端兼容性测试'
+    ],
+    stack: ['Vue/React', 'TypeScript', '响应式适配', '国产浏览器兼容']
+  },
+  {
+    id: 'backend',
+    cat: '执行层',
+    title: '后端开发工程师',
+    oneliner: '负责微服务模块开发与政务接口对接，技术复杂度最高的执行角色',
+    icon: '●',
+    comp: '27.2%',
+    compAmt: '¥1,089,433',
+    compTag: '占位 · 待人数校准',
+    headcount: '待定（多人时按工作量分配）',
+    location: '需驻场杭州',
+    must: [
+      '精通 Java + Spring Cloud/Spring Boot 微服务开发，3年以上相关经验',
+      '有基于存量系统做服务拆分/接口改造的实战经验',
+      '具备国产数据库（如达梦、人大金仓等）开发或迁移经验',
+      '能独立完成政务/人社接口对接开发（含数据加密、签名校验等安全处理）'
+    ],
+    nice: [
+      '有社保、公积金、医保等政务民生系统开发经验',
+      '熟悉分布式事务、消息队列在政务系统中的实际应用场景',
+      '了解信创中间件（如东方通、金蝶天燕等）'
+    ],
+    stack: ['Java', 'Spring Cloud', '国产数据库', '接口安全', '微服务拆分']
+  },
+  {
+    id: 'qa',
+    cat: '执行层',
+    title: '测试工程师',
+    oneliner: '负责功能测试、接口测试与信创环境兼容性验证',
+    icon: '●',
+    comp: '15.6%',
+    compAmt: '¥622,533',
+    compTag: '占位 · 待人数校准',
+    headcount: '待定（多人时按工作量分配）',
+    location: '需驻场杭州',
+    must: [
+      '3年以上测试经验，熟悉功能测试、接口测试、回归测试全流程',
+      '有政务/金融类项目验收测试经验，理解甲方验收标准的严格程度',
+      '能执行信创环境下的兼容性测试（国产操作系统、国产数据库、国产浏览器）',
+      '具备基本的接口安全测试意识（数据脱敏、权限校验等）'
+    ],
+    nice: [
+      '熟悉自动化测试工具（如Postman/JMeter/Selenium）',
+      '有社保/公积金类项目测试经验，熟悉相关业务逻辑'
+    ],
+    stack: ['功能测试', '接口测试', '信创兼容性验证', '回归测试']
+  },
+  {
+    id: 'ops',
+    cat: '执行层',
+    title: '运维工程师',
+    oneliner: '负责信创环境部署与系统稳定性保障',
+    icon: '●',
+    comp: '11.7%',
+    compAmt: '¥466,900',
+    compTag: '占位 · 待人数校准',
+    headcount: '待定（多人时按工作量分配）',
+    location: '需驻场杭州（验收阶段为主）',
+    must: [
+      '熟悉Linux运维，有国产操作系统（统信UOS、麒麟等）部署经验',
+      '有微服务架构下的容器化部署经验（Docker/K8s）',
+      '了解信创环境下的网络安全与等保合规基本要求',
+      '能配合项目负责人完成上线部署与故障应急响应'
+    ],
+    nice: [
+      '有政务项目的等保测评配合经验',
+      '熟悉国产中间件的部署与调优'
+    ],
+    stack: ['Linux运维', '信创部署', 'Docker/K8s', '等保合规']
+  }
+];
+
+const navContainer = document.getElementById('roleNav');
+const jdContainer = document.getElementById('jdContainer');
+
+roles.forEach(r => {
+  const pill = document.createElement('a');
+  pill.className = 'nav-pill';
+  pill.href = '#role-' + r.id;
+  const dotColor = r.id === 'partner' ? 'var(--accent)' : (r.id === 'pm' || r.id === 'tech-lead') ? 'var(--gold)' : 'var(--teal)';
+  pill.innerHTML = `<span class="nav-dot" style="background:${dotColor}"></span>${r.title}`;
+  navContainer.appendChild(pill);
+});
+
+roles.forEach((r, idx) => {
+  const card = document.createElement('div');
+  card.className = 'jd-card';
+  card.id = 'role-' + r.id;
+  card.setAttribute('data-role', r.id);
+
+  card.innerHTML = `
+    <div class="jd-header">
+      <div class="jd-header-left">
+        <div class="jd-icon">${r.icon}</div>
+        <div class="jd-title-group">
+          <div class="jd-cat">${r.cat}</div>
+          <h3>${r.title}</h3>
+          <div class="jd-oneliner">${r.oneliner}</div>
+        </div>
+      </div>
+      <div class="jd-comp">
+        <div class="comp-pct">${r.comp}</div>
+        <div class="comp-amt">${r.compAmt}</div>
+        <div class="comp-tag">${r.compTag}</div>
+      </div>
+    </div>
+    <div class="jd-body">
+      <div class="jd-grid">
+        <div class="jd-block">
+          <h4>✓ 硬性要求</h4>
+          <ul class="jd-list musthave">
+            ${r.must.map(m => `<li>${m}</li>`).join('')}
+          </ul>
+        </div>
+        <div class="jd-block">
+          <h4>+ 优先考虑</h4>
+          <ul class="jd-list nicetohave">
+            ${r.nice.map(n => `<li>${n}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      <div class="tag-row">
+        ${r.stack.map(s => `<span class="stack-tag">${s}</span>`).join('')}
+      </div>
+      <div class="jd-footer-row">
+        <div class="footer-meta">人数需求：<strong>${r.headcount}</strong></div>
+        <div class="footer-meta">驻场要求：<strong>${r.location}</strong></div>
+      </div>
+    </div>
+  `;
+  jdContainer.appendChild(card);
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.jd-card').forEach((el, i) => {
+  setTimeout(() => observer.observe(el), i * 40);
+});
+</script>
+
+</body>
+</html>

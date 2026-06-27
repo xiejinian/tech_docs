@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>杭州社保公积金项目 · 分成方案</title>
+<style>
+  :root {
+    --bg: #FAF9F6;
+    --bg-card: #FFFFFF;
+    --ink: #1F1B16;
+    --ink-soft: #6B6358;
+    --line: #E8E3D9;
+    --accent: #D97757;
+    --accent-soft: #FBEEE7;
+    --teal: #2A9D8F;
+    --teal-soft: #E8F4F2;
+    --gold: #BA8B3E;
+    --gold-soft: #F7EFDF;
+    --slate: #5B6470;
+    --slate-soft: #EAEDF0;
+    --mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @font-face {
+    font-family: 'Fraunces';
+    src: local('Fraunces');
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 64px 28px 100px;
+  }
+
+  /* ============ HEADER ============ */
+  header {
+    margin-bottom: 56px;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  h1 {
+    font-family: Georgia, 'Songti SC', serif;
+    font-size: 42px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+
+  .subhead {
+    font-size: 16px;
+    color: var(--ink-soft);
+    max-width: 540px;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 28px;
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  .meta-item .label {
+    font-size: 11px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+
+  .meta-item .value {
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  /* ============ SECTION TITLES ============ */
+  .section-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  h2 {
+    font-family: Georgia, 'Songti SC', serif;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 6px 0 6px;
+  }
+
+  .section-desc {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+    max-width: 560px;
+  }
+
+  section {
+    margin-bottom: 64px;
+  }
+
+  /* ============ WATERFALL ============ */
+  .waterfall {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .wf-step {
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    position: relative;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: rise 0.6s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+
+  .wf-step + .wf-step { margin-top: 10px; }
+
+  .wf-step.total {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #FAF9F6;
+  }
+  .wf-step.total .wf-label { color: #FAF9F6; }
+  .wf-step.total .wf-sub { color: rgba(250,249,246,0.6); }
+
+  .wf-step.subtotal {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+  }
+
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .wf-connector {
+    width: 1px;
+    height: 14px;
+    background: var(--line);
+    margin-left: 32px;
+  }
+
+  .wf-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--slate-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-family: var(--mono);
+    font-weight: 700;
+    color: var(--slate);
+  }
+
+  .wf-step.total .wf-icon { background: rgba(250,249,246,0.15); color: #FAF9F6; }
+  .wf-step.subtotal .wf-icon { background: var(--accent); color: white; }
+  .wf-step.deduct .wf-icon { background: var(--gold-soft); color: var(--gold); }
+
+  .wf-label {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .wf-sub {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+
+  .wf-amount {
+    text-align: right;
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .wf-pct {
+    font-size: 11px;
+    color: var(--ink-soft);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  .wf-step.deduct .wf-amount { color: var(--gold); }
+  .wf-step.deduct .wf-amount::before { content: '− '; }
+
+  /* ============ PARALLEL NOTE ============ */
+  .parallel-note {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: -2px 0 10px 44px;
+    font-size: 12px;
+    color: var(--teal);
+    font-weight: 600;
+  }
+  .parallel-note svg { flex-shrink: 0; }
+
+  /* ============ DONUT + LEGEND ============ */
+  .pool-section {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 40px;
+    align-items: center;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 32px;
+  }
+
+  @media (max-width: 640px) {
+    .pool-section { grid-template-columns: 1fr; }
+  }
+
+  .donut-wrap {
+    position: relative;
+    width: 240px;
+    height: 240px;
+    margin: 0 auto;
+  }
+
+  .donut-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .donut-center .amt {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .donut-center .lbl {
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+
+  .legend {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .legend-item {
+    display: grid;
+    grid-template-columns: 12px 1fr auto auto;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+  }
+
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+  }
+
+  .legend-name { font-weight: 600; }
+  .legend-pct { font-family: var(--mono); font-size: 13px; color: var(--ink-soft); }
+  .legend-amt { font-family: var(--mono); font-size: 14px; font-weight: 700; min-width: 90px; text-align: right; }
+
+  /* ============ ROLE TREE ============ */
+  .role-tree {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .role-group {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--bg-card);
+  }
+
+  .role-group-header {
+    padding: 16px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: default;
+  }
+
+  .role-group-header .gh-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .group-badge {
+    width: 32px; height: 32px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+
+  .group-badge.partner { background: var(--accent-soft); color: var(--accent); }
+  .group-badge.mgmt { background: var(--gold-soft); color: var(--gold); }
+  .group-badge.exec { background: var(--teal-soft); color: var(--teal); }
+
+  .gh-title { font-weight: 700; font-size: 15px; }
+  .gh-sub { font-size: 12px; color: var(--ink-soft); margin-top: 1px; }
+
+  .gh-right { text-align: right; }
+  .gh-pct { font-family: var(--mono); font-weight: 700; font-size: 17px; }
+  .gh-amt { font-family: var(--mono); font-size: 12px; color: var(--ink-soft); }
+
+  .role-children {
+    border-top: 1px solid var(--line);
+    padding: 4px 22px 14px;
+  }
+
+  .role-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto 90px;
+    align-items: center;
+    gap: 14px;
+    padding: 11px 0;
+    font-size: 13.5px;
+  }
+
+  .role-row + .role-row { border-top: 1px dashed var(--line); }
+
+  .role-row .rname { font-weight: 600; }
+  .role-row .rtag {
+    font-size: 10.5px;
+    padding: 2px 8px;
+    border-radius: 99px;
+    background: var(--slate-soft);
+    color: var(--slate);
+    white-space: nowrap;
+  }
+  .role-row .rpct { font-family: var(--mono); color: var(--ink-soft); font-size: 12.5px; }
+  .role-row .ramt { font-family: var(--mono); font-weight: 700; text-align: right; }
+
+  .bar-track {
+    grid-column: 1 / -1;
+    height: 6px;
+    background: var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: -4px;
+    margin-bottom: 6px;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    width: 0;
+    transition: width 1s cubic-bezier(.2,.8,.2,1);
+  }
+
+  /* ============ NOTE CARDS ============ */
+  .note-card {
+    background: var(--teal-soft);
+    border: 1px solid rgba(42,157,143,0.25);
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 13px;
+    color: #1F5048;
+    margin-top: 16px;
+    display: flex;
+    gap: 10px;
+  }
+  .note-card.warn {
+    background: var(--gold-soft);
+    border-color: rgba(186,139,62,0.3);
+    color: #6B4E1E;
+  }
+  .note-card svg { flex-shrink: 0; margin-top: 1px; }
+
+  /* ============ TODO LIST ============ */
+  .todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .todo-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 18px;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    font-size: 14px;
+  }
+  .todo-check {
+    width: 18px; height: 18px;
+    border: 1.5px solid var(--ink-soft);
+    border-radius: 5px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--ink-soft);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.2,.8,.2,1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="reveal">
+    <div class="eyebrow">飞凡软件 · 内部项目合伙人制</div>
+    <h1>杭州社保公积金项目<br>分成方案可视化</h1>
+    <p class="subhead">红熊转包项目示例测算 · 资金从合同总额到个人分成的完整流转路径</p>
+    <div class="meta-row">
+      <div class="meta-item">
+        <div class="label">合同总额</div>
+        <div class="value">¥5,000,000</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">飞凡实际到账</div>
+        <div class="value">¥4,600,000</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">内部角色池</div>
+        <div class="value" style="color:#D97757">¥4,002,000</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ SECTION 1: WATERFALL ============ -->
+  <section class="reveal">
+    <div class="section-num">01 / 资金结构</div>
+    <h2>四层瀑布式分账</h2>
+    <p class="section-desc">合同总额依次扣除外部分包成本、商务提成与平台管理费，最终沉淀为内部角色分配池。</p>
+
+    <div class="waterfall" id="waterfall"></div>
+
+  </section>
+
+  <!-- ============ SECTION 2: DONUT ============ -->
+  <section class="reveal">
+    <div class="section-num">02 / 角色池构成</div>
+    <h2>三大角色类别</h2>
+    <p class="section-desc">400.2 万角色池按固定比例切分为合伙人对接、管理层与执行层三大类别。</p>
+
+    <div class="pool-section">
+      <div class="donut-wrap">
+        <svg viewBox="0 0 240 240" width="240" height="240" id="donut-svg"></svg>
+        <div class="donut-center">
+          <div class="amt">¥400.2万</div>
+          <div class="lbl">角色分配池</div>
+        </div>
+      </div>
+      <div class="legend" id="legend"></div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 3: ROLE TREE ============ -->
+  <section class="reveal">
+    <div class="section-num">03 / 角色明细</div>
+    <h2>个人分成结构</h2>
+    <p class="section-desc">点状结构展示每个角色在角色池中的具体占比，执行层比例为按工作量预估的占位值。</p>
+
+    <div class="role-tree">
+
+      <div class="role-group">
+        <div class="role-group-header">
+          <div class="gh-left">
+            <div class="group-badge partner">◆</div>
+            <div>
+              <div class="gh-title">合伙人对接角色</div>
+              <div class="gh-sub">对接红熊商务关系 · 固定比例，不随项目结果浮动</div>
+            </div>
+          </div>
+          <div class="gh-right">
+            <div class="gh-pct">5%</div>
+            <div class="gh-amt">¥200,100</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="role-group">
+        <div class="role-group-header">
+          <div class="gh-left">
+            <div class="group-badge mgmt">▲</div>
+            <div>
+              <div class="gh-title">管理层</div>
+              <div class="gh-sub">项目负责人 + 技术负责人 · 权重相同，各占一半</div>
+            </div>
+          </div>
+          <div class="gh-right">
+            <div class="gh-pct">25%</div>
+            <div class="gh-amt">¥1,000,500</div>
+          </div>
+        </div>
+        <div class="role-children">
+          <div class="role-row">
+            <div class="rname">项目负责人</div>
+            <div class="rtag">固定 · 可±5浮动</div>
+            <div class="rpct">12.5%</div>
+            <div class="ramt">¥500,250</div>
+          </div>
+          <div class="bar-track"><div class="bar-fill" data-w="50" style="background:var(--gold)"></div></div>
+          <div class="role-row">
+            <div class="rname">技术负责人</div>
+            <div class="rtag">固定 · 可±5浮动</div>
+            <div class="rpct">12.5%</div>
+            <div class="ramt">¥500,250</div>
+          </div>
+          <div class="bar-track"><div class="bar-fill" data-w="50" style="background:var(--gold)"></div></div>
+        </div>
+      </div>
+
+      <div class="role-group">
+        <div class="role-group-header">
+          <div class="gh-left">
+            <div class="group-badge exec">●</div>
+            <div>
+              <div class="gh-title">执行层</div>
+              <div class="gh-sub">前端 / 后端 / 测试 / 运维 · 占位比例，按工作量待校准</div>
+            </div>
+          </div>
+          <div class="gh-right">
+            <div class="gh-pct">70%</div>
+            <div class="gh-amt">¥2,801,400</div>
+          </div>
+        </div>
+        <div class="role-children">
+          <div class="role-row">
+            <div class="rname">后端开发工程师</div>
+            <div class="rtag">占位 · 多人按工作量分</div>
+            <div class="rpct">27.2%</div>
+            <div class="ramt">¥1,089,433</div>
+          </div>
+          <div class="bar-track"><div class="bar-fill" data-w="38.9" style="background:var(--teal)"></div></div>
+
+          <div class="role-row">
+            <div class="rname">前端开发工程师</div>
+            <div class="rtag">占位 · 多人按工作量分</div>
+            <div class="rpct">15.6%</div>
+            <div class="ramt">¥622,533</div>
+          </div>
+          <div class="bar-track"><div class="bar-fill" data-w="22.2" style="background:var(--teal)"></div></div>
+
+          <div class="role-row">
+            <div class="rname">测试工程师</div>
+            <div class="rtag">占位 · 多人按工作量分</div>
+            <div class="rpct">15.6%</div>
+            <div class="ramt">¥622,533</div>
+          </div>
+          <div class="bar-track"><div class="bar-fill" data-w="22.2" style="background:var(--teal)"></div></div>
+
+          <div class="role-row">
+            <div class="rname">运维工程师</div>
+            <div class="rtag">占位 · 多人按工作量分</div>
+            <div class="rpct">11.7%</div>
+            <div class="ramt">¥466,900</div>
+          </div>
+          <div class="bar-track"><div class="bar-fill" data-w="16.7" style="background:var(--teal)"></div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="note-card">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#2A9D8F" stroke-width="1.4"/><path d="M8 5v4M8 11h.01" stroke="#2A9D8F" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <span>同一角色多人参与时（如3名后端工程师），按各自实际工作周期/工作量权重二次分配，由项目负责人在执行过程中评估，写入《项目结果评估表》留痕。</span>
+    </div>
+
+    <div class="note-card warn">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.5l7 12.5H1L8 1.5z" stroke="#BA8B3E" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 6.5v3M8 11.5h.01" stroke="#BA8B3E" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <span>执行层占位比例按典型政务系统项目特征预估（后端逻辑复杂度高），待实际人数和排期确定后必须校准，并书面确认写入《项目确认书》。</span>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 4: TODO ============ -->
+  <section class="reveal">
+    <div class="section-num">04 / 待确认事项</div>
+    <h2>方案落地前需补齐</h2>
+    <div class="todo-list">
+      <div class="todo-item"><div class="todo-check"></div><span>前端 / 后端 / 测试 / 运维各角色实际配置人数</span></div>
+      <div class="todo-item"><div class="todo-check"></div><span>红熊商务提成最终比例（2%–5% 区间内具体数值，示例按 3% 计算）</span></div>
+      <div class="todo-item"><div class="todo-check"></div><span>执行层占位比例按实际人数与排期完成最终校准</span></div>
+      <div class="todo-item"><div class="todo-check"></div><span>各角色责任人姓名及联系方式，录入《项目确认书》</span></div>
+      <div class="todo-item"><div class="todo-check"></div><span>项目周期、里程碑节点及验收标准</span></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>飞凡软件 · 内部项目合伙人制实施方案 · 杭州社保公积金项目示例</span>
+    <span>测算版 · 数值以最终《项目确认书》为准</span>
+  </footer>
+
+</div>
+
+<script>
+// ============ DATA ============
+const waterfallData = [
+  { type: 'total', label: '项目合同总额', sub: '客户实际支付至甲方账户', amount: 5000000, pctOf: null },
+  { type: 'deduct', label: '红熊公司分包成本', sub: '基于合同总额 · 供应商成本', amount: 400000, pct: '8%' },
+  { type: 'subtotal', label: '飞凡实际到账', sub: '后续核算基数', amount: 4600000, pctOf: null },
+  { type: 'parallel', items: [
+      { type: 'deduct', label: '红熊商务个人提成', sub: '基于飞凡到账 · 区间2%–5%，示例按3%', amount: 138000, pct: '3%' },
+      { type: 'deduct', label: '飞凡平台管理费', sub: '基于飞凡到账 · 与商务提成并列同基数', amount: 460000, pct: '10%' },
+    ]
+  },
+  { type: 'subtotal', label: '内部角色分配池', sub: '项目内部全员分成依据', amount: 4002000, pctOf: null },
+];
+
+const fmt = n => '¥' + n.toLocaleString('en-US');
+
+function renderWaterfall() {
+  const root = document.getElementById('waterfall');
+  let delay = 0;
+  waterfallData.forEach((step) => {
+    if (step.type === 'parallel') {
+      const note = document.createElement('div');
+      note.className = 'parallel-note';
+      note.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 5h10M2 9h10" stroke="#2A9D8F" stroke-width="1.6" stroke-linecap="round"/></svg> 并列计算 · 均以飞凡到账460万为基数`;
+      root.appendChild(note);
+      step.items.forEach(s => root.appendChild(makeStep(s, delay++)));
+    } else {
+      root.appendChild(makeStep(step, delay++));
+    }
+  });
+}
+
+function makeStep(step, i) {
+  const el = document.createElement('div');
+  el.className = 'wf-step ' + step.type;
+  el.style.animationDelay = (i * 0.12) + 's';
+  const icon = step.type === 'total' ? '①' : step.type === 'subtotal' ? '=' : '−';
+  el.innerHTML = `
+    <div class="wf-icon">${icon}</div>
+    <div>
+      <div class="wf-label">${step.label}</div>
+      <div class="wf-sub">${step.sub}</div>
+    </div>
+    <div class="wf-amount">
+      ${step.type === 'deduct' ? '' : ''}${fmt(step.amount)}
+      ${step.pct ? `<div class="wf-pct">${step.pct}</div>` : ''}
+    </div>
+  `;
+  return el;
+}
+
+renderWaterfall();
+
+// ============ DONUT ============
+const poolData = [
+  { name: '合伙人对接', pct: 5, amt: 200100, color: '#D97757' },
+  { name: '管理层', pct: 25, amt: 1000500, color: '#BA8B3E' },
+  { name: '执行层', pct: 70, amt: 2801400, color: '#2A9D8F' },
+];
+
+function renderDonut() {
+  const svg = document.getElementById('donut-svg');
+  const cx = 120, cy = 120, r = 90, stroke = 34;
+  const circumference = 2 * Math.PI * r;
+  let offset = 0;
+
+  // background track
+  const bg = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  bg.setAttribute('cx', cx); bg.setAttribute('cy', cy); bg.setAttribute('r', r);
+  bg.setAttribute('fill', 'none');
+  bg.setAttribute('stroke', '#E8E3D9');
+  bg.setAttribute('stroke-width', stroke);
+  svg.appendChild(bg);
+
+  poolData.forEach((d, idx) => {
+    const len = (d.pct / 100) * circumference;
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', cx); circle.setAttribute('cy', cy); circle.setAttribute('r', r);
+    circle.setAttribute('fill', 'none');
+    circle.setAttribute('stroke', d.color);
+    circle.setAttribute('stroke-width', stroke);
+    circle.setAttribute('stroke-dasharray', `${len} ${circumference - len}`);
+    circle.setAttribute('stroke-dashoffset', -offset);
+    circle.setAttribute('transform', `rotate(-90 ${cx} ${cy})`);
+    circle.style.transition = 'stroke-dasharray 1.2s cubic-bezier(.2,.8,.2,1)';
+    circle.style.strokeDasharray = `0 ${circumference}`;
+    svg.appendChild(circle);
+    setTimeout(() => {
+      circle.setAttribute('stroke-dasharray', `${len} ${circumference - len}`);
+    }, 200 + idx * 150);
+    offset += len;
+  });
+
+  const legend = document.getElementById('legend');
+  poolData.forEach(d => {
+    const item = document.createElement('div');
+    item.className = 'legend-item';
+    item.innerHTML = `
+      <div class="legend-dot" style="background:${d.color}"></div>
+      <div class="legend-name">${d.name}</div>
+      <div class="legend-pct">${d.pct}%</div>
+      <div class="legend-amt">¥${d.amt.toLocaleString('en-US')}</div>
+    `;
+    legend.appendChild(item);
+  });
+}
+renderDonut();
+
+// ============ BAR FILLS ============
+function animateBars() {
+  document.querySelectorAll('.bar-fill').forEach(bar => {
+    const w = bar.getAttribute('data-w');
+    setTimeout(() => { bar.style.width = w + '%'; }, 400);
+  });
+}
+
+// ============ SCROLL REVEAL ============
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      if (entry.target.querySelector('.role-tree')) animateBars();
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// trigger header immediately
+setTimeout(() => {
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    if (i === 0) el.classList.add('visible');
+  });
+}, 100);
+</script>
+
+</body>
+</html>

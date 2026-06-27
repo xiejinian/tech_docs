@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>社保公积金类项目 · 业务与技术方案培训手册</title>
+<style>
+  :root {
+    --bg: #FAF9F6;
+    --bg-card: #FFFFFF;
+    --ink: #1F1B16;
+    --ink-soft: #6B6358;
+    --line: #E8E3D9;
+    --accent: #D97757;
+    --accent-soft: #FBEEE7;
+    --teal: #2A9D8F;
+    --teal-soft: #E8F4F2;
+    --gold: #BA8B3E;
+    --gold-soft: #F7EFDF;
+    --slate: #5B6470;
+    --slate-soft: #EAEDF0;
+    --red: #C44545;
+    --red-soft: #FBEAEA;
+    --purple: #8B5CF6;
+    --purple-soft: #F1EDFE;
+    --mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ============ LAYOUT ============ */
+  .page {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+  }
+  @media (max-width: 860px) {
+    .page { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+  }
+
+  /* ============ SIDEBAR TOC ============ */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 40px 20px;
+    border-right: 1px solid var(--line);
+  }
+  .sidebar-brand {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .toc-item {
+    display: block;
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    margin-bottom: 2px;
+    transition: all .15s;
+    font-weight: 500;
+  }
+  .toc-item:hover { background: var(--accent-soft); color: var(--accent); }
+  .toc-item.active { background: var(--ink); color: var(--bg); }
+  .toc-num { font-family: var(--mono); font-size: 11px; opacity: .6; margin-right: 6px; }
+
+  /* ============ MAIN CONTENT ============ */
+  .content { padding: 0; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 64px 40px 120px; }
+
+  /* HERO */
+  .hero { margin-bottom: 72px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; letter-spacing: 0.12em; color: var(--accent);
+    font-weight: 600; margin-bottom: 20px; text-transform: uppercase;
+  }
+  .eyebrow::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); display: inline-block;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.4;transform:scale(.7);} }
+
+  h1 {
+    font-family: Georgia, 'Songti SC', serif;
+    font-size: 46px; font-weight: 600; letter-spacing: -0.01em;
+    line-height: 1.15; margin-bottom: 18px;
+  }
+  .hero-sub { font-size: 17px; color: var(--ink-soft); max-width: 600px; margin-bottom: 32px; }
+
+  .hero-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--line); border-radius: 14px; overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .hero-stat { background: var(--bg-card); padding: 20px 18px; }
+  .hero-stat .num { font-family: var(--mono); font-size: 24px; font-weight: 700; color: var(--accent); }
+  .hero-stat .lbl { font-size: 11.5px; color: var(--ink-soft); margin-top: 4px; }
+
+  /* SECTION HEADER */
+  .sec { margin-bottom: 76px; scroll-margin-top: 30px; }
+  .sec-eyebrow {
+    font-family: var(--mono); font-size: 12px; color: var(--accent);
+    letter-spacing: .05em; margin-bottom: 8px;
+  }
+  .sec h2 {
+    font-family: Georgia, 'Songti SC', serif;
+    font-size: 30px; font-weight: 600; margin-bottom: 12px;
+  }
+  .sec-desc { font-size: 15px; color: var(--ink-soft); max-width: 620px; margin-bottom: 32px; }
+
+  /* GENERIC CARD */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 28px;
+    margin-bottom: 18px;
+  }
+
+  /* ARCH DIAGRAM */
+  .arch-diagram {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 36px 32px;
+    margin-bottom: 24px;
+  }
+  .arch-layer {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 20px;
+    align-items: stretch;
+    margin-bottom: 14px;
+  }
+  .arch-layer-label {
+    display: flex; align-items: center;
+    font-size: 12px; font-weight: 700; color: var(--ink-soft);
+    text-transform: uppercase; letter-spacing: .05em;
+  }
+  .arch-boxes { display: flex; gap: 10px; flex-wrap: wrap; }
+  .arch-box {
+    flex: 1; min-width: 120px;
+    padding: 14px 16px; border-radius: 12px;
+    font-size: 13px; font-weight: 600;
+    display: flex; flex-direction: column; gap: 3px;
+    border: 1.5px solid transparent;
+  }
+  .arch-box .ab-sub { font-size: 10.5px; font-weight: 400; opacity: .75; }
+  .arch-connector {
+    height: 18px; display: flex; align-items: center; justify-content: center;
+    grid-column: 2;
+  }
+  .arch-connector svg { opacity: .35; }
+
+  /* PAIN POINT CARDS */
+  .pain-grid {
+    display: grid; grid-template-columns: 1fr; gap: 14px;
+  }
+  .pain-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--red);
+    border-radius: 14px;
+    padding: 22px 26px;
+  }
+  .pain-card.warn { border-left-color: var(--gold); }
+  .pain-card.info { border-left-color: var(--teal); }
+
+  .pain-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 14px; margin-bottom: 10px;
+  }
+  .pain-title { font-size: 15.5px; font-weight: 700; }
+  .pain-severity {
+    font-size: 10.5px; font-weight: 700; padding: 3px 10px; border-radius: 99px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .pain-severity.high { background: var(--red-soft); color: #8B2E2E; }
+  .pain-severity.med { background: var(--gold-soft); color: #6B4E1E; }
+  .pain-severity.low { background: var(--teal-soft); color: #1F5048; }
+
+  .pain-body { font-size: 13.5px; color: var(--ink-soft); margin-bottom: 12px; }
+  .pain-solution {
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+    border: 1px solid var(--line);
+  }
+  .pain-solution b { color: var(--ink); }
+
+  /* TIMELINE / PHASE */
+  .phase-track { display: flex; flex-direction: column; }
+  .phase-item {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 18px;
+  }
+  .phase-marker {
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .phase-dot {
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--accent); flex-shrink: 0;
+    border: 3px solid var(--accent-soft);
+  }
+  .phase-line { width: 2px; flex: 1; background: var(--line); margin: 4px 0; }
+  .phase-content { padding-bottom: 32px; }
+  .phase-content h4 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .phase-content .phase-meta { font-size: 12px; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
+  .phase-content p { font-size: 13.5px; color: var(--ink-soft); }
+  .phase-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .phase-tag {
+    font-size: 11px; padding: 3px 9px; border-radius: 7px;
+    background: var(--slate-soft); color: var(--slate); font-weight: 600;
+  }
+
+  /* COMPLIANCE GRID */
+  .compliance-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  }
+  @media (max-width: 640px) { .compliance-grid { grid-template-columns: 1fr; } }
+  .compliance-card {
+    background: var(--purple-soft);
+    border: 1px solid rgba(139,92,246,0.25);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .compliance-card h4 {
+    font-size: 13.5px; font-weight: 700; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 7px;
+    color: #5B3FA8;
+  }
+  .compliance-card p { font-size: 12.5px; color: #5B4A8A; }
+  .compliance-card .law-tag {
+    display: inline-block; margin-top: 8px;
+    font-size: 10.5px; font-family: var(--mono);
+    padding: 2px 8px; border-radius: 99px;
+    background: rgba(139,92,246,0.15); color: #5B3FA8; font-weight: 700;
+  }
+
+  /* CHECKLIST */
+  .checklist { display: flex; flex-direction: column; gap: 8px; }
+  .check-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 13px 18px; background: var(--bg-card);
+    border: 1px solid var(--line); border-radius: 12px; font-size: 13.5px;
+  }
+  .check-box {
+    width: 17px; height: 17px; border-radius: 5px;
+    border: 1.5px solid var(--teal); flex-shrink: 0; margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .check-box svg { opacity: 1; }
+
+  /* TABLE */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .data-table th {
+    text-align: left; padding: 10px 14px; background: var(--slate-soft);
+    font-weight: 700; color: var(--slate); font-size: 11.5px;
+    text-transform: uppercase; letter-spacing: .04em;
+  }
+  .data-table th:first-child { border-radius: 8px 0 0 8px; }
+  .data-table th:last-child { border-radius: 0 8px 8px 0; }
+  .data-table td { padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  .data-table tr:last-child td { border-bottom: none; }
+
+  /* QUOTE / CALLOUT */
+  .callout {
+    background: var(--accent-soft);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin: 24px 0;
+    border-left: 4px solid var(--accent);
+  }
+  .callout p { font-size: 14px; color: #7A4530; }
+  .callout b { color: var(--ink); }
+
+  footer {
+    margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line);
+    font-size: 12px; color: var(--ink-soft);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+
+  /* reveal animation */
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <nav class="sidebar">
+    <div class="sidebar-brand">飞凡软件 · 培训手册</div>
+    <a class="toc-item" data-target="hero"><span class="toc-num">00</span>概览</a>
+    <a class="toc-item" data-target="business">业务架构</a>
+    <a class="toc-item" data-target="tech-arch">技术架构</a>
+    <a class="toc-item" data-target="business-pain">业务难点</a>
+    <a class="toc-item" data-target="tech-pain">技术难点</a>
+    <a class="toc-item" data-target="compliance">合规红线</a>
+    <a class="toc-item" data-target="delivery">交付节奏</a>
+    <a class="toc-item" data-target="checklist">团队自查清单</a>
+  </nav>
+
+  <div class="content">
+    <div class="wrap">
+
+      <!-- ============ HERO ============ -->
+      <div class="hero reveal" id="hero">
+        <div class="eyebrow">飞凡软件 · 内部培训材料</div>
+        <h1>社保公积金类项目<br>业务与技术方案手册</h1>
+        <p class="hero-sub">面向团队新成员的提前感知材料，覆盖此类政务民生项目的通用业务逻辑、技术架构选型、常见难点与最新合规要求（截至2026年）。</p>
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="num">8大</div><div class="lbl">关键信创领域行业之一</div></div>
+          <div class="hero-stat"><div class="num">100万+</div><div class="lbl">触发严格合规义务的处理人数门槛</div></div>
+          <div class="hero-stat"><div class="num">1-4h</div><div class="lbl">数据泄露事件强制报告时限</div></div>
+          <div class="hero-stat"><div class="num">2026.1</div><div class="lbl">新《网络安全法》施行起点</div></div>
+        </div>
+      </div>
+
+      <!-- ============ 01 业务架构 ============ -->
+      <div class="sec reveal" id="business">
+        <div class="sec-eyebrow">01 / 业务理解</div>
+        <h2>社保公积金类项目的业务架构</h2>
+        <p class="sec-desc">这类项目本质是"政府公共服务的数字化窗口"，业务复杂度不在功能多，而在角色多、规则多、且规则会随政策调整——理解这一点，比记住某个具体功能更重要。</p>
+
+        <div class="arch-diagram">
+          <div class="arch-layer">
+            <div class="arch-layer-label">服务对象</div>
+            <div class="arch-boxes">
+              <div class="arch-box" style="background:var(--accent-soft); color:#7A4530;">市民个人<div class="ab-sub">查询、缴存、提取、转移</div></div>
+              <div class="arch-box" style="background:var(--accent-soft); color:#7A4530;">企业单位<div class="ab-sub">代扣代缴、批量申报</div></div>
+              <div class="arch-box" style="background:var(--accent-soft); color:#7A4530;">经办窗口人员<div class="ab-sub">柜面业务受理、审核</div></div>
+            </div>
+          </div>
+          <div class="arch-connector">
+            <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 2v10M4 8l4 4 4-4" stroke="#6B6358" stroke-width="1.4" fill="none"/></svg>
+          </div>
+          <div class="arch-layer">
+            <div class="arch-layer-label">业务系统</div>
+            <div class="arch-boxes">
+              <div class="arch-box" style="background:var(--teal-soft); color:#1F5048;">C端服务入口<div class="ab-sub">小程序/App/网厅</div></div>
+              <div class="arch-box" style="background:var(--teal-soft); color:#1F5048;">管理后台<div class="ab-sub">经办审核、稽核、统计</div></div>
+              <div class="arch-box" style="background:var(--teal-soft); color:#1F5048;">业务中台<div class="ab-sub">规则引擎、流程引擎</div></div>
+            </div>
+          </div>
+          <div class="arch-connector">
+            <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 2v10M4 8l4 4 4-4" stroke="#6B6358" stroke-width="1.4" fill="none"/></svg>
+          </div>
+          <div class="arch-layer">
+            <div class="arch-layer-label">外部对接</div>
+            <div class="arch-boxes">
+              <div class="arch-box" style="background:var(--gold-soft); color:#6B4E1E;">人社部数据接口<div class="ab-sub">跨省转移、参保核验</div></div>
+              <div class="arch-box" style="background:var(--gold-soft); color:#6B4E1E;">银行代发渠道<div class="ab-sub">资金归集、代扣代缴</div></div>
+              <div class="arch-box" style="background:var(--gold-soft); color:#6B4E1E;">实名认证平台<div class="ab-sub">公安/银联核身</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout">
+          <p><b>核心认知：</b>社保公积金系统不是单纯的CRUD系统，而是"规则驱动型"系统——缴存比例、提取条件、转移规则等会因地区政策、年度调整而变化。系统设计必须把"业务规则"和"代码逻辑"分离，否则每次政策调整都要改代码、重新测试、重新上线，交付周期会被无限拉长。</p>
+        </div>
+
+        <h3 style="font-size:16px; font-weight:700; margin: 32px 0 14px;">典型业务模块清单</h3>
+        <table class="data-table">
+          <thead><tr><th>模块</th><th>核心场景</th><th>常见复杂点</th></tr></thead>
+          <tbody>
+            <tr><td><b>缴存管理</b></td><td>个人/单位缴存登记、比例核算、补缴</td><td>历史政策版本多，补缴需按当时比例倒算</td></tr>
+            <tr><td><b>提取业务</b></td><td>购房、租房、退休、离职提取</td><td>提取条件组合复杂，常需多部门数据核验</td></tr>
+            <tr><td><b>转移接续</b></td><td>跨地区、跨制度转移</td><td>依赖外部接口，数据格式和口径常不一致</td></tr>
+            <tr><td><b>稽核审计</b></td><td>异常缴存、重复参保核查</td><td>需要批量数据比对，对性能要求高</td></tr>
+            <tr><td><b>统计报表</b></td><td>给管理层/上级部门的统计数据</td><td>口径要求严格，必须可追溯、可复算</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ============ 02 技术架构 ============ -->
+      <div class="sec reveal" id="tech-arch">
+        <div class="sec-eyebrow">02 / 技术理解</div>
+        <h2>典型技术架构选型</h2>
+        <p class="sec-desc">改造类项目的技术栈通常已经定型（Java微服务是主流），团队需要适应的不是"选什么技术"，而是"在信创约束下怎么把熟悉的技术落地"。</p>
+
+        <div class="arch-diagram">
+          <div class="arch-layer">
+            <div class="arch-layer-label">应用层</div>
+            <div class="arch-boxes">
+              <div class="arch-box" style="background:var(--teal-soft); color:#1F5048;">Vue/React<div class="ab-sub">C端 + 管理后台双套界面</div></div>
+              <div class="arch-box" style="background:var(--teal-soft); color:#1F5048;">Spring Cloud<div class="ab-sub">微服务拆分与治理</div></div>
+            </div>
+          </div>
+          <div class="arch-connector">
+            <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 2v10M4 8l4 4 4-4" stroke="#6B6358" stroke-width="1.4" fill="none"/></svg>
+          </div>
+          <div class="arch-layer">
+            <div class="arch-layer-label">中间件层</div>
+            <div class="arch-boxes">
+              <div class="arch-box" style="background:var(--gold-soft); color:#6B4E1E;">国产应用中间件<div class="ab-sub">东方通/金蝶天燕</div></div>
+              <div class="arch-box" style="background:var(--gold-soft); color:#6B4E1E;">消息队列<div class="ab-sub">RocketMQ国产化适配</div></div>
+            </div>
+          </div>
+          <div class="arch-connector">
+            <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 2v10M4 8l4 4 4-4" stroke="#6B6358" stroke-width="1.4" fill="none"/></svg>
+          </div>
+          <div class="arch-layer">
+            <div class="arch-layer-label">数据层</div>
+            <div class="arch-boxes">
+              <div class="arch-box" style="background:var(--purple-soft); color:#5B3FA8;">国产数据库<div class="ab-sub">达梦/人大金仓/南大通用</div></div>
+            </div>
+          </div>
+          <div class="arch-connector">
+            <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 2v10M4 8l4 4 4-4" stroke="#6B6358" stroke-width="1.4" fill="none"/></svg>
+          </div>
+          <div class="arch-layer">
+            <div class="arch-layer-label">基础设施</div>
+            <div class="arch-boxes">
+              <div class="arch-box" style="background:var(--red-soft); color:#8B2E2E;">国产操作系统<div class="ab-sub">银河麒麟/统信UOS</div></div>
+              <div class="arch-box" style="background:var(--red-soft); color:#8B2E2E;">国产CPU架构<div class="ab-sub">飞腾/龙芯/海光等</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout">
+          <p><b>2026年最新动态：</b>信创测评体系已取消"产品清单制"，改为动态能力评估模型，从生态兼容性、性能达标度、供应链安全、持续服务能力四个维度综合考核。这意味着选型不能只看"是否在清单上"，还要关注供应商的长期服务能力——团队评估技术选型时要把这一点纳入考虑。</p>
+        </div>
+      </div>
+
+      <!-- ============ 03 业务难点 ============ -->
+      <div class="sec reveal" id="business-pain">
+        <div class="sec-eyebrow">03 / 难点拆解</div>
+        <h2>业务侧的常见难点</h2>
+        <p class="sec-desc">这些难点不是"做不出来"，而是"容易被低估"——团队成员提前知道，能避免在项目中期才发现工作量远超预期。</p>
+
+        <div class="pain-grid">
+          <div class="pain-card">
+            <div class="pain-head">
+              <div class="pain-title">政策口径的历史版本管理</div>
+              <div class="pain-severity high">高频踩坑</div>
+            </div>
+            <div class="pain-body">缴存比例、提取条件等政策几乎每年都会调整，但系统里"旧数据"必须按"当时生效的政策"计算，不能用最新政策倒算历史记录。新人容易直接用最新规则处理所有数据，导致历史补缴、转移等场景计算错误。</div>
+            <div class="pain-solution"><b>应对思路：</b>政策规则需要做版本化管理，每条规则带生效起止时间，计算引擎根据业务发生时间自动匹配对应版本的规则，而不是硬编码当前规则。</div>
+          </div>
+
+          <div class="pain-card">
+            <div class="pain-head">
+              <div class="pain-title">跨部门/跨系统数据口径不一致</div>
+              <div class="pain-severity high">高频踩坑</div>
+            </div>
+            <div class="pain-body">社保、公积金、税务、银行系统对"单位""个人""工资基数"等字段的定义和格式可能不完全一致，对接时容易出现数据匹配失败或重复记录。</div>
+            <div class="pain-solution"><b>应对思路：</b>项目启动阶段必须做一次"数据字典对齐"，逐字段确认各系统定义差异，建立统一的数据映射表，而不是开发到一半才发现字段对不上。</div>
+          </div>
+
+          <div class="pain-card warn">
+            <div class="pain-head">
+              <div class="pain-title">柜面经办人员的真实操作习惯</div>
+              <div class="pain-severity med">中频踩坑</div>
+            </div>
+            <div class="pain-body">管理后台的使用者多是基层经办人员，可能存在年龄结构偏大、对新系统接受度参差不齐的情况。纯粹照搬C端的现代化交互设计，容易导致后台系统"好看但不好用"。</div>
+            <div class="pain-solution"><b>应对思路：</b>管理后台设计优先保证操作路径清晰、容错性强（如关键操作二次确认、误操作可撤销），视觉现代化是次要目标。</div>
+          </div>
+
+          <div class="pain-card warn">
+            <div class="pain-head">
+              <div class="pain-title">业务高峰期的并发压力</div>
+              <div class="pain-severity med">中频踩坑</div>
+            </div>
+            <div class="pain-body">提取业务在购房季、毕业季等时间点会有明显的脉冲式流量（如某天突然大量市民集中办理提取），与日常流量差异很大。</div>
+            <div class="pain-solution"><b>应对思路：</b>提前识别业务高峰规律（结合甲方历史数据），针对性做容量规划和压测，而非按日常均值估算服务器配置。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ 04 技术难点 ============ -->
+      <div class="sec reveal" id="tech-pain">
+        <div class="sec-eyebrow">04 / 难点拆解</div>
+        <h2>技术侧的常见难点</h2>
+        <p class="sec-desc">技术难点大多集中在"信创环境适配"和"存量系统改造"这两件事的交叉地带——单独看都不难，叠加在一起容易低估工作量。</p>
+
+        <div class="pain-grid">
+          <div class="pain-card">
+            <div class="pain-head">
+              <div class="pain-title">国产数据库的SQL兼容性差异</div>
+              <div class="pain-severity high">高频踩坑</div>
+            </div>
+            <div class="pain-body">达梦、人大金仓等国产数据库虽然多数兼容Oracle/MySQL语法，但在分页查询、存储过程、特殊函数（如日期处理、字符串拼接）等细节上存在差异，直接迁移SQL经常报错或结果不一致。</div>
+            <div class="pain-solution"><b>应对思路：</b>迁移前做一次SQL语句的兼容性扫描，建立"差异清单"，优先用ORM框架的数据库适配层而非手写原生SQL，减少后续逐条排查的成本。</div>
+          </div>
+
+          <div class="pain-card">
+            <div class="pain-head">
+              <div class="pain-title">国产中间件与现有微服务组件的适配</div>
+              <div class="pain-severity high">高频踩坑</div>
+            </div>
+            <div class="pain-body">Spring Cloud生态下的注册中心、配置中心、消息队列等组件，切换到国产化版本（或要求私有化部署的对应替代品）后，部分高级特性（如某些监控埋点、特定的负载均衡策略）可能不完全支持。</div>
+            <div class="pain-solution"><b>应对思路：</b>不要假设"国产替代版=功能完全对等"，迁移前用核心业务场景做一次功能验证清单，确认关键特性是否真的可用。</div>
+          </div>
+
+          <div class="pain-card">
+            <div class="pain-head">
+              <div class="pain-title">政务接口的稳定性和异常处理</div>
+              <div class="pain-severity high">高频踩坑</div>
+            </div>
+            <div class="pain-body">对接人社部/省级数据接口时，外部接口的可用性、响应时延不完全可控，且部分接口在高峰期可能限流或超时。如果系统没有做好降级和重试机制，外部接口抖动会直接拖垮自己的核心业务。</div>
+            <div class="pain-solution"><b>应对思路：</b>所有外部接口调用都要设计超时、重试、熔断和人工兜底流程（如"接口异常时转人工审核"），不能假设外部接口100%可靠。</div>
+          </div>
+
+          <div class="pain-card warn">
+            <div class="pain-head">
+              <div class="pain-title">国产操作系统下的性能调优经验缺口</div>
+              <div class="pain-severity med">中频踩坑</div>
+            </div>
+            <div class="pain-body">银河麒麟、统信UOS等国产操作系统的性能调优思路与常见的CentOS/Ubuntu有差异，很多团队成员缺乏实操经验，容易在部署后期才发现性能不达标。</div>
+            <div class="pain-solution"><b>应对思路：</b>项目早期就在目标操作系统环境做一次性能基线测试，而不是在熟悉的开发环境测完、上线前才第一次跑在信创环境上。</div>
+          </div>
+
+          <div class="pain-card info">
+            <div class="pain-head">
+              <div class="pain-title">C端与管理后台的双重前端标准</div>
+              <div class="pain-severity low">需提前规划</div>
+            </div>
+            <div class="pain-body">C端面向市民，需要兼顾适老化、无障碍访问、国产浏览器兼容；管理后台面向经办人员，更看重信息密度和操作效率。两者用同一套设计标准容易"两头不讨好"。</div>
+            <div class="pain-solution"><b>应对思路：</b>项目立项阶段就明确两套前端的设计基线，分别评审，不要用一套组件库强行覆盖两种场景的体验要求。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ 05 合规红线 ============ -->
+      <div class="sec reveal" id="compliance">
+        <div class="sec-eyebrow">05 / 合规红线</div>
+        <h2>数据安全与个人信息保护红线</h2>
+        <p class="sec-desc">社保公积金数据属于高度敏感的个人信息（涉及金融账户、身份信息等），且处理人数通常远超10万人门槛，适用最严格的一档合规要求。这部分不是"加分项"，是底线要求。</p>
+
+        <div class="compliance-grid">
+          <div class="compliance-card">
+            <h4>📋 新修订《网络安全法》已施行</h4>
+            <p>2026年1月1日起施行的修订版网络安全法，强化了与《数据安全法》《个人信息保护法》的衔接，大幅提升违法成本，并新增人工智能相关条款。社保公积金系统大概率被认定为关键信息基础设施，适用更严格的保护义务。</p>
+            <span class="law-tag">网络安全法 2026修订版</span>
+          </div>
+
+          <div class="compliance-card">
+            <h4>🔒 敏感个人信息识别要求</h4>
+            <p>国家标准GB/T 45574-2025明确了敏感个人信息范围，金融账户信息（含公积金账户）、身份信息均属敏感类别，处理时需要更严格的授权同意和最小化处理原则。</p>
+            <span class="law-tag">GB/T 45574-2025</span>
+          </div>
+
+          <div class="compliance-card">
+            <h4>⏱️ 数据泄露强制报告时限</h4>
+            <p>《国家网络安全事件报告管理办法》要求较大以上程度的个人信息泄露事件，最短1小时、最长不超过4小时必须报告。系统设计阶段就要预留异常监测和应急响应机制，不能等出事后再想方案。</p>
+            <span class="law-tag">网络安全事件报告办法</span>
+          </div>
+
+          <div class="compliance-card">
+            <h4>✅ 处理100万+人信息需设保护负责人</h4>
+            <p>《个人信息保护法》第五十二条及配套审计办法要求，处理100万人以上个人信息的处理者需指定个人信息保护负责人，并承担合规审计义务。社保公积金类项目大概率触及这一门槛，需提前与甲方确认责任归属。</p>
+            <span class="law-tag">个人信息保护合规审计管理办法</span>
+          </div>
+        </div>
+
+        <div class="callout">
+          <p><b>团队需要建立的意识：</b>2026年专项治理的核心逻辑是"可说明、可控制、可追溯"——不只是"做了安全措施"，而是要能拿出访问权限分级记录、批量查询审批记录、日志留存记录等证据。系统设计阶段就要把"留痕"作为基本要求，而不是上线后再补。</p>
+        </div>
+
+        <h3 style="font-size:16px; font-weight:700; margin: 32px 0 14px;">系统设计中应落实的合规动作</h3>
+        <div class="checklist">
+          <div class="check-item">
+            <div class="check-box"><svg width="11" height="11" viewBox="0 0 11 11"><path d="M1 5.5l3 3 6-6" stroke="#2A9D8F" stroke-width="1.6" fill="none"/></svg></div>
+            <span>访问权限分级管理：经办人员只能查看职责范围内的数据，批量查询/导出需要审批留痕</span>
+          </div>
+          <div class="check-item">
+            <div class="check-box"><svg width="11" height="11" viewBox="0 0 11 11"><path d="M1 5.5l3 3 6-6" stroke="#2A9D8F" stroke-width="1.6" fill="none"/></svg></div>
+            <span>敏感字段脱敏展示：身份证号、银行账号等在非必要场景下默认脱敏，仅授权场景可查看明文</span>
+          </div>
+          <div class="check-item">
+            <div class="check-box"><svg width="11" height="11" viewBox="0 0 11 11"><path d="M1 5.5l3 3 6-6" stroke="#2A9D8F" stroke-width="1.6" fill="none"/></svg></div>
+            <span>第三方数据接口调用台账：所有对外提供个人信息的接口调用都要留存记录，便于审计追溯</span>
+          </div>
+          <div class="check-item">
+            <div class="check-box"><svg width="11" height="11" viewBox="0 0 11 11"><path d="M1 5.5l3 3 6-6" stroke="#2A9D8F" stroke-width="1.6" fill="none"/></svg></div>
+            <span>异常监测与应急预案：建立数据异常访问监测机制，配套应急响应和报告流程，满足强制报告时限要求</span>
+          </div>
+          <div class="check-item">
+            <div class="check-box"><svg width="11" height="11" viewBox="0 0 11 11"><path d="M1 5.5l3 3 6-6" stroke="#2A9D8F" stroke-width="1.6" fill="none"/></svg></div>
+            <span>离职/调岗权限及时回收：人员变动后的系统权限回收流程要明确，避免权限滞留风险</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ 06 交付节奏 ============ -->
+      <div class="sec reveal" id="delivery">
+        <div class="sec-eyebrow">06 / 项目节奏</div>
+        <h2>典型交付阶段与关注重点</h2>
+        <p class="sec-desc">改造类政务项目的阶段划分和互联网项目类似，但每个阶段的"隐形成本"不一样，提前知道能更好地预估工期。</p>
+
+        <div class="card">
+          <div class="phase-track">
+            <div class="phase-item">
+              <div class="phase-marker"><div class="phase-dot"></div><div class="phase-line"></div></div>
+              <div class="phase-content">
+                <h4>需求调研与现状梳理</h4>
+                <div class="phase-meta">隐形成本：政策口径确认、历史系统文档缺失</div>
+                <p>政务项目常见现状是"老系统的设计文档不全"，需要靠访谈经办人员、查阅历史代码来还原业务逻辑，这一阶段容易被低估工期。</p>
+                <div class="phase-tags"><span class="phase-tag">数据字典对齐</span><span class="phase-tag">政策口径确认</span><span class="phase-tag">现状系统走查</span></div>
+              </div>
+            </div>
+
+            <div class="phase-item">
+              <div class="phase-marker"><div class="phase-dot"></div><div class="phase-line"></div></div>
+              <div class="phase-content">
+                <h4>技术架构设计与信创适配验证</h4>
+                <div class="phase-meta">隐形成本：信创环境的功能验证清单</div>
+                <p>这一阶段必须先在真实信创环境（国产数据库、操作系统）跑通核心场景的最小验证，而不是先在熟悉环境开发完再迁移——后者风险会集中爆发在项目后期。</p>
+                <div class="phase-tags"><span class="phase-tag">POC验证</span><span class="phase-tag">兼容性清单</span><span class="phase-tag">性能基线测试</span></div>
+              </div>
+            </div>
+
+            <div class="phase-item">
+              <div class="phase-marker"><div class="phase-dot"></div><div class="phase-line"></div></div>
+              <div class="phase-content">
+                <h4>开发与接口对接</h4>
+                <div class="phase-meta">隐形成本：外部接口的响应时效不可控</div>
+                <p>政务接口的开放流程、测试环境申请通常需要走甲方内部审批，不是申请了就能立刻用，要提前预留这部分等待时间。</p>
+                <div class="phase-tags"><span class="phase-tag">降级兜底设计</span><span class="phase-tag">接口测试环境申请</span></div>
+              </div>
+            </div>
+
+            <div class="phase-item">
+              <div class="phase-marker"><div class="phase-dot"></div><div class="phase-line"></div></div>
+              <div class="phase-content">
+                <h4>测试与信创兼容性验收</h4>
+                <div class="phase-meta">隐形成本：等保测评、安全测评的外部周期</div>
+                <p>涉及关键信息基础设施的系统，等保测评、安全测评往往需要委托第三方机构，存在排期等待时间，这部分通常不在团队自己的控制范围内。</p>
+                <div class="phase-tags"><span class="phase-tag">等保测评</span><span class="phase-tag">回归测试</span><span class="phase-tag">信创兼容性测试</span></div>
+              </div>
+            </div>
+
+            <div class="phase-item">
+              <div class="phase-marker"><div class="phase-dot"></div></div>
+              <div class="phase-content">
+                <h4>上线与质保期运维</h4>
+                <div class="phase-meta">隐形成本：业务高峰期的应急响应</div>
+                <p>上线初期遇到业务高峰（如政策调整后的集中办理）是常见场景，运维角色需要提前准备应急响应预案，而不是等问题发生再现场处理。</p>
+                <div class="phase-tags"><span class="phase-tag">应急预案</span><span class="phase-tag">灰度发布</span><span class="phase-tag">质保期响应</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ 07 团队自查清单 ============ -->
+      <div class="sec reveal" id="checklist">
+        <div class="sec-eyebrow">07 / 行前自查</div>
+        <h2>团队成员上岗前自查清单</h2>
+        <p class="sec-desc">这份清单不是要求每个人都精通所有内容，而是帮助你判断"哪些是我已经熟悉的，哪些需要提前补课"。</p>
+
+        <div class="checklist">
+          <div class="check-item">
+            <div class="check-box"><svg width="11" height="11" viewBox="0 0 11 11"><path d="M1 5.5l3 3 6-6" stroke="#2A9D8F" stroke-width="1.6" fill="none"/></svg></div>
+            <span>理解"政策规则版本化"的设计思路，不会把所有计算逻辑硬编码为当前最新政策</span>
+          </div>
+          <div class="check-item">
+            <div class="check-box"><svg width="11" height="11" viewBox="0 0 11 11"><path d="M1 5.5l3 3 6-6" stroke="#2A9D8F" stroke-width="1.6" fill="none"/></svg></div>
+            <span>了解自己负责模块对应的国产数据库/中间件的基本特性和常见兼容性差异</span>
+          </div>
+          <div class="check-item">
+            <div class="check-box"><svg width="11" height="11" viewBox="0 0 11 11"><path d="M1 5.5l3 3 6-6" stroke="#2A9D8F" stroke-width="1.6" fill="none"/></svg></div>
+            <span>清楚自己模块涉及哪些敏感个人信息字段，知道脱敏、权限分级的基本要求</span>
+          </div>
+          <div class="check-item">
+            <div class="check-box"><svg width="11" height="11" viewBox="0 0 11 11"><path d="M1 5.5l3 3 6-6" stroke="#2A9D8F" stroke-width="1.6" fill="none"/></svg></div>
+            <span>知道项目是否需要驻场，以及驻场期间的基本工作和沟通节奏预期</span>
+          </div>
+          <div class="check-item">
+            <div class="check-box"><svg width="11" height="11" viewBox="0 0 11 11"><path d="M1 5.5l3 3 6-6" stroke="#2A9D8F" stroke-width="1.6" fill="none"/></svg></div>
+            <span>对涉及外部接口的模块，理解"接口不可靠是常态"，设计时会考虑降级和兜底</span>
+          </div>
+          <div class="check-item">
+            <div class="check-box"><svg width="11" height="11" viewBox="0 0 11 11"><path d="M1 5.5l3 3 6-6" stroke="#2A9D8F" stroke-width="1.6" fill="none"/></svg></div>
+            <span>知道管理后台和C端是两套不同的设计标准，不会用一套思路覆盖两种场景</span>
+          </div>
+        </div>
+
+        <div class="callout" style="margin-top:28px;">
+          <p><b>给新同事的一句话：</b>这类项目最容易被低估的不是技术难度，而是"看起来简单的需求背后藏着复杂的历史规则和合规要求"。遇到不确定的业务逻辑，先问、先确认口径，比先写代码更重要。</p>
+        </div>
+      </div>
+
+
+      <footer>
+        <span>飞凡软件 · 内部培训材料 · 仅供团队学习使用</span>
+        <span>合规信息以最新法规及甲方要求为准，本手册定期更新</span>
+      </footer>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+// scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// active TOC highlighting
+const sections = document.querySelectorAll('.sec, .hero');
+const tocItems = document.querySelectorAll('.toc-item');
+const tocObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      tocItems.forEach(item => item.classList.remove('active'));
+      const match = document.querySelector(`.toc-item[data-target="${entry.target.id}"]`);
+      if (match) match.classList.add('active');
+    }
+  });
+}, { threshold: 0.3, rootMargin: '-10% 0px -60% 0px' });
+sections.forEach(s => tocObserver.observe(s));
+
+tocItems.forEach(item => {
+  item.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.getElementById(item.getAttribute('data-target'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+
+</body>
+</html>

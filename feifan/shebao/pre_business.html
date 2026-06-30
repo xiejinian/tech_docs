@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>杭州社保公积金项目 · 前期商务风险沟通材料</title>
+<style>
+  :root {
+    --bg: #FAF9F6;
+    --bg-card: #FFFFFF;
+    --ink: #1F1B16;
+    --ink-soft: #6B6358;
+    --line: #E8E3D9;
+    --accent: #D97757;
+    --accent-soft: #FBEEE7;
+    --teal: #2A9D8F;
+    --teal-soft: #E8F4F2;
+    --gold: #BA8B3E;
+    --gold-soft: #F7EFDF;
+    --slate: #5B6470;
+    --slate-soft: #EAEDF0;
+    --red: #C44545;
+    --red-soft: #FBEAEA;
+    --purple: #8B5CF6;
+    --purple-soft: #F1EDFE;
+    --mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+    line-height: 1.65; -webkit-font-smoothing: antialiased;
+  }
+  .page { display: grid; grid-template-columns: 230px 1fr; }
+  @media (max-width: 860px) { .page { grid-template-columns: 1fr; } .sidebar { display: none; } }
+  .sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 40px 18px; border-right: 1px solid var(--line); }
+  .sidebar-brand { font-size: 11px; letter-spacing: .1em; color: var(--accent); font-weight: 700; text-transform: uppercase; margin-bottom: 24px; }
+  .toc-item { display: block; padding: 9px 12px; border-radius: 8px; font-size: 12.5px; color: var(--ink-soft); text-decoration: none; margin-bottom: 2px; transition: all .15s; font-weight: 500; }
+  .toc-item:hover { background: var(--accent-soft); color: var(--accent); }
+  .toc-item.active { background: var(--ink); color: var(--bg); }
+  .content { padding: 0; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 56px 36px 110px; }
+  .hero { margin-bottom: 56px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: .12em; color: var(--accent); font-weight: 600; margin-bottom: 18px; text-transform: uppercase; }
+  .eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.4;transform:scale(.7);} }
+  h1 { font-family: Georgia, 'Songti SC', serif; font-size: 38px; font-weight: 600; letter-spacing: -.01em; line-height: 1.18; margin-bottom: 14px; }
+  .hero-sub { font-size: 15.5px; color: var(--ink-soft); max-width: 620px; margin-bottom: 26px; }
+  .hero-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--line); border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
+  .hero-stat { background: var(--bg-card); padding: 16px 14px; }
+  .hero-stat .num { font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--accent); }
+  .hero-stat .lbl { font-size: 10.5px; color: var(--ink-soft); margin-top: 3px; }
+  .sec { margin-bottom: 64px; scroll-margin-top: 30px; }
+  .sec-eyebrow { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: .05em; margin-bottom: 8px; }
+  .sec h2 { font-family: Georgia, 'Songti SC', serif; font-size: 26px; font-weight: 600; margin-bottom: 12px; }
+  .sec-desc { font-size: 14px; color: var(--ink-soft); max-width: 620px; margin-bottom: 26px; }
+
+  /* PAYMENT WATERFALL */
+  .payment-row { display: flex; gap: 10px; margin-bottom: 18px; }
+  .payment-step {
+    flex: 1; background: var(--bg-card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 18px 16px; text-align: center; position: relative;
+  }
+  .payment-step .pct { font-family: var(--mono); font-size: 26px; font-weight: 700; color: var(--accent); }
+  .payment-step .node { font-size: 13px; font-weight: 700; margin-top: 4px; }
+  .payment-step .desc { font-size: 11px; color: var(--ink-soft); margin-top: 4px; }
+  .payment-arrow { display: flex; align-items: center; color: var(--line); }
+
+  /* RISK CARD */
+  .risk-card {
+    background: var(--bg-card); border: 1px solid var(--line); border-left: 4px solid var(--red);
+    border-radius: 14px; padding: 20px 24px; margin-bottom: 12px;
+  }
+  .risk-card.med { border-left-color: var(--gold); }
+  .risk-card.info { border-left-color: var(--teal); }
+  .risk-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+  .risk-title { font-size: 14.5px; font-weight: 700; }
+  .risk-badge { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 99px; white-space: nowrap; flex-shrink: 0; }
+  .risk-badge.high { background: var(--red-soft); color: #8B2E2E; }
+  .risk-badge.med { background: var(--gold-soft); color: #6B4E1E; }
+  .risk-badge.info { background: var(--teal-soft); color: #1F5048; }
+  .risk-body { font-size: 13px; color: var(--ink-soft); margin-bottom: 10px; }
+  .risk-owner { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+  .owner-tag { font-size: 10.5px; font-weight: 700; padding: 3px 10px; border-radius: 99px; background: var(--slate-soft); color: var(--slate); }
+  .risk-solution { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 11px 15px; font-size: 12.5px; }
+  .risk-solution b { color: var(--ink); }
+
+  /* CLAUSE TABLE */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 16px; }
+  .data-table th { text-align: left; padding: 9px 12px; background: var(--slate-soft); font-weight: 700; color: var(--slate); font-size: 10.5px; text-transform: uppercase; letter-spacing: .04em; }
+  .data-table th:first-child { border-radius: 8px 0 0 8px; }
+  .data-table th:last-child { border-radius: 0 8px 8px 0; }
+  .data-table td { padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  .data-table tr:last-child td { border-bottom: none; }
+
+  /* PERSONNEL TABLE */
+  .role-card {
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 16px 20px; margin-bottom: 10px; display: grid; grid-template-columns: 100px 1fr 90px; gap: 14px; align-items: center;
+  }
+  .role-name { font-weight: 700; font-size: 13.5px; }
+  .role-name .role-count { font-size: 11px; color: var(--ink-soft); font-weight: 400; display: block; margin-top: 2px; }
+  .role-desc { font-size: 12px; color: var(--ink-soft); }
+  .role-req { font-size: 11px; text-align: right; color: var(--gold); font-weight: 600; }
+
+  /* CHECKLIST GROUPED */
+  .check-group { background: var(--bg-card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; margin-bottom: 14px; }
+  .check-group h4 { font-size: 13px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .check-group .tag-count { font-size: 10.5px; color: var(--ink-soft); font-weight: 400; background: var(--slate-soft); padding: 2px 8px; border-radius: 99px; }
+  .check-list { display: flex; flex-direction: column; gap: 6px; }
+  .check-list li { font-size: 12.5px; color: var(--ink-soft); list-style: none; padding-left: 16px; position: relative; }
+  .check-list li::before { content: '–'; position: absolute; left: 0; }
+
+  .callout { background: var(--accent-soft); border-radius: 14px; padding: 18px 22px; margin: 20px 0; border-left: 4px solid var(--accent); font-size: 13px; color: #7A4530; }
+  .callout b { color: var(--ink); }
+
+  .owner-legend { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+  .owner-legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-soft); }
+  .owner-legend-item .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  footer { margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--ink-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <nav class="sidebar">
+    <div class="sidebar-brand">飞凡软件 · 商务沟通材料</div>
+    <a class="toc-item" data-target="hero">概览</a>
+    <a class="toc-item" data-target="payment">付款与违约风险</a>
+    <a class="toc-item" data-target="delivery">交付范围风险</a>
+    <a class="toc-item" data-target="personnel">人员配置说明</a>
+    <a class="toc-item" data-target="tech-gap">技术尽调缺口</a>
+    <a class="toc-item" data-target="action">商务行动清单</a>
+  </nav>
+
+  <div class="content"><div class="wrap">
+
+    <div class="hero reveal" id="hero">
+      <div class="eyebrow">杭州社保公积金项目 · 商务前期风险沟通</div>
+      <h1>前期商务风险<br>沟通材料</h1>
+      <p class="hero-sub">整合项目负责人、技术负责人前期梳理事项，面向商务团队，用于谈判合同条款、明确责任边界，降低项目前期不确定性带来的商务风险。</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num">4档</div><div class="lbl">付款节点设计</div></div>
+        <div class="hero-stat"><div class="num">6人</div><div class="lbl">正式团队规模</div></div>
+        <div class="hero-stat"><div class="num">8项</div><div class="lbl">高优先级风险点</div></div>
+        <div class="hero-stat"><div class="num">1-2人</div><div class="lbl">临时顾问需求</div></div>
+      </div>
+    </div>
+
+    <div class="sec reveal" id="payment">
+      <div class="sec-eyebrow">01 / 商务风险管理</div>
+      <h2>付款节点、违约责任与扣款机制</h2>
+      <p class="sec-desc">付款节奏直接决定项目现金流和风险敞口，建议在合同谈判阶段把以下结构作为基线，任何偏离都需评估额外风险。</p>
+
+      <div class="payment-row">
+        <div class="payment-step">
+          <div class="pct">30%</div>
+          <div class="node">合同签订/进场</div>
+          <div class="desc">立项启动资金</div>
+        </div>
+        <div class="payment-arrow">→</div>
+        <div class="payment-step">
+          <div class="pct">40%</div>
+          <div class="node">初验</div>
+          <div class="desc">核心功能验收</div>
+        </div>
+        <div class="payment-arrow">→</div>
+        <div class="payment-step">
+          <div class="pct">20%</div>
+          <div class="node">终验</div>
+          <div class="desc">全量交付验收</div>
+        </div>
+        <div class="payment-arrow">→</div>
+        <div class="payment-step">
+          <div class="pct">10%</div>
+          <div class="node">维护结束</div>
+          <div class="desc">质保期满释放</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <b>谈判要点：</b>40%集中在初验节点，意味着初验标准的定义直接决定回款节奏——若初验标准在合同里写得模糊（如"基本功能可用"），容易被甲方借口拖延付款。建议在SOW中把初验范围、验收标准量化清楚，并争取"逾期未反馈视为验收通过"的兜底条款。
+      </div>
+
+      <h3 style="font-size:15px; font-weight:700; margin:28px 0 14px;">违约责任与扣款机制核心条款建议</h3>
+      <table class="data-table">
+        <thead><tr><th>风险点</th><th>建议合同条款方向</th><th>责任方</th></tr></thead>
+        <tbody>
+          <tr><td>甲方付款逾期</td><td>约定逾期付款违约金（如日万分之三），超过约定天数可暂停交付而不视为我方违约</td><td>商务/法务</td></tr>
+          <tr><td>验收标准争议</td><td>验收标准须在SOW中量化（功能点清单+测试用例），避免"达到甲方满意"等主观表述</td><td>商务/技术负责人</td></tr>
+          <tr><td>验收响应超时</td><td>约定甲方验收反馈时限（如5–7个工作日），逾期未反馈视为验收通过</td><td>商务</td></tr>
+          <tr><td>我方延期交付</td><td>区分"我方原因"与"甲方配合延迟（如需求确认慢、审批流程长）"两种延期，后者不计入违约</td><td>商务/项目负责人</td></tr>
+          <tr><td>扣款比例与上限</td><td>违约扣款设置封顶比例（如不超过合同总额的10%–15%），避免无限追责</td><td>商务/法务</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sec reveal" id="delivery">
+      <div class="sec-eyebrow">02 / 交付项目风险管理</div>
+      <h2>SOW维度风险拆解：时间、范围、质量、技术</h2>
+      <p class="sec-desc">获取项目交付SOW后，需从四个维度逐一核实，以下风险点基于项目负责人@云翼和技术负责人前期梳理的接手清单整理，标注了风险等级和责任归属。</p>
+
+      <div class="owner-legend">
+        <div class="owner-legend-item"><span class="dot" style="background:var(--accent)"></span>商务主导</div>
+        <div class="owner-legend-item"><span class="dot" style="background:var(--gold)"></span>商务+技术共同确认</div>
+        <div class="owner-legend-item"><span class="dot" style="background:var(--teal)"></span>技术负责人核实</div>
+      </div>
+
+      <h3 style="font-size:15px; font-weight:700; margin:8px 0 14px;">范围维度</h3>
+
+      <div class="risk-card">
+        <div class="risk-head">
+          <div class="risk-title">需求文档/PRD缺失或不完整</div>
+          <div class="risk-badge high">高优先级</div>
+        </div>
+        <div class="risk-body">若甲方无法提供完整、最新的PRD和功能清单，工作量评估将基于不完整信息，签约后极易出现"甲方认为包含、我方认为不包含"的范围争议，是合同纠纷最常见的诱因之一。</div>
+        <div class="risk-owner"><span class="owner-tag" style="background:var(--accent-soft); color:#7A4530;">商务主导</span></div>
+        <div class="risk-solution"><b>应对策略：</b>要求甲方提供现有文档；若文档缺失或过时，由我方主导一次需求梳理工作坊，产出书面《范围基线确认书》作为SOW附件，超出基线的需求走变更流程并单独计价。</div>
+      </div>
+
+      <div class="risk-card">
+        <div class="risk-head">
+          <div class="risk-title">今年新增需求范围和时间节点不明确</div>
+          <div class="risk-badge high">高优先级</div>
+        </div>
+        <div class="risk-body">若立项时未锁定本年度需求清单，甲方在项目执行中持续追加需求是常见情况，容易导致团队超负荷工作但合同金额不变。</div>
+        <div class="risk-owner"><span class="owner-tag" style="background:var(--accent-soft); color:#7A4530;">商务主导</span></div>
+        <div class="risk-solution"><b>应对策略：</b>在SOW中固化本年度需求清单和对应交付节点，合同条款明确"清单外需求视为变更，需另行报价和排期"。</div>
+      </div>
+
+      <h3 style="font-size:15px; font-weight:700; margin:28px 0 14px;">时间维度</h3>
+
+      <div class="risk-card">
+        <div class="risk-head">
+          <div class="risk-title">生产发布需走政府审批流程，周期不确定</div>
+          <div class="risk-badge high">高优先级</div>
+        </div>
+        <div class="risk-body">政务项目上线发布通常需要走内部审批流程，若审批周期较长且不可控，会直接压缩实际可用的开发和测试时间，但合同节点往往按理想周期排期，容易导致"技术上已完成但流程卡住无法验收"的局面，影响回款。</div>
+        <div class="risk-owner"><span class="owner-tag" style="background:var(--gold-soft); color:#6B4E1E;">商务+技术共同确认</span></div>
+        <div class="risk-solution"><b>应对策略：</b>向甲方明确询问发布审批的具体流程和历史平均周期，在里程碑节点设计中预留审批缓冲期；合同中约定"审批流程导致的延迟不计入我方违约责任"。</div>
+      </div>
+
+      <h3 style="font-size:15px; font-weight:700; margin:28px 0 14px;">质量维度</h3>
+
+      <div class="risk-card">
+        <div class="risk-head">
+          <div class="risk-title">历史遗留问题范围和数量不明</div>
+          <div class="risk-badge med">中优先级</div>
+        </div>
+        <div class="risk-body">若接手时存在未解决的历史问题，但合同未明确"哪些算历史遗留、哪些算新项目范围内问题"，容易在后期出现"这是不是该我们修"的责任推诺。</div>
+        <div class="risk-owner"><span class="owner-tag" style="background:var(--accent-soft); color:#7A4530;">商务主导</span></div>
+        <div class="risk-solution"><b>应对策略：</b>要求甲方提供历史问题清单，在SOW中明确区分"历史遗留问题修复"（如需，单独计价或列入范围）与"新需求范围"，避免责任边界模糊。</div>
+      </div>
+
+      <div class="risk-card med">
+        <div class="risk-head">
+          <div class="risk-title">验收标准与测试用例规模未量化</div>
+          <div class="risk-badge med">中优先级</div>
+        </div>
+        <div class="risk-body">若测试用例规模、覆盖范围在SOW中未量化，验收阶段容易出现"甲方认为还有问题、我方认为已达标"的争议，直接影响初验、终验两个大额付款节点。</div>
+        <div class="risk-owner"><span class="owner-tag" style="background:var(--gold-soft); color:#6B4E1E;">商务+技术共同确认</span></div>
+        <div class="risk-solution"><b>应对策略：</b>在SOW附件中列明验收测试用例清单或验收标准文档，作为初验、终验的唯一依据，避免口头约定。</div>
+      </div>
+
+      <h3 style="font-size:15px; font-weight:700; margin:28px 0 14px;">技术维度</h3>
+
+      <div class="risk-card info">
+        <div class="risk-head">
+          <div class="risk-title">系统规模（代码量/接口数/表数量）未知，影响工作量评估</div>
+          <div class="risk-badge info">需提前评估</div>
+        </div>
+        <div class="risk-body">前后端代码规模、数据库表数量、接口数量等信息若在签约前未掌握，工作量评估和报价依据会不充分，签约后发现规模远超预期时，已经没有调价空间。</div>
+        <div class="risk-owner"><span class="owner-tag" style="background:var(--teal-soft); color:#1F5048;">技术负责人核实</span></div>
+        <div class="risk-solution"><b>应对策略：</b>签约前由技术负责人对接甲方完成一次系统规模摸底（代码行数、表数量、接口数量等量级评估），作为报价和人员配置的依据；若甲方无法提供，建议合同设置"前期尽调阶段"，尽调结果作为后续报价调整的依据。</div>
+      </div>
+
+      <div class="risk-card info">
+        <div class="risk-head">
+          <div class="risk-title">安全/等保/信创具体要求不明确</div>
+          <div class="risk-badge high">高优先级</div>
+        </div>
+        <div class="risk-body">若信创、等保等合规要求在签约时未明确具体等级和范围，后续可能需要额外投入大量精力做适配，但这部分工作量未必包含在原报价中。</div>
+        <div class="risk-owner"><span class="owner-tag" style="background:var(--accent-soft); color:#7A4530;">商务主导</span></div>
+        <div class="risk-solution"><b>应对策略：</b>要求甲方在签约前明确具体的等保级别、信创环境要求（国产数据库/操作系统型号），将适配工作量计入报价；若要求在项目中期才明确，应作为变更处理，不在原合同范围内。</div>
+      </div>
+
+      <div class="risk-card info">
+        <div class="risk-head">
+          <div class="risk-title">生产环境问题排查流程不明确</div>
+          <div class="risk-badge med">中优先级</div>
+        </div>
+        <div class="risk-body">若不清楚生产环境的日志获取方式、排查权限和流程，质保期内出现问题时响应速度会受限，可能影响维护期的服务质量评价，进而影响最后10%尾款的释放。</div>
+        <div class="risk-owner"><span class="owner-tag" style="background:var(--teal-soft); color:#1F5048;">技术负责人核实</span></div>
+        <div class="risk-solution"><b>应对策略：</b>项目启动阶段即与甲方确认日志获取、生产环境访问权限和排查流程，写入运维交接文档，避免质保期内"有问题但查不了"的被动局面。</div>
+      </div>
+    </div>
+
+    <div class="sec reveal" id="personnel">
+      <div class="sec-eyebrow">03 / 人员配置说明</div>
+      <h2>团队配置与商务谈判口径</h2>
+      <p class="sec-desc">以下为拟定团队配置，可用于向甲方说明投入规模、向上游核算成本，谈判时建议明确"人员配置随SOW范围确定后可能调整"，避免范围变更时人力成本无法对应增加。</p>
+
+      <div class="role-card">
+        <div class="role-name">项目经理<span class="role-count">1人</span></div>
+        <div class="role-desc">项目计划、进度跟踪、需求确认、风险管理、验收推进——是商务谈判节点（验收、变更）的一线执行人</div>
+        <div class="role-req">无兼任</div>
+      </div>
+      <div class="role-card">
+        <div class="role-name">技术负责人<span class="role-count">1人</span></div>
+        <div class="role-desc">技术方案、架构设计、核心后端开发、技术风险把关——系统规模摸底、信创适配评估的责任人</div>
+        <div class="role-req">兼后端开发</div>
+      </div>
+      <div class="role-card">
+        <div class="role-name">后端开发<span class="role-count">2人</span></div>
+        <div class="role-desc">接口开发、第三方对接、数据库开发、部署发布——要求7年以上经验，需有运维基础</div>
+        <div class="role-req">兼运维</div>
+      </div>
+      <div class="role-card">
+        <div class="role-name">前端开发<span class="role-count">1人</span></div>
+        <div class="role-desc">页面开发、接口联调、兼容性处理——要求7年以上经验</div>
+        <div class="role-req">可兼交互优化</div>
+      </div>
+      <div class="role-card">
+        <div class="role-name">测试工程师<span class="role-count">1人</span></div>
+        <div class="role-desc">测试计划、功能/接口/回归测试、验收支持、生产问题排查协助</div>
+        <div class="role-req">可兼验收支持</div>
+      </div>
+      <div class="role-card">
+        <div class="role-name">项目顾问<span class="role-count">1–2人</span></div>
+        <div class="role-desc">交接期问题答疑，帮助项目走上正轨后逐步退出——属于临时性投入，非长期固定成本</div>
+        <div class="role-req">临时/兼职</div>
+      </div>
+
+      <div class="callout">
+        <b>商务谈判提示：</b>正式团队6人为基线配置，是基于"现有系统改造"这一前提估算的。若系统实际规模（代码量、接口数、表数量）远超预期（见02节"系统规模未知"风险），人员配置和报价需要联动调整，建议在合同中预留"基于尽调结果调整团队规模和报价"的弹性条款，而不是把6人团队写成固定不变的承诺。
+      </div>
+    </div>
+
+    <div class="sec reveal" id="tech-gap">
+      <div class="sec-eyebrow">04 / 技术尽调缺口</div>
+      <h2>需向甲方收集的技术细节（合并简化）</h2>
+      <p class="sec-desc">以下问题本身不直接构成商务风险，但属于技术团队报价和排期的必要依据，建议作为签约前的尽调清单，整体打包要求甲方配合提供，而非逐条单独构成谈判筹码。</p>
+
+      <div class="check-group">
+        <h4>前端技术栈确认 <span class="tag-count">9项</span></h4>
+        <ul class="check-list">
+          <li>前端框架及版本（Vue 2/3、React、Angular）</li>
+          <li>UI组件库、构建工具、Node版本要求</li>
+          <li>状态管理、路由方案及权限控制方式</li>
+          <li>HTTP请求库及拦截逻辑、TypeScript使用情况</li>
+          <li>样式方案、是否使用微前端架构</li>
+        </ul>
+      </div>
+
+      <div class="check-group">
+        <h4>后端技术栈确认 <span class="tag-count">14项</span></h4>
+        <ul class="check-list">
+          <li>操作系统版本、JDK版本、构建工具（Maven/Gradle）</li>
+          <li>框架体系（Spring Boot/Cloud）及版本、ORM框架</li>
+          <li>数据库类型版本及环境套数、缓存与消息队列方案</li>
+          <li>注册中心、配置中心、RPC框架、定时任务方案</li>
+          <li>网关、熔断限流、分布式事务、日志框架、权限认证方案</li>
+        </ul>
+      </div>
+
+      <div class="check-group">
+        <h4>基础设施确认 <span class="tag-count">5项</span></h4>
+        <ul class="check-list">
+          <li>部署方式（物理机/虚拟机/容器化）</li>
+          <li>CI/CD流水线工具、制品仓库</li>
+          <li>监控告警与链路追踪方案</li>
+        </ul>
+      </div>
+
+      <div class="check-group">
+        <h4>文档与历史资料 <span class="tag-count">6项</span></h4>
+        <ul class="check-list">
+          <li>需求文档、功能清单/backlog（已在02节列为高优先级风险）</li>
+          <li>系统架构设计文档、模块详细设计文档、时序图流程图</li>
+          <li>系统运维文档及其他可提供文档</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <b>使用建议：</b>这份清单建议作为签约后的《项目接手交接表》随附件发给甲方技术对接人，由技术负责人跟进逐项确认，不需要商务在谈判桌上逐条过——商务需要关注的是"甲方能否在约定时间内完整提供这些信息"，提供不完整或拖延本身才是风险（对应02节"系统规模未知"和"需求文档缺失"两条）。
+      </div>
+    </div>
+
+    <div class="sec reveal" id="action">
+      <div class="sec-eyebrow">05 / 商务行动清单</div>
+      <h2>签约前必须确认的事项</h2>
+      <p class="sec-desc">汇总以上四节的核心行动项，建议商务团队在合同签订前逐项落实，未落实项需评估是否可以接受相应风险后再签约。</p>
+
+      <div class="check-group">
+        <h4>合同条款类</h4>
+        <ul class="check-list">
+          <li>付款节点及比例（30/40/20/10）写入合同，初验/终验标准量化附在SOW</li>
+          <li>逾期付款违约金条款、验收响应时限及"逾期视为验收通过"兜底条款</li>
+          <li>区分"我方延期"和"甲方配合延迟"，明确各自责任边界</li>
+          <li>违约扣款设置封顶比例，避免无限追责</li>
+          <li>预留"基于尽调结果调整团队规模和报价"的弹性条款</li>
+        </ul>
+      </div>
+
+      <div class="check-group">
+        <h4>范围与需求类</h4>
+        <ul class="check-list">
+          <li>获取或协助产出完整PRD/功能清单，形成书面《范围基线确认书》</li>
+          <li>锁定本年度新增需求清单及时间节点，清单外需求走变更流程</li>
+          <li>明确历史遗留问题清单，区分入合同范围与额外计价部分</li>
+        </ul>
+      </div>
+
+      <div class="check-group">
+        <h4>技术与合规类</h4>
+        <ul class="check-list">
+          <li>技术负责人完成系统规模摸底（代码量/接口数/表数量），作为报价依据</li>
+          <li>明确等保级别、信创环境具体要求（国产数据库/操作系统型号）</li>
+          <li>确认发布审批流程及历史平均周期，纳入里程碑缓冲设计</li>
+          <li>确认生产环境日志获取方式和问题排查流程，写入运维交接文档</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <b>最后提醒：</b>以上事项不要求100%落实才能签约——实践中甲方未必能配合提供所有信息，但每一项未落实都对应一个明确的风险敞口（见02节风险卡片），商务团队签约前至少要清楚"我们在哪些点上是带着风险往前走的"，并尽可能把这些风险转化为合同里的弹性条款，而不是在执行中被动应对。
+      </div>
+    </div>
+
+
+    <footer>
+      <span>飞凡软件 · 内部商务材料 · 杭州社保公积金项目</span>
+      <span>请商务团队据此对照合同条款，确认前再签署</span>
+    </footer>
+
+  </div></div>
+</div>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+const sections = document.querySelectorAll('.sec, .hero');
+const tocItems = document.querySelectorAll('.toc-item');
+const tocObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      tocItems.forEach(item => item.classList.remove('active'));
+      const match = document.querySelector(`.toc-item[data-target="${entry.target.id}"]`);
+      if (match) match.classList.add('active');
+    }
+  });
+}, { threshold: 0.3, rootMargin: '-10% 0px -60% 0px' });
+sections.forEach(s => tocObserver.observe(s));
+
+tocItems.forEach(item => {
+  item.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.getElementById(item.getAttribute('data-target'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>

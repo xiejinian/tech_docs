@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>纽恩泰17个智能体场景 · 技术可行性与工作量报价评估</title>
+<style>
+  :root{
+    --bg:#FAF9F5;
+    --card:#FFFFFF;
+    --border:#E8E4DA;
+    --text:#221F1B;
+    --text-soft:#6B6558;
+    --accent:#D97757;
+    --accent-soft:#F3E3DA;
+    --tierA:#3D7F5C;
+    --tierA-bg:#E8F2EC;
+    --tierB:#3C6E9E;
+    --tierB-bg:#E7EFF7;
+    --tierC:#B4652E;
+    --tierC-bg:#FBEEE2;
+    --tierD:#6E5B9E;
+    --tierD-bg:#EFEAF7;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px 100px;}
+  header.hero{
+    padding:64px 24px 40px;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg,#FFFDF9 0%,var(--bg) 100%);
+  }
+  .hero-inner{max-width:1080px;margin:0 auto;}
+  .eyebrow{
+    font-family:'SFMono-Regular',Consolas,Menlo,monospace;
+    font-size:12px;
+    letter-spacing:0.08em;
+    color:var(--accent);
+    text-transform:uppercase;
+    margin-bottom:18px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block;}
+  h1{
+    font-family:Georgia,'Songti SC','STSong',serif;
+    font-weight:600;
+    font-size:clamp(30px,4vw,44px);
+    line-height:1.15;
+    margin:0 0 14px;
+    letter-spacing:-0.01em;
+  }
+  .hero p.sub{font-size:16px;color:var(--text-soft);max-width:640px;margin:0 0 28px;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:28px;font-size:13px;color:var(--text-soft);}
+  .meta-row b{color:var(--text);font-weight:600;}
+  section{padding:48px 0;}
+  h2{
+    font-family:Georgia,'Songti SC','STSong',serif;
+    font-size:26px;
+    font-weight:600;
+    margin:0 0 6px;
+  }
+  .section-sub{color:var(--text-soft);font-size:14px;margin:0 0 28px;}
+
+  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  .kpi{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;}
+  .kpi .num{font-family:Georgia,'Songti SC','STSong',serif;font-size:30px;font-weight:600;color:var(--accent);}
+  .kpi .label{font-size:12.5px;color:var(--text-soft);margin-top:4px;}
+
+  .calc{
+    background:var(--card);border:1px solid var(--border);border-radius:16px;
+    padding:28px;margin-top:24px;
+  }
+  .calc-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:20px;}
+  .calc-row label{font-size:13px;font-weight:600;color:var(--text-soft);}
+  input[type=range]{width:280px;accent-color:var(--accent);}
+  .rate-val{font-family:'SFMono-Regular',Consolas,Menlo,monospace;font-weight:600;color:var(--accent);}
+  .tier-toggles{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;}
+  .tier-toggle{
+    display:flex;align-items:center;gap:7px;padding:7px 14px;border-radius:999px;
+    border:1px solid var(--border);cursor:pointer;font-size:13px;user-select:none;
+    transition:all .15s;
+  }
+  .tier-toggle.active.A{background:var(--tierA-bg);border-color:var(--tierA);color:var(--tierA);}
+  .tier-toggle.active.B{background:var(--tierB-bg);border-color:var(--tierB);color:var(--tierB);}
+  .tier-toggle.active.C{background:var(--tierC-bg);border-color:var(--tierC);color:var(--tierC);}
+  .tier-toggle.active.D{background:var(--tierD-bg);border-color:var(--tierD);color:var(--tierD);}
+  .tier-toggle:not(.active){opacity:.4;}
+  .calc-result{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;border-top:1px dashed var(--border);padding-top:20px;}
+  .calc-result .r-item .num{font-family:Georgia,'Songti SC','STSong',serif;font-size:24px;font-weight:600;}
+  .calc-result .r-item .label{font-size:12px;color:var(--text-soft);}
+
+  .legend{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px;}
+  .legend-item{border-radius:12px;padding:16px;font-size:12.5px;border:1px solid var(--border);}
+  .legend-item .tag{font-weight:700;font-size:12px;margin-bottom:6px;display:inline-block;padding:2px 9px;border-radius:6px;}
+  .legend-item.A{background:var(--tierA-bg);} .legend-item.A .tag{background:var(--tierA);color:#fff;}
+  .legend-item.B{background:var(--tierB-bg);} .legend-item.B .tag{background:var(--tierB);color:#fff;}
+  .legend-item.C{background:var(--tierC-bg);} .legend-item.C .tag{background:var(--tierC);color:#fff;}
+  .legend-item.D{background:var(--tierD-bg);} .legend-item.D .tag{background:var(--tierD);color:#fff;}
+  .legend-item p{margin:0;color:var(--text-soft);}
+
+  .phase{margin-bottom:44px;}
+  .phase-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px;}
+  .phase-head .ptag{
+    font-family:'SFMono-Regular',Consolas,Menlo,monospace;font-size:12px;font-weight:600;
+    padding:3px 9px;border-radius:6px;background:var(--text);color:#fff;
+  }
+  .phase-head h3{font-family:Georgia,'Songti SC','STSong',serif;font-size:20px;margin:0;font-weight:600;}
+  .phase-desc{color:var(--text-soft);font-size:13.5px;margin:0 0 18px;}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px;}
+  .card-top .no{font-family:'SFMono-Regular',Consolas,Menlo,monospace;color:var(--text-soft);font-size:12px;}
+  .card h4{font-size:15.5px;margin:2px 0 6px;font-weight:700;}
+  .card .domain{font-size:11.5px;color:var(--text-soft);margin-bottom:8px;}
+  .card p.desc{font-size:13px;color:var(--text-soft);margin:0 0 10px;}
+  .card .route{font-size:12.5px;background:#F5F3EE;border-radius:8px;padding:8px 10px;margin-bottom:10px;color:var(--text);}
+  .card .foot{display:flex;justify-content:space-between;align-items:center;font-size:12px;}
+  .card .days{font-family:'SFMono-Regular',Consolas,Menlo,monospace;font-weight:600;}
+  .badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;}
+  .badge.A{background:var(--tierA-bg);color:var(--tierA);}
+  .badge.B{background:var(--tierB-bg);color:var(--tierB);}
+  .badge.C{background:var(--tierC-bg);color:var(--tierC);}
+  .badge.D{background:var(--tierD-bg);color:var(--tierD);}
+
+  table.risk{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+  table.risk th{text-align:left;background:#F5F3EE;padding:12px 14px;font-size:12px;color:var(--text-soft);font-weight:600;}
+  table.risk td{padding:12px 14px;border-top:1px solid var(--border);vertical-align:top;}
+  .sev{font-weight:700;padding:2px 9px;border-radius:6px;font-size:11.5px;}
+  .sev.high{background:#FBE4DD;color:#A6431C;}
+  .sev.mid{background:#FBEEE2;color:var(--tierC);}
+
+  .reco{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px 28px;}
+  .reco ol{margin:0;padding-left:20px;}
+  .reco li{margin-bottom:12px;font-size:14.5px;}
+  .reco li b{color:var(--accent);}
+
+  footer{padding:32px 24px;border-top:1px solid var(--border);text-align:center;color:var(--text-soft);font-size:12px;}
+
+  @media(max-width:760px){
+    .kpi-grid{grid-template-columns:repeat(2,1fr);}
+    .legend{grid-template-columns:repeat(2,1fr);}
+    .calc-result{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">内部技术评估 · 非客户版本</div>
+    <h1>纽恩泰一期17个智能体场景<br>技术可行性 · 工作量 · 报价评估</h1>
+    <p class="sub">基于客户《纽恩泰17个智能体AI应用场景统一报价单》标黄17项一期场景，逐项拆解技术路线归类、人天区间与风险点，用于内部立项决策与商务报价参考。</p>
+    <div class="meta-row">
+      <span><b>客户</b>&nbsp;纽恩泰（热泵/暖通制造）</span>
+      <span><b>评估范围</b>&nbsp;一期17项（标黄场景）</span>
+      <span><b>评估方</b>&nbsp;飞凡科技 · 红熊AI 技术评估组</span>
+      <span><b>日期</b>&nbsp;2026-07-01</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section id="summary">
+  <h2>总览</h2>
+  <p class="section-sub">17项场景按技术路线归类为四级，用于判断哪些可独立承接、哪些需要额外算法/硬件资源。</p>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="num">17</div><div class="label">场景总数</div></div>
+    <div class="kpi"><div class="num">7 / 3 / 6 / 1</div><div class="label">A / B / C / D 分级场景数</div></div>
+    <div class="kpi"><div class="num">460–691</div><div class="label">总人天区间（不含GPU/平台/硬件）</div></div>
+    <div class="kpi"><div class="num">138–207万</div><div class="label">按¥3000/人天估算的总报价区间</div></div>
+  </div>
+
+  <div class="calc">
+    <div class="calc-row">
+      <label>日费率假设（元/人天）</label>
+      <div>
+        <input type="range" id="rateSlider" min="2000" max="6000" step="100" value="3000">
+        <span class="rate-val" id="rateVal">¥3,000</span>
+      </div>
+    </div>
+    <div class="tier-toggles" id="tierToggles">
+      <div class="tier-toggle active A" data-tier="A">● A 核心能力（7项）</div>
+      <div class="tier-toggle active B" data-tier="B">● B 扩展能力（3项）</div>
+      <div class="tier-toggle active C" data-tier="C">● C 专业领域（6项）</div>
+      <div class="tier-toggle active D" data-tier="D">● D 硬件依赖（1项）</div>
+    </div>
+    <div class="calc-result">
+      <div class="r-item"><div class="num" id="calcDays">460–691</div><div class="label">已选场景人天区间</div></div>
+      <div class="r-item"><div class="num" id="calcPrice">138.0–207.3万</div><div class="label">已选场景报价区间</div></div>
+      <div class="r-item"><div class="num" id="calcCount">17</div><div class="label">已选场景数</div></div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item A"><span class="tag">A 核心能力</span><p>LLM/Agent/RAG范畴，飞凡可独立高置信度交付</p></div>
+    <div class="legend-item B"><span class="tag">B 扩展能力</span><p>Agent + 调度/组合优化算法，需算法设计但仍在能力边界内</p></div>
+    <div class="legend-item C"><span class="tag">C 专业领域</span><p>时序预测/CV质检/CAD二次开发/控制理论，超出纯软件Agent范畴，风险高</p></div>
+    <div class="legend-item D"><span class="tag">D 硬件依赖</span><p>软件可控，但依赖第三方硬件供应商联合交付</p></div>
+  </div>
+</section>
+
+<section id="phases">
+  <h2>分期建议与场景明细</h2>
+  <p class="section-sub">建议不做17项同时全面铺开，按能力置信度分三期推进，压缩机PID一项建议直接排除或转专业团队单独立项。</p>
+
+  <div class="phase" id="phaseA">
+    <div class="phase-head"><span class="ptag">P0</span><h3>核心能力优先交付（7项）</h3></div>
+    <p class="phase-desc">纯LLM/Agent/RAG范畴，技术成熟度高，可作为一期启动首批交付，回报快、风险低。</p>
+    <div class="cards" id="cardsA"></div>
+  </div>
+
+  <div class="phase" id="phaseB">
+    <div class="phase-head"><span class="ptag">P1</span><h3>扩展能力：Agent + 算法（3项）</h3></div>
+    <p class="phase-desc">需在Agent之上叠加调度/组合优化算法（与宝临切割助手的2D装箱问题同属一类工作），建议单独排期、预留算法设计周期。</p>
+    <div class="cards" id="cardsB"></div>
+  </div>
+
+  <div class="phase" id="phaseC">
+    <div class="phase-head"><span class="ptag">P2</span><h3>专业领域场景：需额外资源或数据（6项）</h3></div>
+    <p class="phase-desc">超出LLM/Agent核心能力边界，涉及时序预测、计算机视觉、CAD二次开发或控制理论。建议逐项与客户确认数据可得性，或引入专业分包。</p>
+    <div class="cards" id="cardsC"></div>
+  </div>
+
+  <div class="phase" id="phaseD">
+    <div class="phase-head"><span class="ptag">HW</span><h3>硬件协同场景（1项）</h3></div>
+    <p class="phase-desc">软件部分可控，机器人等硬件采购与集成建议与大头AI硬件合作方联合报价，不计入本次AI Agent人天范围。</p>
+    <div class="cards" id="cardsD"></div>
+  </div>
+</section>
+
+<section id="risks">
+  <h2>风险登记</h2>
+  <p class="section-sub">用于内部立项评审与商务合同条款设计参考。</p>
+  <table class="risk">
+    <tr><th style="width:36px">编号</th><th>风险描述</th><th style="width:180px">来源场景</th><th style="width:70px">等级</th></tr>
+    <tr><td>R1</td><td>冷媒泄漏/压缩机异常预测模型强依赖历史故障标注数据，若数据量不足或标注质量差，模型精度无法达标，建议先做数据可得性摸底作为Phase 0</td><td>#6 冷媒泄漏预测</td><td><span class="sev high">高</span></td></tr>
+    <tr><td>R2</td><td>压缩机MAP图PID自整定属嵌入式控制系统改造，超出软件/LLM能力边界，若承接需引入控制工程师，责任边界（算法建议 vs 设备安全）需在合同中明确</td><td>#7 PID自整定</td><td><span class="sev high">高</span></td></tr>
+    <tr><td>R3</td><td>电气图纸元器件识别准确率取决于图纸标准化程度，非标图纸/手绘图纸会显著拖慢进度并降低识别率</td><td>#18 电气BOM</td><td><span class="sev mid">中</span></td></tr>
+    <tr><td>R4</td><td>展厅机器人涉及第三方硬件供应商，软硬件交付节奏解耦，存在集成与联调风险，建议合同中拆分软件/硬件两条验收线</td><td>#4 展厅智能AI</td><td><span class="sev mid">中</span></td></tr>
+    <tr><td>R5</td><td>质检建模若无充足高质量缺陷样本图片，少样本学习效果达不到预期，建议优先评估复用现成质检产品/开源框架而非从零训练</td><td>#19 质检建模</td><td><span class="sev mid">中</span></td></tr>
+    <tr><td>R6</td><td>17项场景若并行启动，对项目管理和团队并发交付能力要求高，建议严格按P0→P1→P2节奏推进，避免同时铺开导致交期失控</td><td>全部场景</td><td><span class="sev mid">中</span></td></tr>
+    <tr><td>R7</td><td>用户习惯自学习节能场景涉及设备端（热泵控制器）部署接口，需客户提前开放硬件通信协议/SDK，否则算法侧无法真正落地到产品</td><td>#9 自适应节能</td><td><span class="sev high">高</span></td></tr>
+  </table>
+</section>
+
+<section id="reco">
+  <h2>整体建议</h2>
+  <div class="reco">
+    <ol>
+      <li><b>先签P0、缓议P2：</b>建议合同分期签订，一期聚焦A级7项（约30–47万），4–6周内可完成交付并见效，用于建立客户信任、支撑后续标准化。</li>
+      <li><b>PID自整定单独处理：</b>#7场景建议明确告知客户此项不属于本次AI Agent项目技术范畴，若客户坚持纳入，需转包给控制系统专业团队并单独定价，不建议按LLM项目费率报价。</li>
+      <li><b>数据摸底作为Phase 0：</b>#6冷媒泄漏预测、#9自适应节能两项，建议先签一个小额的"数据可得性与接口摸底"阶段，确认历史故障数据量与设备通信协议后再定P2报价，避免无米之炊。</li>
+      <li><b>质检建模优先选型而非自研：</b>#19场景客户已提及"美的已验证"，建议先做2周技术选型（评估现成质检SaaS/开源框架），可将该项人天压缩30%以上。</li>
+      <li><b>展厅智能AI联合报价：</b>#4场景建议与大头AI硬件合作方共同出具软硬件联合报价单，软件部分（迎宾语音/导览内容）按本评估口径单独核算。</li>
+      <li><b>付款结构：</b>建议采用前置付款比例（如30/30/25/15），尤其P2阶段周期长、不确定性高，前置比例可对冲团队投入风险。</li>
+      <li><b>合伙人分账口径：</b>飞凡科技为合伙人制，本报价对应的是团队可分配收入而非传统成本-毛利模型，实际报价可结合当月人力占用与其他在谈项目（盛京银行、石基、杭州公积金等）综合排期后再最终定价。</li>
+    </ol>
+  </div>
+</section>
+
+</div>
+
+<footer>此评估基于客户提供的报价单模板初步测算，人天与金额均为暂估区间，正式报价需结合实际调研与客户数据开放情况调整 · 飞凡科技 / 红熊AI 内部文档，请勿外传</footer>
+
+<script>
+const DATA = [
+ {no:1,name:'智能工单派单系统',domain:'营销/售后',tier:'B',lo:20,hi:30,desc:'AI匹配工程师（位置/技能/负荷），派单效率+40%，等待时间-50%',route:'技术路线：Agent + 位置/技能/负荷多维匹配调度算法，类组合优化问题'},
+ {no:2,name:'智能C端客服（售前线索）',domain:'营销/品牌',tier:'A',lo:20,hi:30,desc:'400来电AI接待，多平台留资，转化率+15%',route:'技术路线：LLM对话Agent + 400话务系统对接 + 多平台留资表单集成'},
+ {no:3,name:'展厅智能AI',domain:'营销/品牌',tier:'D',lo:15,hi:25,desc:'机器人主动迎宾、导览讲解，提升品牌科技感',route:'技术路线：语音交互Agent（软件）+ 迎宾机器人硬件（需硬件方联合交付）'},
+ {no:4,name:'AI标书审核',domain:'营销',tier:'A',lo:15,hi:25,desc:'自动解析招投标文件，预警废标风险',route:'技术路线：RAG文档解析 + 废标风险规则引擎'},
+ {no:5,name:'用户习惯自学习+自适应节能',domain:'产品',tier:'C',lo:50,hi:70,desc:'本地学习习惯，云端结合天气/电价生成最优曲线，节能10-15%',route:'技术路线：边缘端习惯学习 + 云端强化学习/优化曲线，需设备通信协议支持'},
+ {no:6,name:'冷媒泄漏&压缩机异常预测',domain:'产品',tier:'C',lo:45,hi:65,desc:'云端时序模型提前2-4周预警，避免突发停机',route:'技术路线：时序异常检测模型，强依赖历史故障标注数据'},
+ {no:7,name:'压缩机MAP图自整定&PID寻优',domain:'产品',tier:'C',lo:60,hi:100,desc:'在线优化频率/开度，全工况能效+8-12%',route:'技术路线：控制理论/嵌入式PID整定，完全超出LLM/Agent能力边界，建议排除'},
+ {no:8,name:'AI安装向导与系统自检',domain:'产品',tier:'B',lo:35,hi:55,desc:'云端诊断冷媒量/真空度，首年故障率-30%',route:'技术路线：引导向导Agent（易）+ 故障诊断模型（需历史数据，难），两段式'},
+ {no:9,name:'AI测试用例自动生成',domain:'产品',tier:'A',lo:12,hi:18,desc:'根据需求自动生成正向/异常/边界用例，测试效率+40%',route:'技术路线：LLM需求解析 + 测试用例生成引擎'},
+ {no:10,name:'智能排期与资源冲突预警',domain:'研发',tier:'B',lo:25,hi:35,desc:'基于历史数据推荐排期，提前预警资源过载，计划时间-50%',route:'技术路线：Agent + 排期组合优化算法（与宝临切割2D装箱同类问题）'},
+ {no:11,name:'AI图纸标注',domain:'研发',tier:'C',lo:35,hi:50,desc:'三维导出图自动尺寸标注',route:'技术路线：CAD二次开发 + 几何标注算法，需CAD SDK权限'},
+ {no:12,name:'AI图纸审核',domain:'研发',tier:'A',lo:15,hi:25,desc:'变更版本自动抓取，生成记录',route:'技术路线：版本比对 + LLM变更摘要，需PDM/图纸系统API对接'},
+ {no:13,name:'电气线组设计自动汇总+BOM',domain:'研发',tier:'C',lo:45,hi:60,desc:'自动识别元器件、生成标准化BOM，减少重复工作70%',route:'技术路线：电气图纸元器件识别(CV) + BOM规则引擎，识别准确率是关键风险'},
+ {no:14,name:'品质Agent-AI质检辅助建模',domain:'生产品质',tier:'C',lo:30,hi:45,desc:'少量样本快速建模，质检建模时间-70%',route:'技术路线：少样本CV质检建模，建议优先复用现成产品而非从零训练'},
+ {no:15,name:'电子agent-ICT改善分析',domain:'生产品质',tier:'A',lo:18,hi:28,desc:'智能分析电子设备故障，定位速度+50%',route:'技术路线：RAG故障知识库 + 定位分析Agent'},
+ {no:16,name:'PMP事件智能分析',domain:'生产品质',tier:'A',lo:12,hi:18,desc:'自动分析事件并生成报告，减少人工干预',route:'技术路线：事件日志解析 + LLM报告生成'},
+ {no:17,name:'工艺文件辅助生成',domain:'生产品质',tier:'A',lo:8,hi:12,desc:'基于模板自动生成标准化工艺文件',route:'技术路线：模板化LLM文档生成，客户自评价值有限，建议低优先级'},
+];
+
+function renderCards(){
+  const groups = {A:'cardsA',B:'cardsB',C:'cardsC',D:'cardsD'};
+  Object.values(groups).forEach(id=>document.getElementById(id).innerHTML='');
+  DATA.forEach(d=>{
+    const el = document.createElement('div');
+    el.className='card';
+    el.innerHTML = `
+      <div class="card-top">
+        <span class="no">#${String(d.no).padStart(2,'0')}</span>
+        <span class="badge ${d.tier}">${d.tier}级</span>
+      </div>
+      <div class="domain">${d.domain}</div>
+      <h4>${d.name}</h4>
+      <p class="desc">${d.desc}</p>
+      <div class="route">${d.route}</div>
+      <div class="foot">
+        <span class="days">${d.lo}–${d.hi} 人天</span>
+      </div>`;
+    document.getElementById(groups[d.tier]).appendChild(el);
+  });
+}
+renderCards();
+
+const activeTiers = new Set(['A','B','C','D']);
+const rateSlider = document.getElementById('rateSlider');
+const rateVal = document.getElementById('rateVal');
+
+function fmtWan(n){return (n/10000).toLocaleString('en-US',{minimumFractionDigits:1,maximumFractionDigits:1});}
+
+function recalc(){
+  const rate = parseInt(rateSlider.value,10);
+  rateVal.textContent = '¥' + rate.toLocaleString('en-US');
+  let lo=0,hi=0,count=0;
+  DATA.forEach(d=>{
+    if(activeTiers.has(d.tier)){lo+=d.lo;hi+=d.hi;count++;}
+  });
+  document.getElementById('calcDays').textContent = `${lo}–${hi}`;
+  document.getElementById('calcPrice').textContent = `${fmtWan(lo*rate)}–${fmtWan(hi*rate)}万`;
+  document.getElementById('calcCount').textContent = count;
+}
+
+rateSlider.addEventListener('input', recalc);
+document.querySelectorAll('.tier-toggle').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const t = btn.dataset.tier;
+    if(activeTiers.has(t)){activeTiers.delete(t); btn.classList.remove('active');}
+    else {activeTiers.add(t); btn.classList.add('active');}
+    recalc();
+  });
+});
+
+recalc();
+</script>
+
+</body>
+</html>

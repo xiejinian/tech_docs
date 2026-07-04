@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>金房网项目SOW完整分析报告 V2</title>
+<style>
+  :root {
+    --bg: #FAF9F6;
+    --bg-card: #FFFFFF;
+    --ink: #1F1B16;
+    --ink-soft: #6B6358;
+    --line: #E8E3D9;
+    --accent: #D97757;
+    --accent-soft: #FBEEE7;
+    --teal: #2A9D8F;
+    --teal-soft: #E8F4F2;
+    --gold: #BA8B3E;
+    --gold-soft: #F7EFDF;
+    --slate: #5B6470;
+    --slate-soft: #EAEDF0;
+    --red: #C44545;
+    --red-soft: #FBEAEA;
+    --mono: "JetBrains Mono", "SF Mono", Consolas, monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  .page { display: grid; grid-template-columns: 230px 1fr; }
+  .sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 40px 16px; border-right: 1px solid var(--line); }
+  .sidebar-brand { font-size: 11px; letter-spacing: 0.1em; color: var(--accent); font-weight: 700; text-transform: uppercase; margin-bottom: 24px; }
+  .toc-item { display: block; padding: 8px 12px; border-radius: 8px; font-size: 12.5px; color: var(--ink-soft); text-decoration: none; margin-bottom: 2px; transition: all 0.15s; font-weight: 500; cursor: pointer; }
+  .toc-item:hover { background: var(--accent-soft); color: var(--accent); }
+  .toc-item.active { background: var(--ink); color: var(--bg); }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 56px 40px 110px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: 0.12em; color: var(--accent); font-weight: 600; margin-bottom: 18px; text-transform: uppercase; }
+  .eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
+  h1 { font-family: Georgia, "Songti SC", serif; font-size: 38px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 14px; }
+  .hero-sub { font-size: 15px; color: var(--ink-soft); max-width: 640px; margin-bottom: 28px; }
+  .update-banner { background: var(--teal-soft); border: 1.5px solid var(--teal); border-radius: 14px; padding: 14px 20px; margin-bottom: 20px; font-size: 13px; color: #174D47; display: flex; gap: 10px; align-items: flex-start; }
+  .alert-banner { background: var(--red-soft); border: 1.5px solid var(--red); border-radius: 16px; padding: 20px 24px; margin-bottom: 28px; display: flex; gap: 14px; align-items: flex-start; }
+  .alert-banner h3 { font-size: 14.5px; font-weight: 700; color: #8B2E2E; margin-bottom: 6px; }
+  .alert-banner p { font-size: 13px; color: #8B2E2E; line-height: 1.6; }
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
+  .stat-box { background: var(--bg-card); padding: 18px 16px; }
+  .stat-box .num { font-family: var(--mono); font-size: 20px; font-weight: 700; }
+  .stat-box .lbl { font-size: 11px; color: var(--ink-soft); margin-top: 3px; }
+  .sec { margin-bottom: 64px; scroll-margin-top: 28px; }
+  .sec-eyebrow { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: 0.05em; margin-bottom: 8px; }
+  .sec h2 { font-family: Georgia, "Songti SC", serif; font-size: 26px; font-weight: 600; margin-bottom: 10px; }
+  .sec-desc { font-size: 14px; color: var(--ink-soft); max-width: 640px; margin-bottom: 24px; }
+  .card { background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px; padding: 24px 28px; margin-bottom: 14px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+  .scope-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .scope-card-header { padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; }
+  .scope-card-header h4 { font-size: 13.5px; font-weight: 700; }
+  .tag { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 99px; white-space: nowrap; flex-shrink: 0; }
+  .scope-body { padding: 0 18px 16px; border-top: 1px solid var(--line); }
+  .module-item { font-size: 12px; color: var(--ink-soft); padding-left: 16px; position: relative; margin-top: 7px; }
+  .module-item::before { content: "→"; position: absolute; left: 0; color: var(--accent); font-size: 10px; }
+  .module-item.jianxin { color: #9AABB8; }
+  .module-item.jianxin::before { color: #9AABB8; }
+  .module-count { display: inline-block; margin-top: 10px; font-family: var(--mono); font-size: 10.5px; background: var(--accent-soft); color: var(--accent); padding: 2px 8px; border-radius: 6px; font-weight: 700; }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 14px; }
+  .data-table th { text-align: left; padding: 9px 12px; background: var(--slate-soft); font-weight: 700; color: var(--slate); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .data-table th:first-child { border-radius: 8px 0 0 8px; }
+  .data-table th:last-child { border-radius: 0 8px 8px 0; }
+  .data-table td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr.jinfang-row td:first-child { border-left: 3px solid var(--accent); }
+  .data-table tr.jianxin-row td { color: var(--ink-soft); }
+  .risk-card { background: var(--bg-card); border: 1px solid var(--line); border-left: 4px solid var(--red); border-radius: 14px; padding: 18px 22px; margin-bottom: 10px; }
+  .risk-card.warn { border-left-color: var(--gold); }
+  .risk-card.info { border-left-color: var(--teal); }
+  .risk-card.ok { border-left-color: var(--teal); background: var(--teal-soft); }
+  .risk-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+  .risk-title { font-size: 14px; font-weight: 700; }
+  .risk-body { font-size: 13px; color: var(--ink-soft); margin-bottom: 10px; line-height: 1.6; }
+  .risk-action { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; font-size: 12.5px; }
+  .bar-track { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; margin-top: 5px; }
+  .bar-fill { height: 100%; border-radius: 4px; width: 0; transition: width 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .workload-row { margin-bottom: 14px; }
+  .workload-label { display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 4px; }
+  .workload-label span:last-child { font-family: var(--mono); font-weight: 700; }
+  .callout { background: var(--accent-soft); border-left: 4px solid var(--accent); border-radius: 12px; padding: 16px 20px; margin: 18px 0; font-size: 13px; color: #7A4530; line-height: 1.6; }
+  .callout.warn { background: var(--gold-soft); border-left-color: var(--gold); color: #5A3D0E; }
+  .callout.green { background: var(--teal-soft); border-left-color: var(--teal); color: #174D47; }
+  .callout.red { background: var(--red-soft); border-left-color: var(--red); color: #7A2A2A; }
+  .check-group { background: var(--bg-card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; margin-bottom: 12px; }
+  .check-group h4 { font-size: 13.5px; font-weight: 700; margin-bottom: 12px; }
+  .check-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 9px; font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
+  .check-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 7px; }
+  .h-sub { font-size: 15px; font-weight: 700; margin: 28px 0 14px; }
+  .change-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; background: var(--teal-soft); color: var(--teal); margin-left: 8px; }
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  footer { margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--ink-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <nav class="sidebar">
+    <div class="sidebar-brand">飞凡软件 · SOW分析 V2</div>
+    <a class="toc-item" data-target="hero">综合结论</a>
+    <a class="toc-item" data-target="partition">责任边界澄清</a>
+    <a class="toc-item" data-target="scope">金房工作范围</a>
+    <a class="toc-item" data-target="workload">工作量重新评估</a>
+    <a class="toc-item" data-target="timeline">时间线与里程碑</a>
+    <a class="toc-item" data-target="risks">关键风险</a>
+    <a class="toc-item" data-target="personnel">人员配置建议</a>
+    <a class="toc-item" data-target="action">商务谈判建议</a>
+  </nav>
+
+  <div><div class="wrap">
+
+    <!-- HERO -->
+    <div id="hero" class="reveal">
+      <div class="eyebrow">SOW完整分析 V2 · 结合会议纪要+应用标清单 · 2026-07-03</div>
+      <h1>金房网项目<br>完整分析报告</h1>
+      <p class="hero-sub">整合会议纪要与应用标清单两份新材料，重新评估工作边界、工作量和风险，结论与首次分析有重大差异。</p>
+
+      <div class="update-banner">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:1px"><circle cx="8" cy="8" r="6.5" stroke="#2A9D8F" stroke-width="1.4"/><path d="M5.5 8l2 2 3-3" stroke="#2A9D8F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span><strong>本次新增材料：</strong>会议纪要（澄清人员替换方式、试运行周期等）+ 应用标清单（明确金房/建信各自负责范围，金房实际仅负责8项）。外部系统对接、归集/提取/贷款业务、财务管理等22项均由建信金科负责，不在金房工作范围内。</span>
+      </div>
+
+      <div class="alert-banner">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:2px"><path d="M10 2L18.5 17H1.5L10 2z" stroke="#C44545" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 8v4M10 14.5h.01" stroke="#C44545" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <div>
+          <h3>工作量缺口问题基本消除，但出现新的核心风险：人员替换机制与边界协同</h3>
+          <p>剔除建信负责的22项后，金房实际工作量约<strong>215–375人月</strong>，与550万合同额对应的367人月基本吻合，<strong>不再是亏损定价问题</strong>。但新材料揭示了两个新风险：①"逐步人员替换"方式带来的知识断层和责任模糊风险；②金房负责模块与建信模块高度耦合，边界协同是交付成败的关键变量。</p>
+        </div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-box"><div class="num" style="color:var(--teal)">8项</div><div class="lbl">金房实际负责子系统（全量30项中）</div></div>
+        <div class="stat-box"><div class="num" style="color:var(--accent)">22项</div><div class="lbl">建信金科负责（含外部系统对接）</div></div>
+        <div class="stat-box"><div class="num" style="color:var(--gold)">215–375</div><div class="lbl">金房实际工作量（人月）</div></div>
+        <div class="stat-box"><div class="num" style="color:var(--teal)">367</div><div class="lbl">550万覆盖人月数（@15k/人月）</div></div>
+      </div>
+    </div>
+
+    <!-- 责任边界澄清 -->
+    <div id="partition" class="sec reveal" style="margin-top:56px">
+      <div class="sec-eyebrow">01 / 责任边界澄清</div>
+      <h2>金房 vs 建信：应用标清单完整拆解</h2>
+      <p class="sec-desc">这是本次分析最重要的新信息。应用标清单明确了全量30个子系统的归属，颠覆了SOW原文对"金房负责范围"的模糊描述。</p>
+
+      <div class="two-col">
+        <div class="scope-card">
+          <div class="scope-card-header">
+            <h4>金房负责（8项）</h4>
+            <span class="tag" style="background:var(--accent-soft);color:var(--accent)">飞凡承接范围</span>
+          </div>
+          <div class="scope-body">
+            <div class="module-item">报表及BI工具（平台支撑）</div>
+            <div class="module-item">房改审批（综合服务）</div>
+            <div class="module-item">单位住房资金管理（综合服务）</div>
+            <div class="module-item">OA（综合管理）</div>
+            <div class="module-item">风险控制子系统 · 业务+资金风险（综合管理）</div>
+            <div class="module-item">电子档案管理子系统 · 档案+影像（综合管理）</div>
+            <div class="module-item">数据迁移服务（数据迁移）</div>
+            <div class="module-item">关停系统的数据还原治理（数据迁移）</div>
+            <span class="module-count">8项，工作量215–335人月</span>
+          </div>
+        </div>
+        <div class="scope-card">
+          <div class="scope-card-header">
+            <h4>建信金科负责（22项）</h4>
+            <span class="tag" style="background:var(--slate-soft);color:var(--slate)">不在金房范围</span>
+          </div>
+          <div class="scope-body">
+            <div class="module-item jianxin">工作流引擎 / 规则引擎 / 通用组件服务 / 特色应用</div>
+            <div class="module-item jianxin">归集业务 / 提取业务 / 贷款业务</div>
+            <div class="module-item jianxin">灵活就业人员管理 / 资金结算管理 / 财务管理</div>
+            <div class="module-item jianxin">基础信息管理 / <strong style="color:var(--ink)">外部系统对接</strong>（建信主责！）</div>
+            <div class="module-item jianxin">统一门户 / 用户中心 / 工作中心 / 消息中心</div>
+            <div class="module-item jianxin">绩效管理 / 渠道管理 / 日志管理 / 移动审批</div>
+            <div class="module-item jianxin">案件与诉讼管理</div>
+            <span class="module-count" style="background:var(--slate-soft);color:var(--slate)">22项，建信内部团队负责</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout green">
+        <strong>重要修正：</strong>上次分析中列为"高风险"的"外部系统对接工作量不可预估"问题<strong>不再适用于金房</strong>——应用标清单明确该项（综合服务子系统第11项）归建信负责。金房只负责"配合建信进行外部系统对接"，而非主导对接工作。SOW中"配合建信金科进行外部系统对接"的表述因此得到澄清。
+      </div>
+    </div>
+
+    <!-- 金房工作范围 -->
+    <div id="scope" class="sec reveal">
+      <div class="sec-eyebrow">02 / 金房工作范围</div>
+      <h2>两个子项目范围详述</h2>
+      <p class="sec-desc">结合会议纪要对杭州市和浙江省两个子项目的时间节点、工作性质重新梳理。</p>
+
+      <div class="h-sub">杭州市公积金项目（运维为主）</div>
+      <table class="data-table">
+        <thead><tr><th>维度</th><th>内容</th><th>风险提示</th></tr></thead>
+        <tbody>
+          <tr><td><strong>项目阶段</strong></td><td>开发基本完成，2026年7月初验，试运行1–3个月，预计12月终验</td><td>试运行期间出现问题属于谁的责任需提前界定</td></tr>
+          <tr><td><strong>运维期</strong></td><td>终验后运维期3年（预计2027年起至约2030年）</td><td>3年运维人员成本需纳入整体合同核算，不能只看开发阶段</td></tr>
+          <tr><td><strong>人员替换</strong></td><td>采用逐步进行人员替换的方式（新信息）</td><td>替换期间存在双轨运行成本，知识转移风险高</td></tr>
+          <tr><td><strong>二期需求</strong></td><td>主要涉及智能化建设，已进行申报，费用另算</td><td>"另算"的计价方式和触发条件需在合同中提前约定</td></tr>
+          <tr><td><strong>客户技术支持</strong></td><td>部分需要维系关系的客户技术支持，费用另算</td><td>哪些客户、什么类型的支持算"维系关系"需明确定义</td></tr>
+        </tbody>
+      </table>
+
+      <div class="h-sub">浙江省公积金项目（研发为主）</div>
+      <table class="data-table">
+        <thead><tr><th>子系统</th><th>工作性质</th><th>与建信协同点</th><th>初步完整度</th></tr></thead>
+        <tbody>
+          <tr class="jinfang-row"><td><strong>房改审批</strong></td><td>全新研发，业务流程相对独立</td><td>依赖建信基础信息管理（房屋/客户数据）</td><td style="color:var(--gold)">SOW 60%</td></tr>
+          <tr class="jinfang-row"><td><strong>单位住房资金管理</strong></td><td>全新研发，金融账务类，精度要求高</td><td>依赖建信财务管理和结算管理模块对账</td><td style="color:var(--gold)">SOW 55%</td></tr>
+          <tr class="jinfang-row"><td><strong>风险控制子系统</strong></td><td>全新研发，规则引擎驱动，依赖数据</td><td>强依赖建信规则引擎（建信负责）</td><td style="color:var(--gold)">SOW 50%</td></tr>
+          <tr class="jinfang-row"><td><strong>电子档案管理</strong></td><td>全新研发，档案+影像双子系统</td><td>依赖建信基础平台存储</td><td style="color:var(--gold)">SOW 55%</td></tr>
+          <tr class="jinfang-row"><td><strong>OA</strong></td><td>相对独立，工作量较小</td><td>与建信工作中心/消息中心有集成点</td><td style="color:var(--gold)">SOW 50%</td></tr>
+          <tr class="jinfang-row"><td><strong>报表及BI工具</strong></td><td>依赖全系统数据，上线较晚</td><td>需要汇聚建信各业务模块数据</td><td style="color:var(--gold)">SOW 50%</td></tr>
+          <tr class="jinfang-row"><td><strong>数据迁移服务</strong></td><td>高风险单项，12亿条+11.7TB，不可逆</td><td>需要配合建信目标库Schema设计</td><td style="color:var(--red)">SOW 25%</td></tr>
+          <tr class="jinfang-row"><td><strong>关停系统数据还原治理</strong></td><td>历史数据清洗，依赖源系统文档</td><td>独立性较强</td><td style="color:var(--red)">SOW 20%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 工作量重新评估 -->
+    <div id="workload" class="sec reveal">
+      <div class="sec-eyebrow">03 / 工作量重新评估</div>
+      <h2>剔除建信范围后的工作量重算</h2>
+      <p class="sec-desc">基于应用标清单明确边界后，金房实际工作量大幅缩减，550万合同额基本匹配。但数据迁移的高不确定性仍是主要浮动因素。</p>
+
+      <div class="card">
+        <div style="font-size:15px;font-weight:700;margin-bottom:20px">金房8项子系统工作量预估（浙江省部分）</div>
+        <div class="workload-row"><div class="workload-label"><span>房改审批</span><span>40–60人月</span></div><div class="bar-track"><div class="bar-fill" data-w="42" style="background:var(--accent)"></div></div></div>
+        <div class="workload-row"><div class="workload-label"><span>单位住房资金管理</span><span>35–55人月</span></div><div class="bar-track"><div class="bar-fill" data-w="36" style="background:var(--accent)"></div></div></div>
+        <div class="workload-row"><div class="workload-label"><span>风险控制子系统（业务+资金风险）</span><span>30–50人月</span></div><div class="bar-track"><div class="bar-fill" data-w="32" style="background:var(--gold)"></div></div></div>
+        <div class="workload-row"><div class="workload-label"><span>电子档案管理子系统（档案+影像）</span><span>20–35人月</span></div><div class="bar-track"><div class="bar-fill" data-w="22" style="background:var(--gold)"></div></div></div>
+        <div class="workload-row"><div class="workload-label"><span>报表及BI工具</span><span>15–25人月</span></div><div class="bar-track"><div class="bar-fill" data-w="16" style="background:var(--slate)"></div></div></div>
+        <div class="workload-row"><div class="workload-label"><span>OA</span><span>10–20人月</span></div><div class="bar-track"><div class="bar-fill" data-w="12" style="background:var(--slate)"></div></div></div>
+        <div class="workload-row"><div class="workload-label"><span>数据迁移服务（12亿条+11.7TB，高不确定性）</span><span>30–60人月</span></div><div class="bar-track"><div class="bar-fill" data-w="38" style="background:var(--red)"></div></div></div>
+        <div class="workload-row"><div class="workload-label"><span>关停系统数据还原治理</span><span>15–30人月</span></div><div class="bar-track"><div class="bar-fill" data-w="18" style="background:var(--red)"></div></div></div>
+        <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:14px;font-weight:700">
+          <span>浙江省项目小计</span>
+          <span style="color:var(--accent);font-family:var(--mono)">195–335 人月</span>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:18px">杭州市公积金运维（持续性投入）</div>
+        <div class="workload-row"><div class="workload-label"><span>终验后3年运维（人员驻场+日常维护）</span><span>20–40人月</span></div><div class="bar-track"><div class="bar-fill" data-w="22" style="background:var(--teal)"></div></div></div>
+        <div style="font-size:12px;color:var(--ink-soft);margin-top:8px">注：运维为持续性投入，20–40人月为年化估算，3年合计约60–120人月</div>
+      </div>
+
+      <div style="background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:20px 24px;margin-top:14px">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+          <div>
+            <div style="font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">金房总工作量</div>
+            <div style="font-family:var(--mono);font-size:20px;font-weight:700;color:var(--accent)">215–375人月</div>
+            <div style="font-size:11.5px;color:var(--ink-soft);margin-top:3px">含浙江省研发+杭州市年化运维</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">550万可覆盖</div>
+            <div style="font-family:var(--mono);font-size:20px;font-weight:700;color:var(--teal)">367人月</div>
+            <div style="font-size:11.5px;color:var(--ink-soft);margin-top:3px">按市场价15,000元/人月</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">综合判断</div>
+            <div style="font-family:var(--mono);font-size:20px;font-weight:700;color:var(--teal)">基本匹配</div>
+            <div style="font-size:11.5px;color:var(--ink-soft);margin-top:3px">中位数275人月，有合理利润空间</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout green" style="margin-top:18px">
+        <strong>关键修正：</strong>首次分析认为"550万严重不匹配，大概率亏损"的结论需要<strong>撤回</strong>。剔除建信负责的22项后，金房实际工作量中位数约275人月，550万覆盖367人月，有约90人月（约135万）的利润空间。但数据迁移（30–60人月浮动区间达30人月）是主要不确定性来源，需要签约前做数据质量摸底以锁定这部分估算。
+      </div>
+    </div>
+
+    <!-- 时间线 -->
+    <div id="timeline" class="sec reveal">
+      <div class="sec-eyebrow">04 / 时间线与里程碑</div>
+      <h2>两个子项目时间线对照</h2>
+      <p class="sec-desc">会议纪要明确了关键节点，两个项目在2026年下半年形成交叉——杭州市进入终验阶段，浙江省同期处于研发高峰，资源调度需要提前规划。</p>
+
+      <div class="card">
+        <table class="data-table" style="margin-bottom:0">
+          <thead><tr><th>时间节点</th><th>杭州市公积金</th><th>浙江省公积金</th><th>资源压力</th></tr></thead>
+          <tbody>
+            <tr><td><strong>2026年7月</strong></td><td>初验</td><td>需求设计评审中</td><td style="color:var(--gold);font-weight:600">中等</td></tr>
+            <tr><td><strong>2026年7月–10月</strong></td><td>试运行（1–3个月）</td><td>研发启动</td><td style="color:var(--red);font-weight:600">高（双线并行）</td></tr>
+            <tr><td><strong>2026年12月</strong></td><td>终验（预计）</td><td>初验（计划）</td><td style="color:var(--red);font-weight:600">极高（两个初/终验同期）</td></tr>
+            <tr><td><strong>2027年上半年</strong></td><td>正式进入运维期</td><td>试运行（6个月）</td><td style="color:var(--gold);font-weight:600">中等（运维+试运行）</td></tr>
+            <tr><td><strong>2027年下半年</strong></td><td>运维期（持续）</td><td>终验</td><td style="color:var(--gold);font-weight:600">中等</td></tr>
+            <tr><td><strong>2028–2030年</strong></td><td>运维期（至约2030年）</td><td>运维期</td><td style="color:var(--teal);font-weight:600">低（稳定运维）</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout warn">
+        <strong>2026年12月是最高风险节点：</strong>杭州市终验和浙江省初验同期发生。若任何一方出现验收延迟或突发问题，将对团队资源形成双重挤压。建议在合同中明确"因不可抗力（含甲方审批延迟）导致的里程碑顺延不计入我方违约"，并在团队配置上预留应急缓冲。
+      </div>
+    </div>
+
+    <!-- 关键风险 -->
+    <div id="risks" class="sec reveal">
+      <div class="sec-eyebrow">05 / 关键风险（重新评级）</div>
+      <h2>基于完整材料的风险重新评估</h2>
+      <p class="sec-desc">部分首次分析中的风险已消除或降级，同时新材料揭示了新的风险点。以下为更新后的完整风险清单。</p>
+
+      <div style="font-size:13px;color:var(--ink-soft);margin-bottom:16px;padding:10px 14px;background:var(--teal-soft);border-radius:10px">
+        已从高风险降级或消除：外部系统对接工作量（归建信）/ 两个项目混合定价亏损问题（工作量匹配）/ 建信金科角色边界模糊（清单已明确）
+      </div>
+
+      <div class="risk-card">
+        <div class="risk-head"><div class="risk-title">人员替换期间的知识断层与责任模糊风险</div><span class="tag" style="background:var(--red-soft);color:var(--red)">高风险 · 新增</span></div>
+        <div class="risk-body">会议纪要明确"采用逐步人员替换方式"，这意味着飞凡团队需要承接一个正在运行的系统，同时接受来自上一个团队的知识转移。这一过程中存在：①文档缺失导致的隐性知识流失；②替换期间双轨运行人力成本翻倍；③责任归属模糊（哪些问题是"接手前遗留的"，哪些是"接手后引入的"）。</div>
+        <div class="risk-action"><strong>必须处理：</strong>在合同中明确"交接基线文档清单"（架构文档、运维手册、已知问题列表）；约定替换期时长上限（建议不超过2个月）；明确"历史遗留问题"的界定标准和责任归属，避免运维期间被追责历史问题。</div>
+      </div>
+
+      <div class="risk-card">
+        <div class="risk-head"><div class="risk-title">金房模块与建信模块深度耦合，协同风险高</div><span class="tag" style="background:var(--red-soft);color:var(--red)">高风险 · 新增</span></div>
+        <div class="risk-body">应用标清单揭示金房负责的模块（如风险控制、报表BI、单位住房资金）在功能上强依赖建信负责的基础平台（规则引擎、工作流引擎、财务管理）。若建信的模块交付延迟或接口变更，将直接阻塞金房模块的开发和联调，但合同违约责任却可能落在金房头上。</div>
+        <div class="risk-action"><strong>必须处理：</strong>在SOW中明确"金房模块的交付时间以建信对应模块的接口文档冻结时间为起点计算"；建立跨团队的联合项目管理机制，设置双方共同确认的里程碑节点，而非单方面约定金房的交付时间。</div>
+      </div>
+
+      <div class="risk-card">
+        <div class="risk-head"><div class="risk-title">数据迁移工作量和风险仍是最大不确定项</div><span class="tag" style="background:var(--red-soft);color:var(--red)">高风险 · 维持</span></div>
+        <div class="risk-body">金房负责的数据迁移服务（12亿条结构化数据、11.7TB文件）和关停系统数据还原治理，仍是整个项目技术风险最高的单项。SOW中对源库Schema、字段映射关系、历史数据质量均无说明，导致工作量区间（30–60人月）浮动达100%。</div>
+        <div class="risk-action"><strong>必须处理：</strong>签约前完成数据质量摸底（源库表数量、字段结构、脏数据比例），作为合同附件固化；迁移验收标准改为"抽样比对+业务指标对账"，明确允许误差率；历史脏数据清洗责任归甲方。</div>
+      </div>
+
+      <div class="risk-card warn">
+        <div class="risk-head"><div class="risk-title">2026年12月双项目验收节点资源冲突</div><span class="tag" style="background:var(--gold-soft);color:var(--gold)">中风险 · 新增</span></div>
+        <div class="risk-body">杭州市预计12月终验，浙江省计划12月初验，两个关键节点同期发生。届时团队需要同时支撑两个项目的验收准备、缺陷修复和现场保障，人力资源面临双重压力。</div>
+        <div class="risk-action"><strong>建议处理：</strong>在团队配置中明确两个项目的资源隔离（至少核心负责人不重叠）；合同中争取浙江省初验时间窗口弹性（如"2026年12月至2027年1月"），避免与杭州市终验严格冲突。</div>
+      </div>
+
+      <div class="risk-card warn">
+        <div class="risk-head"><div class="risk-title">运维SLA与二期需求计价边界仍未明确</div><span class="tag" style="background:var(--gold-soft);color:var(--gold)">中风险 · 维持</span></div>
+        <div class="risk-body">会议纪要未给出运维期SLA的具体标准，"二期需求费用另算"和"客户技术支持费用另算"的触发条件和计价方式也仍然空白。3年运维期若无上限约束，是持续性的资源消耗风险。</div>
+        <div class="risk-action"><strong>必须处理：</strong>明确运维SLA（P0/P1/P2故障分级及响应/解决时限）；约定二期需求的定义范围和单独计价方式；明确"维系关系的客户技术支持"的范围上限（如每月不超过X小时）。</div>
+      </div>
+
+      <div class="risk-card info">
+        <div class="risk-head"><div class="risk-title">等保/信创要求仍未明确</div><span class="tag" style="background:var(--teal-soft);color:var(--teal)">中风险 · 维持</span></div>
+        <div class="risk-body">两份新材料均未提及等保级别和信创适配要求，对于政务类系统（尤其是浙江省公积金）而言高概率存在这类要求，建议在合同谈判阶段主动确认。</div>
+        <div class="risk-action"><strong>建议确认：</strong>要求甲方提供等保定级证明和信创环境清单，若存在信创要求，相应适配工作量需纳入金房8项子系统的报价中。</div>
+      </div>
+    </div>
+
+    <!-- 人员配置 -->
+    <div id="personnel" class="sec reveal">
+      <div class="sec-eyebrow">06 / 人员配置建议</div>
+      <h2>基于实际工作范围的团队重新规划</h2>
+      <p class="sec-desc">剔除建信负责项后，所需团队规模明显缩小，但仍需覆盖浙江省研发（2026–2027）和杭州市运维（2027–2030）两条并行线。</p>
+
+      <div class="card">
+        <div style="font-size:15px;font-weight:700;margin-bottom:18px">建议团队配置</div>
+        <table class="data-table" style="margin-bottom:0">
+          <thead><tr><th>角色</th><th>人数</th><th>主要职责</th><th>特殊要求</th></tr></thead>
+          <tbody>
+            <tr><td><strong>项目负责人</strong></td><td>1人</td><td>两个子项目统筹管理、验收推进、甲方沟通</td><td>有政务项目经验，能同时管理两条线</td></tr>
+            <tr><td><strong>技术负责人</strong></td><td>1人</td><td>架构设计、建信协同接口确认、数据迁移方案</td><td>需有金融/政务系统经验，能主导数据迁移技术方案</td></tr>
+            <tr><td><strong>后端开发</strong></td><td>2–3人</td><td>6个业务子系统开发+数据迁移实现</td><td>7年以上经验，兼顾运维能力</td></tr>
+            <tr><td><strong>前端开发</strong></td><td>1人</td><td>房改审批、单位住房资金管理、OA等界面开发</td><td>政务系统适老化、信创浏览器兼容经验</td></tr>
+            <tr><td><strong>测试工程师</strong></td><td>1人</td><td>功能/接口测试、验收支持、数据迁移验证</td><td>需熟悉数据对账测试方法</td></tr>
+            <tr><td><strong>驻场运维</strong></td><td>1人（杭州市阶段）</td><td>杭州市公积金现场运维支持</td><td>长期驻场杭州，有3年运维持续性</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout warn">
+        <strong>关键变化：</strong>原方案建议6人含顾问，现在可以不设临时顾问，改为在正式团队中增加驻场运维1人（专职杭州市现场支持），其余5人集中在浙江省研发。这样避免了人员替换期间的知识断层风险（有固定人员驻场），同时也控制了整体人力成本。总人力成本约240万/年（6人*15k*12月），550万合同额覆盖约2.3年，与浙江省研发+杭州市前期运维的时间段匹配。
+      </div>
+    </div>
+
+    <!-- 商务谈判建议 -->
+    <div id="action" class="sec reveal">
+      <div class="sec-eyebrow">07 / 商务谈判建议</div>
+      <h2>更新后的签约前核心确认事项</h2>
+      <p class="sec-desc">基于新材料更新优先级，部分原P0问题已降级，同时新增人员替换和协同边界两个必须处理的问题。</p>
+
+      <div class="check-group">
+        <h4 style="color:var(--red)">P0 — 签约前必须解决</h4>
+        <div class="check-item"><div class="check-dot" style="background:var(--red)"></div><span>书面确认<strong>应用标清单</strong>作为合同附件，明确金房负责8项、建信负责22项，任何范围调整走变更流程</span></div>
+        <div class="check-item"><div class="check-dot" style="background:var(--red)"></div><span>明确<strong>人员替换基线</strong>：交接文档清单（架构文档、运维手册、已知问题列表）作为验收前提；替换期时长上限（建议2个月）；历史遗留问题界定标准</span></div>
+        <div class="check-item"><div class="check-dot" style="background:var(--red)"></div><span><strong>金房模块交付时间</strong>以建信对应模块接口文档冻结日期为起点，合同中明确此依赖关系，建信延迟不计入金房违约</span></div>
+        <div class="check-item"><div class="check-dot" style="background:var(--red)"></div><span>要求提供源数据库Schema和数据质量说明，作为<strong>数据迁移估价</strong>的最终依据</span></div>
+      </div>
+
+      <div class="check-group">
+        <h4 style="color:var(--gold)">P1 — 强烈建议合同中明确</h4>
+        <div class="check-item"><div class="check-dot" style="background:var(--gold)"></div><span>运维SLA标准（P0/P1/P2故障分级、响应时限和解决时限）及运维边界（应用层/中间件层/数据库层）</span></div>
+        <div class="check-item"><div class="check-dot" style="background:var(--gold)"></div><span>二期需求的触发定义和计价方式（避免"运维包含所有需求"的误解）</span></div>
+        <div class="check-item"><div class="check-dot" style="background:var(--gold)"></div><span>数据迁移验收标准（允许误差率）和历史脏数据清洗责任归属甲方</span></div>
+        <div class="check-item"><div class="check-dot" style="background:var(--gold)"></div><span>2026年12月双验收节点的弹性安排（浙江省初验窗口延至2027年1月）</span></div>
+        <div class="check-item"><div class="check-dot" style="background:var(--gold)"></div><span>明确等保级别和信创环境要求，若存在则将适配工作量纳入报价</span></div>
+      </div>
+
+      <div class="check-group">
+        <h4 style="color:var(--teal)">P2 — 建议以合同附件形式明确</h4>
+        <div class="check-item"><div class="check-dot" style="background:var(--teal)"></div><span>"客户技术支持"的范围上限（每月工时上限），超出部分另行计费</span></div>
+        <div class="check-item"><div class="check-dot" style="background:var(--teal)"></div><span>数据迁移演练（Dry Run）次数、时间窗口，以及11.7TB文件迁移所需专线带宽由甲方提供</span></div>
+        <div class="check-item"><div class="check-dot" style="background:var(--teal)"></div><span>建立跨团队（金房+建信）联合里程碑评审机制，设置接口冻结时间节点</span></div>
+      </div>
+
+      <div class="callout green">
+        <strong>综合建议（更新版）：</strong>结合应用标清单后，本项目在550万合同额下<strong>基本可行</strong>，不再是首次分析中判断的"亏损定价"。建议推进签约，但必须把应用标清单写入合同附件、把建信依赖关系写入交付条款——这两点不解决，工作边界和交付责任仍然模糊，执行期间纠纷风险很高。
+      </div>
+    </div>
+
+    <footer>
+      <span>飞凡软件 · SOW完整分析报告 V2 · 金房网项目 · 2026-07-03</span>
+      <span>基于：SOW原文 + 会议纪要 + 应用标清单（30项归属）</span>
+    </footer>
+
+  </div></div>
+</div>
+
+<script>
+  var ro = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add("visible");
+        e.target.querySelectorAll(".bar-fill").forEach(function(b) {
+          setTimeout(function() { b.style.width = (b.getAttribute("data-w") || "0") + "%"; }, 200);
+        });
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll(".reveal").forEach(function(el) { ro.observe(el); });
+
+  var items = document.querySelectorAll(".toc-item");
+  var so = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        items.forEach(function(i) { i.classList.remove("active"); });
+        var m = document.querySelector(".toc-item[data-target=" + e.target.id + "]");
+        if (m) m.classList.add("active");
+      }
+    });
+  }, { threshold: 0.2, rootMargin: "-10% 0px -60% 0px" });
+  document.querySelectorAll(".sec, #hero").forEach(function(s) { so.observe(s); });
+
+  items.forEach(function(item) {
+    item.addEventListener("click", function(e) {
+      e.preventDefault();
+      var t = document.getElementById(item.getAttribute("data-target"));
+      if (t) t.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>金房网项目 · 内部决策沟通材料</title>
+<style>
+  :root {
+    --bg: #FAF9F6;
+    --bg-card: #FFFFFF;
+    --ink: #1F1B16;
+    --ink-soft: #6B6358;
+    --line: #E8E3D9;
+    --accent: #D97757;
+    --accent-soft: #FBEEE7;
+    --teal: #2A9D8F;
+    --teal-soft: #E8F4F2;
+    --gold: #BA8B3E;
+    --gold-soft: #F7EFDF;
+    --slate: #5B6470;
+    --slate-soft: #EAEDF0;
+    --red: #C44545;
+    --red-soft: #FBEAEA;
+    --purple: #7C3AED;
+    --purple-soft: #EDE9FE;
+    --mono: "JetBrains Mono", "SF Mono", Consolas, monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  .page { display: grid; grid-template-columns: 220px 1fr; }
+  .sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 36px 14px; border-right: 1px solid var(--line); }
+  .sidebar-brand { font-size: 10.5px; letter-spacing: 0.1em; color: var(--accent); font-weight: 700; text-transform: uppercase; margin-bottom: 20px; line-height: 1.5; }
+  .toc-item { display: block; padding: 7px 10px; border-radius: 7px; font-size: 12px; color: var(--ink-soft); text-decoration: none; margin-bottom: 2px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+  .toc-item:hover { background: var(--accent-soft); color: var(--accent); }
+  .toc-item.active { background: var(--ink); color: var(--bg); }
+  .toc-sep { font-size: 10px; color: var(--line); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; padding: 12px 10px 4px; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 52px 40px 110px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 7px; font-size: 11.5px; letter-spacing: 0.12em; color: var(--accent); font-weight: 600; margin-bottom: 16px; text-transform: uppercase; }
+  .eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
+  h1 { font-family: Georgia, "Songti SC", serif; font-size: 36px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 12px; }
+  .hero-sub { font-size: 14.5px; color: var(--ink-soft); max-width: 600px; margin-bottom: 24px; }
+  .kv-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+  .kv-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 13px; background: var(--bg-card); border: 1px solid var(--line); border-radius: 99px; font-size: 12px; color: var(--ink-soft); font-weight: 500; }
+  .kv-chip b { color: var(--ink); }
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border-radius: 14px; overflow: hidden; border: 1px solid var(--line); margin-bottom: 0; }
+  .stat-box { background: var(--bg-card); padding: 16px 14px; }
+  .stat-box .num { font-family: var(--mono); font-size: 19px; font-weight: 700; }
+  .stat-box .lbl { font-size: 10.5px; color: var(--ink-soft); margin-top: 3px; line-height: 1.4; }
+  .sec { margin-bottom: 60px; scroll-margin-top: 26px; }
+  .sec-eyebrow { font-family: var(--mono); font-size: 11.5px; color: var(--accent); letter-spacing: 0.05em; margin-bottom: 7px; }
+  .sec h2 { font-family: Georgia, "Songti SC", serif; font-size: 24px; font-weight: 600; margin-bottom: 10px; }
+  .sec-desc { font-size: 13.5px; color: var(--ink-soft); max-width: 640px; margin-bottom: 22px; }
+  .h-sub { font-size: 14px; font-weight: 700; margin: 24px 0 12px; }
+  .card { background: var(--bg-card); border: 1px solid var(--line); border-radius: 15px; padding: 22px 26px; margin-bottom: 12px; }
+  .callout { border-radius: 12px; padding: 14px 18px; margin: 14px 0; font-size: 13px; line-height: 1.6; }
+  .callout.warn { background: var(--gold-soft); border-left: 4px solid var(--gold); color: #5A3D0E; }
+  .callout.green { background: var(--teal-soft); border-left: 4px solid var(--teal); color: #174D47; }
+  .callout.red { background: var(--red-soft); border-left: 4px solid var(--red); color: #7A2A2A; }
+  .callout.accent { background: var(--accent-soft); border-left: 4px solid var(--accent); color: #7A4530; }
+  .callout.purple { background: var(--purple-soft); border-left: 4px solid var(--purple); color: #4F239A; }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 12px; }
+  .data-table th { text-align: left; padding: 8px 11px; background: var(--slate-soft); font-weight: 700; color: var(--slate); font-size: 10px; text-transform: uppercase; letter-spacing: .04em; }
+  .data-table th:first-child { border-radius: 7px 0 0 7px; }
+  .data-table th:last-child { border-radius: 0 7px 7px 0; }
+  .data-table td { padding: 9px 11px; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 12.5px; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table .hl { font-weight: 700; color: var(--ink); }
+  .option-card { border: 1.5px solid var(--line); border-radius: 14px; overflow: hidden; margin-bottom: 12px; background: var(--bg-card); }
+  .option-header { padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); }
+  .option-title { font-size: 14px; font-weight: 700; }
+  .option-body { padding: 14px 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pro-con h5 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px; }
+  .pro-con ul { list-style: none; }
+  .pro-con ul li { font-size: 12.5px; color: var(--ink-soft); padding-left: 14px; position: relative; margin-bottom: 5px; }
+  .pro-con ul li::before { position: absolute; left: 0; font-weight: 700; }
+  .pro-con.pros ul li::before { content: "+"; color: var(--teal); }
+  .pro-con.cons ul li::before { content: "−"; color: var(--red); }
+  .tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; white-space: nowrap; }
+  .waterfall-row { display: grid; grid-template-columns: 140px 1fr 100px 100px; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px dashed var(--line); }
+  .waterfall-row:last-child { border-bottom: none; }
+  .waterfall-label { font-size: 12.5px; font-weight: 600; }
+  .waterfall-bar-wrap { position: relative; height: 10px; background: var(--line); border-radius: 5px; }
+  .waterfall-bar { height: 100%; border-radius: 5px; }
+  .waterfall-pct { font-family: var(--mono); font-size: 12px; font-weight: 700; text-align: right; }
+  .waterfall-amt { font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft); text-align: right; }
+  .budget-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .budget-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+  .budget-title { font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+  .budget-item { display: flex; justify-content: space-between; font-size: 12.5px; padding: 6px 0; border-bottom: 1px dashed var(--line); }
+  .budget-item:last-of-type { border-bottom: none; }
+  .budget-total { display: flex; justify-content: space-between; font-size: 13.5px; font-weight: 700; padding-top: 10px; margin-top: 6px; border-top: 2px solid var(--line); }
+  .cashflow-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+  .cashflow-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; text-align: center; }
+  .cashflow-card .cf-label { font-size: 11px; color: var(--ink-soft); margin-bottom: 4px; }
+  .cashflow-card .cf-val { font-family: var(--mono); font-size: 18px; font-weight: 700; }
+  .todo-item { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px dashed var(--line); }
+  .todo-item:last-child { border-bottom: none; }
+  .todo-num { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--accent); background: var(--accent-soft); padding: 2px 7px; border-radius: 5px; flex-shrink: 0; margin-top: 1px; }
+  .todo-content { font-size: 13px; line-height: 1.6; color: var(--ink-soft); }
+  .todo-content b { color: var(--ink); }
+  .todo-owner { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 99px; background: var(--slate-soft); color: var(--slate); white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+  .new-tag { font-size: 9.5px; font-weight: 700; padding: 1px 6px; border-radius: 4px; background: var(--purple-soft); color: var(--purple); margin-left: 6px; vertical-align: middle; }
+  .reveal { opacity: 0; transform: translateY(12px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 11px; color: var(--ink-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<nav class="sidebar">
+  <div class="sidebar-brand">飞凡科技<br>金房网项目决策会</div>
+  <div class="toc-sep">议题</div>
+  <a class="toc-item" data-target="hero">背景与核心结论</a>
+  <a class="toc-item" data-target="contract">议题一：合同条款</a>
+  <a class="toc-item" data-target="team">议题二：团队策略</a>
+  <a class="toc-item" data-target="budget">议题三：半年成本预算</a>
+  <div class="toc-sep">补充</div>
+  <a class="toc-item" data-target="extra">未列入的关键问题</a>
+  <a class="toc-item" data-target="action">明日会议议程</a>
+</nav>
+
+<div><div class="wrap">
+
+<!-- HERO -->
+<div id="hero" class="reveal">
+  <div class="eyebrow">内部决策沟通材料 · 2026-07-05</div>
+  <h1>金房网项目<br>内部决策沟通</h1>
+  <p class="hero-sub">综合SOW、会议纪要、应用标清单三份材料，聚焦下周推进合同签订所需的三项核心决策，以及容易被忽视的关键问题。</p>
+  <div class="kv-row">
+    <div class="kv-chip"><b>合同总额</b> 550万元</div>
+    <div class="kv-chip"><b>飞凡实际到账</b> 506万元（扣红熊8%）</div>
+    <div class="kv-chip"><b>金房实际工作量</b> 8项子系统</div>
+    <div class="kv-chip"><b>项目周期</b> 2026.7–约2030年</div>
+    <div class="kv-chip"><b>杭州市</b> 12月终验</div>
+    <div class="kv-chip"><b>浙江省</b> 12月初验</div>
+  </div>
+  <div class="stat-grid">
+    <div class="stat-box"><div class="num" style="color:var(--teal)">60万</div><div class="lbl">预计利润空间<br>（18个月，偏紧）</div></div>
+    <div class="stat-box"><div class="num" style="color:var(--accent)">127万</div><div class="lbl">半年自建<br>团队成本</div></div>
+    <div class="stat-box"><div class="num" style="color:var(--gold)">385万</div><div class="lbl">半年最乐观<br>到账金额</div></div>
+    <div class="stat-box"><div class="num" style="color:var(--red)">12月</div><div class="lbl">最高风险节点<br>双项目同期验收</div></div>
+  </div>
+</div>
+
+<!-- 合同条款 -->
+<div id="contract" class="sec reveal" style="margin-top:52px">
+  <div class="sec-eyebrow">议题一 / 合同条款</div>
+  <h2>明确三层合同的关键条款</h2>
+  <p class="sec-desc">本项目存在三层合同关系：金房→红熊（总包）、红熊→飞凡（分包）。这两份合同的条款须联动设计，避免上下游条款不对等造成飞凡单方面承担不可控风险。</p>
+
+  <div class="h-sub">资金流转结构（已确认数据）</div>
+  <div class="card" style="padding:20px 24px">
+    <div class="waterfall-row" style="font-size:10px;font-weight:700;color:var(--slate);text-transform:uppercase;letter-spacing:.04em;padding:0 0 8px">
+      <div>层级</div><div>说明</div><div style="text-align:right">比例</div><div style="text-align:right">金额</div>
+    </div>
+    <div class="waterfall-row">
+      <div class="waterfall-label">金房→红熊总包</div>
+      <div class="waterfall-bar-wrap"><div class="waterfall-bar" style="width:100%;background:var(--slate-soft)"></div></div>
+      <div class="waterfall-pct">100%</div><div class="waterfall-amt">550万</div>
+    </div>
+    <div class="waterfall-row">
+      <div class="waterfall-label">红熊分包成本</div>
+      <div class="waterfall-bar-wrap"><div class="waterfall-bar" style="width:8%;background:var(--slate)"></div></div>
+      <div class="waterfall-pct" style="color:var(--slate)">−8%</div><div class="waterfall-amt">−44万</div>
+    </div>
+    <div class="waterfall-row" style="font-weight:700">
+      <div class="waterfall-label" style="color:var(--accent)">飞凡实际到账</div>
+      <div class="waterfall-bar-wrap"><div class="waterfall-bar" style="width:92%;background:var(--accent-soft)"></div></div>
+      <div class="waterfall-pct" style="color:var(--accent)">92%</div><div class="waterfall-amt" style="color:var(--accent)">506万</div>
+    </div>
+    <div class="waterfall-row">
+      <div class="waterfall-label">飞凡平台管理费</div>
+      <div class="waterfall-bar-wrap"><div class="waterfall-bar" style="width:9.2%;background:var(--teal)"></div></div>
+      <div class="waterfall-pct" style="color:var(--teal)">−10%</div><div class="waterfall-amt">−50.6万</div>
+    </div>
+    <div class="waterfall-row">
+      <div class="waterfall-label">Peter联络分成</div>
+      <div class="waterfall-bar-wrap"><div class="waterfall-bar" style="width:4.6%;background:var(--gold)"></div></div>
+      <div class="waterfall-pct" style="color:var(--gold)">−5%</div><div class="waterfall-amt">−22.8万</div>
+    </div>
+    <div class="waterfall-row" style="font-weight:700;border-top:2px solid var(--line);padding-top:12px;margin-top:4px">
+      <div class="waterfall-label" style="color:var(--teal)">团队分配池</div>
+      <div class="waterfall-bar-wrap"><div class="waterfall-bar" style="width:78%;background:var(--teal-soft)"></div></div>
+      <div class="waterfall-pct" style="color:var(--teal)">≈78%</div><div class="waterfall-amt" style="color:var(--teal)">432万</div>
+    </div>
+  </div>
+
+  <div class="h-sub">付款节点建议（对红熊的谈判目标）</div>
+  <table class="data-table">
+    <thead><tr><th>节点</th><th>触发条件</th><th>比例</th><th>预计金额</th><th>关键谈判要点</th></tr></thead>
+    <tbody>
+      <tr><td class="hl">合同签订/进场</td><td>合同双方签署+飞凡团队进场确认</td><td class="hl">30%</td><td>151.8万</td><td>必须在飞凡团队进场后7日内到账，不可拖延</td></tr>
+      <tr><td class="hl">初验通过</td><td>杭州市终验通过 或 浙江省初验通过（两者取先）</td><td class="hl">40%</td><td>202.4万</td><td>初验标准必须量化写入SOW，逾期未反馈视为验收通过</td></tr>
+      <tr><td class="hl">终验通过</td><td>浙江省终验通过</td><td class="hl">20%</td><td>101.2万</td><td>终验标准与初验同级，独立验收不捆绑运维</td></tr>
+      <tr><td class="hl">维护结束</td><td>质保期结束+无未决事项</td><td class="hl">10%</td><td>50.6万</td><td>质保期时长在合同中明确（建议不超过1年）</td></tr>
+    </tbody>
+  </table>
+
+  <div class="h-sub">飞凡必须从红熊拿到的关键合同保护条款</div>
+  <table class="data-table">
+    <thead><tr><th>条款类别</th><th>诉求内容</th><th>优先级</th></tr></thead>
+    <tbody>
+      <tr><td class="hl">应用标清单附件</td><td>将应用标清单（金房8项/建信22项）作为合同附件固化，范围外的工作须走变更流程</td><td><span class="tag" style="background:var(--red-soft);color:var(--red)">P0必须</span></td></tr>
+      <tr><td class="hl">建信依赖条款</td><td>"金房模块的交付节点以建信对应接口文档冻结日期为起点"，建信延迟不计飞凡违约</td><td><span class="tag" style="background:var(--red-soft);color:var(--red)">P0必须</span></td></tr>
+      <tr><td class="hl">人员替换基线</td><td>明确交接文档清单（架构、运维手册、已知问题列表）；替换期不超过2个月；历史遗留问题界定标准</td><td><span class="tag" style="background:var(--red-soft);color:var(--red)">P0必须</span></td></tr>
+      <tr><td class="hl">逾期付款违约金</td><td>红熊逾期付款按日万分之三计违约金；超30天可暂停交付而不视为飞凡违约</td><td><span class="tag" style="background:var(--red-soft);color:var(--red)">P0必须</span></td></tr>
+      <tr><td class="hl">验收响应时限</td><td>甲方5个工作日内反馈验收意见，逾期视为验收通过</td><td><span class="tag" style="background:var(--gold-soft);color:var(--gold)">P1强烈建议</span></td></tr>
+      <tr><td class="hl">违约扣款上限</td><td>因飞凡原因延迟的违约扣款不超过合同总额的10%</td><td><span class="tag" style="background:var(--gold-soft);color:var(--gold)">P1强烈建议</span></td></tr>
+      <tr><td class="hl">运维SLA上限</td><td>明确P0/P1/P2故障响应时限；运维范围仅限应用层；二期需求和客户支持另行计费</td><td><span class="tag" style="background:var(--gold-soft);color:var(--gold)">P1强烈建议</span></td></tr>
+      <tr><td class="hl">数据迁移验收标准</td><td>采用"抽样比对+业务指标对账"而非"100%一致"；历史脏数据清洗责任归甲方</td><td><span class="tag" style="background:var(--gold-soft);color:var(--gold)">P1强烈建议</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 团队策略 -->
+<div id="team" class="sec reveal">
+  <div class="sec-eyebrow">议题二 / 团队策略</div>
+  <h2>自建 vs 外包：两种方案的取舍</h2>
+  <p class="sec-desc">金房实际负责8项子系统，实际工作量中位数约275人月，折合18个月×15人月/月，4–5人核心团队可覆盖。关键决策是"谁来负责"，而不是"人够不够"。</p>
+
+  <div class="option-card">
+    <div class="option-header">
+      <div class="option-title">方案A：飞凡自建核心团队</div>
+      <span class="tag" style="background:var(--teal-soft);color:var(--teal)">推荐方案</span>
+    </div>
+    <div class="option-body">
+      <div class="pro-con pros">
+        <h5 style="color:var(--teal)">优势</h5>
+        <ul>
+          <li>交付质量和进度自控，无二传手损耗</li>
+          <li>团队知识沉淀在飞凡，运维期价值持续</li>
+          <li>3年运维期持续有收入，团队可复用</li>
+          <li>利润率更高（无外包溢价）</li>
+          <li>建信协同关系由飞凡直接管理，更高效</li>
+        </ul>
+      </div>
+      <div class="pro-con cons">
+        <h5 style="color:var(--red)">风险</h5>
+        <ul>
+          <li>招募周期风险（需在7月进场前到位）</li>
+          <li>人员稳定性风险（流失则交付断裂）</li>
+          <li>进场款165万到账前需垫付招募和启动成本</li>
+          <li>杭州驻场需解决异地管理问题</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="option-card">
+    <div class="option-header">
+      <div class="option-title">方案B：核心管理层自留 + 执行层外包</div>
+      <span class="tag" style="background:var(--slate-soft);color:var(--slate)">备选方案</span>
+    </div>
+    <div class="option-body">
+      <div class="pro-con pros">
+        <h5 style="color:var(--teal)">优势</h5>
+        <ul>
+          <li>快速启动，不受招募时间约束</li>
+          <li>飞凡自身人力成本可控</li>
+          <li>可弹性调整外包规模应对需求变化</li>
+        </ul>
+      </div>
+      <div class="pro-con cons">
+        <h5 style="color:var(--red)">风险</h5>
+        <ul>
+          <li>外包团队质量不可控，返工成本可能侵蚀利润</li>
+          <li>外包协议谈判耗时，未必比招募快</li>
+          <li>总成本反而更高（外包溢价摊薄利润空间）</li>
+          <li>知识沉淀在外包团队，运维期替换成本高</li>
+          <li>外包合同本身又引入新的管理复杂度</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <b>关键约束：</b>方案B在本项目中成本并不占优——当前利润空间仅约60万，外包溢价（通常比直接雇佣贵15%–30%）会直接蚕食这部分利润。更重要的是，3年运维期是持续性收入，自建团队的长期价值远高于单次项目的短期灵活性。<b>建议优先自建，关键岗位快速招募，执行层中后期可用合伙人制灵活补充。</b>
+  </div>
+
+  <div class="h-sub">推荐团队配置（方案A细化）</div>
+  <table class="data-table">
+    <thead><tr><th>角色</th><th>人数</th><th>月薪参考</th><th>主要职责</th><th>招募优先级</th></tr></thead>
+    <tbody>
+      <tr><td class="hl">项目负责人</td><td>1</td><td>3万</td><td>双项目统筹、验收推进、甲方沟通</td><td><span class="tag" style="background:var(--red-soft);color:var(--red)">7月前必须到位</span></td></tr>
+      <tr><td class="hl">技术负责人（兼后端）</td><td>1</td><td>3.5万</td><td>架构方案、建信接口协同、数据迁移技术主导</td><td><span class="tag" style="background:var(--red-soft);color:var(--red)">7月前必须到位</span></td></tr>
+      <tr><td class="hl">后端开发（高级）</td><td>2</td><td>2.5万/人</td><td>6个业务子系统开发+兼运维</td><td><span class="tag" style="background:var(--gold-soft);color:var(--gold)">7月底前</span></td></tr>
+      <tr><td class="hl">前端开发（高级）</td><td>1</td><td>2万</td><td>房改审批、单位住房资金、OA界面开发</td><td><span class="tag" style="background:var(--gold-soft);color:var(--gold)">7月底前</span></td></tr>
+      <tr><td class="hl">测试工程师</td><td>1</td><td>1.5万</td><td>功能+接口+数据迁移验证、验收支持</td><td><span class="tag" style="background:var(--gold-soft);color:var(--gold)">8月前</span></td></tr>
+    </tbody>
+  </table>
+  <div class="callout accent" style="margin-top:4px">
+    <b>合伙人制补充：</b>按照飞凡内部项目合伙人制，执行层工程师可以按合伙人制引入（灵活就业，按回款节点分配），不计入固定人力成本，降低进场款到账前的现金压力。但数据迁移和建信协同这两个高风险模块建议用固定雇员，不用合伙人制，保障持续性和可控性。
+  </div>
+</div>
+
+<!-- 成本预算 -->
+<div id="budget" class="sec reveal">
+  <div class="sec-eyebrow">议题三 / 半年成本预算</div>
+  <h2>2026年7月–12月成本与现金流</h2>
+  <p class="sec-desc">假设7月合同签订、团队进场，以半年（6个月）为周期核算成本和现金流压力。数字基于方案A（自建团队）。</p>
+
+  <div class="budget-grid">
+    <div class="budget-card">
+      <div class="budget-title">半年成本明细</div>
+      <div class="budget-item"><span>人力成本（6人×6个月）</span><span style="font-family:var(--mono)">99万</span></div>
+      <div class="budget-item"><span>社保公积金（约20%）</span><span style="font-family:var(--mono)">19.8万</span></div>
+      <div class="budget-item"><span>差旅驻场（杭州2人）</span><span style="font-family:var(--mono)">3.6万</span></div>
+      <div class="budget-item"><span>设备采购（一次性）</span><span style="font-family:var(--mono)">5万</span></div>
+      <div class="budget-total"><span>半年总成本</span><span style="color:var(--red);font-family:var(--mono)">127.4万</span></div>
+    </div>
+    <div class="budget-card">
+      <div class="budget-title">半年收入节点（三种情景）</div>
+      <div class="budget-item"><span>进场款30%（7月签约）</span><span style="font-family:var(--mono)">+165万</span></div>
+      <div class="budget-item" style="color:var(--teal)"><span>乐观：初验款12月到账</span><span style="font-family:var(--mono)">+202万</span></div>
+      <div class="budget-item" style="color:var(--gold)"><span>中性：初验款延至Q1 2027</span><span style="font-family:var(--mono)">0（次年）</span></div>
+      <div class="budget-item" style="color:var(--red)"><span>悲观：合同谈判拖延至8月</span><span style="font-family:var(--mono)">−1个月成本</span></div>
+      <div class="budget-total"><span>半年净现金流</span><span style="font-family:var(--mono)">乐观+237万 / 中性+38万</span></div>
+    </div>
+  </div>
+
+  <div class="cashflow-grid" style="margin-top:14px">
+    <div class="cashflow-card">
+      <div class="cf-label">最乐观（初验12月）</div>
+      <div class="cf-val" style="color:var(--teal)">+237万</div>
+    </div>
+    <div class="cashflow-card">
+      <div class="cf-label">中性（初验延至Q1 2027）</div>
+      <div class="cf-val" style="color:var(--gold)">+38万</div>
+    </div>
+    <div class="cashflow-card">
+      <div class="cf-label">悲观（初验延至2027中）</div>
+      <div class="cf-val" style="color:var(--red)">−90万</div>
+    </div>
+  </div>
+
+  <div class="callout red" style="margin-top:14px">
+    <b>现金流预警：</b>中性情景下（初验延迟到2027年Q1，这在政务项目中非常普遍），半年净现金流仅38万，安全垫极薄。建议在合同中争取将初验节点触发条件改为"<b>杭州市终验通过 OR 浙江省初验通过（两者取先到者）</b>"——这样12月两个验收节点只要有一个顺利通过，即可触发40%付款，显著降低现金流风险。
+  </div>
+
+  <div class="h-sub">整体18个月盈亏测算</div>
+  <table class="data-table">
+    <thead><tr><th>项目</th><th>金额</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>飞凡实际到账</td><td class="hl">506万</td><td>550万扣红熊8%</td></tr>
+      <tr><td>平台管理费留存</td><td class="hl">50.6万</td><td>飞凡平台费10%</td></tr>
+      <tr><td>Peter联络分成</td><td style="color:var(--ink-soft)">−22.8万</td><td>合伙人对接5%（池内扣）</td></tr>
+      <tr><td>团队分配池</td><td class="hl">432万</td><td>用于支付团队成本和利润</td></tr>
+      <tr><td>18个月团队人力成本</td><td style="color:var(--ink-soft)">−297万</td><td>6人×1.65万均薪×18个月</td></tr>
+      <tr><td>社保差旅设备</td><td style="color:var(--ink-soft)">−75万</td><td>估算</td></tr>
+      <tr><td class="hl">预计利润空间</td><td class="hl" style="color:var(--teal)">≈60万</td><td>利润率约10.9%，空间偏紧</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn">
+    <b>利润率警示：</b>60万利润空间对应约10.9%的净利润率，对于政务系统项目而言偏低。一旦出现：数据迁移超出预期工作量（+20人月≈+30万成本）、或人员流失导致重新招募（+10万招募成本）、或验收争议延长运维期（+3个月=+15万成本），利润就会显著收窄甚至亏损。<b>建议在合同谈判中争取将合同总额从550万提升至580–620万</b>，或将数据迁移服务单独定价。
+  </div>
+</div>
+
+<!-- 补充问题 -->
+<div id="extra" class="sec reveal">
+  <div class="sec-eyebrow">补充 / 你们可能忽视的问题</div>
+  <h2>六个尚未列入议程的关键问题<span class="new-tag">NEW</span></h2>
+  <p class="sec-desc">以下是基于对整个项目的完整分析，在你们三个议题之外，明天必须讨论或至少形成初步立场的关键问题。</p>
+
+  <div class="card">
+    <div class="todo-item">
+      <div class="todo-num">Q1</div>
+      <div class="todo-content"><b>这个项目和盛京银行/石基游乐园的时间冲突如何处理？</b><br>飞凡目前同时在推进盛京银行智能客服（投标阶段）和石基游乐园舆情管理（投标阶段），若两者均中标，与金房网项目在团队资源和管理精力上会产生直接冲突。需要明确金房网项目是否是最优先项目，还是三者并行推进。</div>
+      <div class="todo-owner">战略级</div>
+    </div>
+    <div class="todo-item">
+      <div class="todo-num">Q2</div>
+      <div class="todo-content"><b>红熊与飞凡的合同是否存在"背靠背"付款条款？</b><br>分包合同中最常见的陷阱：红熊与金房的合同约定"金房付款后30天内支付飞凡"（背靠背），这意味着金房若拖延，飞凡的付款节点同步后移，但飞凡的人力成本是每月固定发生的。必须在谈判中明确要求：飞凡的付款节点与金房/飞凡的交付里程碑挂钩，而非与金房/红熊的收款挂钩。</div>
+      <div class="todo-owner">合同级</div>
+    </div>
+    <div class="todo-item">
+      <div class="todo-num">Q3</div>
+      <div class="todo-content"><b>2026年12月双验收节点，谁来现场主持？</b><br>杭州市终验和浙江省初验同期发生，若项目负责人只有一个，谁在杭州、谁在浙江省（或远程）？这不是小问题——政务项目验收现场通常需要技术负责人在场解答，两个项目同期验收时，管理层分身能力将直接影响验收结果。</div>
+      <div class="todo-owner">执行级</div>
+    </div>
+    <div class="todo-item">
+      <div class="todo-num">Q4</div>
+      <div class="todo-content"><b>信创/等保要求是否已确认？对报价和工期的影响？</b><br>两份新材料均未提及等保级别和信创环境要求。浙江省公积金系统高概率需要等保三级和信创适配（国产数据库、操作系统）。若未在报价中包含这部分工作，后期追加会严重压缩利润空间，且等保测评需要委托第三方，有6–8周的排期等待。必须在签约前明确。</div>
+      <div class="todo-owner">技术+商务</div>
+    </div>
+    <div class="todo-item">
+      <div class="todo-num">Q5</div>
+      <div class="todo-content"><b>飞凡与红熊的分包合同如何保护飞凡的知识产权？</b><br>根据飞凡内部项目合伙人制，合伙人（工程师）在项目执行过程中产生的知识产权归甲方所有。但在三层合同结构中，若红熊与飞凡的分包合同未明确"飞凡自身的技术框架、工具方法论"的背景知识产权保护，飞凡在本项目中沉淀的技术资产可能面临被甲方或红熊主张权利的风险，尤其是数据迁移工具和风险控制子系统的算法部分。</div>
+      <div class="todo-owner">法务级</div>
+    </div>
+    <div class="todo-item" style="border-bottom:none">
+      <div class="todo-num">Q6</div>
+      <div class="todo-content"><b>550万总额是否有谈判空间？何时提出最有利？</b><br>基于完整分析，当前报价下飞凡利润空间约60万（10.9%），偏低。若希望提价到580–620万，谈判窗口是：<b>现在（合同签订前）</b>，理由是"应用标清单确认后发现数据迁移和电子档案管理实际工作量高于SOW初步描述"。一旦合同签订，提价窗口几乎关闭。建议在明天的内部会议确认是否争取提价，以及提价的底线和策略。</div>
+      <div class="todo-owner">商务级</div>
+    </div>
+  </div>
+</div>
+
+<!-- 会议议程 -->
+<div id="action" class="sec reveal">
+  <div class="sec-eyebrow">明日会议 / 内部沟通议程</div>
+  <h2>明日会议议程与决策事项</h2>
+  <p class="sec-desc">建议议程不超过2小时，聚焦必须有结论的决策项，讨论和信息同步控制在30%时间内。</p>
+
+  <div class="card">
+    <table class="data-table" style="margin-bottom:0">
+      <thead><tr><th>时间</th><th>议题</th><th>需要的结论</th><th>决策人</th></tr></thead>
+      <tbody>
+        <tr><td>10min</td><td>背景同步（本材料）</td><td>确认对项目现状的共同认知基准</td><td>全员</td></tr>
+        <tr><td>25min</td><td><b>议题一：合同条款</b></td><td>①进场款30%的具体触发条件 ②初验节点"两者取先"是否作为谈判目标 ③背靠背条款的处理方式</td><td>商务+法务</td></tr>
+        <tr><td>25min</td><td><b>议题二：团队策略</b></td><td>①自建 or 外包 or 混合 ②如果自建：招募从哪里启动？何时开始？ ③合伙人制的引入范围</td><td>CEO+Peter</td></tr>
+        <tr><td>20min</td><td><b>议题三：半年预算</b></td><td>①启动资金储备确认（进场款前需垫付约20万） ②半年成本上限确认 ③利润空间是否需要谈判提价</td><td>CEO+财务</td></tr>
+        <tr><td>20min</td><td><b>补充问题 Q1–Q6</b></td><td>①与盛京银行/石基项目的优先级排序 ②是否争取提价（必须在签约前决定）</td><td>全员</td></tr>
+        <tr><td>10min</td><td>下周行动清单确认</td><td>每项行动明确责任人和截止时间</td><td>全员</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="h-sub">下周（7月7日–11日）行动清单</div>
+  <div class="card" style="padding:14px 22px">
+    <div class="todo-item">
+      <div class="todo-num">A1</div>
+      <div class="todo-content"><b>向红熊提交合同关键条款诉求清单</b>（含应用标清单附件、建信依赖条款、背靠背问题、付款节点）</div>
+      <div class="todo-owner">商务 · 周二前</div>
+    </div>
+    <div class="todo-item">
+      <div class="todo-num">A2</div>
+      <div class="todo-content"><b>向甲方/红熊确认等保级别和信创环境要求</b>，作为补充报价依据</div>
+      <div class="todo-owner">技术+商务 · 周三前</div>
+    </div>
+    <div class="todo-item">
+      <div class="todo-num">A3</div>
+      <div class="todo-content"><b>启动核心岗位招募</b>（项目负责人+技术负责人），目标7月15日前确认人选</div>
+      <div class="todo-owner">CEO+Peter · 周二前</div>
+    </div>
+    <div class="todo-item">
+      <div class="todo-num">A4</div>
+      <div class="todo-content"><b>向红熊索取源数据库Schema和数据质量说明</b>，作为数据迁移工作量精算依据</div>
+      <div class="todo-owner">技术 · 周三前</div>
+    </div>
+    <div class="todo-item">
+      <div class="todo-num">A5</div>
+      <div class="todo-content"><b>明确提价策略</b>（是否争取550万→580–620万），若需要，本周内提出，不能等到合同草案出来后再谈</div>
+      <div class="todo-owner">CEO · 本周内决策</div>
+    </div>
+    <div class="todo-item" style="border-bottom:none">
+      <div class="todo-num">A6</div>
+      <div class="todo-content"><b>确认三层合同的签署顺序和时间节点</b>（金房→红熊先签还是飞凡→红熊先签），以及飞凡合同中的知识产权保护条款</div>
+      <div class="todo-owner">法务 · 周四前</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>飞凡科技 · 金房网项目内部决策材料 · 2026-07-05</span>
+  <span>基于：SOW原文 + 会议纪要 + 应用标清单 + 飞凡内部合伙人制方案</span>
+</footer>
+
+</div></div>
+</div>
+
+<script>
+  var ro = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add("visible");
+      }
+    });
+  }, { threshold: 0.06 });
+  document.querySelectorAll(".reveal").forEach(function(el) { ro.observe(el); });
+
+  var items = document.querySelectorAll(".toc-item");
+  var so = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        items.forEach(function(i) { i.classList.remove("active"); });
+        var m = document.querySelector(".toc-item[data-target=" + e.target.id + "]");
+        if (m) m.classList.add("active");
+      }
+    });
+  }, { threshold: 0.2, rootMargin: "-10% 0px -60% 0px" });
+  document.querySelectorAll(".sec, #hero").forEach(function(s) { so.observe(s); });
+
+  items.forEach(function(item) {
+    item.addEventListener("click", function(e) {
+      e.preventDefault();
+      var t = document.getElementById(item.getAttribute("data-target"));
+      if (t) t.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+</script>
+</body>
+</html>

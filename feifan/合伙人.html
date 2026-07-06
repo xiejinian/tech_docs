@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>飞凡科技 · 技术合伙人联邦组织方案</title>
+<style>
+  :root {
+    --bg: #FAF9F6;
+    --bg-card: #FFFFFF;
+    --ink: #1F1B16;
+    --ink-soft: #6B6358;
+    --line: #E8E3D9;
+    --accent: #D97757;
+    --accent-soft: #FBEEE7;
+    --teal: #2A9D8F;
+    --teal-soft: #E8F4F2;
+    --gold: #BA8B3E;
+    --gold-soft: #F7EFDF;
+    --slate: #5B6470;
+    --slate-soft: #EAEDF0;
+    --red: #C44545;
+    --red-soft: #FBEAEA;
+    --purple: #7C3AED;
+    --purple-soft: #EDE9FE;
+    --blue: #2563EB;
+    --blue-soft: #EFF6FF;
+    --mono: "JetBrains Mono", "SF Mono", Consolas, monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  .page { display: grid; grid-template-columns: 218px 1fr; }
+  .sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 36px 14px; border-right: 1px solid var(--line); }
+  .sidebar-brand { font-size: 10.5px; letter-spacing: 0.1em; color: var(--accent); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; line-height: 1.5; }
+  .sidebar-sub { font-size: 10px; color: var(--ink-soft); margin-bottom: 20px; }
+  .toc-sep { font-size: 9.5px; color: var(--ink-soft); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; padding: 12px 10px 4px; }
+  .toc-item { display: block; padding: 7px 10px; border-radius: 7px; font-size: 12px; color: var(--ink-soft); text-decoration: none; margin-bottom: 2px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+  .toc-item:hover { background: var(--accent-soft); color: var(--accent); }
+  .toc-item.active { background: var(--ink); color: var(--bg); }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 56px 42px 120px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 7px; font-size: 11.5px; letter-spacing: 0.12em; color: var(--accent); font-weight: 600; margin-bottom: 16px; text-transform: uppercase; }
+  .eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
+  h1 { font-family: Georgia, "Songti SC", serif; font-size: 38px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.14; margin-bottom: 14px; }
+  .hero-sub { font-size: 15px; color: var(--ink-soft); max-width: 620px; margin-bottom: 32px; line-height: 1.7; }
+  .sec { margin-bottom: 64px; scroll-margin-top: 28px; }
+  .sec-eyebrow { font-family: var(--mono); font-size: 11.5px; color: var(--accent); letter-spacing: 0.05em; margin-bottom: 8px; }
+  .sec h2 { font-family: Georgia, "Songti SC", serif; font-size: 25px; font-weight: 600; margin-bottom: 10px; }
+  .sec-desc { font-size: 13.5px; color: var(--ink-soft); max-width: 660px; margin-bottom: 24px; line-height: 1.7; }
+  .h-sub { font-size: 14px; font-weight: 700; margin: 26px 0 12px; color: var(--ink); }
+  .card { background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px; padding: 24px 28px; margin-bottom: 14px; }
+  .callout { border-radius: 12px; padding: 15px 20px; margin: 14px 0; font-size: 13px; line-height: 1.65; }
+  .callout.warn { background: var(--gold-soft); border-left: 4px solid var(--gold); color: #5A3D0E; }
+  .callout.green { background: var(--teal-soft); border-left: 4px solid var(--teal); color: #174D47; }
+  .callout.red { background: var(--red-soft); border-left: 4px solid var(--red); color: #7A2A2A; }
+  .callout.accent { background: var(--accent-soft); border-left: 4px solid var(--accent); color: #7A4530; }
+  .callout.purple { background: var(--purple-soft); border-left: 4px solid var(--purple); color: #4F239A; }
+
+  /* ---- ORG DIAGRAM ---- */
+  .org-wrap { background: var(--bg-card); border: 1px solid var(--line); border-radius: 18px; padding: 36px 32px; margin-bottom: 18px; overflow-x: auto; }
+  .org-top { display: flex; justify-content: center; margin-bottom: 0; }
+  .org-node { border-radius: 12px; padding: 14px 20px; text-align: center; font-size: 13px; font-weight: 700; min-width: 140px; position: relative; }
+  .org-node .role { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; opacity: 0.7; margin-bottom: 4px; }
+  .org-node .name { font-size: 14px; font-weight: 700; }
+  .org-node .tag { font-size: 9.5px; font-weight: 600; padding: 2px 7px; border-radius: 99px; margin-top: 5px; display: inline-block; }
+  .node-you { background: var(--ink); color: var(--bg); }
+  .node-you .tag { background: rgba(255,255,255,0.2); color: var(--bg); }
+  .node-ceo { background: var(--slate-soft); color: var(--slate); }
+  .node-agent { background: var(--purple-soft); color: var(--purple); border: 1.5px solid var(--purple); }
+  .node-rpa { background: var(--teal-soft); color: var(--teal); border: 1.5px solid var(--teal); }
+  .node-biz { background: var(--accent-soft); color: var(--accent); border: 1.5px solid var(--accent); }
+  .org-connector-v { width: 2px; height: 28px; background: var(--line); margin: 0 auto; }
+  .org-connector-h { display: flex; justify-content: center; position: relative; }
+  .org-connector-h::before { content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 72%; height: 2px; background: var(--line); }
+  .org-branches { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 0; }
+  .org-branch { display: flex; flex-direction: column; align-items: center; }
+  .org-branch-connector { width: 2px; height: 24px; background: var(--line); }
+  .org-mid-row { display: flex; justify-content: center; gap: 0; }
+  .org-mid-line { height: 28px; display: flex; justify-content: center; }
+  .org-triple { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 26px; }
+  .org-sub-nodes { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; padding: 0 4px; }
+  .org-sub { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; font-size: 11px; color: var(--ink-soft); text-align: center; }
+  .tech-comm { background: var(--gold-soft); border: 1.5px dashed var(--gold); border-radius: 12px; padding: 12px 20px; text-align: center; margin-bottom: 8px; }
+  .tech-comm .role { font-size: 10px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+  .tech-comm .name { font-size: 14px; font-weight: 700; color: #6B4E1E; }
+  .tech-comm .note { font-size: 10.5px; color: var(--gold); margin-top: 3px; }
+
+  /* ---- BIZ LINE CARDS ---- */
+  .biz-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 18px; }
+  .biz-card { border-radius: 16px; padding: 22px 20px; border: 1.5px solid transparent; }
+  .biz-card.agent { background: var(--purple-soft); border-color: rgba(124,58,237,0.25); }
+  .biz-card.rpa { background: var(--teal-soft); border-color: rgba(42,157,143,0.25); }
+  .biz-card.biz { background: var(--accent-soft); border-color: rgba(217,119,87,0.25); }
+  .biz-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 5px; }
+  .biz-card .biz-tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; display: inline-block; margin-bottom: 12px; }
+  .biz-card.agent h3 { color: var(--purple); }
+  .biz-card.agent .biz-tag { background: rgba(124,58,237,0.15); color: var(--purple); }
+  .biz-card.rpa h3 { color: var(--teal); }
+  .biz-card.rpa .biz-tag { background: rgba(42,157,143,0.15); color: var(--teal); }
+  .biz-card.biz h3 { color: var(--accent); }
+  .biz-card.biz .biz-tag { background: rgba(217,119,87,0.15); color: var(--accent); }
+  .biz-item { font-size: 12.5px; color: var(--ink-soft); padding-left: 14px; position: relative; margin-bottom: 6px; line-height: 1.55; }
+  .biz-item::before { content: "→"; position: absolute; left: 0; font-size: 10px; }
+  .biz-card.agent .biz-item::before { color: var(--purple); }
+  .biz-card.rpa .biz-item::before { color: var(--teal); }
+  .biz-card.biz .biz-item::before { color: var(--accent); }
+  .biz-divider { border-top: 1px solid rgba(0,0,0,0.08); margin: 12px 0 10px; }
+  .biz-section-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 7px; opacity: 0.65; }
+
+  /* ---- LEADER PROFILE ---- */
+  .leader-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; margin-bottom: 14px; }
+  .leader-header { padding: 18px 22px; display: flex; gap: 16px; align-items: flex-start; }
+  .leader-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; font-weight: 700; }
+  .leader-icon.agent { background: var(--purple-soft); color: var(--purple); }
+  .leader-icon.rpa { background: var(--teal-soft); color: var(--teal); }
+  .leader-icon.biz { background: var(--accent-soft); color: var(--accent); }
+  .leader-meta h3 { font-size: 16px; font-weight: 700; margin-bottom: 3px; }
+  .leader-meta .sub { font-size: 12.5px; color: var(--ink-soft); }
+  .leader-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--line); }
+  .leader-col { padding: 16px 22px; }
+  .leader-col:first-child { border-right: 1px solid var(--line); }
+  .leader-col h4 { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-soft); margin-bottom: 10px; }
+  .req-item { font-size: 12.5px; color: var(--ink-soft); padding-left: 14px; position: relative; margin-bottom: 7px; line-height: 1.55; }
+  .req-item::before { content: "✓"; position: absolute; left: 0; font-size: 10px; color: var(--teal); font-weight: 700; }
+  .req-item.must::before { content: "!"; color: var(--red); font-weight: 700; }
+
+  /* ---- INCENTIVE ---- */
+  .incentive-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
+  .incentive-col { background: var(--bg-card); padding: 18px 16px; }
+  .incentive-col h4 { font-size: 11.5px; font-weight: 700; margin-bottom: 12px; }
+  .incentive-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; padding: 6px 0; border-bottom: 1px dashed var(--line); }
+  .incentive-row:last-child { border-bottom: none; }
+  .incentive-row .val { font-family: var(--mono); font-weight: 700; }
+
+  /* ---- DATA TABLE ---- */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 12px; }
+  .data-table th { text-align: left; padding: 8px 11px; background: var(--slate-soft); font-weight: 700; color: var(--slate); font-size: 10px; text-transform: uppercase; letter-spacing: .04em; }
+  .data-table th:first-child { border-radius: 7px 0 0 7px; }
+  .data-table th:last-child { border-radius: 0 7px 7px 0; }
+  .data-table td { padding: 10px 11px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; white-space: nowrap; }
+
+  /* ---- RISK ---- */
+  .risk-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: 13px; padding: 16px 20px; margin-bottom: 10px; display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: start; }
+  .risk-num { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--accent); background: var(--accent-soft); padding: 3px 8px; border-radius: 5px; flex-shrink: 0; margin-top: 2px; }
+  .risk-title { font-size: 13.5px; font-weight: 700; margin-bottom: 5px; }
+  .risk-body { font-size: 12.5px; color: var(--ink-soft); line-height: 1.6; }
+  .risk-level { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; white-space: nowrap; }
+  .rl-high { background: var(--red-soft); color: var(--red); }
+  .rl-med { background: var(--gold-soft); color: var(--gold); }
+
+  /* ---- ROADMAP ---- */
+  .phase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .phase-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .phase-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); margin-bottom: 6px; }
+  .phase-title { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+  .phase-item { font-size: 12px; color: var(--ink-soft); padding-left: 14px; position: relative; margin-bottom: 6px; }
+  .phase-item::before { content: "·"; position: absolute; left: 3px; font-size: 16px; color: var(--accent); line-height: 1; top: -1px; }
+
+  .reveal { opacity: 0; transform: translateY(12px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 11px; color: var(--ink-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<nav class="sidebar">
+  <div class="sidebar-brand">飞凡科技</div>
+  <div class="sidebar-sub">技术合伙人联邦组织方案</div>
+  <div class="toc-sep">方案结构</div>
+  <a class="toc-item" data-target="hero">核心判断</a>
+  <a class="toc-item" data-target="structure">组织架构</a>
+  <a class="toc-item" data-target="bizlines">三条业务线</a>
+  <a class="toc-item" data-target="leaders">Leader画像</a>
+  <a class="toc-item" data-target="incentive">分成激励设计</a>
+  <div class="toc-sep">执行</div>
+  <a class="toc-item" data-target="techcomm">技术委员会机制</a>
+  <a class="toc-item" data-target="risks">核心风险</a>
+  <a class="toc-item" data-target="roadmap">搭建路线图</a>
+</nav>
+
+<div><div class="wrap">
+
+<!-- HERO -->
+<div id="hero" class="reveal">
+  <div class="eyebrow">飞凡科技 · 组织进化方案</div>
+  <h1>技术合伙人联邦<br>组织设计方案</h1>
+  <p class="hero-sub">飞凡不是在搭建一家传统软件公司，而是在构建一个<strong>以你的技术委员会为核心、三个独立事业部Leader各自对外接活、合伙人制作为利益绑定机制</strong>的轻资产技术联邦。这套模式的上限很高，但对"各线协同"和"品牌统一"的管理要求也是最高的。</p>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-radius:14px;overflow:hidden;border:1px solid var(--line)">
+    <div style="background:var(--bg-card);padding:16px 14px"><div style="font-family:var(--mono);font-size:19px;font-weight:700;color:var(--purple)">Agent</div><div style="font-size:11px;color:var(--ink-soft);margin-top:3px">AI产品化交付<br>盛京·大头方向</div></div>
+    <div style="background:var(--bg-card);padding:16px 14px"><div style="font-family:var(--mono);font-size:19px;font-weight:700;color:var(--teal)">RPA</div><div style="font-size:11px;color:var(--ink-soft);margin-top:3px">流程自动化能力<br>影刀·Dify中台</div></div>
+    <div style="background:var(--bg-card);padding:16px 14px"><div style="font-family:var(--mono);font-size:19px;font-weight:700;color:var(--accent)">业务开发</div><div style="font-size:11px;color:var(--ink-soft);margin-top:3px">工程交付主力<br>公积金·银行</div></div>
+    <div style="background:var(--bg-card);padding:16px 14px"><div style="font-family:var(--mono);font-size:19px;font-weight:700;color:var(--gold)">Tech委</div><div style="font-size:11px;color:var(--ink-soft);margin-top:3px">你·技术压舱石<br>品质·架构·仲裁</div></div>
+  </div>
+</div>
+
+<!-- 组织架构 -->
+<div id="structure" class="sec reveal" style="margin-top:56px">
+  <div class="sec-eyebrow">01 / 组织架构</div>
+  <h2>联邦式技术组织结构</h2>
+  <p class="sec-desc">三条业务线并行，各自独立对外。你以技术委员会身份横向拉通，CEO负责商务和资源，不插入各线的日常技术决策。关键设计是：<strong>各线Leader是"事业主"而非"员工"</strong>，这一点决定了招募标准和激励方式完全不同。</p>
+
+  <div class="org-wrap">
+    <!-- 顶层：CEO + 你 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:0;max-width:500px;margin:0 auto 0">
+      <div class="org-node node-ceo">
+        <div class="role">CEO / 商务</div>
+        <div class="name">红熊 · 商务资源</div>
+        <div class="tag" style="background:var(--slate-soft);color:var(--slate)">资源 · 客户 · 合同</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div class="tech-comm" style="width:100%">
+          <div class="role">技术委员会 · 你</div>
+          <div class="name">Peter · 云翼</div>
+          <div class="note">架构把关 · 质量红线 · 争议仲裁</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 连接线 -->
+    <div style="width:2px;height:28px;background:var(--line);margin:0 auto"></div>
+
+    <!-- 三条线横向连接 -->
+    <div style="position:relative;height:2px;background:var(--line);max-width:620px;margin:0 auto"></div>
+
+    <!-- 三个Leader -->
+    <div class="org-triple">
+      <div class="org-branch">
+        <div style="width:2px;height:20px;background:var(--line);margin:0 auto"></div>
+        <div class="org-node node-agent" style="width:100%">
+          <div class="role">Agent事业线Leader</div>
+          <div class="name">待招募</div>
+          <div class="tag" style="background:rgba(124,58,237,0.15);color:var(--purple)">合伙人制</div>
+        </div>
+        <div class="org-sub-nodes">
+          <div class="org-sub">盛京银行智能客服</div>
+          <div class="org-sub">大头AI硬件</div>
+          <div class="org-sub">乔希方向AI产品</div>
+        </div>
+      </div>
+      <div class="org-branch">
+        <div style="width:2px;height:20px;background:var(--line);margin:0 auto"></div>
+        <div class="org-node node-rpa" style="width:100%">
+          <div class="role">RPA事业线Leader</div>
+          <div class="name">待招募</div>
+          <div class="tag" style="background:rgba(42,157,143,0.15);color:var(--teal)">合伙人制</div>
+        </div>
+        <div class="org-sub-nodes">
+          <div class="org-sub">石基游乐园舆情</div>
+          <div class="org-sub">内部流程中台</div>
+          <div class="org-sub">Dify工作流交付</div>
+        </div>
+      </div>
+      <div class="org-branch">
+        <div style="width:2px;height:20px;background:var(--line);margin:0 auto"></div>
+        <div class="org-node node-biz" style="width:100%">
+          <div class="role">业务开发事业线Leader</div>
+          <div class="name">待招募</div>
+          <div class="tag" style="background:rgba(217,119,87,0.15);color:var(--accent)">合伙人制</div>
+        </div>
+        <div class="org-sub-nodes">
+          <div class="org-sub">杭州公积金项目</div>
+          <div class="org-sub">红熊转包工程类</div>
+          <div class="org-sub">GEO · 光荣智能</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout accent">
+    <b>设计哲学：</b>传统公司是"老板分配任务给员工"，你这个结构是"合伙人各自经营自己的一亩三分地，共用飞凡的品牌和你的技术背书"。两者对Leader的要求完全不同——你需要找的不是"能干活的技术人"，而是<b>有客户意识、敢于负责P&L的技术创业者</b>。这类人不多，但一旦找到，比雇员的驱动力强十倍。
+  </div>
+</div>
+
+<!-- 三条业务线 -->
+<div id="bizlines" class="sec reveal">
+  <div class="sec-eyebrow">02 / 三条业务线</div>
+  <h2>各线定位、现有项目与拓展方向</h2>
+  <p class="sec-desc">三条线的商业逻辑不同，对应的客户画像、交付模式、竞争壁垒也不同，Leader的背景要求因此差异很大。</p>
+
+  <div class="biz-grid">
+    <div class="biz-card agent">
+      <h3>Agent 事业线</h3>
+      <span class="biz-tag">AI产品化交付</span>
+      <div class="biz-section-title" style="color:var(--purple)">现有项目</div>
+      <div class="biz-item">盛京银行智能客服（意向投标）</div>
+      <div class="biz-item">大头AI智能硬件（合伙合作）</div>
+      <div class="biz-item">乔希方向AI产品（意向）</div>
+      <div class="biz-divider"></div>
+      <div class="biz-section-title" style="color:var(--purple)">核心能力</div>
+      <div class="biz-item">大模型产品化（多模态、RAG、工具调用）</div>
+      <div class="biz-item">Agent工作流设计与部署</div>
+      <div class="biz-item">大模型网关 / 私有化部署</div>
+      <div class="biz-divider"></div>
+      <div class="biz-section-title" style="color:var(--purple)">商业模式</div>
+      <div class="biz-item">项目制交付 + SaaS化沉淀</div>
+    </div>
+    <div class="biz-card rpa">
+      <h3>RPA 事业线</h3>
+      <span class="biz-tag">流程自动化交付</span>
+      <div class="biz-section-title" style="color:var(--teal)">现有项目</div>
+      <div class="biz-item">石基游乐园舆情管理（投标）</div>
+      <div class="biz-item">Dify工作流组件库（内部中台）</div>
+      <div class="biz-item">影刀RPA实施交付</div>
+      <div class="biz-divider"></div>
+      <div class="biz-section-title" style="color:var(--teal)">核心能力</div>
+      <div class="biz-item">影刀/UiPath实施与定制</div>
+      <div class="biz-item">Dify工作流模板化与复用</div>
+      <div class="biz-item">业务流程咨询与设计</div>
+      <div class="biz-divider"></div>
+      <div class="biz-section-title" style="color:var(--teal)">商业模式</div>
+      <div class="biz-item">实施服务费 + 年度运维订阅</div>
+    </div>
+    <div class="biz-card biz">
+      <h3>业务开发事业线</h3>
+      <span class="biz-tag">工程交付主力</span>
+      <div class="biz-section-title" style="color:var(--accent)">现有项目</div>
+      <div class="biz-item">杭州公积金项目（成本评估）</div>
+      <div class="biz-item">红熊AI转包工程类项目</div>
+      <div class="biz-item">GEO · 光荣智能产品</div>
+      <div class="biz-divider"></div>
+      <div class="biz-section-title" style="color:var(--accent)">核心能力</div>
+      <div class="biz-item">Java微服务 / 政务系统研发</div>
+      <div class="biz-item">信创环境适配与交付</div>
+      <div class="biz-item">项目管理 · 验收 · 运维</div>
+      <div class="biz-divider"></div>
+      <div class="biz-section-title" style="color:var(--accent)">商业模式</div>
+      <div class="biz-item">项目合同制 + 质保期运维</div>
+    </div>
+  </div>
+</div>
+
+<!-- Leader画像 -->
+<div id="leaders" class="sec reveal">
+  <div class="sec-eyebrow">03 / Leader画像</div>
+  <h2>三位技术Leader的画像与招募要求</h2>
+  <p class="sec-desc">合伙人制下，Leader画像的核心不是"技术有多强"，而是"能不能独立拿单、独立交付、独立带人"——技术是基线，商务感和抗压力是筛选项。</p>
+
+  <div class="leader-card">
+    <div class="leader-header">
+      <div class="leader-icon agent">A</div>
+      <div class="leader-meta">
+        <h3 style="color:var(--purple)">Agent事业线Leader</h3>
+        <div class="sub">AI产品化方向 · 最难找 · 优先级最高</div>
+      </div>
+    </div>
+    <div class="leader-body">
+      <div class="leader-col">
+        <h4>硬性要求</h4>
+        <div class="req-item must">有独立交付过至少1个企业级AI产品（不是Demo）</div>
+        <div class="req-item must">理解大模型工程化全链路（RAG / 工具调用 / 评估）</div>
+        <div class="req-item must">能直接参与客户方案沟通，不需要你陪</div>
+        <div class="req-item">熟悉主流开发框架（LangChain / Dify / AutoGen等）</div>
+        <div class="req-item">有金融或政务行业AI落地经验优先</div>
+      </div>
+      <div class="leader-col">
+        <h4>这类人的特征与找法</h4>
+        <div class="req-item">通常在大厂AI部门做过产品经理+工程双角色</div>
+        <div class="req-item">或是做过AI创业、项目失败但经验沉淀扎实</div>
+        <div class="req-item">不爱写简历，喜欢聊项目——用作品找人比招聘网站有效</div>
+        <div class="req-item">社区活跃度高：GitHub / 掘金 / 微信AI群</div>
+        <div class="req-item">警惕：只会讲概念、不能说清楚"这个项目我负责了什么"的人</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="leader-card">
+    <div class="leader-header">
+      <div class="leader-icon rpa">R</div>
+      <div class="leader-meta">
+        <h3 style="color:var(--teal)">RPA事业线Leader</h3>
+        <div class="sub">流程自动化方向 · 相对好找 · 市场竞争激烈</div>
+      </div>
+    </div>
+    <div class="leader-body">
+      <div class="leader-col">
+        <h4>硬性要求</h4>
+        <div class="req-item must">有影刀/UiPath/Dify实际交付项目经验（不是培训认证）</div>
+        <div class="req-item must">能独立做业务流程分析和自动化方案设计</div>
+        <div class="req-item must">有甲方项目管理或实施顾问经验</div>
+        <div class="req-item">理解Dify工作流+大模型结合的混合场景</div>
+        <div class="req-item">能搭建可复用的组件库和实施方法论</div>
+      </div>
+      <div class="leader-col">
+        <h4>这类人的特征与找法</h4>
+        <div class="req-item">通常来自RPA厂商（影刀/来也/弘玑）的实施或售前团队</div>
+        <div class="req-item">或是有IT咨询背景（埃森哲/德勤）转型做RPA的</div>
+        <div class="req-item">注意区分"会用工具"和"能设计方法论"——后者才能带线</div>
+        <div class="req-item">招募渠道：影刀官方社区、RPA相关微信群、领英</div>
+        <div class="req-item">警惕：只有认证没有交付案例的候选人</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="leader-card">
+    <div class="leader-header">
+      <div class="leader-icon biz">B</div>
+      <div class="leader-meta">
+        <h3 style="color:var(--accent)">业务开发事业线Leader</h3>
+        <div class="sub">工程交付方向 · 最紧急 · 公积金项目7月要进场</div>
+      </div>
+    </div>
+    <div class="leader-body">
+      <div class="leader-col">
+        <h4>硬性要求</h4>
+        <div class="req-item must">7年以上Java微服务经验，主导过百万级以上政务/金融项目</div>
+        <div class="req-item must">有信创环境适配经验（国产数据库、国产操作系统）</div>
+        <div class="req-item must">能独立带3–6人团队完成全周期交付</div>
+        <div class="req-item">有项目管理经验（甲方沟通、验收、运维）</div>
+        <div class="req-item">可接受杭州驻场</div>
+      </div>
+      <div class="leader-col">
+        <h4>这类人的特征与找法</h4>
+        <div class="req-item">通常在二线城市的系统集成公司做过技术总监</div>
+        <div class="req-item">或是从大厂出来、想做合伙人的35–42岁架构师</div>
+        <div class="req-item">看重稳定现金流，合伙人制需要配合一定保底——否则吸引力不足</div>
+        <div class="req-item">招募渠道：BOSS直聘高薪档 / 前同事推荐 / 政务IT圈子</div>
+        <div class="req-item">警惕：只做过纯互联网项目、没有政务系统经验的候选人</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 分成激励 -->
+<div id="incentive" class="sec reveal">
+  <div class="sec-eyebrow">04 / 分成激励设计</div>
+  <h2>合伙人制分成框架（三线统一版）</h2>
+  <p class="sec-desc">基于飞凡内部项目合伙人制，在各事业线Leader层面设计独立的分成机制。核心原则：<strong>Leader自带项目权益更高，公司派发项目权益标准档，以结果为导向，不保底不封顶。</strong></p>
+
+  <div class="incentive-grid">
+    <div class="incentive-col">
+      <h4 style="color:var(--purple)">Agent事业线</h4>
+      <div class="incentive-row"><span>Leader自带项目</span><span class="val" style="color:var(--purple)">35–45%</span></div>
+      <div class="incentive-row"><span>公司派发项目</span><span class="val" style="color:var(--purple)">20–25%</span></div>
+      <div class="incentive-row"><span>公司平台管理费</span><span class="val" style="color:var(--ink-soft)">10%</span></div>
+      <div class="incentive-row"><span>技术委员会分成</span><span class="val" style="color:var(--gold)">5%</span></div>
+      <div class="incentive-row"><span>团队执行层</span><span class="val" style="color:var(--ink-soft)">剩余分配</span></div>
+    </div>
+    <div class="incentive-col">
+      <h4 style="color:var(--teal)">RPA事业线</h4>
+      <div class="incentive-row"><span>Leader自带项目</span><span class="val" style="color:var(--teal)">35–45%</span></div>
+      <div class="incentive-row"><span>公司派发项目</span><span class="val" style="color:var(--teal)">20–25%</span></div>
+      <div class="incentive-row"><span>公司平台管理费</span><span class="val" style="color:var(--ink-soft)">10%</span></div>
+      <div class="incentive-row"><span>技术委员会分成</span><span class="val" style="color:var(--gold)">5%</span></div>
+      <div class="incentive-row"><span>团队执行层</span><span class="val" style="color:var(--ink-soft)">剩余分配</span></div>
+    </div>
+    <div class="incentive-col">
+      <h4 style="color:var(--accent)">业务开发事业线</h4>
+      <div class="incentive-row"><span>Leader自带项目</span><span class="val" style="color:var(--accent)">35–45%</span></div>
+      <div class="incentive-row"><span>公司派发项目</span><span class="val" style="color:var(--accent)">20–25%</span></div>
+      <div class="incentive-row"><span>公司平台管理费</span><span class="val" style="color:var(--ink-soft)">10%</span></div>
+      <div class="incentive-row"><span>技术委员会分成</span><span class="val" style="color:var(--gold)">5%</span></div>
+      <div class="incentive-row"><span>团队执行层</span><span class="val" style="color:var(--ink-soft)">剩余分配</span></div>
+    </div>
+  </div>
+
+  <div class="callout warn" style="margin-top:14px">
+    <b>业务开发线的特殊处理：</b>政务类项目Leader通常需要一定的现金流安全感——纯合伙人制（无底薪）对这类人吸引力有限。建议业务开发线Leader设计<b>轻保底+高分成</b>的变体：每月1–1.5万保底（公积金项目进场款覆盖），项目分成按合伙人制走，保底视为预支、从分成中扣回。既保留合伙人制激励性，又解决启动期现金流顾虑。
+  </div>
+</div>
+
+<!-- 技术委员会 -->
+<div id="techcomm" class="sec reveal">
+  <div class="sec-eyebrow">05 / 技术委员会机制</div>
+  <h2>你的角色：技术压舱石，而非救火队长</h2>
+  <p class="sec-desc">联邦式组织的最大风险是"各自为政、品质失控"。技术委员会的核心价值是建立统一的技术红线和架构标准，让三条线在独立运营的同时不会出现系统性失误。</p>
+
+  <div class="card">
+    <div class="h-sub" style="margin-top:0">技术委员会的四项职能</div>
+    <table class="data-table">
+      <thead><tr><th>职能</th><th>具体内容</th><th>介入频率</th></tr></thead>
+      <tbody>
+        <tr><td><b>架构把关</b></td><td>重大项目的技术方案评审（合同额100万以上，或技术风险高的项目）</td><td>项目立项时一次性介入</td></tr>
+        <tr><td><b>质量红线</b></td><td>制定各线统一的代码规范、测试标准、安全基线；重大交付前抽检</td><td>季度制定，关键节点抽检</td></tr>
+        <tr><td><b>争议仲裁</b></td><td>当Leader与客户发生技术争议，或跨线资源冲突时，技术委员会给出裁定</td><td>按需，不超过月均2次</td></tr>
+        <tr><td><b>知识中台</b></td><td>沉淀三条线的方法论、工具库、模板；组织季度技术分享，防止知识孤岛</td><td>季度一次</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="h-sub" style="margin-top:0">你不应该做的事</div>
+    <table class="data-table">
+      <thead><tr><th>事项</th><th>为什么不该做</th><th>谁来做</th></tr></thead>
+      <tbody>
+        <tr><td>日常代码审查</td><td>会让Leader失去自主权，变回"汇报者"</td><td>各线Leader自建标准</td></tr>
+        <tr><td>直接对接执行层工程师</td><td>破坏Leader的团队权威</td><td>Leader自行管理</td></tr>
+        <tr><td>参与项目每日例会</td><td>会形成依赖，救火队长模式</td><td>Leader主持</td></tr>
+        <tr><td>帮Leader谈客户</td><td>Leader必须独立建立客户信任，这是合伙人资格的前提</td><td>Leader自主，你可背书</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <b>你的最大价值不在于亲自做事，而在于：</b>①提供技术公信力背书（你的履历是飞凡最大的品牌资产）；②帮Leader避开系统性错误（架构选错、技术债提前爆发这类问题）；③识别哪个Leader在成长、哪个在原地踏步，并做相应调整。这三件事，每件都比你自己写代码或管项目价值高十倍。
+  </div>
+</div>
+
+<!-- 核心风险 -->
+<div id="risks" class="sec reveal">
+  <div class="sec-eyebrow">06 / 核心风险</div>
+  <h2>联邦式组织的四个系统性风险</h2>
+  <p class="sec-desc">这套组织模式不是没有代价的，以下四个风险是联邦制的固有矛盾，需要在设计阶段就想好应对机制。</p>
+
+  <div class="risk-card">
+    <div class="risk-num">R1</div>
+    <div>
+      <div class="risk-title">Leader找到感觉后绕过飞凡直接接单</div>
+      <div class="risk-body">这是合伙人制最常见的裂变问题。当Leader建立了自己的客户关系，可能会在合同期外直接承接，飞凡变成一个过渡平台而非持续合作方。</div>
+      <div style="font-size:12.5px;margin-top:8px;padding:8px 12px;background:var(--bg);border-radius:8px;color:var(--ink-soft)"><b>应对：</b>合伙人协议中设"专属合作期"（项目执行期间不得绕过飞凡接同类客户）；同时让飞凡对Leader持续有价值——品牌背书、税务合规、技术委员会支持，这些是个人无法替代的。</div>
+    </div>
+    <div class="risk-level rl-high">高风险</div>
+  </div>
+
+  <div class="risk-card">
+    <div class="risk-num">R2</div>
+    <div>
+      <div class="risk-title">三线同期交付，你被拉回救火队长</div>
+      <div class="risk-body">公积金12月双验收、盛京银行投标、石基游乐园投标同期并发时，三个Leader可能同时找你拍板，你会陷入"技术委员会"和"救火队长"角色的混乱。</div>
+      <div style="font-size:12.5px;margin-top:8px;padding:8px 12px;background:var(--bg);border-radius:8px;color:var(--ink-soft)"><b>应对：</b>提前设定技术委员会的介入门槛（只处理P0级问题），日常问题Leader必须自行决策；你的时间是飞凡最稀缺的资源，不能随意调用。</div>
+    </div>
+    <div class="risk-level rl-high">高风险</div>
+  </div>
+
+  <div class="risk-card">
+    <div class="risk-num">R3</div>
+    <div>
+      <div class="risk-title">Leader招募周期远超预期，业务错过窗口</div>
+      <div class="risk-body">Agent方向的Leader尤其难找——既懂AI工程又有商务感的人，通常有好的选项可以选，不缺机会。招募周期3–6个月不罕见，但公积金项目7月要进场，等不了。</div>
+      <div style="font-size:12.5px;margin-top:8px;padding:8px 12px;background:var(--bg);border-radius:8px;color:var(--ink-soft)"><b>应对：</b>分优先级——业务开发线Leader最紧急（配合公积金项目），可先以合伙人制引入执行层工程师启动，Leader岗位并行招募；Agent和RPA线有1–2个季度缓冲期，不必同步推。</div>
+    </div>
+    <div class="risk-level rl-med">中风险</div>
+  </div>
+
+  <div class="risk-card">
+    <div class="risk-num">R4</div>
+    <div>
+      <div class="risk-title">三条线知识孤岛，复用率低</div>
+      <div class="risk-body">各线独立运营后，RPA的组件库、Agent的prompt库、业务开发的架构模板分散在三个团队，彼此不共享，飞凡的"中台能力"优势无法建立。</div>
+      <div style="font-size:12.5px;margin-top:8px;padding:8px 12px;background:var(--bg);border-radius:8px;color:var(--ink-soft)"><b>应对：</b>技术委员会主导建立统一的"能力中台"（知识库+组件库），要求各线Leader每季度提交1–2个可复用资产；对贡献中台的Leader给予额外分成权益加成。</div>
+    </div>
+    <div class="risk-level rl-med">中风险</div>
+  </div>
+</div>
+
+<!-- 路线图 -->
+<div id="roadmap" class="sec reveal">
+  <div class="sec-eyebrow">07 / 搭建路线图</div>
+  <h2>三阶段落地路径</h2>
+  <p class="sec-desc">不建议三条线同时推进，资源分散容易哪条都搭不起来。建议按紧急程度和资源依赖分阶段落地。</p>
+
+  <div class="phase-grid">
+    <div class="phase-card">
+      <div class="phase-label">第一阶段 · 0–3个月</div>
+      <div class="phase-title">稳住业务开发线</div>
+      <div class="phase-item">招募业务开发线Leader（7月前）</div>
+      <div class="phase-item">公积金项目团队进场，合伙人制签约</div>
+      <div class="phase-item">完成三线分成协议框架（借助已有合伙人制文档）</div>
+      <div class="phase-item">确定技术委员会介入门槛和工作节奏</div>
+      <div class="phase-item">启动Agent线Leader招募（并行，不着急）</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-label">第二阶段 · 3–6个月</div>
+      <div class="phase-title">激活Agent / RPA线</div>
+      <div class="phase-item">Agent Leader到位，盛京银行项目承接</div>
+      <div class="phase-item">RPA Leader到位，石基游乐园项目落地</div>
+      <div class="phase-item">建立三线共用的知识中台（知识库+组件库）</div>
+      <div class="phase-item">技术委员会首次季度复盘：评估各线健康度</div>
+      <div class="phase-item">梳理哪些公司可以成为飞凡的稳定分包渠道</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-label">第三阶段 · 6–12个月</div>
+      <div class="phase-title">联邦走向自运转</div>
+      <div class="phase-item">各线Leader完全独立对外，你退出日常运营</div>
+      <div class="phase-item">能力中台形成竞争壁垒（复用率目标30%+）</div>
+      <div class="phase-item">评估是否需要引入第四条线（数据 / 硬件 / 出海）</div>
+      <div class="phase-item">飞凡品牌独立性建立（不依赖红熊渠道）</div>
+      <div class="phase-item">考虑对外开放合伙人生态（外部开发者加入）</div>
+    </div>
+  </div>
+
+  <div class="callout purple" style="margin-top:18px">
+    <b>最后一句话：</b>这套组织的成败不在于框架设计得多完美，而在于<b>第一批Leader的选择</b>。找对一个人，这条线就活了；找错一个人，整条线的精力都会被消耗在管理问题上。建议把招募业务开发线Leader的优先级拉到最高——公积金项目是现在最确定的现金流来源，这条线先跑起来，才有资源和余裕去找Agent和RPA的人。
+  </div>
+</div>
+
+<footer>
+  <span>飞凡科技 · 技术合伙人联邦组织方案 · 2026年7月</span>
+  <span>框架版 · 人才策略后续补充 · 结合内部合伙人制文档执行</span>
+</footer>
+
+</div></div>
+</div>
+
+<script>
+  var ro = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) e.target.classList.add("visible");
+    });
+  }, { threshold: 0.06 });
+  document.querySelectorAll(".reveal").forEach(function(el) { ro.observe(el); });
+
+  var items = document.querySelectorAll(".toc-item");
+  var so = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        items.forEach(function(i) { i.classList.remove("active"); });
+        var m = document.querySelector(".toc-item[data-target=" + e.target.id + "]");
+        if (m) m.classList.add("active");
+      }
+    });
+  }, { threshold: 0.2, rootMargin: "-10% 0px -60% 0px" });
+  document.querySelectorAll(".sec, #hero").forEach(function(s) { so.observe(s); });
+
+  items.forEach(function(item) {
+    item.addEventListener("click", function(e) {
+      e.preventDefault();
+      var t = document.getElementById(item.getAttribute("data-target"));
+      if (t) t.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+</script>
+</body>
+</html>

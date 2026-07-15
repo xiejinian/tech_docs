@@ -3,586 +3,502 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>杭汽轮"AI+"场景应用建设(二期) — 可行性分析报告</title>
+<title>杭交投合同审核 & 采购立项审批Agent · 可行性与工作量评估</title>
 <style>
   :root{
-    --bg: #FAF7F0;
-    --bg-alt: #F2EDE2;
-    --card: #FFFFFF;
-    --ink: #2B2620;
-    --ink-soft: #63594C;
-    --line: #E6DFCF;
-    --accent: #B9552F;
-    --accent-soft: #F0DDCB;
-    --teal: #4E7F72;
-    --teal-soft: #DCEAE4;
-    --amber: #B8862E;
-    --amber-soft: #F3E6C8;
-    --red: #A6392E;
-    --red-soft: #F3DAD4;
-    --navy: #33415C;
-    --navy-soft: #DCE2EC;
-    --radius: 14px;
-    --serif: "Noto Serif SC","Songti SC","STSong","Source Han Serif SC",serif;
-    --sans: -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
-    --mono: "SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+    --bg:#F7F8FA;
+    --panel:#FFFFFF;
+    --ink:#1A2233;
+    --sub:#5B6472;
+    --line:#E7EAF0;
+    --brand:#2B5FE8;
+    --brand-deep:#1A3FCC;
+    --brand-soft:#EEF2FF;
+    --teal:#12A897;
+    --teal-soft:#E5F8F5;
+    --amber:#F5A623;
+    --amber-soft:#FFF6E5;
+    --red:#E8453C;
+    --red-soft:#FDECEB;
+    --navy:#12235C;
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
-    line-height:1.65; font-size:15px;
-  }
-  h1,h2,h3,h4{font-family:var(--serif); font-weight:700; margin:0 0 .4em; letter-spacing:.01em;}
-  a{color:var(--accent);}
-  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6;}
+  a{color:inherit;}
 
-  nav.topnav{
-    position:sticky; top:0; z-index:50; background:rgba(250,247,240,.92);
-    backdrop-filter:blur(6px); border-bottom:1px solid var(--line);
-  }
-  nav.topnav .navrow{
-    max-width:1180px; margin:0 auto; padding:0 32px; height:56px;
-    display:flex; align-items:center; gap:22px; overflow-x:auto;
-  }
-  nav.topnav .brand{font-family:var(--serif); font-weight:700; font-size:15px; color:var(--accent); white-space:nowrap; margin-right:8px;}
-  nav.topnav a{
-    color:var(--ink-soft); text-decoration:none; font-size:13.5px; white-space:nowrap;
-    padding:6px 2px; border-bottom:2px solid transparent;
-  }
-  nav.topnav a:hover{color:var(--accent); border-bottom-color:var(--accent);}
+  /* ---- Nav ---- */
+  .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .nav-inner{max-width:1180px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+  .nav-brand{font-weight:700;font-size:14px;letter-spacing:.3px;color:var(--navy);white-space:nowrap;}
+  .nav-links{display:flex;gap:4px;flex-wrap:wrap;}
+  .nav-links a{font-size:13px;color:var(--sub);text-decoration:none;padding:7px 12px;border-radius:8px;transition:.15s;}
+  .nav-links a:hover{background:var(--brand-soft);color:var(--brand-deep);}
 
-  header.hero{padding:56px 0 36px; border-bottom:1px solid var(--line);}
-  .eyebrow{
-    display:inline-block; font-size:12px; letter-spacing:.12em; color:var(--accent);
-    background:var(--accent-soft); padding:4px 10px; border-radius:20px; margin-bottom:16px; font-weight:600;
-  }
-  header.hero h1{font-size:30px; max-width:820px; line-height:1.35;}
-  header.hero .sub{color:var(--ink-soft); font-size:14.5px; max-width:760px; margin-top:10px;}
+  /* ---- Hero ---- */
+  .hero{max-width:1180px;margin:0 auto;padding:56px 28px 36px;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--brand-deep);background:var(--brand-soft);padding:6px 12px;border-radius:20px;letter-spacing:.3px;}
+  .eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--brand);}
+  h1{font-size:32px;line-height:1.3;margin:18px 0 10px;color:var(--navy);letter-spacing:-.5px;max-width:820px;}
+  .hero-sub{color:var(--sub);font-size:15px;max-width:680px;margin:0 0 8px;}
+  .hero-meta{color:#9AA3B2;font-size:12.5px;margin-top:14px;}
 
-  .kpi-grid{
-    display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:32px;
-  }
-  .kpi-card{
-    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
-    padding:18px 18px 16px;
-  }
-  .kpi-card .num{font-family:var(--serif); font-size:24px; font-weight:700; color:var(--navy);}
-  .kpi-card .num span.unit{font-size:13px; font-weight:500; color:var(--ink-soft); margin-left:2px;}
-  .kpi-card .label{font-size:12.5px; color:var(--ink-soft); margin-top:6px;}
-  .kpi-card.warn .num{color:var(--red);}
+  /* ---- KPI ---- */
+  .kpi-grid{max-width:1180px;margin:0 auto;padding:0 28px 40px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px;}
+  .kpi .num{font-size:26px;font-weight:700;color:var(--navy);}
+  .kpi .num span{font-size:14px;font-weight:500;color:var(--sub);}
+  .kpi .label{font-size:12.5px;color:var(--sub);margin-top:4px;}
+  .kpi .tag{display:inline-block;margin-top:10px;font-size:11px;padding:3px 8px;border-radius:6px;font-weight:600;}
+  .tag.brand{background:var(--brand-soft);color:var(--brand-deep);}
+  .tag.red{background:var(--red-soft);color:var(--red);}
+  .tag.amber{background:var(--amber-soft);color:#B4790B;}
+  .tag.teal{background:var(--teal-soft);color:var(--teal);}
 
-  section{padding:48px 0; border-bottom:1px solid var(--line);}
-  section .kicker{font-size:12px; letter-spacing:.1em; color:var(--ink-soft); text-transform:uppercase; margin-bottom:6px;}
-  section h2{font-size:22px;}
-  section .lead{color:var(--ink-soft); max-width:800px; font-size:14.5px; margin-bottom:26px;}
+  section{max-width:1180px;margin:0 auto;padding:8px 28px 64px;}
+  .section-head{margin-bottom:22px;}
+  .section-head .idx{font-size:12px;font-weight:700;color:var(--brand);letter-spacing:1px;}
+  .section-head h2{font-size:22px;margin:6px 0 8px;color:var(--navy);}
+  .section-head p{color:var(--sub);font-size:14px;max-width:720px;margin:0;}
 
-  .flow{display:flex; align-items:stretch; gap:0; flex-wrap:wrap;}
-  .flow-col{display:flex; flex-direction:column; gap:12px; flex:1; min-width:210px;}
-  .node{
-    background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px;
-    position:relative;
-  }
-  .node .tag{font-size:11px; color:var(--accent); font-weight:700; letter-spacing:.04em; margin-bottom:4px; display:block;}
-  .node h4{font-size:14.5px; margin-bottom:4px;}
-  .node p{font-size:12.5px; color:var(--ink-soft); margin:0;}
-  .node.risk{border-color:var(--red); background:var(--red-soft);}
-  .node.risk .tag{color:var(--red);}
-  .node.watch{border-color:var(--amber); background:var(--amber-soft);}
-  .node.watch .tag{color:var(--amber);}
-  .node.ok{border-color:var(--teal); background:var(--teal-soft);}
-  .node.ok .tag{color:var(--teal);}
-  .arrow-row{display:flex; align-items:center; justify-content:center; color:var(--ink-soft); font-size:20px; padding:2px 6px; min-width:28px;}
+  /* ---- module checkpoint cards ---- */
+  .cp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+  .cp{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;position:relative;}
+  .cp.high{border-left:3px solid var(--red);}
+  .cp.mid{border-left:3px solid var(--amber);}
+  .cp-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px;}
+  .cp-title{font-size:14.5px;font-weight:700;color:var(--ink);}
+  .cp-badges{display:flex;gap:6px;flex-shrink:0;}
+  .badge{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;white-space:nowrap;}
+  .badge.diff-low{background:var(--teal-soft);color:var(--teal);}
+  .badge.diff-mid{background:var(--amber-soft);color:#B4790B;}
+  .badge.diff-high{background:var(--red-soft);color:var(--red);}
+  .cp-path{font-size:12px;color:var(--brand-deep);background:var(--brand-soft);display:inline-block;padding:2px 8px;border-radius:6px;margin-bottom:8px;}
+  .cp-desc{font-size:13px;color:var(--sub);margin-bottom:0;}
+  .cp-risk{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:12px;color:#B4790B;}
+  .cp-risk b{color:var(--red);}
 
-  table.scope{width:100%; border-collapse:collapse; font-size:13px;}
-  table.scope th{
-    text-align:left; font-size:11.5px; text-transform:uppercase; letter-spacing:.05em;
-    color:var(--ink-soft); border-bottom:1px solid var(--line); padding:8px 10px; font-weight:600;
-  }
-  table.scope td{padding:11px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
-  table.scope tr:last-child td{border-bottom:none;}
-  .bar-stack{display:flex; height:14px; border-radius:4px; overflow:hidden; width:100%; min-width:140px; background:var(--bg-alt);}
-  .bar-p0{background:var(--navy);}
-  .bar-p1{background:var(--teal);}
-  .bar-p2{background:var(--line);}
-  .badge{display:inline-block; font-size:11px; padding:2px 8px; border-radius:20px; font-weight:600;}
-  .badge.mand{background:var(--red-soft); color:var(--red);}
-  .badge.opt{background:var(--bg-alt); color:var(--ink-soft);}
-  .legend{display:flex; gap:18px; font-size:12px; color:var(--ink-soft); margin-top:14px; flex-wrap:wrap;}
-  .legend span{display:inline-flex; align-items:center; gap:6px;}
-  .legend i{width:10px; height:10px; border-radius:3px; display:inline-block;}
+  /* ---- risk register ---- */
+  .risk-table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;}
+  .risk-table th{text-align:left;font-size:12px;color:var(--sub);background:#FAFBFC;padding:12px 16px;border-bottom:1px solid var(--line);font-weight:600;}
+  .risk-table td{padding:14px 16px;font-size:13px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .risk-table tr:last-child td{border-bottom:none;}
+  .risk-lv{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;}
+  .risk-lv.h{background:var(--red-soft);color:var(--red);}
+  .risk-lv.m{background:var(--amber-soft);color:#B4790B;}
 
-  .calc{
-    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
-    padding:26px 28px;
-  }
-  .calc-row{display:flex; align-items:center; gap:18px; margin-bottom:22px; flex-wrap:wrap;}
-  .calc-row label{font-size:13.5px; font-weight:600; min-width:180px;}
-  input[type=range]{
-    flex:1; min-width:220px; accent-color:var(--accent); height:4px;
-  }
-  .calc-val{font-family:var(--mono); font-size:14px; color:var(--navy); min-width:90px; text-align:right; font-weight:700;}
-  .calc-results{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:6px;}
-  .result-card{border:1px solid var(--line); border-radius:12px; padding:16px; background:var(--bg);}
-  .result-card h4{font-size:13px; color:var(--ink-soft); font-weight:600; margin-bottom:6px;}
-  .result-card .amount{font-family:var(--serif); font-size:22px; font-weight:700; color:var(--navy);}
-  .result-card .cov{font-size:12px; margin-top:8px; padding:4px 8px; border-radius:20px; display:inline-block; font-weight:600;}
-  .cov.good{background:var(--teal-soft); color:var(--teal);}
-  .cov.mid{background:var(--amber-soft); color:var(--amber);}
-  .cov.bad{background:var(--red-soft); color:var(--red);}
-  .gauge-track{height:8px; background:var(--bg-alt); border-radius:5px; margin-top:10px; overflow:hidden;}
-  .gauge-fill{height:100%; background:var(--navy); border-radius:5px; transition:width .15s ease;}
+  /* ---- roadmap ---- */
+  .roadmap{display:flex;gap:0;overflow-x:auto;padding-bottom:8px;}
+  .phase{flex:1;min-width:230px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin-right:14px;position:relative;}
+  .phase:last-child{margin-right:0;}
+  .phase-num{font-size:11px;font-weight:700;color:var(--brand);letter-spacing:1px;margin-bottom:6px;}
+  .phase h3{font-size:15px;margin:0 0 10px;color:var(--navy);}
+  .phase ul{margin:0;padding-left:16px;font-size:12.5px;color:var(--sub);}
+  .phase li{margin-bottom:5px;}
+  .phase-note{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);font-size:11.5px;color:var(--brand-deep);}
 
-  .risk-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
-  .risk-card{
-    background:var(--card); border:1px solid var(--line); border-left:4px solid var(--line);
-    border-radius:10px; padding:16px 18px;
-  }
-  .risk-card.sev-high{border-left-color:var(--red);}
-  .risk-card.sev-mid{border-left-color:var(--amber);}
-  .risk-card.sev-low{border-left-color:var(--teal);}
-  .risk-head{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:6px;}
-  .risk-head h4{font-size:14.5px; margin:0;}
-  .sev-tag{font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:20px; white-space:nowrap;}
-  .sev-tag.sev-high{background:var(--red-soft); color:var(--red);}
-  .sev-tag.sev-mid{background:var(--amber-soft); color:var(--amber);}
-  .sev-tag.sev-low{background:var(--teal-soft); color:var(--teal);}
-  .risk-card p{font-size:12.8px; color:var(--ink-soft); margin:0;}
-  .cat{font-size:11px; color:var(--accent); font-weight:600; margin-bottom:4px; display:block;}
+  /* ---- workload ---- */
+  .wl-panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px 28px;}
+  .wl-table{width:100%;border-collapse:collapse;margin-bottom:22px;}
+  .wl-table th{text-align:left;font-size:12px;color:var(--sub);padding:10px 12px;border-bottom:1px solid var(--line);}
+  .wl-table td{padding:11px 12px;font-size:13.5px;border-bottom:1px solid var(--line);}
+  .wl-table td.num{text-align:right;font-variant-numeric:tabular-nums;color:var(--navy);font-weight:600;}
+  .wl-table tr.total td{font-weight:700;color:var(--navy);border-top:2px solid var(--ink);border-bottom:none;}
+  .slider-box{background:var(--brand-soft);border-radius:14px;padding:20px 24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+  .slider-box .lbl{font-size:13px;color:var(--brand-deep);font-weight:600;min-width:110px;}
+  .slider-box input[type=range]{flex:1;min-width:180px;accent-color:var(--brand);}
+  .slider-box .rate-val{font-size:15px;font-weight:700;color:var(--navy);min-width:90px;}
+  .result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px;}
+  .result-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;}
+  .result-card .rl{font-size:12px;color:var(--sub);}
+  .result-card .rv{font-size:20px;font-weight:700;color:var(--navy);margin-top:4px;}
 
-  .phase-cols{display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;}
-  .phase-col{border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:var(--card);}
-  .phase-col .ph-head{padding:14px 16px; font-family:var(--serif); font-weight:700; font-size:15px; color:#fff;}
-  .phase-col.p0 .ph-head{background:var(--navy);}
-  .phase-col.p1 .ph-head{background:var(--teal);}
-  .phase-col.p2 .ph-head{background:var(--ink-soft);}
-  .phase-col .ph-sub{font-size:11.5px; color:rgba(255,255,255,.8); font-weight:400; margin-top:2px;}
-  .phase-col ul{margin:0; padding:14px 18px 16px 30px; font-size:13px;}
-  .phase-col li{margin-bottom:8px; color:var(--ink);}
+  /* ---- assumptions ---- */
+  .assume-list{display:grid;gap:10px;}
+  .assume{display:flex;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 18px;align-items:flex-start;}
+  .assume .dot{width:20px;height:20px;border-radius:50%;background:var(--amber-soft);color:#B4790B;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .assume .txt{font-size:13.5px;color:var(--ink);}
+  .assume .txt b{color:var(--navy);}
 
-  .qlist{display:flex; flex-direction:column; gap:10px;}
-  .qitem{
-    display:flex; gap:14px; align-items:flex-start; background:var(--card);
-    border:1px solid var(--line); border-radius:10px; padding:13px 16px;
-  }
-  .qnum{
-    font-family:var(--mono); font-size:12px; font-weight:700; color:#fff; background:var(--accent);
-    width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center;
-    flex-shrink:0; margin-top:1px;
-  }
-  .qitem .qtext{font-size:13.5px;}
-  .qitem .qtext .qwhy{display:block; font-size:12px; color:var(--ink-soft); margin-top:3px;}
+  footer{max-width:1180px;margin:0 auto;padding:30px 28px 60px;color:#9AA3B2;font-size:12px;border-top:1px solid var(--line);}
 
-  .strat-list{display:flex; flex-direction:column; gap:14px;}
-  .strat-item{display:flex; gap:14px; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px;}
-  .strat-item .si-num{font-family:var(--serif); font-size:20px; font-weight:700; color:transparent; -webkit-text-stroke:1px var(--accent); min-width:32px;}
-  .strat-item h4{font-size:14px; margin-bottom:4px;}
-  .strat-item p{font-size:12.8px; color:var(--ink-soft); margin:0;}
-
-  footer{padding:36px 0 60px; text-align:center; color:var(--ink-soft); font-size:12.5px;}
-
-  @media (max-width:860px){
-    .kpi-grid{grid-template-columns:1fr 1fr;}
-    .risk-grid, .phase-cols, .calc-results{grid-template-columns:1fr;}
-    .flow{flex-direction:column;}
-    .arrow-row{transform:rotate(90deg); padding:6px 0;}
+  @media(max-width:860px){
+    .kpi-grid{grid-template-columns:repeat(2,1fr);}
+    .cp-grid{grid-template-columns:1fr;}
+    .result-grid{grid-template-columns:1fr;}
   }
 </style>
 </head>
 <body>
 
-<nav class="topnav">
-  <div class="navrow">
-    <span class="brand">杭汽轮二期 · 可行性分析</span>
-    <a href="#summary">摘要</a>
-    <a href="#relation">关系链条</a>
-    <a href="#scope">范围与预算测算</a>
-    <a href="#risk">风险登记册</a>
-    <a href="#phase">分级实施建议</a>
-    <a href="#clarify">关键澄清清单</a>
-    <a href="#strategy">商务策略建议</a>
-  </div>
-</nav>
-
-<header class="hero wrap" id="summary">
-  <span class="eyebrow">内部评估 · 非客户交付文档</span>
-  <h1>杭汽轮"AI+"场景应用建设(二期)项目 — 深度可行性分析</h1>
-  <p class="sub">
-    本报告面向内部决策，用于判断是否参与/接下该项目、指导驻场调研问题清单，以及论证200-300万元预算下的合理承诺范围。
-    核心判断：项目本身方向清晰、客户关系良好，但<b>功能范围极广（9大板块、60+功能点，含≥7项不接受负偏离的实质性条款）与预算/工期存在结构性张力</b>，
-    加上一期(雪浪)未验收、多处外部数据依赖，建议采用"分级承诺 + 驻场澄清作为计费阶段"的策略推进。
-  </p>
-
-  <div class="kpi-grid">
-    <div class="kpi-card">
-      <div class="num">200<span class="unit">–300万元</span></div>
-      <div class="label">本期预算区间（视驻场调研结果浮动）</div>
-    </div>
-    <div class="kpi-card">
-      <div class="num">6<span class="unit">个月 +1–3月试运行</span></div>
-      <div class="label">合同工期要求</div>
-    </div>
-    <div class="kpi-card warn">
-      <div class="num">9<span class="unit">大功能板块</span></div>
-      <div class="label">含桌面Agent管理平台、高管副驾两个"准独立产品级"模块</div>
-    </div>
-    <div class="kpi-card warn">
-      <div class="num">≥7<span class="unit">项 ▲ 实质性条款</span></div>
-      <div class="label">招标文件明确标注"不接受负偏离"</div>
+<div class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">光荣智能 · 内部售前评估</div>
+    <div class="nav-links">
+      <a href="#overview">概览</a>
+      <a href="#modA">模块A · 合同审核</a>
+      <a href="#modB">模块B · 采购立项</a>
+      <a href="#risk">风险登记册</a>
+      <a href="#roadmap">实施路线图</a>
+      <a href="#workload">工作量评估</a>
     </div>
   </div>
-</header>
+</div>
 
-<section id="relation">
-  <div class="wrap">
-    <div class="kicker">项目关系链条</div>
-    <h2>谁在做、谁未验收、谁分包给谁</h2>
-    <p class="lead">这份关系图是理解本项目风险的前提——一期遗留问题、雪浪的配合意愿、泛微的接口交付节奏，都会直接传导到二期的进度和验收。</p>
+<div class="hero" id="overview">
+  <span class="eyebrow">实在智能 RPA + Agent 平台 · 技术可行性评估</span>
+  <h1>杭交投风控合同审核 & 采购立项审批Agent<br>可行性分析与工作量评估</h1>
+  <p class="hero-sub">基于客户提供的两份需求说明（合同审核内容说明 / 采购立项审批），从实在智能平台的RPA规则引擎、Agent语义理解、OCR文档抽取三类能力出发，逐项判断技术实现路径、难度与风险，输出售前阶段的人天估算区间。</p>
+  <div class="hero-meta">评估定位：售前投标报价参考 &nbsp;·&nbsp; 数据链路假设：钉钉表单字段 + 附件全文抽取均需实现 &nbsp;·&nbsp; 规则库现状：待Phase 0专项调研确认</div>
+</div>
 
-    <div class="flow">
-      <div class="flow-col">
-        <div class="node">
-          <span class="tag">客户方</span>
-          <h4>浙江杭汽轮动力科技集团</h4>
-          <p>集团老总为校友会会长，宝哥（校友会副会长）牵线对接，关系基础良好，但不改变招标文件中"不接受负偏离"的合同刚性。</p>
-        </div>
-      </div>
-      <div class="arrow-row">→</div>
-      <div class="flow-col">
-        <div class="node risk">
-          <span class="tag">一期 · 未验收</span>
-          <h4>雪浪（数据中台/算力底座）</h4>
-          <p>一期建设效果不理想，客户要求雪浪先补完数据中台再验收；二期不再由雪浪参与，但二期知识问答、NL2SQL、算力复用均建立在雪浪一期成果之上。</p>
-        </div>
-        <div class="node watch">
-          <span class="tag">对接难点</span>
-          <h4>知识库 / 虎符数据仓 / 质量数据库</h4>
-          <p>客户明确"不能重复建设"，二期需与雪浪一期系统对接（知识库上传问答接口可提供，质量数据需雪浪开放读取或封装接口）。配合深度未定。</p>
-        </div>
-      </div>
-      <div class="arrow-row">→</div>
-      <div class="flow-col">
-        <div class="node ok">
-          <span class="tag">二期 · 总集成</span>
-          <h4>光荣智能 / 红熊AI（我方）</h4>
-          <p>作为二期总集成商，负责9大板块中除OA/合同接口外的绝大部分建设与交付统筹。</p>
-        </div>
-        <div class="node">
-          <span class="tag">潜在协作</span>
-          <h4>实在智能（森贤）</h4>
-          <p>渠道来源之一，桌面Agent/RPA相关能力可能涉及协作，需明确是否参与本项目及分工边界。</p>
-        </div>
-      </div>
-      <div class="arrow-row">→</div>
-      <div class="flow-col">
-        <div class="node watch">
-          <span class="tag">分包 · 关键路径外部依赖</span>
-          <h4>泛微（OA厂商）</h4>
-          <p>合同审核相关内容（含合同结构化解析）分包给泛微，由泛微按我方要求定开接口。接口交付时间表由泛微把控，是项目关键路径上的最大外部不确定性。</p>
-        </div>
-        <div class="node">
-          <span class="tag">潜在三期</span>
-          <h4>追加预算约200万元</h4>
-          <p>三期做什么、预算是否落地，取决于二期效果的主观评价——校友会关系是助力也是"降价压力"的来源。</p>
-        </div>
-      </div>
+<div class="kpi-grid">
+  <div class="kpi">
+    <div class="num">16 <span>项</span></div>
+    <div class="label">校验点总数（模块A 8项 + 模块B 8项）</div>
+    <span class="tag brand">全量覆盖</span>
+  </div>
+  <div class="kpi">
+    <div class="num">5 <span>项</span></div>
+    <div class="label">高风险强制校验（一票否决级）</div>
+    <span class="tag red">核心壁垒</span>
+  </div>
+  <div class="kpi">
+    <div class="num">4 <span>项</span></div>
+    <div class="label">依赖规则库/名单现状的待确认项</div>
+    <span class="tag amber">Phase 0前置</span>
+  </div>
+  <div class="kpi">
+    <div class="num">106–132 <span>人天</span></div>
+    <div class="label">主体开发估算区间（不含专项调研）</div>
+    <span class="tag teal">售前区间</span>
+  </div>
+</div>
+
+<section id="modA">
+  <div class="section-head">
+    <div class="idx">MODULE A</div>
+    <h2>合同审核辅助Agent · 可行性拆解</h2>
+    <p>高风险项存在偏差则一票否决，需标红高亮；中风险项为合规提示，无否决权。技术路径标注了该项在实在智能平台上主要依赖的能力类型。</p>
+  </div>
+  <div class="cp-grid">
+
+    <div class="cp high">
+      <div class="cp-top"><div class="cp-title">3.1 单价合规校验（房屋租赁）</div>
+        <div class="cp-badges"><span class="badge diff-mid">中等难度</span></div></div>
+      <span class="cp-path">OCR文档理解 + 规则比对</span>
+      <p class="cp-desc">合同单价 vs 评估报告评估价数值比对。评估报告格式不统一（多为扫描件/PDF），字段位置不固定，需Agent语义抽取而非固定模板。</p>
+      <div class="cp-risk"><b>风险：</b>评估报告抽取准确率直接决定该项能否达到"强制校验"要求的可靠性，建议POC验证。</div>
     </div>
+
+    <div class="cp high">
+      <div class="cp-top"><div class="cp-title">3.2 多文件信息一致性校验</div>
+        <div class="cp-badges"><span class="badge diff-high">较高难度</span></div></div>
+      <span class="cp-path">Agent语义理解为主</span>
+      <p class="cp-desc">合同、业务单据、会议纪要、成交通知书四类异构文档的交易内容/金额交叉核对。会议纪要属自由文本，规则引擎难以覆盖，需LLM级语义匹配。</p>
+      <div class="cp-risk"><b>风险：</b>语义比对存在误判率，国企风控场景容错率低，建议设人工复核兜底，不承诺100%准确。</div>
+    </div>
+
+    <div class="cp high">
+      <div class="cp-top"><div class="cp-title">3.3 采购合同立项内容专项校验</div>
+        <div class="cp-badges"><span class="badge diff-mid">中等难度</span></div></div>
+      <span class="cp-path">结构化字段比对</span>
+      <p class="cp-desc">项目名称/类型/甲乙方/时间与立项内容匹配；金额不超立项且大小写一致；付款比例一致。以RPA规则引擎为主，前提是立项数据可靠抽取。</p>
+      <div class="cp-risk"><b>依赖：</b>需先完成立项审批单的结构化/半结构化抽取（见模块B）。</div>
+    </div>
+
+    <div class="cp high">
+      <div class="cp-top"><div class="cp-title">3.4 流程时间逻辑顺序校验</div>
+        <div class="cp-badges"><span class="badge diff-low">低难度</span></div></div>
+      <span class="cp-path">RPA规则引擎（原生能力）</span>
+      <p class="cp-desc">立项→合同发起→签订→履约四个时间节点先后顺序判断。时间字段抽取成熟后逻辑判断非常成熟，是全项目中确定性最高的一项。</p>
+    </div>
+
+    <div class="cp high">
+      <div class="cp-top"><div class="cp-title">3.5 审核流程完整性校验</div>
+        <div class="cp-badges"><span class="badge diff-mid">中等难度</span></div></div>
+      <span class="cp-path">RPA存在性检测 + 截图OCR</span>
+      <p class="cp-desc">必备材料齐全性检测（律师意见邮件截图、采购立项文件、租赁三类配套文件）。"律师提出修改意见需同步上传修订版"这类条件判断需要语义理解而非纯规则。</p>
+      <div class="cp-risk"><b>风险：</b>邮件截图OCR准确性依赖图片清晰度，建议限定截图格式规范。</div>
+    </div>
+
+    <div class="cp mid">
+      <div class="cp-top"><div class="cp-title">4.1-① 工作量与单价匹配校验</div>
+        <div class="cp-badges"><span class="badge diff-high">较高难度</span></div></div>
+      <span class="cp-path">依赖行业基准库</span>
+      <p class="cp-desc">判断工作量与单价是否"合理"需要外部基准数据支撑，Agent本身无法独立定义合理区间，除非客户提供或协助建设基准表。</p>
+      <div class="cp-risk"><b>风险：</b>基准库现状"未知需专项调研"，是本次估算中不确定性最大的一项，建议列为二期或降级为"异常值提示"。</div>
+    </div>
+
+    <div class="cp mid">
+      <div class="cp-top"><div class="cp-title">4.1-② 违约责任权责校验</div>
+        <div class="cp-badges"><span class="badge diff-high">较高难度</span></div></div>
+      <span class="cp-path">LLM语义分析 + 范本比对</span>
+      <p class="cp-desc">判断双方违约责任是否权责对等、公平合规，属于法律语义主观判断，AI只能做条款偏离度提示，不能替代终审。</p>
+      <div class="cp-risk"><b>合规提醒：</b>SOW中需明确验收标准为"提示覆盖率"而非"判断准确率"，避免开放式责任承诺。</div>
+    </div>
+
+    <div class="cp mid">
+      <div class="cp-top"><div class="cp-title">4.1-③ 付款比例合规校验</div>
+        <div class="cp-badges"><span class="badge diff-mid">中等难度</span></div></div>
+      <span class="cp-path">结构化字段比对</span>
+      <p class="cp-desc">比对合同付款比例与招标文件备案标准是否一致，抽取+比对逻辑成熟，前提是招标备案数据可获取。</p>
+    </div>
+
   </div>
 </section>
 
-<section id="scope">
-  <div class="wrap">
-    <div class="kicker">范围与预算测算</div>
-    <h2>9大板块工作量拆解（人天）</h2>
-    <p class="lead">
-      按"P0 本期必须交付（含全部▲实质性条款）/ P1 本期力争完成 / P2 建议移至三期或作为选配"三级拆分。
-      估算基于功能点数量、复用一期能力的程度及外部依赖复杂度，用于评估范围与预算的匹配空间，而非最终报价。
-    </p>
+<section id="modB">
+  <div class="section-head">
+    <div class="idx">MODULE B</div>
+    <h2>采购立项审批Agent · 可行性拆解</h2>
+    <p>含单据字段核验、文档一致性校验，以及每月定时执行一次的台账自动维护。</p>
+  </div>
+  <div class="cp-grid">
 
-    <table class="scope">
-      <thead>
-        <tr>
-          <th style="width:18%">功能板块</th>
-          <th style="width:8%">▲条款</th>
-          <th style="width:30%">工作量分布（人天）</th>
-          <th style="width:10%">P0</th>
-          <th style="width:10%">P1</th>
-          <th style="width:10%">P2</th>
-          <th>关键依赖 / 说明</th>
-        </tr>
-      </thead>
-      <tbody id="scope-body"></tbody>
-      <tfoot>
-        <tr style="font-weight:700;">
-          <td>合计</td>
-          <td></td>
-          <td></td>
-          <td id="sum-p0"></td>
-          <td id="sum-p1"></td>
-          <td id="sum-p2"></td>
-          <td></td>
-        </tr>
-      </tfoot>
-    </table>
-
-    <div class="legend">
-      <span><i style="background:var(--navy)"></i>P0 本期必做（含实质性条款）</span>
-      <span><i style="background:var(--teal)"></i>P1 本期力争完成</span>
-      <span><i style="background:var(--line)"></i>P2 建议移至三期/选配</span>
-      <span><span class="badge mand">▲</span> 招标文件标注"不接受负偏离"</span>
+    <div class="cp mid">
+      <div class="cp-top"><div class="cp-title">采购类型校验</div>
+        <div class="cp-badges"><span class="badge diff-low">低难度</span></div></div>
+      <span class="cp-path">Agent文本分类</span>
+      <p class="cp-desc">从项目概述文本智能判定服务类/工程类/货物类，与单据填写类型核对。是较成熟的LLM文本分类任务。</p>
     </div>
 
-    <h3 style="margin-top:40px; font-size:17px;">交互测算：日均综合费率 × 工作量 → 与预算对比</h3>
-    <p class="lead" style="margin-bottom:18px;">拖动下方滑块调整"日均综合费率"假设（含项目管理、驻场差旅、合规交付溢价），实时查看三种范围口径下的报价与200-300万预算的覆盖关系。</p>
-
-    <div class="calc">
-      <div class="calc-row">
-        <label for="rateSlider">日均综合费率（元/人天）</label>
-        <input type="range" id="rateSlider" min="4000" max="12000" step="500" value="7000">
-        <div class="calc-val" id="rateVal">¥7,000</div>
-      </div>
-      <div class="calc-results">
-        <div class="result-card">
-          <h4>P0 · 本期必做范围</h4>
-          <div class="amount" id="amt-p0">—</div>
-          <div class="gauge-track"><div class="gauge-fill" id="gauge-p0"></div></div>
-          <span class="cov" id="cov-p0"></span>
-        </div>
-        <div class="result-card">
-          <h4>P0+P1 · 本期理想范围</h4>
-          <div class="amount" id="amt-p01">—</div>
-          <div class="gauge-track"><div class="gauge-fill" id="gauge-p01"></div></div>
-          <span class="cov" id="cov-p01"></span>
-        </div>
-        <div class="result-card">
-          <h4>全量 · P0+P1+P2</h4>
-          <div class="amount" id="amt-full">—</div>
-          <div class="gauge-track"><div class="gauge-fill" id="gauge-full"></div></div>
-          <span class="cov" id="cov-full"></span>
-        </div>
-      </div>
+    <div class="cp high">
+      <div class="cp-top"><div class="cp-title">关联交易校验</div>
+        <div class="cp-badges"><span class="badge diff-high">较高难度</span></div></div>
+      <span class="cp-path">依赖关联企业名单库</span>
+      <p class="cp-desc">从项目概况抽取涉事企业名称，匹配内置关联企业名单判定关联交易。技术抽取本身不难，核心瓶颈是名单库是否已电子化、是否需要持续维护更新机制。</p>
+      <div class="cp-risk"><b>风险：</b>关联企业名单现状未知，若客户无电子化名单，需新增名单维护流程与责任归属约定。</div>
     </div>
+
+    <div class="cp mid">
+      <div class="cp-top"><div class="cp-title">是否上会判定</div>
+        <div class="cp-badges"><span class="badge diff-low">低难度</span></div></div>
+      <span class="cp-path">RPA规则引擎（原生能力）</span>
+      <p class="cp-desc">采购金额≥60万自动标记需上会，纯阈值规则判断，确定性最高。</p>
+    </div>
+
+    <div class="cp mid">
+      <div class="cp-top"><div class="cp-title">采购方式校验</div>
+        <div class="cp-badges"><span class="badge diff-high">较高难度</span></div></div>
+      <span class="cp-path">依赖类别对照表</span>
+      <p class="cp-desc">结合"采购类型+采购金额"双维度匹配"采购项目类别与使用范围对照表"，校验采购方式合规性。同样依赖对照表电子化程度。</p>
+      <div class="cp-risk"><b>风险：</b>与工作量单价基准表同属Phase 0调研的核心待办项。</div>
+    </div>
+
+    <div class="cp mid">
+      <div class="cp-top"><div class="cp-title">文档一致性 · 强制一致项</div>
+        <div class="cp-badges"><span class="badge diff-low">低难度</span></div></div>
+      <span class="cp-path">RPA规则引擎</span>
+      <p class="cp-desc">项目名称须完全一字不差匹配，字符串精确比对，非常成熟。</p>
+    </div>
+
+    <div class="cp mid">
+      <div class="cp-top"><div class="cp-title">文档一致性 · 宽松一致项</div>
+        <div class="cp-badges"><span class="badge diff-mid">中等难度</span></div></div>
+      <span class="cp-path">Agent语义相似度</span>
+      <p class="cp-desc">项目概述语义/核心信息一致即可，允许文字表述小幅差异，需要LLM语义相似度判断而非精确匹配。</p>
+    </div>
+
+    <div class="cp mid">
+      <div class="cp-top"><div class="cp-title">采购台账自动生成（月度）</div>
+        <div class="cp-badges"><span class="badge diff-low">低难度</span></div></div>
+      <span class="cp-path">RPA批处理（原生能力）</span>
+      <p class="cp-desc">全量采购立项单据汇总为Excel单行记录，定时批量导出。技术成熟，质量取决于前序字段抽取的准确性。</p>
+    </div>
+
+    <div class="cp mid">
+      <div class="cp-top"><div class="cp-title">合同台账自动生成（月度）</div>
+        <div class="cp-badges"><span class="badge diff-low">低难度</span></div></div>
+      <span class="cp-path">RPA批处理（原生能力）</span>
+      <p class="cp-desc">采购立项单+合同附件信息汇总为Excel单行记录，与采购台账同批次交付。</p>
+    </div>
+
   </div>
 </section>
 
 <section id="risk">
-  <div class="wrap">
-    <div class="kicker">风险登记册</div>
-    <h2>12项关键风险</h2>
-    <p class="lead">按严重程度排序；"高"风险建议在投标/签约前明确应对口径，"中低"风险建议纳入合同条款或过程管理动作。</p>
-    <div class="risk-grid" id="risk-grid"></div>
+  <div class="section-head">
+    <div class="idx">RISK REGISTER</div>
+    <h2>关键风险登记册</h2>
+    <p>内部评估专用，用于报价阶段的风险定价与合同条款设计参考。</p>
+  </div>
+  <table class="risk-table">
+    <tr><th style="width:26%">风险项</th><th style="width:10%">等级</th><th style="width:32%">影响</th><th style="width:32%">应对建议</th></tr>
+    <tr>
+      <td>非结构化文档抽取准确率（评估报告 / 会议纪要 / 邮件截图OCR）</td>
+      <td><span class="risk-lv h">高</span></td>
+      <td>高风险强制校验项（单价合规、多文件一致性）的可靠性直接受抽取准确率影响，误判可能导致合同被错误放行或错误拦截</td>
+      <td>Phase 0阶段用客户真实样本做抽取准确率POC；上线后保留人工复核环节，不承诺100%自动判定</td>
+    </tr>
+    <tr>
+      <td>规则库/基准表/关联企业名单现状不明</td>
+      <td><span class="risk-lv h">高</span></td>
+      <td>直接影响Phase 3工作量与交付时间，估算区间±约20%的不确定性主要来自此项</td>
+      <td>Phase 0作为单独立项/计费阶段，产出《数据接口确认书》+《规则库建设范围确认书》，作为正式报价依据</td>
+    </tr>
+    <tr>
+      <td>主观判断类校验的AI能力边界（权责对等性、单价合理性）</td>
+      <td><span class="risk-lv m">中</span></td>
+      <td>客户可能期望"自动判定"，但AI只能做"提示级"辅助，存在预期落差与验收争议风险</td>
+      <td>SOW明确此类交付物为"风险提示清单"而非"合规判定"，验收标准约定为提示覆盖率而非判断准确率</td>
+    </tr>
+    <tr>
+      <td>钉钉API权限与私聊/群聊推送依赖</td>
+      <td><span class="risk-lv m">中</span></td>
+      <td>集成开发进度受客户IT侧配合程度影响；群聊场景还涉及"应推给谁"的路由规则确认</td>
+      <td>项目启动前确认表单API、代办任务转派、私聊/群机器人推送三类权限已开通</td>
+    </tr>
+    <tr>
+      <td>国企风控场景对误判容忍度低</td>
+      <td><span class="risk-lv m">中</span></td>
+      <td>全自动化放行可能引发合规追责风险</td>
+      <td>方案定位明确为"审核辅助"而非"替代终审"，所有高风险判定保留人工确认环节</td>
+    </tr>
+  </table>
+</section>
+
+<section id="roadmap">
+  <div class="section-head">
+    <div class="idx">ROADMAP</div>
+    <h2>分期实施建议</h2>
+    <p>按技术确定性从高到低排期，优先上线规则引擎类校验建立客户信任，再逐步引入文档理解与规则库依赖类能力。</p>
+  </div>
+  <div class="roadmap">
+    <div class="phase">
+      <div class="phase-num">PHASE 0</div>
+      <h3>专项调研（建议单独计费）</h3>
+      <ul>
+        <li>规则库/基准表/关联企业名单现状盘点</li>
+        <li>合同、评估报告、立项单据样本抽样，评估OCR可行性</li>
+        <li>钉钉API权限确认</li>
+      </ul>
+      <div class="phase-note">产出：数据接口确认书 + 规则库建设范围确认书</div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">PHASE 1</div>
+      <h3>规则引擎类校验上线</h3>
+      <ul>
+        <li>时间逻辑顺序校验</li>
+        <li>上会判定 / 强制一致项 / 金额大小写一致</li>
+        <li>钉钉表单对接 + 私聊/群聊双通道推送</li>
+      </ul>
+      <div class="phase-note">确定性最高，优先建立客户信任</div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">PHASE 2</div>
+      <h3>文档理解类校验</h3>
+      <ul>
+        <li>合同全量文本抽取</li>
+        <li>评估报告 / 会议纪要语义比对</li>
+        <li>邮件截图OCR识别</li>
+      </ul>
+      <div class="phase-note">核心工作量所在，需样本调优周期</div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">PHASE 3</div>
+      <h3>规则库依赖类 + 台账</h3>
+      <ul>
+        <li>关联交易 / 采购方式校验</li>
+        <li>采购台账 / 合同台账自动生成</li>
+      </ul>
+      <div class="phase-note">前提：Phase 0确认规则库已就绪</div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">PHASE 4</div>
+      <h3>主观判断辅助项</h3>
+      <ul>
+        <li>违约责任权责提示</li>
+        <li>工作量单价合理性提示</li>
+      </ul>
+      <div class="phase-note">建议作为"增强项"交付，不作硬性验收承诺</div>
+    </div>
   </div>
 </section>
 
-<section id="phase">
-  <div class="wrap">
-    <div class="kicker">分级实施建议</div>
-    <h2>范围如何分期，才能既守住预算也守住关系</h2>
-    <p class="lead">建议将 P0 写入合同验收标准（对应全部实质性条款），P1 作为"力争完成"目标条款，P2（尤其桌面Agent管理平台完整版）整体建议移至三期单独立项。</p>
-    <div class="phase-cols">
-      <div class="phase-col p0">
-        <div class="ph-head">P0 · 合同硬承诺<span class="ph-sub">对应全部▲实质性条款，验收强绑定</span></div>
-        <ul>
-          <li>统一AI应用入口（一个对话框 + @智能体）、开放性架构、不新增算力</li>
-          <li>复用并优化一期NL2SQL能力</li>
-          <li>经营分析报告/周月报自动生成并推送OA</li>
-          <li>质量风险前预警核心链路（先打通判定规则与数据基础）</li>
-          <li>知识问答关联检索增强（在一期RAG基础上）</li>
-          <li>公文智能辅助编写、会议纪要生成（办公效能核心场景）</li>
-          <li>合同/技术协议智能解析与基础审核规则</li>
-          <li>项目管理、驻场调研、泛微接口协调</li>
-        </ul>
+<section id="workload">
+  <div class="section-head">
+    <div class="idx">WORKLOAD ESTIMATE</div>
+    <h2>人天工作量评估（内部）</h2>
+    <p>按分期汇总，含测试联调与项目管理系数。拖动下方滑块可按人天单价快速换算报价区间，仅供内部投标参考，不建议直接对外披露分项人天。</p>
+  </div>
+  <div class="wl-panel">
+    <table class="wl-table">
+      <tr><th>阶段</th><th style="text-align:right">人天（低）</th><th style="text-align:right">人天（高）</th><th>说明</th></tr>
+      <tr><td>Phase 0 · 专项调研</td><td class="num">5</td><td class="num">5</td><td>建议单独立项计费，不计入主体开发区间</td></tr>
+      <tr><td>Phase 1 · 规则引擎类</td><td class="num">22</td><td class="num">26</td><td>含钉钉集成开发（新增群聊推送通道）</td></tr>
+      <tr><td>Phase 2 · 文档理解类</td><td class="num">34</td><td class="num">40</td><td>OCR/语义抽取，核心工作量</td></tr>
+      <tr><td>Phase 3 · 规则库依赖类+台账</td><td class="num">14</td><td class="num">21</td><td>波动最大，取决于Phase 0调研结果</td></tr>
+      <tr><td>Phase 4 · 主观判断辅助类</td><td class="num">12</td><td class="num">15</td><td>建议降级为"提示"交付以控制范围</td></tr>
+      <tr><td>测试联调（约20%系数）</td><td class="num">16</td><td class="num">20</td><td>贯穿全项目</td></tr>
+      <tr><td>项目管理（约10%系数）</td><td class="num">8</td><td class="num">10</td><td>需求把控与验收协调</td></tr>
+      <tr class="total"><td>主体开发合计</td><td class="num" id="lowTotal">106</td><td class="num" id="highTotal">132</td><td>不含Phase 0</td></tr>
+    </table>
+
+    <div class="slider-box">
+      <span class="lbl">人天单价（元）</span>
+      <input type="range" id="rateSlider" min="800" max="2000" step="50" value="1200">
+      <span class="rate-val" id="rateVal">¥1,200</span>
+    </div>
+
+    <div class="result-grid">
+      <div class="result-card">
+        <div class="rl">报价区间（不含Phase 0）</div>
+        <div class="rv" id="priceRange">¥124.8万 – 156.0万</div>
       </div>
-      <div class="phase-col p1">
-        <div class="ph-head">P1 · 力争完成<span class="ph-sub">视驻场调研与团队产能弹性安排</span></div>
-        <ul>
-          <li>专项文书生成（党务/纪检文书模板化部分）</li>
-          <li>文档智能校验、查重能力</li>
-          <li>业务协同扩展场景（合同履约监控、采购分析）</li>
-          <li>数据智能处理与员工数字画像（维度待客户明确后再排期）</li>
-          <li>高管智能副驾基础版（信息聚合、待办聚合，不含深度个性化）</li>
-          <li>桌面Agent管理平台基础版（纳管+审计，不含Skill市场）</li>
-        </ul>
+      <div class="result-card">
+        <div class="rl">Phase 0 专项调研费用</div>
+        <div class="rv" id="phase0Price">¥6.0万</div>
       </div>
-      <div class="phase-col p2">
-        <div class="ph-head">P2 · 建议移至三期<span class="ph-sub">独立复杂度高，不建议压入本期6个月周期</span></div>
-        <ul>
-          <li>企业级桌面Agent管理平台完整版（Skill市场、自然语言生成Skill、策略强制执行）</li>
-          <li>高管智能副驾深度个性化（数字员工、行为学习）</li>
-          <li>制造任务智能分解、跨系统深度业务协同</li>
-          <li>经营趋势预测、商机智能挖掘（数据基础尚不确定）</li>
-          <li>投标报价辅助的深度智能化（依赖销售中心保密数据）</li>
-        </ul>
+      <div class="result-card">
+        <div class="rl">项目总报价区间</div>
+        <div class="rv" id="totalPrice">¥130.8万 – 162.0万</div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="clarify">
-  <div class="wrap">
-    <div class="kicker">关键澄清清单</div>
-    <h2>驻场调研前必须问清楚的10个问题</h2>
-    <p class="lead">从客户需求调研确认表中提炼出的、直接影响报价与范围锁定的高优先级问题；完整清单见调研确认表原件。</p>
-    <div class="qlist" id="qlist"></div>
+<section id="assumptions">
+  <div class="section-head">
+    <div class="idx">OPEN ITEMS</div>
+    <h2>关键假设与Phase 0待确认事项</h2>
+    <p>以下为本次售前区间估算所依赖的假设，正式报价前需在Phase 0中逐项确认，任一假设偏差都会带来估算区间外的调整。</p>
   </div>
-</section>
-
-<section id="strategy" style="border-bottom:none;">
-  <div class="wrap">
-    <div class="kicker">商务策略建议</div>
-    <h2>七条落地建议</h2>
-    <div class="strat-list" id="strat-list"></div>
+  <div class="assume-list">
+    <div class="assume"><div class="dot">1</div><div class="txt"><b>数据链路：</b>假设合同/立项数据需同时对接钉钉表单结构化字段与附件全文抽取（OCR/语义解析），若客户系统已有结构化字段沉淀可直接调用，Phase 2工作量可下调约15%–20%。</div></div>
+    <div class="assume"><div class="dot">2</div><div class="txt"><b>规则库现状：</b>关联企业名单、采购类别对照表、工作量单价基准表现状未知，本次估算按"需协助新建"的较高工作量口径估算，若客户已有电子化数据，Phase 3工作量可下调约30%。</div></div>
+    <div class="assume"><div class="dot">3</div><div class="txt"><b>验收边界：</b>违约责任权责校验、工作量单价合理性校验属主观判断类，建议在SOW中明确为"辅助提示"而非"合规判定"，避免无限责任承诺。</div></div>
+    <div class="assume"><div class="dot">4</div><div class="txt"><b>样本可得性：</b>Phase 2的抽取准确率POC需要客户提供不少于20份真实合同、评估报告、会议纪要样本，样本量不足会延长调优周期。</div></div>
+    <div class="assume"><div class="dot">5</div><div class="txt"><b>推送路由规则：</b>Agent分析结果需推送给"对应人或群"，需在Phase 0明确路由判断逻辑（何时推个人、何时推群、群内@谁），以及群机器人的权限申请方式，避免上线后出现误推/漏推。</div></div>
   </div>
 </section>
 
 <footer>
-  杭汽轮"AI+"场景应用建设(二期)项目 · 内部可行性分析 · 仅供光荣智能/红熊AI内部决策使用，不作为对外交付文档
+  内部评估文档 · 光荣智能 / 红熊AI 售前团队 · 基于实在智能RPA+Agent平台能力边界分析 · 本文档不对外披露
 </footer>
 
 <script>
-const modules = [
-  {name:"平台底座与统一入口", mand:3, p0:45, p1:15, p2:10, note:"复用一期算力/权限体系；统一对话框、开放架构、不新增GPU 均为▲条款"},
-  {name:"知识问答场景", mand:0, p0:20, p1:10, p2:5, note:"一期RAG基础上做关联检索增强；依赖雪浪一期知识库现状"},
-  {name:"办公效能场景", mand:0, p0:30, p1:25, p2:15, note:"公文模板套数、党务文书类型尚未确认，直接影响工作量"},
-  {name:"智能审核场景", mand:0, p0:25, p1:25, p2:15, note:"审核规则条数、历史案例基础待明确；与泛微合同解析接口强相关"},
-  {name:"业务协同场景", mand:1, p0:25, p1:30, p2:20, note:"质量风险前预警为▲条款；强依赖雪浪虎符数据库与泛微接口"},
-  {name:"数据分析场景", mand:2, p0:20, p1:15, p2:10, note:"NL2SQL优化、经营简报推送为▲条款；投标数据需保密协议"},
-  {name:"桌面AI Agent管理平台", mand:0, p0:0, p1:20, p2:55, note:"独立产品级复杂度，建议基础版P1、完整版移至三期"},
-  {name:"高管智能副驾", mand:0, p0:10, p1:20, p2:15, note:"集成前5大场景能力，是交付序列最后一棒，依赖前置模块完成"},
-  {name:"项目管理与系统集成", mand:0, p0:30, p1:10, p2:5, note:"驻场调研、泛微协调、集成测试、验收支持"}
-];
+  const lowBase = 106, highBase = 132, phase0Days = 5;
+  const rateSlider = document.getElementById('rateSlider');
+  const rateVal = document.getElementById('rateVal');
+  const priceRange = document.getElementById('priceRange');
+  const phase0Price = document.getElementById('phase0Price');
+  const totalPrice = document.getElementById('totalPrice');
 
-const scopeBody = document.getElementById('scope-body');
-let totalP0=0, totalP1=0, totalP2=0;
-modules.forEach(m=>{
-  totalP0+=m.p0; totalP1+=m.p1; totalP2+=m.p2;
-  const full = m.p0+m.p1+m.p2;
-  const w0 = full? (m.p0/full*100):0, w1= full? (m.p1/full*100):0, w2= full? (m.p2/full*100):0;
-  const tr = document.createElement('tr');
-  tr.innerHTML = `
-    <td><b>${m.name}</b></td>
-    <td>${m.mand>0? `<span class="badge mand">▲×${m.mand}</span>` : `<span class="badge opt">—</span>`}</td>
-    <td>
-      <div class="bar-stack">
-        <div class="bar-p0" style="width:${w0}%"></div>
-        <div class="bar-p1" style="width:${w1}%"></div>
-        <div class="bar-p2" style="width:${w2}%"></div>
-      </div>
-    </td>
-    <td>${m.p0}</td>
-    <td>${m.p1}</td>
-    <td>${m.p2}</td>
-    <td style="color:var(--ink-soft); font-size:12.5px;">${m.note}</td>
-  `;
-  scopeBody.appendChild(tr);
-});
-document.getElementById('sum-p0').textContent = totalP0;
-document.getElementById('sum-p1').textContent = totalP1;
-document.getElementById('sum-p2').textContent = totalP2;
+  function fmt(n){ return (n/10000).toFixed(1) + '万'; }
 
-const budgetLow = 2000000, budgetHigh = 3000000;
-const rateSlider = document.getElementById('rateSlider');
-const rateVal = document.getElementById('rateVal');
-
-function fmtWan(v){ return (v/10000).toFixed(0) + '万元'; }
-
-function coverageBadge(amount){
-  if(amount <= budgetHigh) return {cls:'good', text:'预算内可覆盖'};
-  if(amount <= budgetHigh*1.3) return {cls:'mid', text:'需谈判/部分让利空间'};
-  return {cls:'bad', text:'明显超预算，需砍需求'};
-}
-
-function render(){
-  const rate = parseInt(rateSlider.value,10);
-  rateVal.textContent = '¥' + rate.toLocaleString();
-
-  const sets = [
-    {key:'p0', days: totalP0},
-    {key:'p01', days: totalP0+totalP1},
-    {key:'full', days: totalP0+totalP1+totalP2}
-  ];
-  sets.forEach(s=>{
-    const amount = s.days * rate;
-    document.getElementById('amt-'+s.key).textContent = fmtWan(amount) + `（${s.days}人天）`;
-    const pct = Math.min(100, amount/budgetHigh*100);
-    document.getElementById('gauge-'+s.key).style.width = pct + '%';
-    const badge = coverageBadge(amount);
-    const el = document.getElementById('cov-'+s.key);
-    el.className = 'cov ' + badge.cls;
-    el.textContent = badge.text + ` · 对比预算上限${fmtWan(budgetHigh)}`;
-  });
-}
-rateSlider.addEventListener('input', render);
-render();
-
-const risks = [
-  {sev:'high', cat:'上游依赖', title:'一期未验收，二期强依赖一期成果', text:'知识库、NL2SQL、算力底座均需在雪浪一期基础上复用；若一期整改滞后或质量不达标，二期知识问答/数据分析场景将失去验收基准。'},
-  {sev:'high', cat:'上游依赖', title:'雪浪配合意愿不可控', text:'质量风险预警需雪浪虎符数据库开放读取或封装接口，采购分析、生产数据也依赖雪浪知识库；竞争关系下配合深度存在不确定性。'},
-  {sev:'high', cat:'合同商务', title:'范围-预算/工期存在结构性缺口', text:'9大板块60+功能点全量落地对应约525人天，全量报价与200-300万、6个月工期存在明显缺口；≥7项实质性条款"不接受负偏离"叠加此缺口，是主要合同风险来源。'},
-  {sev:'high', cat:'技术交付', title:'桌面Agent管理平台独立复杂度高', text:'命令白名单、Skill市场、策略下发、行为审计等属于独立产品级能力，不建议压入二期6个月周期与其余8个板块并行交付。'},
-  {sev:'mid', cat:'技术交付', title:'高管智能副驾依赖前置模块全部就绪', text:'需五大场景能力全部完成后才能组装，是交付序列最后一棒，前面任一模块延期都会直接传导到副驾模块的验收时间。'},
-  {sev:'mid', cat:'外部依赖', title:'泛微分包接口时效不可控', text:'合同结构化解析、审批流程集成均需泛微按我方要求开发接口；接口交付节奏由泛微把控，是关键路径上最大的外部变量。'},
-  {sev:'mid', cat:'技术交付', title:'算力与模型能力存在缺口', text:'项目明确不含新增算力采购；会议纪要语音转文字能力现状不明（qwen3.6是否支持待验证），可能需另行部署小模型，存在预算外增支风险。'},
-  {sev:'mid', cat:'数据基础', title:'数据分散与治理成本可能被低估', text:'部分采购数据留存在业务人员个人终端，投标报价数据需签保密协议后才可获取，员工画像维度尚未定义；实际数据接入与治理工作量可能超出功能开发本身。'},
-  {sev:'mid', cat:'合同商务', title:'需求边界存在动态扩张条款', text:'招标文件写明"合理新增或优化需求，经双方评估确认后应纳入项目实施范围并予以完成"，缺乏边界定义，存在范围蔓延而不增加预算的风险。'},
-  {sev:'low', cat:'关系管理', title:'三期预算不确定，叠加人情压力', text:'三期约200万元取决于二期效果的主观评价；校友会关系是助力也可能成为"为维系关系压低二期报价"的隐性压力来源。'},
-  {sev:'low', cat:'内部管理', title:'合伙人制下现金流风险需前置管理', text:'光荣智能/红熊AI无固定工资，若付款节奏不利（验收周期长达6+1-3个月），需在合同中明确里程碑付款条款覆盖驻场期间的人力成本。'},
-  {sev:'low', cat:'技术交付', title:'纯CPU环境下的并发与性能约束', text:'期望并发150、高可用架构等要求，在无GPU新增的前提下对大模型推理性能构成隐性约束，需要在架构方案中明确降级策略。'}
-];
-
-const sevRank = {high:0, mid:1, low:2};
-const sevLabel = {high:'高', mid:'中', low:'低'};
-risks.sort((a,b)=> sevRank[a.sev]-sevRank[b.sev]);
-const riskGrid = document.getElementById('risk-grid');
-risks.forEach(r=>{
-  const div = document.createElement('div');
-  div.className = 'risk-card sev-'+r.sev;
-  div.innerHTML = `
-    <div class="risk-head">
-      <div><span class="cat">${r.cat}</span><h4>${r.title}</h4></div>
-      <span class="sev-tag sev-${r.sev}">${sevLabel[r.sev]}风险</span>
-    </div>
-    <p>${r.text}</p>
-  `;
-  riskGrid.appendChild(div);
-});
-
-const questions = [
-  {q:'一期NL2SQL当前覆盖的数据主题、表数量、准确率如何？需要优化的具体方向是什么？', why:'直接决定数据分析板块P0工作量与是否可承诺▲条款验收标准'},
-  {q:'雪浪知识库、虎符数据仓的对接方式：是直连数据库还是需雪浪封装接口？雪浪的配合意愿和响应速度如何？', why:'决定业务协同、知识问答两大板块的架构方案与关键路径排期'},
-  {q:'质量风险前预警的判定规则、预警节点，以及当前质量管理的痛点案例是否已积累？', why:'该项为▲实质性条款，是本期最不能负偏离的交付项之一'},
-  {q:'共计几个部门/业务领域需要建立独立知识库？每个知识库的文档量、格式分布如何？', why:'决定知识问答场景切片、向量化的实际工作量'},
-  {q:'企业公文模板、党务/纪检文书模板大概各有多少套？', why:'办公效能与专项文书场景的工作量测算基础'},
-  {q:'技术协议、合同审核的规则条数、是否有可参考的历史示例？', why:'智能审核板块的核心不确定项，也决定与泛微接口的对接颗粒度'},
-  {q:'历史采购、投标报价数据的存储位置、量级与结构化程度如何？', why:'决定数据分析场景中投标辅助功能是否可在本期落地，还是移至三期'},
-  {q:'现有qwen3.6是否支持语音转文字？如不支持，是否需要另行部署ASR/TTS小模型？', why:'涉及预算外增支，需在报价前明确是否计入本期范围'},
-  {q:'桌面AI Agent管理平台的实际优先级：客户是否接受将完整版移至三期单独立项？', why:'该模块独立复杂度最高，是锁定本期总范围最关键的一次沟通'},
-  {q:'泛微的接口交付时间表与责任边界能否书面确认？', why:'泛微是项目关键路径上唯一不受我方控制的外部变量，需前置锁定'}
-];
-const qlist = document.getElementById('qlist');
-questions.forEach((item,i)=>{
-  const div = document.createElement('div');
-  div.className = 'qitem';
-  div.innerHTML = `<div class="qnum">${i+1}</div><div class="qtext">${item.q}<span class="qwhy">为什么问：${item.why}</span></div>`;
-  qlist.appendChild(div);
-});
-
-const strategies = [
-  {title:'合同分级承诺：P0写死、P1弹性、P2移三期', text:'将全部▲实质性条款与核心场景锁定为P0合同硬承诺并写入验收标准；P1作为"力争完成"目标条款；桌面Agent管理平台完整版等P2内容建议整体移至三期单独立项，避免二期战线过长稀释交付质量。'},
-  {title:'驻场调研前置为可计费的"范围确认阶段"', text:'参考苏州RPA项目的Phase 0计费模式，将驻场调研前2-4周设为"需求澄清与范围确认"阶段，产出双方签字的《范围与验收标准确认书》，既为报价提供依据，也降低后续范围蔓延风险。'},
-  {title:'与实在智能(森贤)提前明确分工与分成', text:'桌面Agent/RPA相关能力若涉及实在智能协作，建议在项目启动前签署内部分工与分成协议，避免出现类似浙江公积金项目的后期分配纠纷。'},
-  {title:'书面锁定泛微接口交付里程碑', text:'将泛微的接口交付节点纳入项目整体甘特图关键路径，并在与泛微的分包约定中明确延期责任转移条款，避免我方为外部方延期独自承担验收压力。'},
-  {title:'语音转文字等预算外能力单列为待确认项', text:'避免语音模型部署等不在原报价范围内的能力被动"兜底"进P0，报价文件中应单列为可选项，待驻场确认后再决定是否计入合同范围。'},
-  {title:'里程碑付款结构覆盖驻场现金流缺口', text:'建议采用30/30/25/15或类似结构，付款节点与阶段性验收强绑定；在合伙人无固定工资的模式下，这对覆盖驻场期间的人力成本尤为关键。'},
-  {title:'KPI表述采用"目标达到"而非绝对化承诺', text:'NL2SQL准确率、审核准确率等指标可能受一期数据质量直接影响，合同表述建议统一采用"目标达到XX%"，避免因上游数据问题导致的绝对化承诺违约风险。'}
-];
-const stratList = document.getElementById('strat-list');
-strategies.forEach((s,i)=>{
-  const div = document.createElement('div');
-  div.className = 'strat-item';
-  div.innerHTML = `<div class="si-num">${String(i+1).padStart(2,'0')}</div><div><h4>${s.title}</h4><p>${s.text}</p></div>`;
-  stratList.appendChild(div);
-});
+  function update(){
+    const rate = parseInt(rateSlider.value, 10);
+    rateVal.textContent = '¥' + rate.toLocaleString();
+    const low = lowBase * rate;
+    const high = highBase * rate;
+    const p0 = phase0Days * rate;
+    priceRange.textContent = '¥' + fmt(low) + ' – ' + fmt(high);
+    phase0Price.textContent = '¥' + fmt(p0);
+    totalPrice.textContent = '¥' + fmt(low + p0) + ' – ' + fmt(high + p0);
+  }
+  rateSlider.addEventListener('input', update);
+  update();
 </script>
+
 </body>
 </html>

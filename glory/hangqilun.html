@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>杭汽轮"AI+"场景应用建设(二期) — 可行性分析报告</title>
+<style>
+  :root{
+    --bg: #FAF7F0;
+    --bg-alt: #F2EDE2;
+    --card: #FFFFFF;
+    --ink: #2B2620;
+    --ink-soft: #63594C;
+    --line: #E6DFCF;
+    --accent: #B9552F;
+    --accent-soft: #F0DDCB;
+    --teal: #4E7F72;
+    --teal-soft: #DCEAE4;
+    --amber: #B8862E;
+    --amber-soft: #F3E6C8;
+    --red: #A6392E;
+    --red-soft: #F3DAD4;
+    --navy: #33415C;
+    --navy-soft: #DCE2EC;
+    --radius: 14px;
+    --serif: "Noto Serif SC","Songti SC","STSong","Source Han Serif SC",serif;
+    --sans: -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+    --mono: "SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+    line-height:1.65; font-size:15px;
+  }
+  h1,h2,h3,h4{font-family:var(--serif); font-weight:700; margin:0 0 .4em; letter-spacing:.01em;}
+  a{color:var(--accent);}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+
+  nav.topnav{
+    position:sticky; top:0; z-index:50; background:rgba(250,247,240,.92);
+    backdrop-filter:blur(6px); border-bottom:1px solid var(--line);
+  }
+  nav.topnav .navrow{
+    max-width:1180px; margin:0 auto; padding:0 32px; height:56px;
+    display:flex; align-items:center; gap:22px; overflow-x:auto;
+  }
+  nav.topnav .brand{font-family:var(--serif); font-weight:700; font-size:15px; color:var(--accent); white-space:nowrap; margin-right:8px;}
+  nav.topnav a{
+    color:var(--ink-soft); text-decoration:none; font-size:13.5px; white-space:nowrap;
+    padding:6px 2px; border-bottom:2px solid transparent;
+  }
+  nav.topnav a:hover{color:var(--accent); border-bottom-color:var(--accent);}
+
+  header.hero{padding:56px 0 36px; border-bottom:1px solid var(--line);}
+  .eyebrow{
+    display:inline-block; font-size:12px; letter-spacing:.12em; color:var(--accent);
+    background:var(--accent-soft); padding:4px 10px; border-radius:20px; margin-bottom:16px; font-weight:600;
+  }
+  header.hero h1{font-size:30px; max-width:820px; line-height:1.35;}
+  header.hero .sub{color:var(--ink-soft); font-size:14.5px; max-width:760px; margin-top:10px;}
+
+  .kpi-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:32px;
+  }
+  .kpi-card{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:18px 18px 16px;
+  }
+  .kpi-card .num{font-family:var(--serif); font-size:24px; font-weight:700; color:var(--navy);}
+  .kpi-card .num span.unit{font-size:13px; font-weight:500; color:var(--ink-soft); margin-left:2px;}
+  .kpi-card .label{font-size:12.5px; color:var(--ink-soft); margin-top:6px;}
+  .kpi-card.warn .num{color:var(--red);}
+
+  section{padding:48px 0; border-bottom:1px solid var(--line);}
+  section .kicker{font-size:12px; letter-spacing:.1em; color:var(--ink-soft); text-transform:uppercase; margin-bottom:6px;}
+  section h2{font-size:22px;}
+  section .lead{color:var(--ink-soft); max-width:800px; font-size:14.5px; margin-bottom:26px;}
+
+  .flow{display:flex; align-items:stretch; gap:0; flex-wrap:wrap;}
+  .flow-col{display:flex; flex-direction:column; gap:12px; flex:1; min-width:210px;}
+  .node{
+    background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px;
+    position:relative;
+  }
+  .node .tag{font-size:11px; color:var(--accent); font-weight:700; letter-spacing:.04em; margin-bottom:4px; display:block;}
+  .node h4{font-size:14.5px; margin-bottom:4px;}
+  .node p{font-size:12.5px; color:var(--ink-soft); margin:0;}
+  .node.risk{border-color:var(--red); background:var(--red-soft);}
+  .node.risk .tag{color:var(--red);}
+  .node.watch{border-color:var(--amber); background:var(--amber-soft);}
+  .node.watch .tag{color:var(--amber);}
+  .node.ok{border-color:var(--teal); background:var(--teal-soft);}
+  .node.ok .tag{color:var(--teal);}
+  .arrow-row{display:flex; align-items:center; justify-content:center; color:var(--ink-soft); font-size:20px; padding:2px 6px; min-width:28px;}
+
+  table.scope{width:100%; border-collapse:collapse; font-size:13px;}
+  table.scope th{
+    text-align:left; font-size:11.5px; text-transform:uppercase; letter-spacing:.05em;
+    color:var(--ink-soft); border-bottom:1px solid var(--line); padding:8px 10px; font-weight:600;
+  }
+  table.scope td{padding:11px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
+  table.scope tr:last-child td{border-bottom:none;}
+  .bar-stack{display:flex; height:14px; border-radius:4px; overflow:hidden; width:100%; min-width:140px; background:var(--bg-alt);}
+  .bar-p0{background:var(--navy);}
+  .bar-p1{background:var(--teal);}
+  .bar-p2{background:var(--line);}
+  .badge{display:inline-block; font-size:11px; padding:2px 8px; border-radius:20px; font-weight:600;}
+  .badge.mand{background:var(--red-soft); color:var(--red);}
+  .badge.opt{background:var(--bg-alt); color:var(--ink-soft);}
+  .legend{display:flex; gap:18px; font-size:12px; color:var(--ink-soft); margin-top:14px; flex-wrap:wrap;}
+  .legend span{display:inline-flex; align-items:center; gap:6px;}
+  .legend i{width:10px; height:10px; border-radius:3px; display:inline-block;}
+
+  .calc{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:26px 28px;
+  }
+  .calc-row{display:flex; align-items:center; gap:18px; margin-bottom:22px; flex-wrap:wrap;}
+  .calc-row label{font-size:13.5px; font-weight:600; min-width:180px;}
+  input[type=range]{
+    flex:1; min-width:220px; accent-color:var(--accent); height:4px;
+  }
+  .calc-val{font-family:var(--mono); font-size:14px; color:var(--navy); min-width:90px; text-align:right; font-weight:700;}
+  .calc-results{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:6px;}
+  .result-card{border:1px solid var(--line); border-radius:12px; padding:16px; background:var(--bg);}
+  .result-card h4{font-size:13px; color:var(--ink-soft); font-weight:600; margin-bottom:6px;}
+  .result-card .amount{font-family:var(--serif); font-size:22px; font-weight:700; color:var(--navy);}
+  .result-card .cov{font-size:12px; margin-top:8px; padding:4px 8px; border-radius:20px; display:inline-block; font-weight:600;}
+  .cov.good{background:var(--teal-soft); color:var(--teal);}
+  .cov.mid{background:var(--amber-soft); color:var(--amber);}
+  .cov.bad{background:var(--red-soft); color:var(--red);}
+  .gauge-track{height:8px; background:var(--bg-alt); border-radius:5px; margin-top:10px; overflow:hidden;}
+  .gauge-fill{height:100%; background:var(--navy); border-radius:5px; transition:width .15s ease;}
+
+  .risk-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .risk-card{
+    background:var(--card); border:1px solid var(--line); border-left:4px solid var(--line);
+    border-radius:10px; padding:16px 18px;
+  }
+  .risk-card.sev-high{border-left-color:var(--red);}
+  .risk-card.sev-mid{border-left-color:var(--amber);}
+  .risk-card.sev-low{border-left-color:var(--teal);}
+  .risk-head{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:6px;}
+  .risk-head h4{font-size:14.5px; margin:0;}
+  .sev-tag{font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:20px; white-space:nowrap;}
+  .sev-tag.sev-high{background:var(--red-soft); color:var(--red);}
+  .sev-tag.sev-mid{background:var(--amber-soft); color:var(--amber);}
+  .sev-tag.sev-low{background:var(--teal-soft); color:var(--teal);}
+  .risk-card p{font-size:12.8px; color:var(--ink-soft); margin:0;}
+  .cat{font-size:11px; color:var(--accent); font-weight:600; margin-bottom:4px; display:block;}
+
+  .phase-cols{display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;}
+  .phase-col{border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:var(--card);}
+  .phase-col .ph-head{padding:14px 16px; font-family:var(--serif); font-weight:700; font-size:15px; color:#fff;}
+  .phase-col.p0 .ph-head{background:var(--navy);}
+  .phase-col.p1 .ph-head{background:var(--teal);}
+  .phase-col.p2 .ph-head{background:var(--ink-soft);}
+  .phase-col .ph-sub{font-size:11.5px; color:rgba(255,255,255,.8); font-weight:400; margin-top:2px;}
+  .phase-col ul{margin:0; padding:14px 18px 16px 30px; font-size:13px;}
+  .phase-col li{margin-bottom:8px; color:var(--ink);}
+
+  .qlist{display:flex; flex-direction:column; gap:10px;}
+  .qitem{
+    display:flex; gap:14px; align-items:flex-start; background:var(--card);
+    border:1px solid var(--line); border-radius:10px; padding:13px 16px;
+  }
+  .qnum{
+    font-family:var(--mono); font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+    width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+  .qitem .qtext{font-size:13.5px;}
+  .qitem .qtext .qwhy{display:block; font-size:12px; color:var(--ink-soft); margin-top:3px;}
+
+  .strat-list{display:flex; flex-direction:column; gap:14px;}
+  .strat-item{display:flex; gap:14px; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px;}
+  .strat-item .si-num{font-family:var(--serif); font-size:20px; font-weight:700; color:transparent; -webkit-text-stroke:1px var(--accent); min-width:32px;}
+  .strat-item h4{font-size:14px; margin-bottom:4px;}
+  .strat-item p{font-size:12.8px; color:var(--ink-soft); margin:0;}
+
+  footer{padding:36px 0 60px; text-align:center; color:var(--ink-soft); font-size:12.5px;}
+
+  @media (max-width:860px){
+    .kpi-grid{grid-template-columns:1fr 1fr;}
+    .risk-grid, .phase-cols, .calc-results{grid-template-columns:1fr;}
+    .flow{flex-direction:column;}
+    .arrow-row{transform:rotate(90deg); padding:6px 0;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="navrow">
+    <span class="brand">杭汽轮二期 · 可行性分析</span>
+    <a href="#summary">摘要</a>
+    <a href="#relation">关系链条</a>
+    <a href="#scope">范围与预算测算</a>
+    <a href="#risk">风险登记册</a>
+    <a href="#phase">分级实施建议</a>
+    <a href="#clarify">关键澄清清单</a>
+    <a href="#strategy">商务策略建议</a>
+  </div>
+</nav>
+
+<header class="hero wrap" id="summary">
+  <span class="eyebrow">内部评估 · 非客户交付文档</span>
+  <h1>杭汽轮"AI+"场景应用建设(二期)项目 — 深度可行性分析</h1>
+  <p class="sub">
+    本报告面向内部决策，用于判断是否参与/接下该项目、指导驻场调研问题清单，以及论证200-300万元预算下的合理承诺范围。
+    核心判断：项目本身方向清晰、客户关系良好，但<b>功能范围极广（9大板块、60+功能点，含≥7项不接受负偏离的实质性条款）与预算/工期存在结构性张力</b>，
+    加上一期(雪浪)未验收、多处外部数据依赖，建议采用"分级承诺 + 驻场澄清作为计费阶段"的策略推进。
+  </p>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="num">200<span class="unit">–300万元</span></div>
+      <div class="label">本期预算区间（视驻场调研结果浮动）</div>
+    </div>
+    <div class="kpi-card">
+      <div class="num">6<span class="unit">个月 +1–3月试运行</span></div>
+      <div class="label">合同工期要求</div>
+    </div>
+    <div class="kpi-card warn">
+      <div class="num">9<span class="unit">大功能板块</span></div>
+      <div class="label">含桌面Agent管理平台、高管副驾两个"准独立产品级"模块</div>
+    </div>
+    <div class="kpi-card warn">
+      <div class="num">≥7<span class="unit">项 ▲ 实质性条款</span></div>
+      <div class="label">招标文件明确标注"不接受负偏离"</div>
+    </div>
+  </div>
+</header>
+
+<section id="relation">
+  <div class="wrap">
+    <div class="kicker">项目关系链条</div>
+    <h2>谁在做、谁未验收、谁分包给谁</h2>
+    <p class="lead">这份关系图是理解本项目风险的前提——一期遗留问题、雪浪的配合意愿、泛微的接口交付节奏，都会直接传导到二期的进度和验收。</p>
+
+    <div class="flow">
+      <div class="flow-col">
+        <div class="node">
+          <span class="tag">客户方</span>
+          <h4>浙江杭汽轮动力科技集团</h4>
+          <p>集团老总为校友会会长，宝哥（校友会副会长）牵线对接，关系基础良好，但不改变招标文件中"不接受负偏离"的合同刚性。</p>
+        </div>
+      </div>
+      <div class="arrow-row">→</div>
+      <div class="flow-col">
+        <div class="node risk">
+          <span class="tag">一期 · 未验收</span>
+          <h4>雪浪（数据中台/算力底座）</h4>
+          <p>一期建设效果不理想，客户要求雪浪先补完数据中台再验收；二期不再由雪浪参与，但二期知识问答、NL2SQL、算力复用均建立在雪浪一期成果之上。</p>
+        </div>
+        <div class="node watch">
+          <span class="tag">对接难点</span>
+          <h4>知识库 / 虎符数据仓 / 质量数据库</h4>
+          <p>客户明确"不能重复建设"，二期需与雪浪一期系统对接（知识库上传问答接口可提供，质量数据需雪浪开放读取或封装接口）。配合深度未定。</p>
+        </div>
+      </div>
+      <div class="arrow-row">→</div>
+      <div class="flow-col">
+        <div class="node ok">
+          <span class="tag">二期 · 总集成</span>
+          <h4>光荣智能 / 红熊AI（我方）</h4>
+          <p>作为二期总集成商，负责9大板块中除OA/合同接口外的绝大部分建设与交付统筹。</p>
+        </div>
+        <div class="node">
+          <span class="tag">潜在协作</span>
+          <h4>实在智能（森贤）</h4>
+          <p>渠道来源之一，桌面Agent/RPA相关能力可能涉及协作，需明确是否参与本项目及分工边界。</p>
+        </div>
+      </div>
+      <div class="arrow-row">→</div>
+      <div class="flow-col">
+        <div class="node watch">
+          <span class="tag">分包 · 关键路径外部依赖</span>
+          <h4>泛微（OA厂商）</h4>
+          <p>合同审核相关内容（含合同结构化解析）分包给泛微，由泛微按我方要求定开接口。接口交付时间表由泛微把控，是项目关键路径上的最大外部不确定性。</p>
+        </div>
+        <div class="node">
+          <span class="tag">潜在三期</span>
+          <h4>追加预算约200万元</h4>
+          <p>三期做什么、预算是否落地，取决于二期效果的主观评价——校友会关系是助力也是"降价压力"的来源。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="scope">
+  <div class="wrap">
+    <div class="kicker">范围与预算测算</div>
+    <h2>9大板块工作量拆解（人天）</h2>
+    <p class="lead">
+      按"P0 本期必须交付（含全部▲实质性条款）/ P1 本期力争完成 / P2 建议移至三期或作为选配"三级拆分。
+      估算基于功能点数量、复用一期能力的程度及外部依赖复杂度，用于评估范围与预算的匹配空间，而非最终报价。
+    </p>
+
+    <table class="scope">
+      <thead>
+        <tr>
+          <th style="width:18%">功能板块</th>
+          <th style="width:8%">▲条款</th>
+          <th style="width:30%">工作量分布（人天）</th>
+          <th style="width:10%">P0</th>
+          <th style="width:10%">P1</th>
+          <th style="width:10%">P2</th>
+          <th>关键依赖 / 说明</th>
+        </tr>
+      </thead>
+      <tbody id="scope-body"></tbody>
+      <tfoot>
+        <tr style="font-weight:700;">
+          <td>合计</td>
+          <td></td>
+          <td></td>
+          <td id="sum-p0"></td>
+          <td id="sum-p1"></td>
+          <td id="sum-p2"></td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="legend">
+      <span><i style="background:var(--navy)"></i>P0 本期必做（含实质性条款）</span>
+      <span><i style="background:var(--teal)"></i>P1 本期力争完成</span>
+      <span><i style="background:var(--line)"></i>P2 建议移至三期/选配</span>
+      <span><span class="badge mand">▲</span> 招标文件标注"不接受负偏离"</span>
+    </div>
+
+    <h3 style="margin-top:40px; font-size:17px;">交互测算：日均综合费率 × 工作量 → 与预算对比</h3>
+    <p class="lead" style="margin-bottom:18px;">拖动下方滑块调整"日均综合费率"假设（含项目管理、驻场差旅、合规交付溢价），实时查看三种范围口径下的报价与200-300万预算的覆盖关系。</p>
+
+    <div class="calc">
+      <div class="calc-row">
+        <label for="rateSlider">日均综合费率（元/人天）</label>
+        <input type="range" id="rateSlider" min="4000" max="12000" step="500" value="7000">
+        <div class="calc-val" id="rateVal">¥7,000</div>
+      </div>
+      <div class="calc-results">
+        <div class="result-card">
+          <h4>P0 · 本期必做范围</h4>
+          <div class="amount" id="amt-p0">—</div>
+          <div class="gauge-track"><div class="gauge-fill" id="gauge-p0"></div></div>
+          <span class="cov" id="cov-p0"></span>
+        </div>
+        <div class="result-card">
+          <h4>P0+P1 · 本期理想范围</h4>
+          <div class="amount" id="amt-p01">—</div>
+          <div class="gauge-track"><div class="gauge-fill" id="gauge-p01"></div></div>
+          <span class="cov" id="cov-p01"></span>
+        </div>
+        <div class="result-card">
+          <h4>全量 · P0+P1+P2</h4>
+          <div class="amount" id="amt-full">—</div>
+          <div class="gauge-track"><div class="gauge-fill" id="gauge-full"></div></div>
+          <span class="cov" id="cov-full"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="risk">
+  <div class="wrap">
+    <div class="kicker">风险登记册</div>
+    <h2>12项关键风险</h2>
+    <p class="lead">按严重程度排序；"高"风险建议在投标/签约前明确应对口径，"中低"风险建议纳入合同条款或过程管理动作。</p>
+    <div class="risk-grid" id="risk-grid"></div>
+  </div>
+</section>
+
+<section id="phase">
+  <div class="wrap">
+    <div class="kicker">分级实施建议</div>
+    <h2>范围如何分期，才能既守住预算也守住关系</h2>
+    <p class="lead">建议将 P0 写入合同验收标准（对应全部实质性条款），P1 作为"力争完成"目标条款，P2（尤其桌面Agent管理平台完整版）整体建议移至三期单独立项。</p>
+    <div class="phase-cols">
+      <div class="phase-col p0">
+        <div class="ph-head">P0 · 合同硬承诺<span class="ph-sub">对应全部▲实质性条款，验收强绑定</span></div>
+        <ul>
+          <li>统一AI应用入口（一个对话框 + @智能体）、开放性架构、不新增算力</li>
+          <li>复用并优化一期NL2SQL能力</li>
+          <li>经营分析报告/周月报自动生成并推送OA</li>
+          <li>质量风险前预警核心链路（先打通判定规则与数据基础）</li>
+          <li>知识问答关联检索增强（在一期RAG基础上）</li>
+          <li>公文智能辅助编写、会议纪要生成（办公效能核心场景）</li>
+          <li>合同/技术协议智能解析与基础审核规则</li>
+          <li>项目管理、驻场调研、泛微接口协调</li>
+        </ul>
+      </div>
+      <div class="phase-col p1">
+        <div class="ph-head">P1 · 力争完成<span class="ph-sub">视驻场调研与团队产能弹性安排</span></div>
+        <ul>
+          <li>专项文书生成（党务/纪检文书模板化部分）</li>
+          <li>文档智能校验、查重能力</li>
+          <li>业务协同扩展场景（合同履约监控、采购分析）</li>
+          <li>数据智能处理与员工数字画像（维度待客户明确后再排期）</li>
+          <li>高管智能副驾基础版（信息聚合、待办聚合，不含深度个性化）</li>
+          <li>桌面Agent管理平台基础版（纳管+审计，不含Skill市场）</li>
+        </ul>
+      </div>
+      <div class="phase-col p2">
+        <div class="ph-head">P2 · 建议移至三期<span class="ph-sub">独立复杂度高，不建议压入本期6个月周期</span></div>
+        <ul>
+          <li>企业级桌面Agent管理平台完整版（Skill市场、自然语言生成Skill、策略强制执行）</li>
+          <li>高管智能副驾深度个性化（数字员工、行为学习）</li>
+          <li>制造任务智能分解、跨系统深度业务协同</li>
+          <li>经营趋势预测、商机智能挖掘（数据基础尚不确定）</li>
+          <li>投标报价辅助的深度智能化（依赖销售中心保密数据）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="clarify">
+  <div class="wrap">
+    <div class="kicker">关键澄清清单</div>
+    <h2>驻场调研前必须问清楚的10个问题</h2>
+    <p class="lead">从客户需求调研确认表中提炼出的、直接影响报价与范围锁定的高优先级问题；完整清单见调研确认表原件。</p>
+    <div class="qlist" id="qlist"></div>
+  </div>
+</section>
+
+<section id="strategy" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="kicker">商务策略建议</div>
+    <h2>七条落地建议</h2>
+    <div class="strat-list" id="strat-list"></div>
+  </div>
+</section>
+
+<footer>
+  杭汽轮"AI+"场景应用建设(二期)项目 · 内部可行性分析 · 仅供光荣智能/红熊AI内部决策使用，不作为对外交付文档
+</footer>
+
+<script>
+const modules = [
+  {name:"平台底座与统一入口", mand:3, p0:45, p1:15, p2:10, note:"复用一期算力/权限体系；统一对话框、开放架构、不新增GPU 均为▲条款"},
+  {name:"知识问答场景", mand:0, p0:20, p1:10, p2:5, note:"一期RAG基础上做关联检索增强；依赖雪浪一期知识库现状"},
+  {name:"办公效能场景", mand:0, p0:30, p1:25, p2:15, note:"公文模板套数、党务文书类型尚未确认，直接影响工作量"},
+  {name:"智能审核场景", mand:0, p0:25, p1:25, p2:15, note:"审核规则条数、历史案例基础待明确；与泛微合同解析接口强相关"},
+  {name:"业务协同场景", mand:1, p0:25, p1:30, p2:20, note:"质量风险前预警为▲条款；强依赖雪浪虎符数据库与泛微接口"},
+  {name:"数据分析场景", mand:2, p0:20, p1:15, p2:10, note:"NL2SQL优化、经营简报推送为▲条款；投标数据需保密协议"},
+  {name:"桌面AI Agent管理平台", mand:0, p0:0, p1:20, p2:55, note:"独立产品级复杂度，建议基础版P1、完整版移至三期"},
+  {name:"高管智能副驾", mand:0, p0:10, p1:20, p2:15, note:"集成前5大场景能力，是交付序列最后一棒，依赖前置模块完成"},
+  {name:"项目管理与系统集成", mand:0, p0:30, p1:10, p2:5, note:"驻场调研、泛微协调、集成测试、验收支持"}
+];
+
+const scopeBody = document.getElementById('scope-body');
+let totalP0=0, totalP1=0, totalP2=0;
+modules.forEach(m=>{
+  totalP0+=m.p0; totalP1+=m.p1; totalP2+=m.p2;
+  const full = m.p0+m.p1+m.p2;
+  const w0 = full? (m.p0/full*100):0, w1= full? (m.p1/full*100):0, w2= full? (m.p2/full*100):0;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><b>${m.name}</b></td>
+    <td>${m.mand>0? `<span class="badge mand">▲×${m.mand}</span>` : `<span class="badge opt">—</span>`}</td>
+    <td>
+      <div class="bar-stack">
+        <div class="bar-p0" style="width:${w0}%"></div>
+        <div class="bar-p1" style="width:${w1}%"></div>
+        <div class="bar-p2" style="width:${w2}%"></div>
+      </div>
+    </td>
+    <td>${m.p0}</td>
+    <td>${m.p1}</td>
+    <td>${m.p2}</td>
+    <td style="color:var(--ink-soft); font-size:12.5px;">${m.note}</td>
+  `;
+  scopeBody.appendChild(tr);
+});
+document.getElementById('sum-p0').textContent = totalP0;
+document.getElementById('sum-p1').textContent = totalP1;
+document.getElementById('sum-p2').textContent = totalP2;
+
+const budgetLow = 2000000, budgetHigh = 3000000;
+const rateSlider = document.getElementById('rateSlider');
+const rateVal = document.getElementById('rateVal');
+
+function fmtWan(v){ return (v/10000).toFixed(0) + '万元'; }
+
+function coverageBadge(amount){
+  if(amount <= budgetHigh) return {cls:'good', text:'预算内可覆盖'};
+  if(amount <= budgetHigh*1.3) return {cls:'mid', text:'需谈判/部分让利空间'};
+  return {cls:'bad', text:'明显超预算，需砍需求'};
+}
+
+function render(){
+  const rate = parseInt(rateSlider.value,10);
+  rateVal.textContent = '¥' + rate.toLocaleString();
+
+  const sets = [
+    {key:'p0', days: totalP0},
+    {key:'p01', days: totalP0+totalP1},
+    {key:'full', days: totalP0+totalP1+totalP2}
+  ];
+  sets.forEach(s=>{
+    const amount = s.days * rate;
+    document.getElementById('amt-'+s.key).textContent = fmtWan(amount) + `（${s.days}人天）`;
+    const pct = Math.min(100, amount/budgetHigh*100);
+    document.getElementById('gauge-'+s.key).style.width = pct + '%';
+    const badge = coverageBadge(amount);
+    const el = document.getElementById('cov-'+s.key);
+    el.className = 'cov ' + badge.cls;
+    el.textContent = badge.text + ` · 对比预算上限${fmtWan(budgetHigh)}`;
+  });
+}
+rateSlider.addEventListener('input', render);
+render();
+
+const risks = [
+  {sev:'high', cat:'上游依赖', title:'一期未验收，二期强依赖一期成果', text:'知识库、NL2SQL、算力底座均需在雪浪一期基础上复用；若一期整改滞后或质量不达标，二期知识问答/数据分析场景将失去验收基准。'},
+  {sev:'high', cat:'上游依赖', title:'雪浪配合意愿不可控', text:'质量风险预警需雪浪虎符数据库开放读取或封装接口，采购分析、生产数据也依赖雪浪知识库；竞争关系下配合深度存在不确定性。'},
+  {sev:'high', cat:'合同商务', title:'范围-预算/工期存在结构性缺口', text:'9大板块60+功能点全量落地对应约525人天，全量报价与200-300万、6个月工期存在明显缺口；≥7项实质性条款"不接受负偏离"叠加此缺口，是主要合同风险来源。'},
+  {sev:'high', cat:'技术交付', title:'桌面Agent管理平台独立复杂度高', text:'命令白名单、Skill市场、策略下发、行为审计等属于独立产品级能力，不建议压入二期6个月周期与其余8个板块并行交付。'},
+  {sev:'mid', cat:'技术交付', title:'高管智能副驾依赖前置模块全部就绪', text:'需五大场景能力全部完成后才能组装，是交付序列最后一棒，前面任一模块延期都会直接传导到副驾模块的验收时间。'},
+  {sev:'mid', cat:'外部依赖', title:'泛微分包接口时效不可控', text:'合同结构化解析、审批流程集成均需泛微按我方要求开发接口；接口交付节奏由泛微把控，是关键路径上最大的外部变量。'},
+  {sev:'mid', cat:'技术交付', title:'算力与模型能力存在缺口', text:'项目明确不含新增算力采购；会议纪要语音转文字能力现状不明（qwen3.6是否支持待验证），可能需另行部署小模型，存在预算外增支风险。'},
+  {sev:'mid', cat:'数据基础', title:'数据分散与治理成本可能被低估', text:'部分采购数据留存在业务人员个人终端，投标报价数据需签保密协议后才可获取，员工画像维度尚未定义；实际数据接入与治理工作量可能超出功能开发本身。'},
+  {sev:'mid', cat:'合同商务', title:'需求边界存在动态扩张条款', text:'招标文件写明"合理新增或优化需求，经双方评估确认后应纳入项目实施范围并予以完成"，缺乏边界定义，存在范围蔓延而不增加预算的风险。'},
+  {sev:'low', cat:'关系管理', title:'三期预算不确定，叠加人情压力', text:'三期约200万元取决于二期效果的主观评价；校友会关系是助力也可能成为"为维系关系压低二期报价"的隐性压力来源。'},
+  {sev:'low', cat:'内部管理', title:'合伙人制下现金流风险需前置管理', text:'光荣智能/红熊AI无固定工资，若付款节奏不利（验收周期长达6+1-3个月），需在合同中明确里程碑付款条款覆盖驻场期间的人力成本。'},
+  {sev:'low', cat:'技术交付', title:'纯CPU环境下的并发与性能约束', text:'期望并发150、高可用架构等要求，在无GPU新增的前提下对大模型推理性能构成隐性约束，需要在架构方案中明确降级策略。'}
+];
+
+const sevRank = {high:0, mid:1, low:2};
+const sevLabel = {high:'高', mid:'中', low:'低'};
+risks.sort((a,b)=> sevRank[a.sev]-sevRank[b.sev]);
+const riskGrid = document.getElementById('risk-grid');
+risks.forEach(r=>{
+  const div = document.createElement('div');
+  div.className = 'risk-card sev-'+r.sev;
+  div.innerHTML = `
+    <div class="risk-head">
+      <div><span class="cat">${r.cat}</span><h4>${r.title}</h4></div>
+      <span class="sev-tag sev-${r.sev}">${sevLabel[r.sev]}风险</span>
+    </div>
+    <p>${r.text}</p>
+  `;
+  riskGrid.appendChild(div);
+});
+
+const questions = [
+  {q:'一期NL2SQL当前覆盖的数据主题、表数量、准确率如何？需要优化的具体方向是什么？', why:'直接决定数据分析板块P0工作量与是否可承诺▲条款验收标准'},
+  {q:'雪浪知识库、虎符数据仓的对接方式：是直连数据库还是需雪浪封装接口？雪浪的配合意愿和响应速度如何？', why:'决定业务协同、知识问答两大板块的架构方案与关键路径排期'},
+  {q:'质量风险前预警的判定规则、预警节点，以及当前质量管理的痛点案例是否已积累？', why:'该项为▲实质性条款，是本期最不能负偏离的交付项之一'},
+  {q:'共计几个部门/业务领域需要建立独立知识库？每个知识库的文档量、格式分布如何？', why:'决定知识问答场景切片、向量化的实际工作量'},
+  {q:'企业公文模板、党务/纪检文书模板大概各有多少套？', why:'办公效能与专项文书场景的工作量测算基础'},
+  {q:'技术协议、合同审核的规则条数、是否有可参考的历史示例？', why:'智能审核板块的核心不确定项，也决定与泛微接口的对接颗粒度'},
+  {q:'历史采购、投标报价数据的存储位置、量级与结构化程度如何？', why:'决定数据分析场景中投标辅助功能是否可在本期落地，还是移至三期'},
+  {q:'现有qwen3.6是否支持语音转文字？如不支持，是否需要另行部署ASR/TTS小模型？', why:'涉及预算外增支，需在报价前明确是否计入本期范围'},
+  {q:'桌面AI Agent管理平台的实际优先级：客户是否接受将完整版移至三期单独立项？', why:'该模块独立复杂度最高，是锁定本期总范围最关键的一次沟通'},
+  {q:'泛微的接口交付时间表与责任边界能否书面确认？', why:'泛微是项目关键路径上唯一不受我方控制的外部变量，需前置锁定'}
+];
+const qlist = document.getElementById('qlist');
+questions.forEach((item,i)=>{
+  const div = document.createElement('div');
+  div.className = 'qitem';
+  div.innerHTML = `<div class="qnum">${i+1}</div><div class="qtext">${item.q}<span class="qwhy">为什么问：${item.why}</span></div>`;
+  qlist.appendChild(div);
+});
+
+const strategies = [
+  {title:'合同分级承诺：P0写死、P1弹性、P2移三期', text:'将全部▲实质性条款与核心场景锁定为P0合同硬承诺并写入验收标准；P1作为"力争完成"目标条款；桌面Agent管理平台完整版等P2内容建议整体移至三期单独立项，避免二期战线过长稀释交付质量。'},
+  {title:'驻场调研前置为可计费的"范围确认阶段"', text:'参考苏州RPA项目的Phase 0计费模式，将驻场调研前2-4周设为"需求澄清与范围确认"阶段，产出双方签字的《范围与验收标准确认书》，既为报价提供依据，也降低后续范围蔓延风险。'},
+  {title:'与实在智能(森贤)提前明确分工与分成', text:'桌面Agent/RPA相关能力若涉及实在智能协作，建议在项目启动前签署内部分工与分成协议，避免出现类似浙江公积金项目的后期分配纠纷。'},
+  {title:'书面锁定泛微接口交付里程碑', text:'将泛微的接口交付节点纳入项目整体甘特图关键路径，并在与泛微的分包约定中明确延期责任转移条款，避免我方为外部方延期独自承担验收压力。'},
+  {title:'语音转文字等预算外能力单列为待确认项', text:'避免语音模型部署等不在原报价范围内的能力被动"兜底"进P0，报价文件中应单列为可选项，待驻场确认后再决定是否计入合同范围。'},
+  {title:'里程碑付款结构覆盖驻场现金流缺口', text:'建议采用30/30/25/15或类似结构，付款节点与阶段性验收强绑定；在合伙人无固定工资的模式下，这对覆盖驻场期间的人力成本尤为关键。'},
+  {title:'KPI表述采用"目标达到"而非绝对化承诺', text:'NL2SQL准确率、审核准确率等指标可能受一期数据质量直接影响，合同表述建议统一采用"目标达到XX%"，避免因上游数据问题导致的绝对化承诺违约风险。'}
+];
+const stratList = document.getElementById('strat-list');
+strategies.forEach((s,i)=>{
+  const div = document.createElement('div');
+  div.className = 'strat-item';
+  div.innerHTML = `<div class="si-num">${String(i+1).padStart(2,'0')}</div><div><h4>${s.title}</h4><p>${s.text}</p></div>`;
+  stratList.appendChild(div);
+});
+</script>
+</body>
+</html>

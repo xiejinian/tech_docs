@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智慧文旅出行监管直播小程序 · 可行性与盈利分析</title>
+<style>
+  :root{
+    --bg: #FAF9F6;
+    --bg-panel: #FFFFFF;
+    --bg-sunken: #F3F1EB;
+    --ink: #262521;
+    --ink-soft: #6B6860;
+    --line: #E5E2D9;
+    --accent: #BD5D3A;
+    --accent-soft: #F1E3DA;
+    --red: #B3462C;
+    --red-bg: #FBEBE5;
+    --amber: #9A6B12;
+    --amber-bg: #FBF3E1;
+    --green: #4B6B4A;
+    --green-bg: #EAF0E6;
+    --serif: 'Iowan Old Style','Palatino Linotype','Songti SC', Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'SF Mono', 'Consolas', monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--sans); line-height:1.65; font-size:15.5px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:920px; margin:0 auto; padding:64px 28px 120px;}
+
+  /* header */
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:14px; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:''; width:22px; height:1px; background:var(--accent);}
+  h1{
+    font-family:var(--serif); font-weight:500; font-size:34px; line-height:1.25;
+    margin:0 0 10px; color:var(--ink); letter-spacing:-.01em;
+  }
+  .subtitle{color:var(--ink-soft); font-size:15px; margin-bottom:36px;}
+  .meta-row{display:flex; gap:28px; flex-wrap:wrap; padding:18px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-bottom:44px;}
+  .meta-item .k{font-size:11px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.08em; margin-bottom:3px;}
+  .meta-item .v{font-size:14.5px; font-weight:600;}
+
+  /* headline verdict box */
+  .verdict{
+    background:var(--bg-panel); border:1px solid var(--line); border-radius:14px;
+    padding:28px 30px; margin-bottom:48px; position:relative;
+  }
+  .verdict-title{font-family:var(--serif); font-size:19px; margin:0 0 10px; display:flex; align-items:center; gap:10px;}
+  .verdict-title .dot{width:9px;height:9px;border-radius:50%; background:var(--accent); flex-shrink:0;}
+  .verdict p{margin:0; color:var(--ink); font-size:15px;}
+  .verdict .highlight{background:linear-gradient(transparent 60%, var(--accent-soft) 60%); font-weight:600;}
+
+  section{margin-bottom:56px;}
+  .sec-label{
+    font-family:var(--mono); font-size:11.5px; color:var(--ink-soft);
+    letter-spacing:.1em; text-transform:uppercase; margin-bottom:8px;
+  }
+  h2{
+    font-family:var(--serif); font-weight:500; font-size:24px; margin:0 0 22px;
+    padding-bottom:14px; border-bottom:1px solid var(--line);
+  }
+  h3{font-family:var(--serif); font-weight:500; font-size:17px; margin:28px 0 12px;}
+  p{margin:0 0 14px;}
+
+  /* risk callout for gov interface */
+  .callout{
+    border-left:3px solid var(--red); background:var(--red-bg);
+    padding:18px 22px; border-radius:0 10px 10px 0; margin:20px 0;
+  }
+  .callout .lbl{font-weight:700; color:var(--red); font-size:12.5px; text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px;}
+  .callout p{margin:0 0 8px; font-size:14.5px;}
+  .callout p:last-child{margin-bottom:0;}
+  .callout ul{margin:8px 0 0; padding-left:20px;}
+  .callout li{margin-bottom:5px; font-size:14.5px;}
+
+  /* module table */
+  table{width:100%; border-collapse:collapse; font-size:14px;}
+  th{
+    text-align:left; font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:.06em; color:var(--ink-soft); font-weight:600; padding:10px 14px;
+    border-bottom:1px solid var(--ink);
+  }
+  td{padding:14px; border-bottom:1px solid var(--line); vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  .module-name{font-weight:600;}
+  .tag{
+    display:inline-block; font-size:11px; padding:3px 9px; border-radius:20px; font-weight:600;
+  }
+  .tag-low{background:var(--green-bg); color:var(--green);}
+  .tag-mid{background:var(--amber-bg); color:var(--amber);}
+  .tag-high{background:var(--red-bg); color:var(--red);}
+  .days{font-family:var(--mono); font-weight:700; white-space:nowrap;}
+  .total-row td{font-weight:700; border-top:2px solid var(--ink); background:var(--bg-sunken);}
+
+  /* risk register cards */
+  .risk-grid{display:flex; flex-direction:column; gap:10px;}
+  .risk-item{
+    display:grid; grid-template-columns:90px 1fr; gap:18px; padding:16px 18px;
+    background:var(--bg-panel); border:1px solid var(--line); border-radius:10px; align-items:start;
+  }
+  .risk-badge{
+    font-size:11px; font-weight:700; padding:5px 0; border-radius:6px; text-align:center; height:fit-content;
+  }
+  .risk-high{background:var(--red-bg); color:var(--red);}
+  .risk-mid{background:var(--amber-bg); color:var(--amber);}
+  .risk-low{background:var(--green-bg); color:var(--green);}
+  .risk-item .rt{font-weight:600; margin-bottom:4px; font-size:14.5px;}
+  .risk-item .rd{color:var(--ink-soft); font-size:13.5px; margin-bottom:6px;}
+  .risk-item .ra{font-size:13.5px;}
+  .risk-item .ra b{color:var(--accent);}
+
+  /* calculator */
+  .calc{
+    background:var(--bg-panel); border:1px solid var(--line); border-radius:14px; padding:30px;
+  }
+  .calc-row{margin-bottom:22px;}
+  .calc-row:last-of-type{margin-bottom:0;}
+  .calc-label-row{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px;}
+  .calc-label{font-weight:600; font-size:14px;}
+  .calc-sub{font-size:12px; color:var(--ink-soft);}
+  .calc-value{font-family:var(--mono); font-weight:700; font-size:14px; color:var(--accent);}
+  input[type=range]{
+    -webkit-appearance:none; width:100%; height:4px; border-radius:2px; background:var(--line); outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; width:17px; height:17px; border-radius:50%; background:var(--accent);
+    cursor:pointer; border:3px solid var(--bg-panel); box-shadow:0 0 0 1px var(--accent);
+  }
+  input[type=range]::-moz-range-thumb{
+    width:17px; height:17px; border-radius:50%; background:var(--accent); cursor:pointer; border:3px solid var(--bg-panel); box-shadow:0 0 0 1px var(--accent);
+  }
+  .calc-divider{height:1px; background:var(--line); margin:24px 0;}
+  .calc-result{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;
+    background:var(--bg-sunken); border-radius:10px; padding:20px 22px; margin-top:6px;
+  }
+  .calc-result .rl{font-size:12.5px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px;}
+  .calc-result .rv{font-family:var(--serif); font-size:28px; font-weight:600;}
+  .calc-result .rv small{font-family:var(--sans); font-size:13px; color:var(--ink-soft); font-weight:400;}
+  .margin-pill{
+    font-family:var(--mono); font-size:13px; font-weight:700; padding:8px 14px; border-radius:20px;
+    background:var(--green-bg); color:var(--green);
+  }
+  .margin-pill.warn{background:var(--amber-bg); color:var(--amber);}
+  .margin-pill.bad{background:var(--red-bg); color:var(--red);}
+
+  /* action list */
+  .actions{list-style:none; margin:0; padding:0; counter-reset:act;}
+  .actions li{
+    counter-increment:act; position:relative; padding:16px 0 16px 40px; border-bottom:1px solid var(--line);
+  }
+  .actions li:last-child{border-bottom:none;}
+  .actions li::before{
+    content:counter(act); position:absolute; left:0; top:16px; width:24px; height:24px; border-radius:50%;
+    background:var(--accent-soft); color:var(--accent); font-family:var(--mono); font-size:12px; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .actions .at{font-weight:600; margin-bottom:4px;}
+  .actions .ad{color:var(--ink-soft); font-size:13.5px;}
+
+  footer{
+    margin-top:70px; padding-top:24px; border-top:1px solid var(--line);
+    color:var(--ink-soft); font-size:12.5px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+
+  @media(max-width:640px){
+    .wrap{padding:40px 18px 90px;}
+    h1{font-size:26px;}
+    table, thead, tbody, th, td, tr{display:block;}
+    thead{display:none;}
+    tr{border-bottom:1px solid var(--line); padding:14px 0;}
+    td{border:none; padding:4px 0;}
+    td::before{content:attr(data-label); display:block; font-family:var(--mono); font-size:10.5px; color:var(--ink-soft); text-transform:uppercase; margin-bottom:2px;}
+    .risk-item{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">可行性 · 报价评估</div>
+  <h1>智慧文旅出行监管直播小程序<br>可行性与盈利预估</h1>
+  <div class="subtitle">团队监测 · 实时直播 · 交易积分 · 大数据画像 · 三方接口对接 · 私有化部署</div>
+
+  <div class="meta-row">
+    <div class="meta-item"><div class="k">评估日期</div><div class="v">2026年7月</div></div>
+    <div class="meta-item"><div class="k">要求交期</div><div class="v">60 个工作日</div></div>
+    <div class="meta-item"><div class="k">估算工作量</div><div class="v">180 – 230 人天</div></div>
+    <div class="meta-item"><div class="k">最大风险</div><div class="v" style="color:var(--red)">政务接口资质不明</div></div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-title"><span class="dot"></span>一句话结论</div>
+    <p>这不是一个"小程序项目"，而是一个<span class="highlight">政企级综合平台</span>——技术上没有不可逾越的难点，但 <b>60 个工作日</b>的交期建立在一个未经验证的前提上：<span class="highlight">甲方需已具备旅行社资质并完成政务平台报备</span>，这个环节不受开发进度控制，是唯一可能拖垮整个项目节奏的变量。</p>
+  </div>
+
+  <section>
+    <div class="sec-label">01 · 关键风险</div>
+    <h2>全国旅游监管服务平台对接，是这份需求书里真正的"雷"</h2>
+    <p>该平台（12301.cn）是文旅部主导的政务系统，目前对外开放的核心能力是<b>电子合同、导游执业信息、"一团一报"团队申报</b>，且接入方式是：企业先持有旅行社资质 → 在平台完成实名与签章备案 → 获得 AppID / AppKey → 才能联调。</p>
+    <div class="callout">
+      <div class="lbl">这意味着</div>
+      <ul>
+        <li>如果甲方不具备旅行社或同等报备主体资质，这个接口<b>从起点就走不通</b>，与技术能力无关</li>
+        <li>平台开放的数据类型（合同 / 导游 / 团队申报）与需求书要求的"出团数据、行程数据、订单数据全量同步"存在差距，可能需要额外沟通甚至无法完全满足</li>
+        <li>企业首次接入政务平台的资质核验通常需要数周甚至更久，<b>完全不在我方可控范围内</b></li>
+      </ul>
+    </div>
+    <p>建议：把这一项的核实作为签约前置条件，而不是签完约才发现打不通——用你惯用的"Phase 0 付费澄清"模式处理最合适。</p>
+  </section>
+
+  <section>
+    <div class="sec-label">02 · 模块拆解</div>
+    <h2>工作量估算</h2>
+    <table>
+      <thead><tr><th style="width:34%">模块</th><th style="width:14%">难度</th><th style="width:34%">建议实现方式</th><th style="width:18%">估算人天</th></tr></thead>
+      <tbody>
+        <tr><td data-label="模块" class="module-name">团队动态监测</td><td data-label="难度"><span class="tag tag-mid">中</span></td><td data-label="方式">成熟定位 SDK + 围栏算法，非自研</td><td data-label="人天" class="days">20–25</td></tr>
+        <tr><td data-label="模块" class="module-name">实时直播</td><td data-label="难度"><span class="tag tag-mid">中</span></td><td data-label="方式">接第三方云直播（腾讯云 / 声网），不自建推流</td><td data-label="人天" class="days">15–20</td></tr>
+        <tr><td data-label="模块" class="module-name">会员积分体系</td><td data-label="难度"><span class="tag tag-low">低</span></td><td data-label="方式">标准化模块，可复用既有组件</td><td data-label="人天" class="days">10–12</td></tr>
+        <tr><td data-label="模块" class="module-name">交易下单</td><td data-label="难度"><span class="tag tag-mid">中</span></td><td data-label="方式">含支付、成团、财务对账</td><td data-label="人天" class="days">20–25</td></tr>
+        <tr><td data-label="模块" class="module-name">大数据智能分析</td><td data-label="难度"><span class="tag tag-high">高</span></td><td data-label="方式">实质是一套定制 BI，"AI 智能预测升级"没有边界，需单独限定 MVP 范围</td><td data-label="人天" class="days">25–35</td></tr>
+        <tr><td data-label="模块" class="module-name">三大接口对接</td><td data-label="难度"><span class="tag tag-high">高</span></td><td data-label="方式">政务接口风险最高，内部 SSO 中等，第三方支付/OTA 中等</td><td data-label="人天" class="days">35–50</td></tr>
+        <tr><td data-label="模块" class="module-name">PC 后台 + 可视化大屏</td><td data-label="难度"><span class="tag tag-mid">中</span></td><td data-label="方式">部分复用监测 / 分析模块看板</td><td data-label="人天" class="days">20–25</td></tr>
+        <tr><td data-label="模块" class="module-name">私有化部署 + 压测</td><td data-label="难度"><span class="tag tag-mid">中</span></td><td data-label="方式">全源码交付，多团队高并发</td><td data-label="人天" class="days">10–15</td></tr>
+        <tr><td data-label="模块" class="module-name">测试 / 文档 / 培训</td><td data-label="难度"><span class="tag tag-low">低</span></td><td data-label="方式">—</td><td data-label="人天" class="days">8–10</td></tr>
+        <tr class="total-row"><td data-label="合计">核心开发合计</td><td></td><td data-label="说明">加 15% 项目管理开销</td><td data-label="人天" class="days">180–230</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:16px; color:var(--ink-soft); font-size:13.5px;">按 60 个工作日倒推，需要 3–4 人全职并行团队，且要求政务接口从第一天起就能顺利联调——这个前提目前无法验证。</p>
+  </section>
+
+  <section>
+    <div class="sec-label">03 · 风险登记册</div>
+    <h2>逐项风险与应对</h2>
+    <div class="risk-grid">
+      <div class="risk-item">
+        <div class="risk-badge risk-high">高风险</div>
+        <div>
+          <div class="rt">政务平台接口资质 / 审批周期不可控</div>
+          <div class="rd">甲方是否具备旅行社资质未知，平台开放范围与需求存在差距</div>
+          <div class="ra"><b>动作：</b>Phase 0 优先核实；合同加"以甲方完成资质报备之日起计算接口周期"条款</div>
+        </div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-badge risk-high">高风险</div>
+        <div>
+          <div class="rt">60 工作日交期 vs ~200 人天实际工作量</div>
+          <div class="rd">大数据模块与三接口联调难以压缩</div>
+          <div class="ra"><b>动作：</b>分期验收 — P0 监管直播+交易 → P1 积分会员+内部互通 → P2 大数据分析+AI预测</div>
+        </div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-badge risk-mid">中风险</div>
+        <div>
+          <div class="rt">"大数据智能分析 + AI 智能预测升级"边界模糊</div>
+          <div class="rd">典型的范围蔓延（scope creep）表述</div>
+          <div class="ra"><b>动作：</b>单独报价、单独验收，写清 MVP 具体交付物，AI 预测列为 P2</div>
+        </div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-badge risk-mid">中风险</div>
+        <div>
+          <div class="rt">直播云服务持续成本</div>
+          <div class="rd">流量 / 时长费用属于运营期持续性支出，非一次性开发成本</div>
+          <div class="ra"><b>动作：</b>合同明确该费用由甲方承担还是打包，避免变成长期负债</div>
+        </div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-badge risk-mid">中风险</div>
+        <div>
+          <div class="rt">"1 年免费运维 / 免费升级 / 接口维护"</div>
+          <div class="rd">边界不清易被理解为无限期免费迭代</div>
+          <div class="ra"><b>动作：</b>合同写明仅含缺陷修复，不含新需求；预留总报价 5–8% 作运维准备金</div>
+        </div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-badge risk-low">低风险</div>
+        <div>
+          <div class="rt">会员 / 积分 / 交易 / 后台等标准模块</div>
+          <div class="rd">技术成熟，可复用产品化组件</div>
+          <div class="ra"><b>动作：</b>正常排期即可</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label">04 · 报价测算</div>
+    <h2>盈利预估计算器</h2>
+    <div class="calc">
+      <div class="calc-row">
+        <div class="calc-label-row">
+          <div><div class="calc-label">总工作量</div><div class="calc-sub">对应上方模块拆解合计</div></div>
+          <div class="calc-value" id="daysVal">200 人天</div>
+        </div>
+        <input type="range" id="daysSlider" min="160" max="230" value="200" step="5">
+      </div>
+      <div class="calc-row">
+        <div class="calc-label-row">
+          <div><div class="calc-label">综合日费率</div><div class="calc-sub">配置¥800-1200 / 核心开发¥1500-2000 / 算法类¥2000-2800 混合均价</div></div>
+          <div class="calc-value" id="rateVal">¥1,800 / 天</div>
+        </div>
+        <input type="range" id="rateSlider" min="1500" max="2200" value="1800" step="50">
+      </div>
+      <div class="calc-row">
+        <div class="calc-label-row">
+          <div><div class="calc-label">风险缓冲 + 运维准备金</div><div class="calc-sub">覆盖政务接口不确定性与1年免费运维承诺</div></div>
+          <div class="calc-value" id="bufferVal">18%</div>
+        </div>
+        <input type="range" id="bufferSlider" min="10" max="30" value="18" step="1">
+      </div>
+      <div class="calc-row">
+        <div class="calc-label-row">
+          <div><div class="calc-label">拟报价</div><div class="calc-sub">对客户的总报价（不含税）</div></div>
+          <div class="calc-value" id="quoteVal">¥700,000</div>
+        </div>
+        <input type="range" id="quoteSlider" min="500000" max="1000000" value="700000" step="10000">
+      </div>
+
+      <div class="calc-divider"></div>
+
+      <div class="calc-result">
+        <div>
+          <div class="rl">预估综合成本</div>
+          <div class="rv" id="costOut">¥0</div>
+        </div>
+        <div>
+          <div class="rl">预估毛利</div>
+          <div class="rv" id="profitOut">¥0</div>
+        </div>
+        <div id="marginPill" class="margin-pill">毛利率 0%</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label">05 · 行动建议</div>
+    <h2>下一步怎么走</h2>
+    <ul class="actions">
+      <li>
+        <div class="at">先卖 Phase 0：政务接口资质核查 + 需求澄清</div>
+        <div class="ad">1–2 周，¥30,000–50,000。这一步不做，后面的交期承诺都是空中楼阁——与苏州 RPA 项目的做法一致。</div>
+      </li>
+      <li>
+        <div class="at">大数据模块单独报价、单独验收</div>
+        <div class="ad">避免被绑进 60 天硬交期，也避免"AI智能预测升级"这种无边界表述吃掉利润空间。</div>
+      </li>
+      <li>
+        <div class="at">直播模块坚持用第三方云 SDK</div>
+        <div class="ad">腾讯云直播 / 声网 Agora 均可，不自建推流基础设施，同时降低开发风险和长期运维负担。</div>
+      </li>
+    </ul>
+  </section>
+
+  <footer>
+    <span>内部可行性评估 · 非对外文件</span>
+    <span>光荣智能 · 2026</span>
+  </footer>
+</div>
+
+<script>
+  const daysSlider = document.getElementById('daysSlider');
+  const rateSlider = document.getElementById('rateSlider');
+  const bufferSlider = document.getElementById('bufferSlider');
+  const quoteSlider = document.getElementById('quoteSlider');
+
+  const daysVal = document.getElementById('daysVal');
+  const rateVal = document.getElementById('rateVal');
+  const bufferVal = document.getElementById('bufferVal');
+  const quoteVal = document.getElementById('quoteVal');
+
+  const costOut = document.getElementById('costOut');
+  const profitOut = document.getElementById('profitOut');
+  const marginPill = document.getElementById('marginPill');
+
+  function fmt(n){ return '¥' + Math.round(n).toLocaleString('zh-CN'); }
+
+  function recalc(){
+    const days = Number(daysSlider.value);
+    const rate = Number(rateSlider.value);
+    const buffer = Number(bufferSlider.value);
+    const quote = Number(quoteSlider.value);
+
+    daysVal.textContent = days + ' 人天';
+    rateVal.textContent = '¥' + rate.toLocaleString('zh-CN') + ' / 天';
+    bufferVal.textContent = buffer + '%';
+    quoteVal.textContent = fmt(quote);
+
+    const baseCost = days * rate;
+    const totalCost = baseCost * (1 + buffer/100);
+    const profit = quote - totalCost;
+    const margin = quote > 0 ? (profit / quote) * 100 : 0;
+
+    costOut.textContent = fmt(totalCost);
+    profitOut.textContent = fmt(profit);
+
+    marginPill.textContent = '毛利率 ' + margin.toFixed(1) + '%';
+    marginPill.classList.remove('warn','bad');
+    if(margin < 20){ marginPill.classList.add('bad'); }
+    else if(margin < 35){ marginPill.classList.add('warn'); }
+  }
+
+  [daysSlider, rateSlider, bufferSlider, quoteSlider].forEach(el => el.addEventListener('input', recalc));
+  recalc();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H200 算力资源 · 交易流程与规则指南</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",Arial,sans-serif;background:#F3F2EF;color:#111;font-size:14px;line-height:1.7}
+a{color:inherit;text-decoration:none}
+
+/* ── HERO ── */
+.hero{background:#0C1A2E;color:#fff;padding:48px 0 0}
+.hero-inner{max-width:960px;margin:0 auto;padding:0 40px}
+.hero-tag{font-size:11px;letter-spacing:2px;color:#6A8BAA;margin-bottom:14px;font-weight:500}
+.hero-title{font-size:30px;font-weight:700;line-height:1.25;margin-bottom:12px}
+.hero-title span{color:#4A9FD5}
+.hero-sub{font-size:14px;color:#8AADC8;max-width:580px;line-height:1.8;margin-bottom:32px}
+.hero-pills{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:0}
+.pill{font-size:12px;padding:4px 12px;border-radius:20px;font-weight:500}
+.pill.spot{background:#1A4E2A;color:#5ED98A}
+.pill.futures{background:#4A2E00;color:#F5B840}
+.pill.sea{background:#0A3040;color:#40C0C8}
+.pill.risk{background:#3A1010;color:#F08080}
+
+/* ── TAB NAV ── */
+.tab-bar{background:#0C1A2E;border-top:1px solid #1E2E42;padding:0;margin-top:24px}
+.tab-inner{max-width:960px;margin:0 auto;padding:0 40px;display:flex;gap:0}
+.tab-btn{background:none;border:none;border-bottom:3px solid transparent;color:#6A8BAA;font-size:13px;font-weight:500;padding:14px 18px 11px;cursor:pointer;font-family:inherit;transition:color .15s}
+.tab-btn:hover{color:#fff}
+.tab-btn.active{color:#4A9FD5;border-bottom-color:#4A9FD5}
+
+/* ── MAIN ── */
+.main{max-width:960px;margin:32px auto;padding:0 40px 60px}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+
+/* ── COMPONENTS ── */
+.sec-title{font-size:19px;font-weight:700;color:#0C1A2E;margin-bottom:6px}
+.sec-sub{font-size:13px;color:#777;margin-bottom:24px}
+.divider{border:none;border-top:1px solid #E0DDD8;margin:32px 0}
+
+.card{background:#fff;border:1px solid #E0DDD8;border-radius:10px;padding:22px 24px;margin-bottom:16px}
+.card-title{font-size:14px;font-weight:700;margin-bottom:8px}
+.card-body{font-size:13px;color:#555;line-height:1.8}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+
+/* ── ACCENT CARDS ── */
+.acard{border-radius:10px;padding:20px 22px;margin-bottom:0}
+.acard.green{background:#F0FBF4;border:1px solid #A8DDB8}
+.acard.amber{background:#FFF8EC;border:1px solid #F5CC70}
+.acard.navy{background:#EEF4FC;border:1px solid #A0C0E8}
+.acard.teal{background:#EEF9F8;border:1px solid #80C8C0}
+.acard.red{background:#FFF0F0;border:1px solid #E0A0A0}
+.acard-label{font-size:10px;font-weight:700;letter-spacing:1.5px;margin-bottom:8px}
+.green .acard-label{color:#1A6B3C}
+.amber .acard-label{color:#8B5E00}
+.navy .acard-label{color:#1A4E8C}
+.teal .acard-label{color:#1A6B5A}
+.red .acard-label{color:#A01E1E}
+.acard-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.green .acard-title{color:#0F4020}
+.amber .acard-title{color:#5A3A00}
+.navy .acard-title{color:#0A3060}
+.teal .acard-title{color:#0A4A44}
+.red .acard-title{color:#700000}
+.acard-body{font-size:13px;line-height:1.8;color:#555}
+
+/* ── FLOW DIAGRAM ── */
+.flow-col{flex:1}
+.flow-header{text-align:center;padding:10px 16px;border-radius:8px 8px 0 0;font-size:12px;font-weight:700;letter-spacing:1px}
+.flow-header.green{background:#1A6B3C;color:#fff}
+.flow-header.amber{background:#8B5E00;color:#fff}
+.flow-step{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;background:#fff;border-left:3px solid #E0DDD8;border-right:1px solid #E0DDD8;border-bottom:1px solid #E0DDD8;position:relative}
+.flow-step:last-child{border-radius:0 0 8px 8px;border-bottom:1px solid #E0DDD8}
+.flow-step.green{border-left-color:#1A6B3C}
+.flow-step.amber{border-left-color:#8B5E00}
+.flow-num{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+.green .flow-num{background:#1A6B3C;color:#fff}
+.amber .flow-num{background:#8B5E00;color:#fff}
+.flow-step-content{flex:1}
+.flow-step-title{font-size:13px;font-weight:700;margin-bottom:3px;color:#111}
+.flow-step-desc{font-size:12px;color:#666;line-height:1.6}
+.flow-step-tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:3px;margin-top:5px;font-weight:600}
+.flow-step-tag.doc{background:#EEF4FC;color:#1A4E8C}
+.flow-step-tag.warn{background:#FFF0F0;color:#A01E1E}
+.flow-step-tag.ok{background:#F0FBF4;color:#1A6B3C}
+.flow-arrow{text-align:center;padding:3px 0;color:#B0ADA8;font-size:16px;background:#F9F8F6;border-left:1px solid #E0DDD8;border-right:1px solid #E0DDD8}
+
+/* ── COMPARISON TABLE ── */
+.ctable{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;border:1px solid #E0DDD8}
+.ctable th{padding:12px 16px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.5px;background:#F3F2EF;color:#555;border-bottom:1px solid #E0DDD8}
+.ctable td{padding:12px 16px;font-size:13px;border-bottom:1px solid #F0EDE8;color:#333}
+.ctable tr:last-child td{border-bottom:none}
+.ctable td:first-child{font-weight:600;color:#111;width:22%}
+.ctable td.green{color:#1A6B3C;font-weight:600}
+.ctable td.amber{color:#8B5E00;font-weight:600}
+.ctable td.red{color:#A01E1E;font-weight:600}
+.ctable td.gray{color:#999}
+.th-green{color:#1A6B3C !important}
+.th-amber{color:#8B5E00 !important}
+
+/* ── FACTOR ROW ── */
+.factor-row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #F0EDE8;background:#fff}
+.factor-row:first-child{border-radius:10px 10px 0 0}
+.factor-row:last-child{border-radius:0 0 10px 10px;border-bottom:none}
+.factor-name{width:160px;font-size:13px;font-weight:600;color:#111;flex-shrink:0}
+.factor-range{flex:1}
+.factor-bar-wrap{display:flex;align-items:center;gap:8px;font-size:12px;color:#666}
+.factor-bar{height:6px;border-radius:3px;background:#E0DDD8;flex:1;position:relative;overflow:hidden}
+.factor-fill{height:100%;border-radius:3px}
+.factor-fill.up{background:#1A6B3C}
+.factor-fill.down{background:#A01E1E}
+.factor-impact{font-size:11px;padding:2px 8px;border-radius:3px;flex-shrink:0;font-weight:600}
+.impact-up{background:#F0FBF4;color:#1A6B3C}
+.impact-down{background:#FFF0F0;color:#A01E1E}
+.factor-row-wrap{border:1px solid #E0DDD8;border-radius:10px;overflow:hidden;margin-bottom:16px}
+
+/* ── PARTICIPANT CHAIN ── */
+.chain{display:flex;align-items:stretch;gap:0;margin-bottom:24px;overflow-x:auto}
+.chain-node{flex:1;min-width:130px;text-align:center;padding:18px 12px;background:#fff;border-top:1px solid #E0DDD8;border-bottom:1px solid #E0DDD8;border-right:1px solid #E0DDD8}
+.chain-node:first-child{border-left:1px solid #E0DDD8;border-radius:10px 0 0 10px}
+.chain-node:last-child{border-radius:0 10px 10px 0}
+.chain-arrow{display:flex;align-items:center;color:#B0ADA8;font-size:20px;padding:0 4px;border-top:1px solid #E0DDD8;border-bottom:1px solid #E0DDD8;background:#F9F8F6}
+.chain-icon{font-size:22px;margin-bottom:6px}
+.chain-role{font-size:10px;font-weight:700;letter-spacing:.8px;margin-bottom:4px;color:#888}
+.chain-name{font-size:13px;font-weight:700;color:#111;margin-bottom:5px}
+.chain-desc{font-size:11px;color:#777;line-height:1.5}
+
+/* ── TERMS ── */
+.term-block{margin-bottom:20px}
+.term-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.term-num{width:28px;height:28px;border-radius:6px;background:#0C1A2E;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.term-title{font-size:15px;font-weight:700;color:#0C1A2E}
+.term-body{font-size:13px;color:#555;line-height:1.8;padding-left:38px}
+.term-body strong{color:#111;font-weight:600}
+.recommend-box{background:#EEF4FC;border:1px solid #A0C0E8;border-radius:8px;padding:12px 16px;margin-top:8px;font-size:13px;color:#1A4E8C;line-height:1.7}
+.recommend-box strong{color:#0A3060}
+
+/* ── RISK MATRIX ── */
+.risk-matrix{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.risk-item{background:#fff;border:1px solid #E0DDD8;border-radius:8px;padding:14px 16px}
+.risk-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.risk-name{font-size:13px;font-weight:700;color:#111}
+.risk-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:3px;flex-shrink:0}
+.risk-badge.high{background:#FFF0F0;color:#A01E1E}
+.risk-badge.med{background:#FFF8EC;color:#8B5E00}
+.risk-badge.low{background:#F0FBF4;color:#1A6B3C}
+.risk-desc{font-size:12px;color:#666;line-height:1.6;margin-bottom:8px}
+.risk-mitigation{font-size:11px;background:#F9F8F6;border-radius:4px;padding:6px 10px;color:#555;line-height:1.5}
+.risk-mitigation strong{color:#333}
+
+/* ── REGION ── */
+.region-compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.region-card{border-radius:10px;padding:20px 22px}
+.region-card.dom{background:#EEF4FC;border:2px solid #4A9FD5}
+.region-card.sea{background:#EEF9F8;border:2px solid #40B0A8}
+.region-title{font-size:16px;font-weight:700;margin-bottom:4px}
+.dom .region-title{color:#0A3060}
+.sea .region-title{color:#0A4A44}
+.region-sub{font-size:12px;margin-bottom:14px}
+.dom .region-sub{color:#4A80B0}
+.sea .region-sub{color:#2A8070}
+.region-list{list-style:none;font-size:13px;color:#444}
+.region-list li{padding:5px 0;border-bottom:1px solid rgba(0,0,0,.07);display:flex;align-items:flex-start;gap:8px}
+.region-list li:last-child{border-bottom:none}
+.region-list .ok{color:#1A6B3C;font-weight:700;flex-shrink:0}
+.region-list .warn{color:#A01E1E;font-weight:700;flex-shrink:0}
+.region-list .note{color:#8B5E00;font-weight:700;flex-shrink:0}
+
+.compliance-steps{display:flex;gap:0;margin-bottom:24px}
+.cs-step{flex:1;padding:14px 16px;background:#fff;border:1px solid #E0DDD8;border-right:none;text-align:center}
+.cs-step:first-child{border-radius:8px 0 0 8px}
+.cs-step:last-child{border-radius:0 8px 8px 0;border-right:1px solid #E0DDD8}
+.cs-num{font-size:20px;font-weight:800;color:#0C1A2E;margin-bottom:4px}
+.cs-title{font-size:12px;font-weight:700;color:#333;margin-bottom:4px}
+.cs-desc{font-size:11px;color:#777;line-height:1.5}
+
+/* ── MARKET PRICE TABLE ── */
+.price-table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;border:1px solid #E0DDD8;margin-bottom:16px}
+.price-table th{padding:11px 14px;text-align:left;font-size:11px;font-weight:700;background:#0C1A2E;color:#8AADC8;letter-spacing:.5px}
+.price-table td{padding:11px 14px;font-size:13px;border-bottom:1px solid #F0EDE8;color:#333}
+.price-table tr:last-child td{border-bottom:none}
+.price-table tr:hover td{background:#FAFAF8}
+.price-hl{font-weight:700;color:#0A3060}
+
+/* ── RED FLAGS ── */
+.red-flags{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.rf-item{display:flex;align-items:flex-start;gap:10px;background:#FFF5F5;border:1px solid #ECBCBC;border-radius:7px;padding:10px 14px}
+.rf-icon{color:#A01E1E;font-size:16px;font-weight:800;flex-shrink:0;margin-top:1px}
+.rf-text{font-size:13px;color:#5A1010;line-height:1.6}
+.rf-text strong{color:#3A0A0A}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">光荣智能 · 内部参考文档 V1.0 · 2026年9月</div>
+    <div class="hero-title">H200 算力资源<br><span>交易流程与规则指南</span></div>
+    <div class="hero-sub">面向供应商与采购方的H200 GPU服务器租赁市场全流程参考，覆盖现货/期货交易结构、定价机制、合同条款，以及国内与东南亚双路径部署方案。</div>
+    <div class="hero-pills">
+      <span class="pill spot">● 现货</span>
+      <span class="pill futures">● 期货</span>
+      <span class="pill sea">● 东南亚部署</span>
+      <span class="pill risk">● 风险管控</span>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <div class="tab-inner">
+      <button class="tab-btn active" data-tab="assets">资产类型</button>
+      <button class="tab-btn" data-tab="parties">参与方</button>
+      <button class="tab-btn" data-tab="flow">交易流程</button>
+      <button class="tab-btn" data-tab="pricing">定价机制</button>
+      <button class="tab-btn" data-tab="terms">核心条款</button>
+      <button class="tab-btn" data-tab="region">区域部署</button>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ═══════════════ TAB 1: 资产类型 ═══════════════ -->
+<div class="tab-pane active" id="tab-assets">
+  <div class="sec-title">资产类型</div>
+  <div class="sec-sub">理解你在采购什么，是所有谈判的起点</div>
+
+  <div class="grid2">
+    <div class="acard green">
+      <div class="acard-label">SPOT · 现货</div>
+      <div class="acard-title">现货整机</div>
+      <div class="acard-body">
+        机器已在机房，完成组网、测试，可随时交付。买方签约即可获得访问权限。<br><br>
+        <strong>典型交期：</strong>0 – 7 天<br>
+        <strong>价格特征：</strong>通常高于期货 5 – 15%，但免去等待风险<br>
+        <strong>适合场景：</strong>训练任务有明确上线时间；不接受不确定性的项目
+      </div>
+    </div>
+    <div class="acard amber">
+      <div class="acard-label">FORWARD · 期货</div>
+      <div class="acard-title">期货预订</div>
+      <div class="acard-body">
+        机器尚在采购、运输或组装阶段，通过"预订合同+定金+保函"锁定资源。<br><br>
+        <strong>典型交期：</strong>10 – 90 天（视供应链状态）<br>
+        <strong>价格特征：</strong>比现货便宜，但需承受交付延期风险<br>
+        <strong>适合场景：</strong>有灵活上线窗口；愿意换取价格优势
+      </div>
+    </div>
+  </div>
+
+  <table class="ctable" style="margin-bottom:24px">
+    <thead>
+      <tr>
+        <th>比较维度</th>
+        <th class="th-green">现货</th>
+        <th class="th-amber">期货</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>交付时间</td><td class="green">0 – 7 天</td><td class="amber">10 – 90 天</td></tr>
+      <tr><td>价格水平</td><td class="amber">偏高（含稀缺溢价）</td><td class="green">偏低（含等待折扣）</td></tr>
+      <tr><td>定金要求</td><td class="green">通常无定金，签约即付首期</td><td class="amber">需支付定金，并要求保函</td></tr>
+      <tr><td>交付风险</td><td class="green">极低，已可验机</td><td class="red">中高，存在延期或规格变更可能</td></tr>
+      <tr><td>规格确认</td><td class="green">合同前可实测、验收</td><td class="amber">以合同约定为准，交付后验收</td></tr>
+      <tr><td>适合客户</td><td>急需上线、预算充足</td><td>有弹性窗口、注重性价比</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sec-title" style="font-size:16px;margin-bottom:8px">资源形态分类</div>
+  <div class="grid3">
+    <div class="card">
+      <div class="card-title">裸金属整机</div>
+      <div class="card-body">客户独享物理服务器，完全控制 OS / 驱动 / 框架。无虚拟化开销，训练效率最高。本指南主要针对此形态。</div>
+    </div>
+    <div class="card">
+      <div class="card-title">含运维整机</div>
+      <div class="card-body">供应商负责机房、硬件故障处理、基础网络，客户负责软件层。适合没有驻场运维团队的客户。</div>
+    </div>
+    <div class="card">
+      <div class="card-title">集群 / 超算节点</div>
+      <div class="card-body">多台整机通过 IB 高速互联组成集群，统一调度。大规模训练首选，价格按节点/台议定，整体溢价约 5 – 10%。</div>
+    </div>
+  </div>
+
+  <div class="acard red" style="margin-top:4px">
+    <div class="acard-label">注意</div>
+    <div class="acard-title" style="font-size:14px">评估一份报价，首先确认这六个字段</div>
+    <div class="acard-body">
+      <strong>① GPU型号及显存</strong>（H200 SXM5 141GB ≠ H200 NVL 96GB）&nbsp;·&nbsp;
+      <strong>② 每台卡数</strong>（8卡 vs 4卡 vs 单卡）&nbsp;·&nbsp;
+      <strong>③ 互联网卡速率</strong>（400G IB / 200G IB / 100G IB 差异巨大）&nbsp;·&nbsp;
+      <strong>④ 内存容量</strong>（2TB DDR5 vs 512GB DDR4）&nbsp;·&nbsp;
+      <strong>⑤ 机房位置</strong>&nbsp;·&nbsp;
+      <strong>⑥ 现货还是期货</strong>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TAB 2: 参与方 ═══════════════ -->
+<div class="tab-pane" id="tab-parties">
+  <div class="sec-title">交易参与方</div>
+  <div class="sec-sub">了解每一层的利益诉求，是议价的关键</div>
+
+  <div class="chain">
+    <div class="chain-node">
+      <div class="chain-icon">🏭</div>
+      <div class="chain-role">原厂</div>
+      <div class="chain-name">NVIDIA</div>
+      <div class="chain-desc">硬件出厂，通过授权渠道合规销售；H200 受美国 EAR 出口管制</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node">
+      <div class="chain-icon">🖥️</div>
+      <div class="chain-role">服务器集成商</div>
+      <div class="chain-name">超威 / 浪潮 / 华为等</div>
+      <div class="chain-desc">将 GPU 卡组装成完整服务器，含 CPU / 内存 / 存储 / 网络</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node">
+      <div class="chain-icon">🏢</div>
+      <div class="chain-role">算力运营商</div>
+      <div class="chain-name">IDC / 智算中心</div>
+      <div class="chain-desc">提供机房、电力、制冷、带宽；机器上架组网；持有服务器产权</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node">
+      <div class="chain-icon">🔗</div>
+      <div class="chain-role">中间商/经纪人</div>
+      <div class="chain-name">光荣智能等</div>
+      <div class="chain-desc">对接供需两端，负责合同结构、价格谈判、交付协调；赚取服务差价</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node">
+      <div class="chain-icon">💡</div>
+      <div class="chain-role">最终用户</div>
+      <div class="chain-name">AI 企业 / 研究机构</div>
+      <div class="chain-desc">实际使用算力做模型训练 / 推理；关注性价比、稳定性和合规性</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">IDC / 算力运营商 — 核心关切</div>
+      <div class="card-body">
+        · 机器使用率（空置即亏损）<br>
+        · 合同期越长越好（减少运营不确定性）<br>
+        · 优质客户资质（资金稳健，不会违约）<br>
+        · 押金充足（覆盖机器空置风险）<br>
+        · 批量采购（规模换低价）
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">最终用户 — 核心关切</div>
+      <div class="card-body">
+        · 价格尽量低（含税、含带宽）<br>
+        · 交期确定，不能影响业务<br>
+        · 规格必须符合合同约定<br>
+        · SLA 保障（故障响应、可用率）<br>
+        · 付款灵活（不希望大额预付）
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">中间商 — 价值与风险</div>
+      <div class="card-body">
+        <strong>价值：</strong>信息撮合、合同设计、风险分担、资金周转<br>
+        <strong>收入来源：</strong>买卖差价（通常 5 – 25%）<br>
+        <strong>主要风险：</strong>供应商违约转嫁、客户付款延迟、垫资风险<br>
+        <strong>核心原则：</strong>尽量不垫资，合同对穿
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">如何识别供应商层级</div>
+      <div class="card-body">
+        <strong>一手资源：</strong>能出示机房合同、服务器 SN、实机照片<br>
+        <strong>二三手中间商：</strong>信息模糊，无法确认机房，但价格可能更灵活<br>
+        <strong>验证方法：</strong>要求视频验机 / 现场参观 / 第三方检测报告<br>
+        <strong>风险提示：</strong>链条越长，违约传导风险越大
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TAB 3: 交易流程 ═══════════════ -->
+<div class="tab-pane" id="tab-flow">
+  <div class="sec-title">交易流程</div>
+  <div class="sec-sub">现货与期货的流程差异显著，每个节点都有对应的风险控制动作</div>
+
+  <div style="display:flex;gap:16px;align-items:flex-start">
+    <!-- 现货流程 -->
+    <div class="flow-col">
+      <div class="flow-header green">现货流程（0 – 7天交付）</div>
+      <div class="flow-step green">
+        <div class="flow-num">1</div>
+        <div class="flow-step-content">
+          <div class="flow-step-title">资源确认与规格核实</div>
+          <div class="flow-step-desc">获取供应商报价单，核实 GPU 型号/卡数/内存/网卡/机房位置，要求提供机架照片或视频</div>
+          <span class="flow-step-tag doc">清单文件</span><span class="flow-step-tag warn">规格必须书面确认</span>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step green">
+        <div class="flow-num">2</div>
+        <div class="flow-step-content">
+          <div class="flow-step-title">意向确认 / NDA 签署</div>
+          <div class="flow-step-desc">双方签订保密协议，锁定报价有效期（通常 3 – 7 天），防止资源在谈判期间转卖</div>
+          <span class="flow-step-tag doc">NDA / 意向书</span>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step green">
+        <div class="flow-num">3</div>
+        <div class="flow-step-content">
+          <div class="flow-step-title">实机验收（可选但推荐）</div>
+          <div class="flow-step-desc">现场或视频验机，跑 GPU-Burn/NCCL 测试，确认 NVLink/IB 互联状态，记录 SN 号</div>
+          <span class="flow-step-tag ok">验收通过后签约</span><span class="flow-step-tag warn">有问题立刻提出</span>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step green">
+        <div class="flow-num">4</div>
+        <div class="flow-step-content">
+          <div class="flow-step-title">正式合同签署</div>
+          <div class="flow-step-desc">约定：租期、月租价格、付款方式、SLA指标、故障处理、违约条款、提前解约规则</div>
+          <span class="flow-step-tag doc">服务合同</span>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step green">
+        <div class="flow-num">5</div>
+        <div class="flow-step-content">
+          <div class="flow-step-title">首期款项支付</div>
+          <div class="flow-step-desc">押金 + 首季度/首月预付款到账，供应商开具发票</div>
+          <span class="flow-step-tag doc">付款凭证 + 发票</span>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step green">
+        <div class="flow-num">6</div>
+        <div class="flow-step-content">
+          <div class="flow-step-title">服务开通 / 交付</div>
+          <div class="flow-step-desc">获得 VPN / 跳板机访问凭证，租期正式开始计算，按合同周期继续付款</div>
+          <span class="flow-step-tag ok">租期起算</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 期货流程 -->
+    <div class="flow-col">
+      <div class="flow-header amber">期货流程（10 – 90天交付）</div>
+      <div class="flow-step amber">
+        <div class="flow-num">1</div>
+        <div class="flow-step-content">
+          <div class="flow-step-title">资源确认与规格锁定</div>
+          <div class="flow-step-desc">与供应商确认硬件规格（GPU型号/单台卡数/互联/内存/存储），要求提供样机规格书或采购订单截图</div>
+          <span class="flow-step-tag doc">规格确认书</span>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step amber">
+        <div class="flow-num">2</div>
+        <div class="flow-step-content">
+          <div class="flow-step-title">框架合同签署</div>
+          <div class="flow-step-desc">签署包含：预计交期、价格锁定条款、违约责任（含延期赔偿标准）、不可抗力定义</div>
+          <span class="flow-step-tag doc">框架合同</span><span class="flow-step-tag warn">延期赔偿必须约定</span>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step amber">
+        <div class="flow-num">3</div>
+        <div class="flow-step-content">
+          <div class="flow-step-title">定金支付 + 供应商提供保函</div>
+          <div class="flow-step-desc">买方支付定金（通常 50 – 100 万元），供应商同步出具银行/担保机构保函，覆盖金额应超过定金</div>
+          <span class="flow-step-tag doc">保函原件</span><span class="flow-step-tag warn">保函真实性必须核验</span>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step amber">
+        <div class="flow-num">4</div>
+        <div class="flow-step-content">
+          <div class="flow-step-title">等待期跟进</div>
+          <div class="flow-step-desc">定期（每2周）向供应商要求进度更新，包含：采购进度、物流状态、机房准备情况</div>
+          <span class="flow-step-tag doc">进度报告</span>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step amber">
+        <div class="flow-num">5</div>
+        <div class="flow-step-content">
+          <div class="flow-step-title">机器到场通知 + 验收预约</div>
+          <div class="flow-step-desc">供应商通知机器已入库组网，双方约定验收时间</div>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step amber">
+        <div class="flow-num">6</div>
+        <div class="flow-step-content">
+          <div class="flow-step-title">验机验收</div>
+          <div class="flow-step-desc">跑 GPU-Burn 压力测试（30 分钟以上）、NCCL allreduce 互联测试，逐台记录 SN 号，不通过拒绝验收</div>
+          <span class="flow-step-tag doc">验收报告</span><span class="flow-step-tag ok">通过后触发付款</span>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step amber">
+        <div class="flow-num">7</div>
+        <div class="flow-step-content">
+          <div class="flow-step-title">定金转押金 + 补充保函</div>
+          <div class="flow-step-desc">定金性质转变为履约押金；供应商补充出具运营期保函（金额通常为月租 120%）</div>
+          <span class="flow-step-tag doc">运营保函</span>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step amber">
+        <div class="flow-num">8</div>
+        <div class="flow-step-content">
+          <div class="flow-step-title">正式起租 / 按季付款</div>
+          <div class="flow-step-desc">租期以验收通过日起算，后续按合同约定的付款周期预付</div>
+          <span class="flow-step-tag ok">租期起算</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="acard red" style="margin-top:20px">
+    <div class="acard-label">常见期货纠纷场景</div>
+    <div class="acard-title" style="font-size:14px">三类高频问题 · 事先约定才能事后维权</div>
+    <div class="acard-body">
+      <strong>① 延期交付</strong> — 合同中必须约定"超期每天赔偿月租的 X‰"，无约定则维权困难<br>
+      <strong>② 规格降配</strong> — 如供应商以 H200 NVL 替换 H200 SXM5，应视为违约；合同须写明 GPU 型号 + 显存 + 互联规格<br>
+      <strong>③ 保函无法兑付</strong> — 成立前须核验保函出具机构资质，私人担保几乎无法强制执行
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TAB 4: 定价机制 ═══════════════ -->
+<div class="tab-pane" id="tab-pricing">
+  <div class="sec-title">定价机制</div>
+  <div class="sec-sub">单台月租由以下因素叠加决定，每个变量都有明确的方向性影响</div>
+
+  <div class="factor-row-wrap">
+    <div class="factor-row" style="background:#F3F2EF">
+      <div class="factor-name" style="color:#888;font-size:11px;font-weight:700;">影响因素</div>
+      <div class="factor-range" style="font-size:11px;color:#888;font-weight:700;">影响程度</div>
+      <div class="factor-impact" style="font-size:11px;color:#888;background:none;">方向</div>
+    </div>
+    <div class="factor-row">
+      <div class="factor-name">GPU 型号</div>
+      <div class="factor-range"><div class="factor-bar-wrap"><span>H200 SXM5 141G</span><div class="factor-bar"><div class="factor-fill up" style="width:95%"></div></div><span>H200 NVL 96G</span></div></div>
+      <div class="factor-impact impact-up">↑ 高端溢价</div>
+    </div>
+    <div class="factor-row">
+      <div class="factor-name">单台卡数</div>
+      <div class="factor-range"><div class="factor-bar-wrap"><span>1 卡</span><div class="factor-bar"><div class="factor-fill up" style="width:85%"></div></div><span>8 卡</span></div></div>
+      <div class="factor-impact impact-up">↑ 整机更贵</div>
+    </div>
+    <div class="factor-row">
+      <div class="factor-name">互联网卡</div>
+      <div class="factor-range"><div class="factor-bar-wrap"><span>Ethernet</span><div class="factor-bar"><div class="factor-fill up" style="width:80%"></div></div><span>400G IB</span></div></div>
+      <div class="factor-impact impact-up">↑ 高速互联溢价</div>
+    </div>
+    <div class="factor-row">
+      <div class="factor-name">内存规格</div>
+      <div class="factor-range"><div class="factor-bar-wrap"><span>512GB DDR4</span><div class="factor-bar"><div class="factor-fill up" style="width:75%"></div></div><span>2TB DDR5-5600</span></div></div>
+      <div class="factor-impact impact-up">↑ 配置溢价</div>
+    </div>
+    <div class="factor-row">
+      <div class="factor-name">租期长度</div>
+      <div class="factor-range"><div class="factor-bar-wrap"><span>月租</span><div class="factor-bar"><div class="factor-fill down" style="width:75%"></div></div><span>闭口5年</span></div></div>
+      <div class="factor-impact impact-down">↓ 长租折扣</div>
+    </div>
+    <div class="factor-row">
+      <div class="factor-name">采购规模</div>
+      <div class="factor-range"><div class="factor-bar-wrap"><span>1 台</span><div class="factor-bar"><div class="factor-fill down" style="width:65%"></div></div><span>50台+</span></div></div>
+      <div class="factor-impact impact-down">↓ 批量折扣</div>
+    </div>
+    <div class="factor-row">
+      <div class="factor-name">现货 / 期货</div>
+      <div class="factor-range"><div class="factor-bar-wrap"><span>期货</span><div class="factor-bar"><div class="factor-fill up" style="width:55%"></div></div><span>现货</span></div></div>
+      <div class="factor-impact impact-up">↑ 现货稀缺溢价</div>
+    </div>
+    <div class="factor-row">
+      <div class="factor-name">机房位置</div>
+      <div class="factor-range"><div class="factor-bar-wrap"><span>西南/北方</span><div class="factor-bar"><div class="factor-fill up" style="width:45%"></div></div><span>东部沿海</span></div></div>
+      <div class="factor-impact impact-up">↑ 沿海电费偏高</div>
+    </div>
+  </div>
+
+  <div class="sec-title" style="font-size:16px;margin-bottom:12px">2026年参考行情（H200 8卡整机 · 裸金属 · 国内）</div>
+  <table class="price-table">
+    <thead>
+      <tr><th>租期类型</th><th>规模</th><th>月租参考区间</th><th>备注</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>短租（月租/季租）</td><td>不限</td><td class="price-hl">20 – 30万元 / 台</td><td>市场弹性最大，无长期承诺溢价</td></tr>
+      <tr><td>1 – 3 年</td><td>1 – 9 台</td><td class="price-hl">15 – 18万元 / 台</td><td>标准合同期</td></tr>
+      <tr><td>1 – 3 年</td><td>10 台以上</td><td class="price-hl">13 – 16万元 / 台</td><td>批量折扣</td></tr>
+      <tr><td>闭口 5 年</td><td>1 – 9 台</td><td class="price-hl">13 – 15万元 / 台</td><td>价格锁定溢价</td></tr>
+      <tr><td>闭口 5 年</td><td>35 台以上</td><td class="price-hl">12 – 14万元 / 台</td><td>大规模长租</td></tr>
+      <tr><td>闭口 5 年 · 期货</td><td>50 台以上</td><td class="price-hl">10.5 – 12万元 / 台</td><td>大批期货最优价</td></tr>
+    </tbody>
+  </table>
+
+  <div class="acard navy">
+    <div class="acard-label">对比参考</div>
+    <div class="acard-title" style="font-size:14px">公有云 H200 价格 vs 裸金属长租价格</div>
+    <div class="acard-body">
+      国内主流公有云平台（阿里云/星宇智算等）H200 <strong>单卡月租约 6 – 6.6万元</strong>，8卡等效月费约 48 – 53万元。裸金属长期合约约 12 – 15万元，便宜约 <strong>70%</strong>。核心差异：公有云含弹性、管理服务、多租户调度；裸金属是独占物理机，无这些服务但成本极低。
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TAB 5: 核心条款 ═══════════════ -->
+<div class="tab-pane" id="tab-terms">
+  <div class="sec-title">核心条款</div>
+  <div class="sec-sub">每一条都是真实纠纷发生后才被加进合同的教训</div>
+
+  <div class="term-block">
+    <div class="term-head"><div class="term-num">1</div><div class="term-title">租期与起算日</div></div>
+    <div class="term-body">
+      <strong>关键点：</strong>租期必须以"验收通过日"为起算点，而非"机器上架日"。期货合同应约定最长等待期，超期后客户有权取消合同并要求全额退款+违约金。<br>
+      <div class="recommend-box"><strong>推荐表述：</strong>租期自乙方完成验收测试并向甲方出具《交付验收报告》之次日零时起算，最长不超过合同签署后第 [N] 日，否则甲方有权解除合同。</div>
+    </div>
+  </div>
+
+  <div class="term-block">
+    <div class="term-head"><div class="term-num">2</div><div class="term-title">付款方式（押X付X）</div></div>
+    <div class="term-body">
+      常见结构从对客户最友好到最不友好排列：<br>
+      <strong>押一付一</strong>（最友好）→ <strong>押一付三</strong>（行业标准）→ <strong>押三付六</strong> → <strong>押六付十二</strong>（最不友好）<br><br>
+      押金在合同期满、无违约情况下应无息退还。付款周期越长，客户资金压力越大，谈判时应尽量争取押一付三。
+      <div class="recommend-box"><strong>推荐表述：</strong>甲方于验收通过后 5 个工作日内，向乙方支付首季度租金及一个月押金；后续每季度提前 7 日预付；合同期满乙方于 15 个工作日内无息退还押金。</div>
+    </div>
+  </div>
+
+  <div class="term-block">
+    <div class="term-head"><div class="term-num">3</div><div class="term-title">保函结构</div></div>
+    <div class="term-body">
+      保函是期货交易最重要的风险控制工具，分两阶段：<br>
+      <strong>签约保函：</strong>签约+定金支付后，供应商提供，覆盖金额 ≥ 定金 × 140%，保障签约至交付期间违约赔偿<br>
+      <strong>运营保函：</strong>验收通过后，供应商持续出具，覆盖金额 ≥ 当月租金 × 120%，保障每个计费周期<br><br>
+      <strong>保函真实性核验：</strong>要求出具银行/担保公司保函原件；对私人/壳公司担保保持极度警惕，基本无法强制执行。
+    </div>
+  </div>
+
+  <div class="term-block">
+    <div class="term-head"><div class="term-num">4</div><div class="term-title">SLA 服务等级</div></div>
+    <div class="term-body">
+      <strong>可用性：</strong>通常约定月度可用率 ≥ 99%（约 7.2小时/月允许故障）或 99.5%（约 3.6小时）<br>
+      <strong>故障响应：</strong>硬件故障 4小时内响应；GPU/内存故障 24小时内替换或赔偿<br>
+      <strong>赔偿机制：</strong>不达标按故障时长的 N 倍租金补偿（通常 2 – 5 倍）<br>
+      <strong>带宽保障：</strong>约定最低出口带宽（如 50Mbps 保障带宽），不含则按实际值
+    </div>
+  </div>
+
+  <div class="term-block">
+    <div class="term-head"><div class="term-num">5</div><div class="term-title">硬件规格锁定</div></div>
+    <div class="term-body">
+      必须在合同中明确列出每台服务器的完整硬件清单，包括：GPU 型号 + 显存 + 互联规格 + CPU 型号 + 内存容量/频率 + 存储规格。<br>
+      供应商不得以"同等性能"替换，任何硬件降配视为违约。
+      <div class="recommend-box"><strong>推荐附件：</strong>合同附件一《硬件配置清单》，每台一行，含 SN 号（交付后填写），作为合同组成部分。</div>
+    </div>
+  </div>
+
+  <div class="term-block">
+    <div class="term-head"><div class="term-num">6</div><div class="term-title">提前解约条款</div></div>
+    <div class="term-body">
+      <strong>甲方（客户）提前解约：</strong>通常需支付剩余合同期月租总额的 10 – 30% 作为违约金，并在 30 天内完成数据迁移<br>
+      <strong>乙方（供应商）提前解约：</strong>需退还全部押金 + 预付款 + 支付等额违约金<br>
+      <strong>闭口合同特别约定：</strong>闭口期内价格不得调整，任何一方均不得单方变更
+    </div>
+  </div>
+
+  <div class="acard amber" style="margin-top:8px">
+    <div class="acard-label">中间商合同结构建议</div>
+    <div class="acard-title" style="font-size:14px">上下游合同尽量"对穿"，不做垫资方</div>
+    <div class="acard-body">
+      中间商应确保：与供应商的付款时间点 ≤ 向客户收款时间点，不在两端之间造成资金缺口。建议合同约定"收到客户款项后 N 个工作日内支付供应商"，而非固定日期，以规避客户延付带来的垫资风险。
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TAB 6: 区域部署 ═══════════════ -->
+<div class="tab-pane" id="tab-region">
+  <div class="sec-title">区域部署路径</div>
+  <div class="sec-sub">国内部署合规简单，东南亚部署需提前处理出口管制合规链条</div>
+
+  <div class="region-compare">
+    <div class="region-card dom">
+      <div class="region-title">国内部署</div>
+      <div class="region-sub">适合：对数据本地化有要求的客户</div>
+      <ul class="region-list">
+        <li><span class="ok">✓</span>无出口管制，采购合规门槛低</li>
+        <li><span class="ok">✓</span>供应链成熟，交期可控</li>
+        <li><span class="ok">✓</span>IDC 资源充足，从华北到西南均有选择</li>
+        <li><span class="ok">✓</span>人民币结算，无汇率风险</li>
+        <li><span class="note">△</span>H200 需经合规渠道，不得使用灰色进口</li>
+        <li><span class="note">△</span>数据中心需持有 IDC 许可证</li>
+        <li><span class="note">△</span>算力资源证申报要求趋严</li>
+      </ul>
+    </div>
+    <div class="region-card sea">
+      <div class="region-title">东南亚部署</div>
+      <div class="region-sub">适合：有海外业务、出海 AI 产品客户</div>
+      <ul class="region-list">
+        <li><span class="ok">✓</span>H200 在新加坡/马来西亚可合规使用</li>
+        <li><span class="ok">✓</span>靠近海外用户，网络延迟低</li>
+        <li><span class="ok">✓</span>新加坡 Tier-3/4 机房资源丰富</li>
+        <li><span class="ok">✓</span>法律环境友好，英语为主</li>
+        <li><span class="warn">✗</span>须经 NVIDIA 授权合规渠道</li>
+        <li><span class="warn">✗</span>需当地法律实体才能签约</li>
+        <li><span class="warn">✗</span>美元结算，汇率波动风险</li>
+        <li><span class="note">△</span>印尼/越南部分型号存在进口限制</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec-title" style="font-size:16px;margin-bottom:12px">东南亚部署合规路径（以新加坡为例）</div>
+  <div class="compliance-steps">
+    <div class="cs-step">
+      <div class="cs-num">1</div>
+      <div class="cs-title">当地法律实体</div>
+      <div class="cs-desc">在新加坡注册公司（Pte. Ltd.），作为合同主体；可同步开设企业银行账户</div>
+    </div>
+    <div class="chain-arrow" style="border:none;background:none;color:#B0ADA8;font-size:18px;display:flex;align-items:center">→</div>
+    <div class="cs-step">
+      <div class="cs-num">2</div>
+      <div class="cs-title">合规供应商</div>
+      <div class="cs-desc">通过 NVIDIA 授权分销商或合规 IDC 采购 H200；保留完整采购文件</div>
+    </div>
+    <div class="chain-arrow" style="border:none;background:none;color:#B0ADA8;font-size:18px;display:flex;align-items:center">→</div>
+    <div class="cs-step">
+      <div class="cs-num">3</div>
+      <div class="cs-title">终端用户声明</div>
+      <div class="cs-desc">客户须签署 End-User Statement，承诺不用于军事/WMD 等受限用途</div>
+    </div>
+    <div class="chain-arrow" style="border:none;background:none;color:#B0ADA8;font-size:18px;display:flex;align-items:center">→</div>
+    <div class="cs-step">
+      <div class="cs-num">4</div>
+      <div class="cs-title">KYC 审核</div>
+      <div class="cs-desc">供应商对买方进行 Know Your Customer 核验，确认非受制裁实体</div>
+    </div>
+    <div class="chain-arrow" style="border:none;background:none;color:#B0ADA8;font-size:18px;display:flex;align-items:center">→</div>
+    <div class="cs-step">
+      <div class="cs-num">5</div>
+      <div class="cs-title">部署与运营</div>
+      <div class="cs-desc">机器进入新加坡机房，完成组网；合同以新加坡法律为准</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">推荐国内机房位置</div>
+      <div class="card-body">
+        <strong>华北（环京）</strong> — 资源最集中，价格中等，头部客户多<br>
+        <strong>西南（重庆/成都）</strong> — 电费最低，东数西算政策红利，价格最优<br>
+        <strong>华东（上海/杭州）</strong> — 网络最好，靠近互联网企业，价格偏高<br>
+        <strong>华南（深圳/广州）</strong> — 靠近出海企业，部分有跨境专线优势
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">推荐东南亚机房位置</div>
+      <div class="card-body">
+        <strong>新加坡</strong> — 首选。Equinix/Singtel/Digital Realty 均有 Tier-4 机房，法律最完善，H200 合规无虞<br>
+        <strong>马来西亚（吉隆坡/柔佛）</strong> — 电费低于新加坡约 30%，华人生态好，近年大量数据中心建设<br>
+        <strong>泰国（曼谷）</strong> — 政府积极引进 AI 基础设施，Tier-3 选择渐多<br>
+        <strong>印尼/越南</strong> — 部分型号受限，建议先行合规确认
+      </div>
+    </div>
+  </div>
+
+  <div class="acard red">
+    <div class="acard-label">出口管制红线</div>
+    <div class="acard-title" style="font-size:14px">以下情况构成 EAR 违规，法律风险极高</div>
+    <div class="acard-body">
+      <strong>① 通过中间贸易转口</strong>：在第三国采购后再转运至受限国，即便机器停留在第三国也可能违规<br>
+      <strong>② 终端用户造假</strong>：以商业用途名义采购，实际用于军事/核武器/WMD 相关用途<br>
+      <strong>③ 向受制裁实体出售</strong>：即便买家在非受限国，如最终控制人在受制裁名单内亦违规<br>
+      <strong>④ 规避 NVIDIA 审查</strong>：拆分订单、隐瞒最终用途以绕过 KYC，属欺诈行为
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<div style="background:#0C1A2E;color:#4A6A8A;text-align:center;padding:20px;font-size:12px">
+  光荣智能 Glorious Intelligence · 内部参考文档 · 2026年9月 · 如有更新请以最新版本为准
+</div>
+
+<script>
+var btns = document.querySelectorAll('.tab-btn');
+var panes = document.querySelectorAll('.tab-pane');
+btns.forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var t = this.dataset.tab;
+    btns.forEach(function(b){b.classList.remove('active')});
+    panes.forEach(function(p){p.classList.remove('active')});
+    this.classList.add('active');
+    document.getElementById('tab-'+t).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
